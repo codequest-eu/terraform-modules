@@ -34,6 +34,11 @@ output "ci_secret_access_key" {
   sensitive   = true
 }
 
+output "provider_aws_config" {
+  description = "Terraform AWS provider block"
+  value       = "${data.template_file.provider_aws_config.rendered}"
+}
+
 output "backend_config" {
   description = "Terraform backend config"
   value       = "${data.template_file.backend_config.rendered}"

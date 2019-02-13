@@ -127,6 +127,16 @@ resource "aws_dynamodb_table" "meta_lock" {
   tags = "${local.tags}"
 }
 
+data "template_file" "provider_aws_config" {
+  template = "${file("${path.module}/templates/provider_aws.tf")}"
+
+  vars {
+    region           = "${var.region}"
+    account_id       = "${local.account_id}"
+    account_role_arn = "${local.account_role_arn}"
+  }
+}
+
 data "template_file" "meta_backend_config" {
   template = "${file("${path.module}/templates/backend.tf")}"
 
