@@ -9,8 +9,4 @@ module "meta" {
   project       = "terraform-modules-meta-example"
   account_email = "example@email"
   region        = "eu-west-1"                      # Ireland
-
-  providers = {
-    aws = "aws"
-  }
 }
