@@ -4,7 +4,8 @@ provider "aws" {
   alias = "project"
 
   region              = "${var.region}"
-  allowed_account_ids = ["${aws_organizations_account.project.id}"]
+  allowed_account_ids = ["${local.account_id}"]
+  assume_role         = "${local.account_role_arn}"
 }
 
 locals {
@@ -19,6 +20,11 @@ locals {
 
   meta_key = "meta.tfstate"
   main_key = "terraform.tfstate"
+
+  account_id = "${aws_organizations_account.project.id}"
+
+  # https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-cross-account-role
+  account_role_arn = "arn:aws:iam::${local.account_id}:role/${var.account_role}"
 }
 
 resource "aws_organizations_account" "project" {
@@ -125,10 +131,11 @@ data "template_file" "meta_backend_config" {
   template = "${file("${path.module}/templates/backend.tf")}"
 
   vars {
-    bucket     = "${aws_s3_bucket.state.bucket}"
-    key        = "${local.meta_key}"
-    lock_table = "${aws_dynamodb_table.meta_lock.name}"
-    region     = "${var.region}"
+    bucket           = "${aws_s3_bucket.state.bucket}"
+    key              = "${local.meta_key}"
+    lock_table       = "${aws_dynamodb_table.meta_lock.name}"
+    region           = "${var.region}"
+    account_role_arn = "${local.account_role_arn}"
   }
 }
 
@@ -136,9 +143,10 @@ data "template_file" "backend_config" {
   template = "${file("${path.module}/templates/backend.tf")}"
 
   vars {
-    bucket     = "${aws_s3_bucket.state.bucket}"
-    key        = "${local.main_key}"
-    lock_table = "${aws_dynamodb_table.meta_lock.name}"
-    region     = "${var.region}"
+    bucket           = "${aws_s3_bucket.state.bucket}"
+    key              = "${local.main_key}"
+    lock_table       = "${aws_dynamodb_table.meta_lock.name}"
+    region           = "${var.region}"
+    account_role_arn = "${local.account_role_arn}"
   }
 }

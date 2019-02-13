@@ -1,11 +1,16 @@
 output "account_id" {
   description = "AWS project account id"
-  value       = "${aws_organizations_account.project.id}"
+  value       = "${local.account_id}"
 }
 
 output "account_arn" {
   description = "AWS project account ARN"
   value       = "${aws_organizations_account.project.arn}"
+}
+
+output "account_role_arn" {
+  description = "IAM role ARN for root account administrators to manage the member account"
+  value       = "${local.account_role_arn}"
 }
 
 output "ci_user_name" {
