@@ -4,7 +4,9 @@ Terraform modules commonly used by our projects
 
 ## Modules
 
-> Todo: list of modules with a short description and link to docs
+- [ssl/acm](./ssl/acm)
+
+  Creates an SSL certificate using AWS ACM
 
 ## External modules
 
