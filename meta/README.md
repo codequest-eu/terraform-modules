@@ -27,4 +27,3 @@ Resources needed for terraform and it's CI/CD pipeline:
 | ci\_user\_name          | Infrastructure CI AWS user                |
 | meta\_backend\_config   | Terraform meta backend config             |
 | provider\_aws\_config   | Terraform AWS provider block              |
-
