@@ -6,6 +6,28 @@ Resources needed for terraform and it's CI/CD pipeline:
 - AWS DynamoDB tables for state locking
 - AWS IAM user for infrastructure repo CI/CD, which can basically do anything in the given AWS Account
 
+## Terraform backend setup
+
+You need to kick off the meta infrastructure without a remote backend, since it's infrastructure is created by this module.
+Here's a step by step tutorial how such a kick off looks like:
+
+1. Add a meta module 
+2. Run `terraform apply` to create the necessary infrastructure
+3. Add backend configuration to your code by pasting the output of:
+
+    ```sh
+    terraform output -module NAME_OF_META_MODULE meta_backend_config
+    ```
+
+3. Run `terraform init` to transfer the local state to S3
+4. Remove local `terraform.tfstate`
+
+Actual project infrastructure state is separate from the meta state, to configure the backend for project infrastructure just paste the output of 
+
+```sh
+terraform output -module NAME_OF_META_MODULE backend_config
+```
+
 ## Inputs
 
 | Name               | Description                                                                                                                                         |  Type  |        Default        | Required |
