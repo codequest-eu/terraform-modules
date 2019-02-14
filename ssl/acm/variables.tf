@@ -1,6 +1,6 @@
 variable "domains" {
   type        = "list"
-  description = "Certificate domains, have to be in one Route53 hosted zone. Due to Terraform 0.11 limitations (https://github.com/hashicorp/terraform/issues/18359) we only support up to 4 domains."
+  description = "Certificate domains, have to be in one Route53 hosted zone. You can specify up to 4 domains."
 }
 
 variable "hosted_zone_id" {
