@@ -114,7 +114,7 @@ data "template_file" "backend_config" {
   vars {
     bucket           = "${aws_s3_bucket.state.bucket}"
     key              = "${var.state_key}"
-    lock_table       = "${aws_dynamodb_table.meta_lock.name}"
+    lock_table       = "${aws_dynamodb_table.state_lock.name}"
     region           = "${data.aws_region.current.name}"
     account_role_arn = "${var.account_role_arn}"
   }
