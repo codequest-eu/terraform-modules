@@ -3,5 +3,7 @@ provider "aws" {
   allowed_account_ids = ["${id}"]
 
   # Uncomment if you're using root account user credentials to manage project resources
-  # assume_role         = "${role_arn}"
+  # assume_role {
+  #   role_arn = "${role_arn}"
+  # }
 }
