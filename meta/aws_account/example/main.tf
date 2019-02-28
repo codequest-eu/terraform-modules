@@ -13,9 +13,12 @@ module "aws_account" {
 provider "aws" {
   alias = "account"
 
-  region              = "eu-west-1"                        # Ireland
+  region              = "eu-west-1"                  # Ireland
   allowed_account_ids = ["${module.aws_account.id}"]
-  assume_role         = ["${module.aws_account.role_arn}"]
+
+  assume_role {
+    role_arn = "${module.aws_account.role_arn}"
+  }
 }
 
 # Create meta in the created account
