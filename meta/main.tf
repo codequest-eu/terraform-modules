@@ -48,7 +48,7 @@ resource "aws_iam_user_policy" "ci" {
 }
 
 resource "aws_s3_bucket" "state" {
-  bucket = "${local.name_prefix}-state"
+  bucket = "${var.state_bucket != "" ? var.state_bucket : "${local.name_prefix}-state"}"
   acl    = "private"
 
   versioning {

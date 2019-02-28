@@ -7,6 +7,11 @@ variable "tags" {
   default     = {}
 }
 
+variable "state_bucket" {
+  description = "Kebab-cased state bucket name override"
+  default     = ""
+}
+
 variable "state_key" {
   description = "State file name"
   default     = "terraform.tfstate"

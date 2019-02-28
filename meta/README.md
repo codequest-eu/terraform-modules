@@ -30,13 +30,14 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
 ## Inputs
 
-| Name               | Description                                                                                                                                         |  Type  |        Default        | Required |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-------------------: | :------: |
-| account\_role\_arn | If meta is being created in a AWS Organizations Account, ARN of the IAM role that lets root account administrators manage member account resources. | string |         `""`          |    no    |
-| meta\_state\_key   | Meta state file name                                                                                                                                | string |   `"meta.tfstate"`    |    no    |
-| project            | Kebab-cased name of the project, will be used in resource names                                                                                     | string |          n/a          |   yes    |
-| state\_key         | State file name                                                                                                                                     | string | `"terraform.tfstate"` |    no    |
-| tags               | Additional tags to apply to resources which support them                                                                                            |  map   |        `<map>`        |    no    |
+| Name               | Description                                                                                                                                          |  Type  |        Default        | Required |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :-------------------: | :------: |
+| account\_role\_arn | If meta is being created in an AWS Organizations Account, ARN of the IAM role that lets root account administrators manage member account resources. | string |         `""`          |    no    |
+| meta\_state\_key   | Meta state file name                                                                                                                                 | string |   `"meta.tfstate"`    |    no    |
+| project            | Kebab-cased name of the project, will be used in resource names                                                                                      | string |          n/a          |   yes    |
+| state\_bucket      | Kebab-cased state bucket name override                                                                                                               | string |         `""`          |    no    |
+| state\_key         | State file name                                                                                                                                      | string | `"terraform.tfstate"` |    no    |
+| tags               | Additional tags to apply to resources which support them                                                                                             |  map   |        `<map>`        |    no    |
 
 ## Outputs
 
@@ -49,3 +50,4 @@ terraform output -module NAME_OF_META_MODULE backend_config
 | ci\_user\_name          | Infrastructure CI AWS user                |
 | meta\_backend\_config   | Terraform meta backend config             |
 | provider\_aws\_config   | Terraform AWS provider block              |
+
