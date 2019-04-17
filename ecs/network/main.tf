@@ -107,3 +107,17 @@ resource "aws_lb" "lb" {
   security_groups    = ["${aws_security_group.lb.id}"]
   tags               = "${local.tags}"
 }
+
+resource "aws_security_group" "workers" {
+  name   = "${local.name}-workers"
+  vpc_id = "${aws_vpc.cloud.id}"
+
+  ingress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = ["${aws_security_group.lb.id}"]
+  }
+
+  tags = "${merge(local.tags, map("Name", "${local.name}-workers"))}"
+}

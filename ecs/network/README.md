@@ -40,4 +40,6 @@ Creates networking resources needed for a standard ECS cluster setup:
 | public\_subnet\_ids                  | The IDs of public subnets                                                                             |
 | vpc\_block                           | The CIDR block of the VPC                                                                             |
 | vpc\_id                              | The ID of the VPC                                                                                     |
+| workers\_security\_group\_arn        | The ARN of the Security Group which should be used by worker instances                                |
+| workers\_security\_group\_id         | The ID of the Security Group which should be used by worker instances                                 |
 
