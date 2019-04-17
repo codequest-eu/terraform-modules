@@ -121,3 +121,43 @@ resource "aws_security_group" "workers" {
 
   tags = "${merge(local.tags, map("Name", "${local.name}-workers"))}"
 }
+
+resource "aws_route_table" "private" {
+  count = "${var.availability_zones_count}"
+
+  vpc_id = "${aws_vpc.cloud.id}"
+  tags   = "${merge(local.tags, map("Name", "${local.name}-private-${count.index}"))}"
+}
+
+resource "aws_route" "private_default" {
+  count = "${var.availability_zones_count}"
+
+  route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${element(aws_nat_gateway.public.*.id, count.index)}"
+}
+
+resource "aws_route_table_association" "private" {
+  count = "${var.availability_zones_count}"
+
+  route_table_id = "${element(aws_route_table.private.*.id, count.index)}"
+  subnet_id      = "${element(aws_subnet.private.*.id, count.index)}"
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = "${aws_vpc.cloud.id}"
+  tags   = "${merge(local.tags, map("Name", "${local.name}-public"))}"
+}
+
+resource "aws_route" "public_default" {
+  route_table_id         = "${aws_route_table.public.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = "${aws_internet_gateway.gateway.id}"
+}
+
+resource "aws_route_table_association" "public" {
+  count = "${var.availability_zones_count}"
+
+  route_table_id = "${aws_route_table.public.id}"
+  subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
+}
