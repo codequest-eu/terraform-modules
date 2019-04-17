@@ -16,3 +16,10 @@ module "network" {
   environment              = "${local.environment}"
   availability_zones_count = 2
 }
+
+module "worker_role" {
+  source = "../worker_role"
+
+  project     = "${local.project}"
+  environment = "${local.environment}"
+}
