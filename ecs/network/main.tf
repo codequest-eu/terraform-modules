@@ -97,6 +97,13 @@ resource "aws_security_group" "lb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = "${merge(local.tags, map("Name", "${local.name}-lb"))}"
 }
 
@@ -117,6 +124,13 @@ resource "aws_security_group" "workers" {
     to_port         = 0
     protocol        = "-1"
     security_groups = ["${aws_security_group.lb.id}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = "${merge(local.tags, map("Name", "${local.name}-workers"))}"
