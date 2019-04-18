@@ -22,3 +22,13 @@ output "host_profile_arn" {
   value       = "${aws_iam_instance_profile.host.arn}"
   description = "ECS host instance profile ARN"
 }
+
+output "web_service_role_name" {
+  value       = "${aws_iam_role.web_service.name}"
+  description = "ECS web service task role name"
+}
+
+output "web_service_role_arn" {
+  value       = "${aws_iam_role.web_service.arn}"
+  description = "ECS web service task role ARN"
+}
