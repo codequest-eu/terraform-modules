@@ -73,6 +73,16 @@ output "load_balancer_security_group_arn" {
   description = "The ARN of the Application Load Balancer's Security Group"
 }
 
+output "http_listener_arn" {
+  value       = "${aws_lb_listener.http.arn}"
+  description = "The ARN of the ALB's HTTP Listener"
+}
+
+output "https_listener_arn" {
+  value       = "${aws_lb_listener.https.arn}"
+  description = "The ARN of the ALB's HTTPS Listener"
+}
+
 output "hosts_security_group_id" {
   value       = "${aws_security_group.hosts.id}"
   description = "The ID of the Security Group which should be used by host instances"

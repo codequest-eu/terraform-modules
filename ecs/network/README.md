@@ -26,6 +26,10 @@ Creates networking resources needed for a standard ECS cluster setup:
 | Name                                 | Description                                                                                           |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------- |
 | availability\_zones                  | The availability zones in which corresponding public and private subnets were created                 |
+| hosts\_security\_group\_arn          | The ARN of the Security Group which should be used by host instances                                  |
+| hosts\_security\_group\_id           | The ID of the Security Group which should be used by host instances                                   |
+| http\_listener\_arn                  | The ARN of the ALB's HTTP Listener                                                                    |
+| https\_listener\_arn                 | The ARN of the ALB's HTTPS Listener                                                                   |
 | internet\_gateway\_id                | The ID of the Internet Gateway                                                                        |
 | load\_balancer\_arn                  | The ARN of the Application Load Balancer                                                              |
 | load\_balancer\_domain               | The domain name of the Application Load Balancer                                                      |
@@ -40,6 +44,4 @@ Creates networking resources needed for a standard ECS cluster setup:
 | public\_subnet\_ids                  | The IDs of public subnets                                                                             |
 | vpc\_block                           | The CIDR block of the VPC                                                                             |
 | vpc\_id                              | The ID of the VPC                                                                                     |
-| hosts\_security\_group\_arn          | The ARN of the Security Group which should be used by host instances                                  |
-| hosts\_security\_group\_id           | The ID of the Security Group which should be used by host instances                                   |
 

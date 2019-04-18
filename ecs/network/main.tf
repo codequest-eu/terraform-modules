@@ -110,9 +110,68 @@ resource "aws_security_group" "lb" {
 resource "aws_lb" "lb" {
   name               = "${local.name}"
   load_balancer_type = "application"
-  subnets            = ["${aws_subnet.private.*.id}"]
+  subnets            = ["${aws_subnet.public.*.id}"]
   security_groups    = ["${aws_security_group.lb.id}"]
   tags               = "${local.tags}"
+}
+
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = "${aws_lb.lb.arn}"
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_302"
+    }
+  }
+}
+
+resource "tls_private_key" "lb_default" {
+  algorithm = "RSA"
+}
+
+resource "tls_self_signed_cert" "lb_default" {
+  key_algorithm         = "RSA"
+  private_key_pem       = "${tls_private_key.lb_default.private_key_pem}"
+  validity_period_hours = "${365 * 24}"
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+  ]
+
+  subject {
+    common_name = "${aws_lb.lb.dns_name}"
+  }
+}
+
+resource "aws_acm_certificate" "lb_default" {
+  private_key      = "${tls_private_key.lb_default.private_key_pem}"
+  certificate_body = "${tls_self_signed_cert.lb_default.cert_pem}"
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = "${aws_lb.lb.arn}"
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "${aws_acm_certificate.lb_default.arn}"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not Found"
+      status_code  = "404"
+    }
+  }
 }
 
 resource "aws_security_group" "hosts" {
