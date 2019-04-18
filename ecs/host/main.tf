@@ -26,7 +26,7 @@ data "template_file" "user_data" {
   }
 }
 
-resource "aws_instance" "worker" {
+resource "aws_instance" "host" {
   ami                  = "${data.aws_ami.ecs_amazon_linux.id}"
   instance_type        = "${var.instance_type}"
   subnet_id            = "${var.subnet_id}"

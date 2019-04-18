@@ -30,10 +30,10 @@ resource "aws_ecs_cluster" "cluster" {
   name = "${local.project}-${local.environment}"
 }
 
-module "worker" {
-  source = "../worker"
+module "host" {
+  source = "../host"
 
-  name        = "${local.name}-worker"
+  name        = "${local.name}-host"
   project     = "${local.project}"
   environment = "${local.environment}"
 
