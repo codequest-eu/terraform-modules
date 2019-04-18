@@ -73,12 +73,12 @@ output "load_balancer_security_group_arn" {
   description = "The ARN of the Application Load Balancer's Security Group"
 }
 
-output "workers_security_group_id" {
-  value       = "${aws_security_group.workers.id}"
-  description = "The ID of the Security Group which should be used by worker instances"
+output "hosts_security_group_id" {
+  value       = "${aws_security_group.hosts.id}"
+  description = "The ID of the Security Group which should be used by host instances"
 }
 
-output "workers_security_group_arn" {
-  value       = "${aws_security_group.workers.arn}"
-  description = "The ARN of the Security Group which should be used by worker instances"
+output "hosts_security_group_arn" {
+  value       = "${aws_security_group.hosts.arn}"
+  description = "The ARN of the Security Group which should be used by host instances"
 }

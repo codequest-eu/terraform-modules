@@ -40,6 +40,6 @@ module "host" {
   instance_type     = "t3.micro"
   instance_profile  = "${module.worker_role.profile_name}"
   subnet_id         = "${module.network.private_subnet_ids[0]}"
-  security_group_id = "${module.network.workers_security_group_id}"
+  security_group_id = "${module.network.hosts_security_group_id}"
   cluster_name      = "${aws_ecs_cluster.cluster.name}"
 }

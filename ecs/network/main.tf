@@ -115,8 +115,8 @@ resource "aws_lb" "lb" {
   tags               = "${local.tags}"
 }
 
-resource "aws_security_group" "workers" {
-  name   = "${local.name}-workers"
+resource "aws_security_group" "hosts" {
+  name   = "${local.name}-hosts"
   vpc_id = "${aws_vpc.cloud.id}"
 
   ingress {
@@ -133,7 +133,7 @@ resource "aws_security_group" "workers" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = "${merge(local.tags, map("Name", "${local.name}-workers"))}"
+  tags = "${merge(local.tags, map("Name", "${local.name}-hosts"))}"
 }
 
 resource "aws_route_table" "private" {
