@@ -19,8 +19,8 @@ module "network" {
   availability_zones_count = 2
 }
 
-module "worker_role" {
-  source = "../worker_role"
+module "access" {
+  source = "../access"
 
   project     = "${local.project}"
   environment = "${local.environment}"
@@ -38,7 +38,7 @@ module "host" {
   environment = "${local.environment}"
 
   instance_type     = "t3.micro"
-  instance_profile  = "${module.worker_role.profile_name}"
+  instance_profile  = "${module.access.host_profile_name}"
   subnet_id         = "${module.network.private_subnet_ids[0]}"
   security_group_id = "${module.network.hosts_security_group_id}"
   cluster_name      = "${aws_ecs_cluster.cluster.name}"
