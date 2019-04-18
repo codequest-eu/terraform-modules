@@ -43,3 +43,19 @@ module "host" {
   security_group_id = "${module.network.hosts_security_group_id}"
   cluster_name      = "${aws_ecs_cluster.cluster.name}"
 }
+
+module "httpbin" {
+  source = "../tasks/web_service"
+
+  name  = "httpbin"
+  image = "kennethreitz/httpbin:latest"
+  count = 3
+
+  listener_arn = "${module.network.http_listener_arn}"
+  domain       = "${module.network.load_balancer_domain}"
+  path         = "*"
+
+  vpc_id      = "${module.network.vpc_id}"
+  cluster_arn = "${aws_ecs_cluster.cluster.arn}"
+  role_name   = "${module.access.web_service_role_name}"
+}
