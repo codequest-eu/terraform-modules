@@ -1,3 +1,15 @@
+locals {
+  full_name = "${var.project}-${var.environment}-${var.name}"
+
+  default_tags = {
+    Name        = "${local.full_name}"
+    Project     = "${var.project}"
+    Environment = "${var.environment}"
+  }
+
+  tags = "${merge(local.default_tags, var.tags)}"
+}
+
 resource "aws_ecs_service" "service" {
   name            = "${var.name}"
   cluster         = "${var.cluster_arn}"
@@ -11,6 +23,10 @@ resource "aws_ecs_service" "service" {
     container_name   = "${var.name}"
     container_port   = "${var.port}"
   }
+
+  # InvalidParameterException: The new ARN and resource ID format must be enabled
+  # to add tags to the service. Opt in to the new format and try again.
+  # tags = "${local.tags}"
 }
 
 data "template_file" "container_definitions" {
@@ -25,12 +41,14 @@ data "template_file" "container_definitions" {
 }
 
 resource "aws_ecs_task_definition" "definition" {
-  family                = "${var.name}"
+  family                = "${local.full_name}"
   container_definitions = "${data.template_file.container_definitions.rendered}"
+
+  tags = "${local.tags}"
 }
 
 resource "aws_lb_target_group" "service" {
-  name     = "${var.name}"
+  name     = "${local.full_name}"
   port     = "${var.port}"
   protocol = "HTTP"
   vpc_id   = "${var.vpc_id}"
@@ -38,6 +56,8 @@ resource "aws_lb_target_group" "service" {
   health_check {
     matcher = "200-299"
   }
+
+  tags = "${local.tags}"
 }
 
 resource "aws_lb_listener_rule" "service" {

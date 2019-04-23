@@ -47,9 +47,11 @@ module "host" {
 module "httpbin" {
   source = "../tasks/web_service"
 
-  name  = "httpbin"
-  image = "kennethreitz/httpbin:latest"
-  count = 3
+  project     = "tfm-ecs"
+  environment = "${local.environment}"
+  name        = "httpbin"
+  image       = "kennethreitz/httpbin:latest"
+  count       = 3
 
   listener_arn = "${module.network.http_listener_arn}"
   domain       = "${module.network.load_balancer_domain}"
