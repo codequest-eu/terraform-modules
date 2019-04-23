@@ -61,7 +61,8 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_subnet" "public" {
-  count = "${var.availability_zones_count}"
+  # HACK: ALB requires at least 2 subnets in different AZs
+  count = "${max(2, var.availability_zones_count)}"
 
   vpc_id                  = "${aws_vpc.cloud.id}"
   availability_zone       = "${element(local.az_names, count.index)}"

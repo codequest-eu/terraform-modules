@@ -16,7 +16,7 @@ module "cluster" {
   project                  = "${local.project}"
   project_index            = "${local.project_index}"
   environment              = "${local.environment}"
-  availability_zones_count = 2
+  availability_zones_count = 1
 }
 
 module "host" {
