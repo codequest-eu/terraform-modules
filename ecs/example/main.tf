@@ -10,24 +10,13 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-module "network" {
-  source = "../network"
+module "cluster" {
+  source = ".."
 
   project                  = "${local.project}"
   project_index            = "${local.project_index}"
   environment              = "${local.environment}"
   availability_zones_count = 2
-}
-
-module "access" {
-  source = "../access"
-
-  project     = "${local.project}"
-  environment = "${local.environment}"
-}
-
-resource "aws_ecs_cluster" "cluster" {
-  name = "${local.project}-${local.environment}"
 }
 
 module "host" {
@@ -38,10 +27,10 @@ module "host" {
   environment = "${local.environment}"
 
   instance_type     = "t3.micro"
-  instance_profile  = "${module.access.host_profile_name}"
-  subnet_id         = "${module.network.private_subnet_ids[0]}"
-  security_group_id = "${module.network.hosts_security_group_id}"
-  cluster_name      = "${aws_ecs_cluster.cluster.name}"
+  instance_profile  = "${module.cluster.host_profile_name}"
+  subnet_id         = "${module.cluster.private_subnet_ids[0]}"
+  security_group_id = "${module.cluster.hosts_security_group_id}"
+  cluster_name      = "${module.cluster.name}"
 }
 
 module "httpbin" {
@@ -53,11 +42,11 @@ module "httpbin" {
   image       = "kennethreitz/httpbin:latest"
   count       = 3
 
-  listener_arn = "${module.network.http_listener_arn}"
-  domain       = "${module.network.load_balancer_domain}"
+  listener_arn = "${module.cluster.http_listener_arn}"
+  domain       = "${module.cluster.load_balancer_domain}"
   path         = "*"
 
-  vpc_id      = "${module.network.vpc_id}"
-  cluster_arn = "${aws_ecs_cluster.cluster.arn}"
-  role_name   = "${module.access.web_service_role_name}"
+  vpc_id      = "${module.cluster.vpc_id}"
+  cluster_arn = "${module.cluster.arn}"
+  role_name   = "${module.cluster.web_service_role_name}"
 }
