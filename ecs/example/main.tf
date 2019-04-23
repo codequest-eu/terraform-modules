@@ -33,6 +33,12 @@ module "host" {
   cluster_name      = "${module.cluster.name}"
 }
 
+module "repo" {
+  source = "../repository"
+
+  project = "${local.project}"
+}
+
 module "httpbin" {
   source = "../tasks/web_service"
 
