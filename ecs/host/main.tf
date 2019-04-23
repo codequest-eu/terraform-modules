@@ -27,12 +27,12 @@ data "template_file" "user_data" {
 }
 
 resource "aws_instance" "host" {
-  ami                  = "${data.aws_ami.ecs_amazon_linux.id}"
-  instance_type        = "${var.instance_type}"
-  subnet_id            = "${var.subnet_id}"
-  security_groups      = ["${var.security_group_id}"]
-  iam_instance_profile = "${var.instance_profile}"
-  user_data            = "${data.template_file.user_data.rendered}"
+  ami                    = "${data.aws_ami.ecs_amazon_linux.id}"
+  instance_type          = "${var.instance_type}"
+  subnet_id              = "${var.subnet_id}"
+  vpc_security_group_ids = ["${var.security_group_id}"]
+  iam_instance_profile   = "${var.instance_profile}"
+  user_data              = "${data.template_file.user_data.rendered}"
 
   tags = "${local.tags}"
 }
