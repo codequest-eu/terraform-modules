@@ -45,7 +45,7 @@ resource "aws_security_group_rule" "private" {
   from_port                = 0
   to_port                  = 0
   protocol                 = "-1"
-  source_security_group_id = ["${element(var.security_group_ids, count.index)}"]
+  source_security_group_id = "${element(var.security_group_ids, count.index)}"
 }
 
 resource "aws_security_group_rule" "public" {
