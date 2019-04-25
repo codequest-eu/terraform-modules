@@ -14,8 +14,12 @@ resource "aws_ecr_repository" "repo" {
 
 data "aws_iam_policy_document" "ci" {
   statement {
+    actions   = ["ecr:GetAuthorizationToken"]
+    resources = ["*"]
+  }
+
+  statement {
     actions = [
-      "ecr:GetAuthorizationToken",
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "ecr:BatchCheckLayerAvailability",
