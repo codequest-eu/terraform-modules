@@ -16,7 +16,7 @@ output "url" {
 # HACK: using a template_file to map cache_node list to a list of their addresses
 # https://stackoverflow.com/questions/43893295/map-list-of-maps-to-a-list-of-selected-field-values-in-terraform
 data "template_file" "hosts" {
-  count    = "${length(aws_elasticache_cluster.cache.cache_nodes)}"
+  count    = "${var.instance_count}"
   template = "${lookup(aws_elasticache_cluster.cache.cache_nodes[count.index], "address")}"
 }
 
