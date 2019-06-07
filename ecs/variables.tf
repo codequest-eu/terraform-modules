@@ -19,3 +19,8 @@ variable "availability_zones_count" {
   description = "Number of availability zones the network should span"
   default     = 2
 }
+
+variable "bastion_ingress_cidr_blocks" {
+  description = "CIDR blocks from where you should be able to access the bastion host"
+  default     = ["0.0.0.0/0"]
+}

@@ -92,3 +92,39 @@ output "hosts_security_group_arn" {
   value       = "${aws_security_group.hosts.arn}"
   description = "The ARN of the Security Group which should be used by host instances"
 }
+
+output "bastions_security_group_id" {
+  value       = "${aws_security_group.bastion.id}"
+  description = "The ID of the Security Group which should be used by bastion instances"
+}
+
+output "bastions_security_group_arn" {
+  value       = "${aws_security_group.bastion.arn}"
+  description = "The ARN of the Security Group which should be used by bastion instances"
+}
+
+output "bastion_key_name" {
+  value       = "${aws_key_pair.bastion.key_name}"
+  description = "Name of the AWS key pair that can be used to access the bastion"
+}
+
+output "bastion_private_key" {
+  value       = "${tls_private_key.bastion.private_key_pem}"
+  description = "Private key which can be used to SSH onto a bastion host"
+  sensitive   = true
+}
+
+output "bastion_public_key_openssh" {
+  value       = "${tls_private_key.bastion.public_key_openssh}"
+  description = "Public key to add to authorized_keys on machines which should be accessible from the bastion"
+}
+
+output "bastion_private_ips" {
+  value       = "${aws_instance.bastion.*.private_ip}"
+  description = "Private IP addresses of bastion hosts"
+}
+
+output "bastion_public_ips" {
+  value       = "${aws_eip.bastion.*.public_ip}"
+  description = "Public IP addresses of bastion hosts"
+}

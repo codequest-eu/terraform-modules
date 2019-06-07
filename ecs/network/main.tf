@@ -175,15 +175,40 @@ resource "aws_lb_listener" "https" {
   }
 }
 
+resource "aws_security_group" "bastion" {
+  name   = "${local.name}-bastions"
+  vpc_id = "${aws_vpc.cloud.id}"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["${var.bastion_ingress_cidr_blocks}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = "${merge(local.tags, map("Name", "${local.name}-bastions"))}"
+}
+
 resource "aws_security_group" "hosts" {
   name   = "${local.name}-hosts"
   vpc_id = "${aws_vpc.cloud.id}"
 
   ingress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    security_groups = ["${aws_security_group.lb.id}"]
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    security_groups = [
+      "${aws_security_group.lb.id}",
+      "${aws_security_group.bastion.id}",
+    ]
   }
 
   egress {
@@ -234,4 +259,46 @@ resource "aws_route_table_association" "public" {
 
   route_table_id = "${aws_route_table.public.id}"
   subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
+}
+
+data "aws_ami" "ubuntu_1804" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190531"]
+  }
+}
+
+resource "tls_private_key" "bastion" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "bastion" {
+  key_name   = "${local.name}-bastion"
+  public_key = "${tls_private_key.bastion.public_key_openssh}"
+}
+
+resource "aws_instance" "bastion" {
+  count                  = "${var.availability_zones_count}"
+  ami                    = "${data.aws_ami.ubuntu_1804.id}"
+  instance_type          = "t3.nano"
+  subnet_id              = "${element(aws_subnet.public.*.id, count.index)}"
+  vpc_security_group_ids = ["${aws_security_group.bastion.id}"]
+  tags                   = "${merge(local.tags, map("Name", "${local.name}-bastion-${count.index}"))}"
+  key_name               = "${aws_key_pair.bastion.key_name}"
+}
+
+resource "aws_eip" "bastion" {
+  count = "${var.availability_zones_count}"
+  vpc   = true
+  tags  = "${merge(local.tags, map("Name", "${local.name}-bastion-${count.index}"))}"
+}
+
+resource "aws_eip_association" "bastion" {
+  count         = "${var.availability_zones_count}"
+  instance_id   = "${element(aws_instance.bastion.*.id, count.index)}"
+  allocation_id = "${element(aws_eip.bastion.*.id, count.index)}"
 }
