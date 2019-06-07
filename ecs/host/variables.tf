@@ -34,3 +34,7 @@ variable "security_group_id" {
 variable "cluster_name" {
   description = "Name of the ECS cluster to attach to"
 }
+
+variable "bastion_key_name" {
+  description = "Name of the bastion key which will be added to authorized_keys, so you can ssh to the host from the bastion."
+}

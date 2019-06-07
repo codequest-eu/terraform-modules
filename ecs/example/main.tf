@@ -31,6 +31,7 @@ module "host" {
   subnet_id         = "${module.cluster.private_subnet_ids[0]}"
   security_group_id = "${module.cluster.hosts_security_group_id}"
   cluster_name      = "${module.cluster.name}"
+  bastion_key_name  = "${module.cluster.bastion_key_name}"
 }
 
 module "repo" {

@@ -33,6 +33,7 @@ resource "aws_instance" "host" {
   vpc_security_group_ids = ["${var.security_group_id}"]
   iam_instance_profile   = "${var.instance_profile}"
   user_data              = "${data.template_file.user_data.rendered}"
+  key_name               = "${var.bastion_key_name}"
 
   tags = "${local.tags}"
 }
