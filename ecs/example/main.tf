@@ -19,21 +19,6 @@ module "cluster" {
   availability_zones_count = 1
 }
 
-module "host" {
-  source = "../host"
-
-  name        = "${local.name}-host"
-  project     = "${local.project}"
-  environment = "${local.environment}"
-
-  instance_type     = "t3.micro"
-  instance_profile  = "${module.cluster.host_profile_name}"
-  subnet_id         = "${module.cluster.private_subnet_ids[0]}"
-  security_group_id = "${module.cluster.hosts_security_group_id}"
-  cluster_name      = "${module.cluster.name}"
-  bastion_key_name  = "${module.cluster.bastion_key_name}"
-}
-
 module "hosts" {
   source = "../host_group"
 
