@@ -73,6 +73,8 @@ resource "aws_db_instance" "db" {
   final_snapshot_identifier = "${local.name}-final"
   vpc_security_group_ids    = ["${aws_security_group.db.id}"]
   publicly_accessible       = "${var.public}"
+  backup_retention_period   = "${var.backup_retention_period}"
+  copy_tags_to_snapshot     = true
 
   port     = "${var.port}"
   name     = "${local.db}"
