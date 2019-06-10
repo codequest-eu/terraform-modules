@@ -83,3 +83,8 @@ variable "public" {
   description = "Should the DB be publicly accessible, will have no effect if placed in a private subnet"
   default     = false
 }
+
+variable "backup_retention_period" {
+  description = "The days to retain backups for. Must be between 0 and 35."
+  default     = 7
+}
