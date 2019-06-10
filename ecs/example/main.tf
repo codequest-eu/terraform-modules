@@ -34,6 +34,24 @@ module "host" {
   bastion_key_name  = "${module.cluster.bastion_key_name}"
 }
 
+module "hosts" {
+  source = "../host_group"
+
+  project     = "${local.project}"
+  environment = "${local.environment}"
+
+  min_size = 1
+  size     = 1
+  max_size = 3
+
+  instance_type     = "t3.nano"
+  instance_profile  = "${module.cluster.host_profile_name}"
+  subnet_ids        = ["${module.cluster.private_subnet_ids}"]
+  security_group_id = "${module.cluster.hosts_security_group_id}"
+  cluster_name      = "${module.cluster.name}"
+  bastion_key_name  = "${module.cluster.bastion_key_name}"
+}
+
 module "repo" {
   source = "../repository"
 
