@@ -290,15 +290,3 @@ resource "aws_instance" "bastion" {
   tags                   = "${merge(local.tags, map("Name", "${local.name}-bastion-${count.index}"))}"
   key_name               = "${aws_key_pair.bastion.key_name}"
 }
-
-resource "aws_eip" "bastion" {
-  count = "${var.availability_zones_count}"
-  vpc   = true
-  tags  = "${merge(local.tags, map("Name", "${local.name}-bastion-${count.index}"))}"
-}
-
-resource "aws_eip_association" "bastion" {
-  count         = "${var.availability_zones_count}"
-  instance_id   = "${element(aws_instance.bastion.*.id, count.index)}"
-  allocation_id = "${element(aws_eip.bastion.*.id, count.index)}"
-}
