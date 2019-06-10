@@ -24,10 +24,7 @@ module "hosts" {
 
   project     = "${local.project}"
   environment = "${local.environment}"
-
-  min_size = 1
-  size     = 1
-  max_size = 3
+  size        = 1
 
   instance_type     = "t3.nano"
   instance_profile  = "${module.cluster.host_profile_name}"

@@ -59,9 +59,9 @@ resource "aws_autoscaling_group" "hosts" {
   launch_configuration = "${aws_launch_configuration.hosts.name}"
   vpc_zone_identifier  = ["${var.subnet_ids}"]
 
-  min_size         = "${var.min_size}"
+  min_size         = "${local.min_size}"
   desired_capacity = "${var.size}"
-  max_size         = "${var.max_size}"
+  max_size         = "${local.max_size}"
 
   tags = ["${data.null_data_source.autoscaling_group_tags.*.outputs}"]
 }
