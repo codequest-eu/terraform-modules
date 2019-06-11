@@ -65,3 +65,15 @@ resource "aws_autoscaling_group" "hosts" {
 
   tags = ["${data.null_data_source.autoscaling_group_tags.*.outputs}"]
 }
+
+data "aws_instances" "hosts" {
+  filter {
+    name   = "tag:aws:autoscaling:groupName"
+    values = ["${aws_autoscaling_group.hosts.name}"]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["pending", "running"]
+  }
+}
