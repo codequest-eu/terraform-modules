@@ -15,11 +15,15 @@ module "httpbin" {
     DEBUG = "true"
   }
 
-  log_group = "${aws_cloudwatch_log_group.httpbin.name}"
+  log_config = "${module.httpbin_log.container_config}"
 }
 
-resource "aws_cloudwatch_log_group" "httpbin" {
-  name = "terraform-modules/ecs/tasks/container/example"
+module "httpbin_log" {
+  source = "../../log_group"
+
+  project     = "terraform-modules"
+  environment = "example"
+  task        = "ecs-task-container"
 }
 
 resource "aws_ecs_task_definition" "httpbin" {

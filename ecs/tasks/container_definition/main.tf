@@ -1,6 +1,4 @@
 locals {
-  log_region = "${var.log_region == "" ? data.aws_region.current.name : var.log_region}"
-
   definition = <<EOF
 {
   "name": ${jsonencode(var.name)},
@@ -14,14 +12,7 @@ locals {
   "command": ${var.command},
   "workingDirectory": ${var.working_directory == "" ? "null" : jsonencode(var.working_directory)},
   "environment": [${join(", ", data.template_file.environment_variable.*.rendered)}],
-  "logConfiguration": {
-    "logDriver": "awslogs",
-    "options": {
-      "awslogs-group": ${jsonencode(var.log_group)},
-      "awslogs-region": ${jsonencode(local.log_region)},
-      "awslogs-stream-prefix": ${jsonencode(var.log_prefix)}
-    }
-  }
+  "logConfiguration": ${var.log_config}
 }
 EOF
 }

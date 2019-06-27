@@ -53,16 +53,7 @@ variable "environment" {
   default     = {}
 }
 
-variable "log_group" {
-  description = "Log group to which the awslogs log driver sends its log streams."
-}
-
-variable "log_prefix" {
-  description = "Log stream prefix, full stream name will be {log_prefix}/{name}/task-id"
-  default     = "ecs"
-}
-
-variable "log_region" {
-  description = "AWS region to store logs in, defaults to the AWS provider region"
-  default     = ""
+variable "log_config" {
+  description = "Logging configuration JSON"
+  default     = "null"
 }
