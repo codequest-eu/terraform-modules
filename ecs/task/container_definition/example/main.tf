@@ -27,7 +27,7 @@ module "httpbin_log" {
 }
 
 resource "aws_ecs_task_definition" "httpbin" {
-  family                = "tfm-ecs-task-container-example"
+  family                = "terraform-modules-example-ecs-task-container"
   container_definitions = "[${module.httpbin.definition}]"
 }
 
