@@ -41,7 +41,7 @@ module "repo" {
 }
 
 module "httpbin" {
-  source = "../tasks/web_service"
+  source = "../services/web_service"
 
   project     = "tfm-ecs"
   environment = "${local.environment}"
