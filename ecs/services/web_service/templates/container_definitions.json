@@ -1,9 +1,0 @@
-[
-  {
-    "name": "${name}",
-    "image": "${image}",
-    "memory": ${memory},
-    "portMappings": [{ "containerPort": ${port} }],
-    "essential": true
-  }
-]

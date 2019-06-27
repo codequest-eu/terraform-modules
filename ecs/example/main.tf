@@ -59,20 +59,27 @@ module "worker" {
   desired_count       = 1
 }
 
-module "httpbin" {
-  source = "../services/web_service"
+module "web_task" {
+  source = "../task"
 
-  project     = "tfm-ecs"
-  environment = "${local.environment}"
-  name        = "httpbin"
-  image       = "kennethreitz/httpbin:latest"
-  count       = 1
+  project           = "${local.project}"
+  environment       = "${local.environment}"
+  task              = "web"
+  image             = "kennethreitz/httpbin:latest"
+  memory_soft_limit = 128
+  ports             = [80]
+}
 
+module "web" {
+  source = "../services/web"
+
+  name                = "web"
+  cluster_arn         = "${module.cluster.arn}"
+  task_definition_arn = "${module.web_task.arn}"
+  desired_count       = 1
+
+  vpc_id       = "${module.cluster.vpc_id}"
   listener_arn = "${module.cluster.http_listener_arn}"
-  domain       = "${module.cluster.load_balancer_domain}"
-  path         = "*"
-
-  vpc_id      = "${module.cluster.vpc_id}"
-  cluster_arn = "${module.cluster.arn}"
-  role_name   = "${module.cluster.web_service_role_name}"
+  role_arn     = "${module.cluster.web_service_role_arn}"
+  rule_domain  = "${module.cluster.load_balancer_domain}"
 }
