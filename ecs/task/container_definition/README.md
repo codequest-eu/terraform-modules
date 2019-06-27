@@ -1,4 +1,4 @@
-# ecs/tasks/container_definition
+# ecs/task/container_definition
 
 Creates a container definition that can be provided to a task definition
 

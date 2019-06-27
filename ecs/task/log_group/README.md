@@ -1,4 +1,4 @@
-# ecs/tasks/log_group
+# ecs/task/log_group
 
 Creates a CloudWatch log group for a container and outputs container logging configuration.
 
