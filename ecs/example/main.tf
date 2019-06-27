@@ -78,8 +78,9 @@ module "web" {
   task_definition_arn = "${module.web_task.arn}"
   desired_count       = 1
 
-  vpc_id       = "${module.cluster.vpc_id}"
-  listener_arn = "${module.cluster.http_listener_arn}"
-  role_arn     = "${module.cluster.web_service_role_arn}"
-  rule_domain  = "${module.cluster.load_balancer_domain}"
+  vpc_id           = "${module.cluster.vpc_id}"
+  listener_arn     = "${module.cluster.http_listener_arn}"
+  role_arn         = "${module.cluster.web_service_role_arn}"
+  rule_domain      = "${module.cluster.load_balancer_domain}"
+  healthcheck_path = "/"
 }
