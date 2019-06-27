@@ -11,7 +11,7 @@ module "httpbin" {
   memory_hard_limit = 256
   ports             = [80]
 
-  environment = {
+  environment_variables = {
     DEBUG = "true"
   }
 

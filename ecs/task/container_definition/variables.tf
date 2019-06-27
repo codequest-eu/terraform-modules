@@ -48,7 +48,7 @@ variable "working_directory" {
   default     = ""
 }
 
-variable "environment" {
+variable "environment_variables" {
   description = "The environment variables to pass to a container."
   default     = {}
 }

@@ -31,12 +31,12 @@ EOF
 }
 
 data "template_file" "environment_variable" {
-  count = "${length(var.environment)}"
+  count = "${length(var.environment_variables)}"
 
   template = <<EOF
 {
-    "name": ${jsonencode(element(keys(var.environment), count.index))},
-    "value": ${jsonencode(element(values(var.environment), count.index))}
+    "name": ${jsonencode(element(keys(var.environment_variables), count.index))},
+    "value": ${jsonencode(element(values(var.environment_variables), count.index))}
   }
 EOF
 }
