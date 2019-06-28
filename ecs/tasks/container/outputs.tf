@@ -1,3 +1,0 @@
-output "definition" {
-  value = "{}"
-}
