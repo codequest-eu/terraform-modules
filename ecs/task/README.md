@@ -25,10 +25,13 @@ Creates a task definition with a single container and CloudWatch log group
 
 ## Outputs
 
-| Name             | Description               |
-| ---------------- | ------------------------- |
-| arn              | Task definition ARN       |
-| family           | Task definition family    |
-| log\_group\_arn  | CloudWatch log group ARN  |
-| log\_group\_name | CloudWatch log group name |
+| Name             | Description                          |
+| ---------------- | ------------------------------------ |
+| arn              | Created task definition revision ARN |
+| family           | Task definition family               |
+| latest\_arn      | Latest task definition revision ARN  |
+| latest\_revision | Latest task definition revision      |
+| log\_group\_arn  | CloudWatch log group ARN             |
+| log\_group\_name | CloudWatch log group name            |
+| revision         | Task definition revision             |
 

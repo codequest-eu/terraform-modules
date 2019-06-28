@@ -20,5 +20,5 @@ module "httpbin" {
 }
 
 output "task_definition_arn" {
-  value = "${module.httpbin.arn}"
+  value = "${module.httpbin.latest_arn}"
 }

@@ -30,3 +30,11 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = "[${module.container.definition}]"
   task_role_arn         = "${var.role_arn}"
 }
+
+data "aws_ecs_task_definition" "latest" {
+  task_definition = "${aws_ecs_task_definition.task.family}"
+}
+
+locals {
+  latest_arn = "${replace(aws_ecs_task_definition.task.arn, "/^(.*):\\d+$/", "$1:${data.aws_ecs_task_definition.latest.revision}")}"
+}
