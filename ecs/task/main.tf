@@ -1,3 +1,7 @@
+locals {
+  family = "${var.project}-${var.environment}-${var.task}"
+}
+
 module "container_log" {
   source = "./log_group"
 
@@ -26,13 +30,14 @@ module "container" {
 }
 
 resource "aws_ecs_task_definition" "task" {
-  family                = "${var.project}-${var.environment}-${var.task}"
+  family                = "${local.family}"
   container_definitions = "[${module.container.definition}]"
   task_role_arn         = "${var.role_arn}"
 }
 
 data "aws_ecs_task_definition" "latest" {
-  task_definition = "${aws_ecs_task_definition.task.family}"
+  depends_on      = ["aws_ecs_task_definition.task"]
+  task_definition = "${local.family}"
 }
 
 locals {
