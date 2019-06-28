@@ -1,5 +1,9 @@
 locals {
-  family = "${var.project}-${var.environment}-${var.task}"
+  family    = "${var.project}-${var.environment}-${var.task}"
+  container = "${var.container == "" ? var.task : var.container}"
+
+  image_tag = "${var.image_tag == "" ? data.aws_ecs_container_definition.current.image_digest : var.image_tag}"
+  image     = "${var.image == "" ? "${var.image_name}:${local.image_tag}" : var.image}"
 }
 
 module "container_log" {
@@ -12,11 +16,17 @@ module "container_log" {
   tags        = "${var.tags}"
 }
 
+data "aws_ecs_container_definition" "current" {
+  count           = "${var.image_tag == "" ? 1 : 0}"
+  task_definition = "${local.family}"
+  container_name  = "${local.container}"
+}
+
 module "container" {
   source = "./container_definition"
 
-  name                  = "${var.container == "" ? var.task : var.container}"
-  image                 = "${var.image}"
+  name                  = "${local.container}"
+  image                 = "${local.image}"
   memory_hard_limit     = "${var.memory_hard_limit}"
   memory_soft_limit     = "${var.memory_soft_limit}"
   ports                 = "${var.ports}"

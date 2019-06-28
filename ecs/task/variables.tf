@@ -30,7 +30,18 @@ variable "container" {
 # container_definition
 
 variable "image" {
-  description = "Container image"
+  description = "Full container image name, including the version tag. Either image or image_name has to be provided."
+  default     = ""
+}
+
+variable "image_name" {
+  description = "Container image name, without the version tag. Either image or image_name has to be provided."
+  default     = ""
+}
+
+variable "image_tag" {
+  description = "Container image version tag, if omitted will use one from the latest revision. Used only when image_name is provided."
+  default     = ""
 }
 
 variable "memory_hard_limit" {

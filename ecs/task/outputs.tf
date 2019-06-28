@@ -23,6 +23,16 @@ output "latest_arn" {
   value       = "${local.latest_arn}"
 }
 
+output "image" {
+  description = "Container image used"
+  value       = "${local.image}"
+}
+
+output "image_tag" {
+  description = "Container image tag used"
+  value       = "${local.image_tag}"
+}
+
 output "log_group_name" {
   description = "CloudWatch log group name"
   value       = "${module.container_log.name}"
