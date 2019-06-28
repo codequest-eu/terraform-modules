@@ -29,8 +29,6 @@ resource "aws_ecs_service" "service" {
   }
 
   lifecycle {
-    # Task definition will be updated outside of terraform
-    ignore_changes        = ["task_definition"]
     create_before_destroy = true
   }
 }

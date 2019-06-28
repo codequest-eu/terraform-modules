@@ -9,8 +9,6 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = "${var.deployment_min_percent}"
 
   lifecycle {
-    # Task definition will be updated outside of terraform
-    ignore_changes        = ["task_definition"]
     create_before_destroy = true
   }
 }

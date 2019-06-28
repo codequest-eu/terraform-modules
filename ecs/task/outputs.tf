@@ -13,16 +13,6 @@ output "arn" {
   value       = "${aws_ecs_task_definition.task.arn}"
 }
 
-output "latest_revision" {
-  description = "Latest task definition revision"
-  value       = "${data.aws_ecs_task_definition.latest.revision}"
-}
-
-output "latest_arn" {
-  description = "Latest task definition revision ARN"
-  value       = "${local.latest_arn}"
-}
-
 output "image" {
   description = "Container image used"
   value       = "${local.image}"

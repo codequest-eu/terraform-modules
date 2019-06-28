@@ -55,7 +55,7 @@ module "worker" {
 
   name                = "worker"
   cluster_arn         = "${module.cluster.arn}"
-  task_definition_arn = "${module.worker_task.latest_arn}"
+  task_definition_arn = "${module.worker_task.arn}"
   desired_count       = 1
 }
 
@@ -75,7 +75,7 @@ module "web" {
 
   name                = "web"
   cluster_arn         = "${module.cluster.arn}"
-  task_definition_arn = "${module.web_task.latest_arn}"
+  task_definition_arn = "${module.web_task.arn}"
   desired_count       = 1
 
   vpc_id           = "${module.cluster.vpc_id}"

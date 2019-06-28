@@ -22,7 +22,3 @@ module "httpbin" {
 output "httpbin_arn" {
   value = "${module.httpbin.arn}"
 }
-
-output "httpbin_latest_arn" {
-  value = "${module.httpbin.latest_arn}"
-}
