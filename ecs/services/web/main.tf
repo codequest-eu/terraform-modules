@@ -3,7 +3,7 @@ locals {
   container    = "${var.container == "" ? var.name : var.container}"
 
   # make sure the default doesn't exceed 32 characters
-  default_target_group_name = "${substr(local.cluster_name, 0, 31 - length(var.name))}-${var.name}"
+  default_target_group_name = "${substr(local.cluster_name, 0, min(length(local.cluster_name), 31 - length(var.name)))}-${var.name}"
   target_group_name         = "${var.target_group_name == "" ? local.default_target_group_name : var.target_group_name}"
 }
 
