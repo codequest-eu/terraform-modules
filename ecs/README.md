@@ -1,8 +1,38 @@
 # ECS
 
-Modules for setting up an ECS-based docker container cluster.
+Creates an ECS cluster along with the necessary IAM resources ([`ecs/access`](./access)) and a standard networking setup ([`ecs/network`](./network)).
 
 Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch-cloudformation) and [segmentio/stack](https://github.com/segmentio/stack)
+
+## Modules
+
+- [`ecs/access`](./access)
+
+  Creates IAM resources needed for the cluster. Instantiated by the `ecs` module.
+
+- [`ecs/host_group`](./host_group)
+
+  Creates an autoscaling group of EC2 instances for running tasks within the cluster
+
+- [`ecs/network`](./network)
+
+  Creates the networking stack for the cluster. Instantiated by the `ecs` module.
+
+- [`ecs/repository`](./repository)
+
+  Creates an ECR container image repository.
+
+- [`ecs/services/web`](./services/web)
+
+  Creates an ECS service exposed to the web via an Application Load Balancer.
+
+- [`ecs/services/worker`](./services/worker)
+
+  Creates an internal ECS service for running tasks from some queue.
+
+- [`ecs/task`](./task)
+
+  Creates an ECS task definition
 
 ## Inputs
 

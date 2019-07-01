@@ -5,7 +5,8 @@ Creates networking resources needed for a standard ECS cluster setup:
 1. A single VPC with Internet Gateway
 2. Public and private subnet in each availability zone
 3. NAT Gateway in each public subnet for outbound traffic
-4. Application Load Balancer for inbound traffic
+4. Application Load Balancer for inbound traffic with HTTP and HTTPS listeners
+5. Bastion hosts for accessing hosts within the private subnets
 
 # To do
 
