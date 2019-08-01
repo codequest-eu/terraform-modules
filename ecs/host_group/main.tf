@@ -67,6 +67,8 @@ resource "aws_autoscaling_group" "hosts" {
 }
 
 data "aws_instances" "hosts" {
+  depends_on = ["aws_autoscaling_group.hosts"]
+
   filter {
     name   = "tag:aws:autoscaling:groupName"
     values = ["${aws_autoscaling_group.hosts.name}"]
