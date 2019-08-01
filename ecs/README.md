@@ -36,14 +36,16 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
 ## Inputs
 
-| Name                           | Description                                                                                                    |  Type  | Default  | Required |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------- | :----: | :------: | :------: |
-| availability\_zones\_count     | Number of availability zones the network should span                                                           | string |  `"2"`   |    no    |
-| bastion\_ingress\_cidr\_blocks | CIDR blocks from where you should be able to access the bastion host                                           |  list  | `<list>` |    no    |
-| environment                    | Kebab-cased environment name, eg. development, staging, production.                                            | string |   n/a    |   yes    |
-| project                        | Kebab-cased project name                                                                                       | string |   n/a    |   yes    |
-| project\_index                 | Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project_index}.0.0/16 | string |   n/a    |   yes    |
-| tags                           | Tags to add to resources that support them                                                                     |  map   | `<map>`  |    no    |
+| Name                           | Description                                                                                                    |  Type  |   Default   | Required |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- | :----: | :---------: | :------: |
+| availability\_zones\_count     | Number of availability zones the network should span                                                           | string |    `"2"`    |    no    |
+| bastion\_ingress\_cidr\_blocks | CIDR blocks from where you should be able to access the bastion host                                           |  list  |  `<list>`   |    no    |
+| environment                    | Kebab-cased environment name, eg. development, staging, production.                                            | string |     n/a     |   yes    |
+| nat\_instance                  | Use NAT instances instead of NAT gateways.                                                                     | string |  `"false"`  |    no    |
+| nat\_instance\_type            | EC2 instance type to use to create a NAT instance.                                                             | string | `"t3.nano"` |    no    |
+| project                        | Kebab-cased project name                                                                                       | string |     n/a     |   yes    |
+| project\_index                 | Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project_index}.0.0/16 | string |     n/a     |   yes    |
+| tags                           | Tags to add to resources that support them                                                                     |  map   |   `<map>`   |    no    |
 
 ## Outputs
 

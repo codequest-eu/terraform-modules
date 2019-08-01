@@ -80,11 +80,61 @@ resource "aws_eip" "public_nat" {
 }
 
 resource "aws_nat_gateway" "public" {
-  count = "${var.availability_zones_count}"
+  count = "${var.nat_instance ? 0 : var.availability_zones_count}"
 
   allocation_id = "${element(aws_eip.public_nat.*.id, count.index)}"
   subnet_id     = "${element(aws_subnet.public.*.id, count.index)}"
   tags          = "${merge(local.tags, map("Name", "${local.name}-public-${count.index}"))}"
+}
+
+data "aws_ami" "nat" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn-ami-vpc-nat-2018.03.0.20190611-x86_64-ebs"]
+  }
+}
+
+resource "aws_instance" "nat" {
+  count = "${var.nat_instance ? var.availability_zones_count : 0}"
+
+  ami                    = "${data.aws_ami.nat.id}"
+  instance_type          = "${var.nat_instance_type}"
+  subnet_id              = "${element(aws_subnet.public.*.id, count.index)}"
+  vpc_security_group_ids = ["${aws_security_group.nat.id}"]
+  tags                   = "${merge(local.tags, map("Name", "${local.name}-nat-${count.index}"))}"
+  key_name               = "${aws_key_pair.bastion.key_name}"
+  source_dest_check      = false
+}
+
+resource "aws_security_group" "nat" {
+  count = "${var.nat_instance ? 1 : 0}"
+
+  name   = "${local.name}-nat"
+  vpc_id = "${aws_vpc.cloud.id}"
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["${aws_security_group.bastion.id}"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${local.az_private_blocks}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_security_group" "lb" {
@@ -229,11 +279,19 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private_default" {
-  count = "${var.availability_zones_count}"
+  count = "${var.nat_instance ? 0 : var.availability_zones_count}"
 
   route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = "${element(aws_nat_gateway.public.*.id, count.index)}"
+}
+
+resource "aws_route" "private_default_instance" {
+  count = "${var.nat_instance ? var.availability_zones_count : 0}"
+
+  route_table_id         = "${element(aws_route_table.private.*.id, count.index)}"
+  destination_cidr_block = "0.0.0.0/0"
+  instance_id            = "${element(aws_instance.nat.*.id, count.index)}"
 }
 
 resource "aws_route_table_association" "private" {

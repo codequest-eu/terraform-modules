@@ -17,6 +17,7 @@ module "cluster" {
   project_index            = "${local.project_index}"
   environment              = "${local.environment}"
   availability_zones_count = 1
+  nat_instance             = true
 }
 
 module "hosts" {

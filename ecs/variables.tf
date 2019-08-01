@@ -24,3 +24,13 @@ variable "bastion_ingress_cidr_blocks" {
   description = "CIDR blocks from where you should be able to access the bastion host"
   default     = ["0.0.0.0/0"]
 }
+
+variable "nat_instance" {
+  description = "Use NAT instances instead of NAT gateways."
+  default     = false
+}
+
+variable "nat_instance_type" {
+  description = "EC2 instance type to use to create a NAT instance."
+  default     = "t3.nano"
+}
