@@ -86,8 +86,13 @@ resource "aws_dynamodb_table" "meta_lock" {
   tags = "${local.tags}"
 }
 
+locals {
+  provider_aws_config_template = "${var.account_role_arn != "" ? "provider_aws_role" : "provider_aws"}"
+  backend_config_template      = "${var.account_role_arn != "" ? "backend_role" : "backend"}"
+}
+
 data "template_file" "provider_aws_config" {
-  template = "${file("${path.module}/templates/provider_aws.tf")}"
+  template = "${file("${path.module}/templates/${local.provider_aws_config_template}.tf")}"
 
   vars {
     region           = "${data.aws_region.current.name}"
@@ -97,7 +102,7 @@ data "template_file" "provider_aws_config" {
 }
 
 data "template_file" "meta_backend_config" {
-  template = "${file("${path.module}/templates/backend.tf")}"
+  template = "${file("${path.module}/templates/${local.backend_config_template}.tf")}"
 
   vars {
     bucket           = "${aws_s3_bucket.state.bucket}"
@@ -109,7 +114,7 @@ data "template_file" "meta_backend_config" {
 }
 
 data "template_file" "backend_config" {
-  template = "${file("${path.module}/templates/backend.tf")}"
+  template = "${file("${path.module}/templates/${local.backend_config_template}.tf")}"
 
   vars {
     bucket           = "${aws_s3_bucket.state.bucket}"
