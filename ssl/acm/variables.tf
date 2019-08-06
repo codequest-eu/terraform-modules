@@ -1,6 +1,6 @@
 variable "domains" {
   type        = list(string)
-  description = "Certificate domains, have to be in one Route53 hosted zone. You can specify up to 4 domains."
+  description = "Certificate domains, have to be in one Route53 hosted zone."
 }
 
 variable "hosted_zone_id" {
