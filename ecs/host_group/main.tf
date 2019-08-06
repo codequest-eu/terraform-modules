@@ -41,19 +41,6 @@ resource "aws_launch_configuration" "hosts" {
   key_name             = var.bastion_key_name
 }
 
-# HACK:
-# aws_autoscaling_group expects tags to be a list of {key, value, propagate_at_launch} maps,
-# using null_data_source to convert a standard map of tags to a list of maps.
-data "null_data_source" "autoscaling_group_tags" {
-  count = length(local.tags)
-
-  inputs = {
-    key                 = element(keys(local.tags), count.index)
-    value               = element(values(local.tags), count.index)
-    propagate_at_launch = true
-  }
-}
-
 resource "aws_autoscaling_group" "hosts" {
   name                 = local.full_name
   launch_configuration = aws_launch_configuration.hosts.name
@@ -63,7 +50,14 @@ resource "aws_autoscaling_group" "hosts" {
   desired_capacity = var.size
   max_size         = local.max_size
 
-  tags = data.null_data_source.autoscaling_group_tags.*.outputs
+  dynamic "tag" {
+    for_each = local.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = true
+    }
+  }
 }
 
 data "aws_instances" "hosts" {
