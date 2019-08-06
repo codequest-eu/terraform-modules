@@ -1,6 +1,6 @@
 locals {
   cluster_name = substr(data.aws_arn.cluster.resource, length("cluster/"), -1)
-  container    = var.container == "" ? var.name : var.container
+  container    = var.container != null ? var.container : var.name
 
   # make sure the default doesn't exceed 32 characters
   default_target_group_name = "${substr(
@@ -8,7 +8,7 @@ locals {
     0,
     min(length(local.cluster_name), 31 - length(var.name)),
   )}-${var.name}"
-  target_group_name = var.target_group_name == "" ? local.default_target_group_name : var.target_group_name
+  target_group_name = var.target_group_name != null ? var.target_group_name : local.default_target_group_name
 }
 
 data "aws_arn" "cluster" {
