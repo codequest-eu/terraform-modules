@@ -1,3 +1,8 @@
+provider "aws" {
+  region = "eu-west-1"
+}
+
+
 # Create the account
 module "aws_account" {
   source = "./.."
