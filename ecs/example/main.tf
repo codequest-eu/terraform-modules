@@ -29,7 +29,7 @@ module "hosts" {
 
   instance_type     = "t3.nano"
   instance_profile  = module.cluster.host_profile_name
-  subnet_ids        = [module.cluster.private_subnet_ids]
+  subnet_ids        = module.cluster.private_subnet_ids
   security_group_id = module.cluster.hosts_security_group_id
   cluster_name      = module.cluster.name
   bastion_key_name  = module.cluster.bastion_key_name
