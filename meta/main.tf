@@ -51,7 +51,7 @@ resource "aws_iam_user_policy" "ci" {
 }
 
 resource "aws_s3_bucket" "state" {
-  bucket = var.state_bucket != "" ? var.state_bucket : "${local.name_prefix}-state"
+  bucket = var.state_bucket != null ? var.state_bucket : "${local.name_prefix}-state"
   acl    = "private"
 
   versioning {
@@ -90,8 +90,8 @@ resource "aws_dynamodb_table" "meta_lock" {
 }
 
 locals {
-  provider_aws_config_template = var.account_role_arn != "" ? "provider_aws_role" : "provider_aws"
-  backend_config_template      = var.account_role_arn != "" ? "backend_role" : "backend"
+  provider_aws_config_template = var.account_role_arn != null ? "provider_aws_role" : "provider_aws"
+  backend_config_template      = var.account_role_arn != null ? "backend_role" : "backend"
 }
 
 data "template_file" "provider_aws_config" {
