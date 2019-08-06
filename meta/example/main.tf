@@ -9,7 +9,7 @@ provider "template" {
 }
 
 module "meta" {
-  source  = ".."
+  source  = "./.."
   project = "terraform-modules-meta-example"
 }
 

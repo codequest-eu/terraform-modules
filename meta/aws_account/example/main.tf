@@ -10,7 +10,7 @@ provider "template" {
 
 # Create the account
 module "aws_account" {
-  source = ".."
+  source = "./.."
 
   name  = "terraform-modules-meta-account-example"
   email = "email@example.com"

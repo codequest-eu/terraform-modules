@@ -10,7 +10,7 @@ data "aws_route53_zone" "cq" {
 }
 
 module "certificate" {
-  source = ".."
+  source = "./.."
 
   domains = [
     "terraform-modules-ssl-demo.codequest.com",

@@ -9,7 +9,7 @@ provider "template" {
 }
 
 module "httpbin" {
-  source = ".."
+  source = "./.."
 
   name              = "httpbin"
   image             = "kennethreitz/httpbin:latest"
@@ -25,7 +25,7 @@ module "httpbin" {
 }
 
 module "httpbin_log" {
-  source = "../../log_group"
+  source = "./../../log_group"
 
   project     = "terraform-modules"
   environment = "example"

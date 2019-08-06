@@ -27,7 +27,7 @@ data "aws_subnet" "b" {
 }
 
 module "redis" {
-  source = ".."
+  source = "./.."
 
   id          = "tfm-redis-example"
   project     = "terraform-modules-redis"

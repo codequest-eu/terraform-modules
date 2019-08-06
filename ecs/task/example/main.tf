@@ -9,7 +9,7 @@ provider "template" {
 }
 
 module "httpbin" {
-  source = ".."
+  source = "./.."
 
   project           = "terraform-modules"
   environment       = "example"

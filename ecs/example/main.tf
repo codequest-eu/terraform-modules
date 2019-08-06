@@ -25,7 +25,7 @@ provider "tls" {
 }
 
 module "cluster" {
-  source = ".."
+  source = "./.."
 
   project                  = "${local.project}"
   project_index            = "${local.project_index}"
@@ -35,7 +35,7 @@ module "cluster" {
 }
 
 module "hosts" {
-  source = "../host_group"
+  source = "./../host_group"
 
   project     = "${local.project}"
   environment = "${local.environment}"
@@ -50,13 +50,13 @@ module "hosts" {
 }
 
 module "repo" {
-  source = "../repository"
+  source = "./../repository"
 
   project = "${local.project}"
 }
 
 module "worker_task" {
-  source = "../task"
+  source = "./../task"
 
   project           = "${local.project}"
   environment       = "${local.environment}"
@@ -66,7 +66,7 @@ module "worker_task" {
 }
 
 module "worker" {
-  source = "../services/worker"
+  source = "./../services/worker"
 
   name                = "worker"
   cluster_arn         = "${module.cluster.arn}"
@@ -75,7 +75,7 @@ module "worker" {
 }
 
 module "web_task" {
-  source = "../task"
+  source = "./../task"
 
   project           = "${local.project}"
   environment       = "${local.environment}"
@@ -86,7 +86,7 @@ module "web_task" {
 }
 
 module "web" {
-  source = "../services/web"
+  source = "./../services/web"
 
   name                = "web"
   cluster_arn         = "${module.cluster.arn}"

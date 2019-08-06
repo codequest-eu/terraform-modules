@@ -27,7 +27,7 @@ data "aws_subnet" "b" {
 }
 
 module "db" {
-  source = ".."
+  source = "./.."
 
   project     = "terraform-modules-postgres"
   environment = "example"
