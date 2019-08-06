@@ -1,8 +1,8 @@
 locals {
   name     = "${var.project}-${var.environment}"
-  db       = var.db == "" ? replace(var.project, "-", "_") : var.db
-  username = var.username == "" ? random_string.username[0].result : var.username
-  password = var.password == "" ? random_string.password[0].result : var.password
+  db       = var.db != null ? var.db : replace(var.project, "-", "_")
+  username = var.username != null ? var.username : random_string.username[0].result
+  password = var.password != null ? var.password : random_string.password[0].result
 
   default_tags = {
     Name        = local.name
@@ -14,13 +14,13 @@ locals {
 }
 
 resource "random_string" "username" {
-  count   = var.username == "" ? 1 : 0
+  count   = var.username == null ? 1 : 0
   length  = var.username_length
   special = false
 }
 
 resource "random_string" "password" {
-  count   = var.password == "" ? 1 : 0
+  count   = var.password == null ? 1 : 0
   length  = var.password_length
   special = false
 }

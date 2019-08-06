@@ -1,48 +1,58 @@
 variable "project" {
   description = "Kebab-cased project name"
+  type        = string
 }
 
 variable "environment" {
   description = "Kebab-cased environment name, eg. development, staging, production"
+  type        = string
 }
 
 variable "tags" {
   description = "Tags to add to resources that support them"
+  type        = map(string)
   default     = {}
 }
 
 variable "db" {
   description = "The name of the database to create when the DB instance is created, defaults to project name converted to snake_case"
-  default     = ""
+  type        = string
+  default     = null
 }
 
 variable "port" {
   description = "The port on which the DB accepts connections"
+  type        = number
   default     = 5432
 }
 
 variable "username" {
   description = "Username for the master DB user, if not provided a random one will be generated"
-  default     = ""
+  type        = string
+  default     = null
 }
 
 variable "username_length" {
   description = "Random username length"
+  type        = number
   default     = 8
 }
 
 variable "password" {
   description = "Password for the master DB user, if not provided a random one will be generated"
-  default     = ""
+  type        = string
+  default     = null
 }
 
 variable "password_length" {
   description = "Random password length"
+  type        = number
   default     = 32
 }
 
 variable "vpc_id" {
   description = "VPC ID in which the DB should be created"
+  type        = string
 }
 
 variable "subnet_ids" {
@@ -58,34 +68,41 @@ variable "security_group_ids" {
 
 variable "postgres_version" {
   description = "RDS Postgres engine version"
+  type        = string
   default     = "10.6"
 }
 
 variable "storage" {
   description = "The allocated storage in gibibytes"
+  type        = number
 }
 
 variable "instance_type" {
   description = "The instance type of the RDS instance"
+  type        = string
 }
 
 variable "multi_az" {
   description = "Specifies if the RDS instance is multi-AZ"
+  type        = bool
   default     = true
 }
 
 variable "prevent_destroy" {
   description = "Should the DB be protected from accidental deletion"
+  type        = bool
   default     = true
 }
 
 variable "public" {
   description = "Should the DB be publicly accessible, will have no effect if placed in a private subnet"
+  type        = bool
   default     = false
 }
 
 variable "backup_retention_period" {
   description = "The days to retain backups for. Must be between 0 and 35."
+  type        = number
   default     = 7
 }
 
