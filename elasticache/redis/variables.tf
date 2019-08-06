@@ -36,7 +36,7 @@ variable "security_group_ids" {
   default     = []
 }
 
-variable "version" {
+variable "redis_version" {
   description = "Elasticache Redis engine version"
   default     = "5.0.3"
 }
