@@ -38,7 +38,7 @@ resource "aws_elasticache_subnet_group" "cache" {
 }
 
 resource "aws_elasticache_cluster" "cache" {
-  cluster_id = var.id != "" ? var.id : local.name
+  cluster_id = var.id != null ? var.id : local.name
 
   engine               = "redis"
   engine_version       = var.redis_version
