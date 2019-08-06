@@ -9,8 +9,8 @@ locals {
 
   tags = merge(local.default_tags, var.tags)
 
-  min_size = var.min_size != "" ? var.min_size : var.size
-  max_size = var.max_size != "" ? var.max_size : var.size
+  min_size = var.min_size != null ? var.min_size : var.size
+  max_size = var.max_size != null ? var.max_size : var.size
 }
 
 data "aws_ami" "ecs_amazon_linux" {
