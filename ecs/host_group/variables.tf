@@ -38,6 +38,11 @@ variable "instance_profile" {
   description = "Name of the instance profile created by the ecs/worker_role module"
 }
 
+variable "ami_name" {
+  description = "ECS-optimized Amazon Linux AMI name to use"
+  default     = "amzn2-ami-ecs-hvm-2.0.20190603-x86_64-ebs"
+}
+
 variable "subnet_ids" {
   type        = "list"
   description = "Ids of subnets hosts should be launched in, private subnets created by the ecs/network module"

@@ -19,7 +19,7 @@ data "aws_ami" "ecs_amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-ecs-hvm-2.0.20190603-x86_64-ebs"]
+    values = ["${var.ami_name}"]
   }
 }
 
