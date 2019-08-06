@@ -14,6 +14,7 @@ Creates an RDS PostgreSQL database instance
 | password                  | Password for the master DB user, if not provided a random one will be generated                                      | string |   `""`    |    no    |
 | password\_length          | Random password length                                                                                               | string |  `"32"`   |    no    |
 | port                      | The port on which the DB accepts connections                                                                         | string | `"5432"`  |    no    |
+| postgres\_version         | RDS Postgres engine version                                                                                          | string | `"10.6"`  |    no    |
 | prevent\_destroy          | Should the DB be protected from accidental deletion                                                                  | string | `"true"`  |    no    |
 | project                   | Kebab-cased project name                                                                                             | string |    n/a    |   yes    |
 | public                    | Should the DB be publicly accessible, will have no effect if placed in a private subnet                              | string | `"false"` |    no    |
@@ -23,7 +24,6 @@ Creates an RDS PostgreSQL database instance
 | tags                      | Tags to add to resources that support them                                                                           |  map   |  `<map>`  |    no    |
 | username                  | Username for the master DB user, if not provided a random one will be generated                                      | string |   `""`    |    no    |
 | username\_length          | Random username length                                                                                               | string |   `"8"`   |    no    |
-| version                   | RDS Postgres engine version                                                                                          | string | `"10.6"`  |    no    |
 | vpc\_id                   | VPC ID in which the DB should be created                                                                             | string |    n/a    |   yes    |
 
 ## Outputs
