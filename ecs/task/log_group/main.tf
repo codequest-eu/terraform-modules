@@ -1,21 +1,27 @@
 locals {
-  path = "${join("/", compact(list("${var.project}-${var.environment}", var.task, var.container)))}"
+  path = join(
+    "/",
+    compact(
+      ["${var.project}-${var.environment}", var.task, var.container],
+    ),
+  )
 
   default_tags = {
-    Name        = "${local.path}"
-    Project     = "${var.project}"
-    Environment = "${var.environment}"
+    Name        = local.path
+    Project     = var.project
+    Environment = var.environment
   }
 
-  tags = "${merge(local.default_tags, var.tags)}"
+  tags = merge(local.default_tags, var.tags)
 }
 
 resource "aws_cloudwatch_log_group" "log" {
-  name = "${local.path}"
-  tags = "${local.tags}"
+  name = local.path
+  tags = local.tags
 }
 
-data "aws_region" "current" {}
+data "aws_region" "current" {
+}
 
 locals {
   container_log_config = <<EOF
@@ -28,4 +34,6 @@ locals {
   }
 }
 EOF
+
 }
+

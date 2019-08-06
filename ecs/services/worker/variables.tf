@@ -29,3 +29,4 @@ variable "deployment_max_percent" {
   description = "The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Rounded down to get the maximum number of running tasks."
   default     = 200
 }
+

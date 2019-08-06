@@ -26,5 +26,6 @@ module "httpbin" {
 }
 
 output "httpbin_arn" {
-  value = "${module.httpbin.arn}"
+  value = module.httpbin.arn
 }
+

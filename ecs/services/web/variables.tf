@@ -106,3 +106,4 @@ variable "unhealthy_threshold" {
   description = "The number of consecutive health check failures required before considering the target unhealthy"
   default     = 2
 }
+

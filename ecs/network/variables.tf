@@ -34,3 +34,4 @@ variable "nat_instance_type" {
   description = "EC2 instance type to use to create a NAT instance."
   default     = "t3.nano"
 }
+

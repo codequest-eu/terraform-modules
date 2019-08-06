@@ -1,5 +1,5 @@
 variable "domains" {
-  type        = "list"
+  type        = list(string)
   description = "Certificate domains, have to be in one Route53 hosted zone. You can specify up to 4 domains."
 }
 
@@ -8,7 +8,8 @@ variable "hosted_zone_id" {
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   description = "Tags to set on resources that support them"
   default     = {}
 }
+

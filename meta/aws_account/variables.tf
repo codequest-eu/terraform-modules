@@ -10,3 +10,4 @@ variable "role" {
   description = "IAM role that is automatically created in the new account, which grants the organization's master account permission to access the newly created member account."
   default     = "OrganizationAccountAccessRole"
 }
+

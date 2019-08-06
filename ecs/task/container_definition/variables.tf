@@ -57,3 +57,4 @@ variable "log_config" {
   description = "Logging configuration JSON"
   default     = "null"
 }
+

@@ -1,9 +1,10 @@
 resource "aws_organizations_account" "project" {
-  name  = "${var.name}"
-  email = "${var.email}"
+  name  = var.name
+  email = var.email
 }
 
-data "aws_region" "current" {}
+data "aws_region" "current" {
+}
 
 locals {
   # https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_access-cross-account-role
@@ -11,11 +12,12 @@ locals {
 }
 
 data "template_file" "provider_config" {
-  template = "${file("${path.module}/templates/provider.tf")}"
+  template = file("${path.module}/templates/provider.tf")
 
-  vars {
-    region   = "${data.aws_region.current.name}"
-    id       = "${aws_organizations_account.project.id}"
-    role_arn = "${local.role_arn}"
+  vars = {
+    region   = data.aws_region.current.name
+    id       = aws_organizations_account.project.id
+    role_arn = local.role_arn
   }
 }
+

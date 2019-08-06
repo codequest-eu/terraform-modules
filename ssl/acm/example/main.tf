@@ -17,7 +17,7 @@ module "certificate" {
     "www.terraform-modules-ssl-demo.codequest.com",
   ]
 
-  hosted_zone_id = "${data.aws_route53_zone.cq.zone_id}"
+  hosted_zone_id = data.aws_route53_zone.cq.zone_id
 
   tags = {
     Project = "terraform-modules"
@@ -26,5 +26,6 @@ module "certificate" {
 }
 
 output "certificate_arn" {
-  value = "${module.certificate.arn}"
+  value = module.certificate.arn
 }
+

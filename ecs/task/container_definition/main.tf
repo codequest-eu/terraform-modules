@@ -15,12 +15,14 @@ locals {
   "logConfiguration": ${var.log_config}
 }
 EOF
+
 }
 
-data "aws_region" "current" {}
+data "aws_region" "current" {
+}
 
 data "template_file" "port_mapping" {
-  count = "${length(var.ports)}"
+  count = length(var.ports)
 
   template = <<EOF
 {
@@ -28,10 +30,11 @@ data "template_file" "port_mapping" {
     "protocol": "tcp"
   }
 EOF
+
 }
 
 data "template_file" "environment_variable" {
-  count = "${length(var.environment_variables)}"
+  count = length(var.environment_variables)
 
   template = <<EOF
 {
@@ -39,4 +42,6 @@ data "template_file" "environment_variable" {
     "value": ${jsonencode(element(values(var.environment_variables), count.index))}
   }
 EOF
+
 }
+

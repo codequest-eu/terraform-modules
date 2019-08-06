@@ -27,12 +27,12 @@ variable "vpc_id" {
 
 variable "subnet_ids" {
   description = "VPC subnet IDs in which Redis should be created"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "security_group_ids" {
   description = "Security group ids which should have access to Redis"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -54,3 +54,4 @@ variable "instance_count" {
   description = "Number of instances to create in the cluster"
   default     = 1
 }
+

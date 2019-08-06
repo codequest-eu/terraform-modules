@@ -47,12 +47,12 @@ variable "vpc_id" {
 
 variable "subnet_ids" {
   description = "VPC subnet IDs in which the DB should be created"
-  type        = "list"
+  type        = list(string)
 }
 
 variable "security_group_ids" {
   description = "Security group ids which should have access to the DB"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
@@ -88,3 +88,4 @@ variable "backup_retention_period" {
   description = "The days to retain backups for. Must be between 0 and 35."
   default     = 7
 }
+

@@ -6,3 +6,4 @@ variable "tags" {
   description = "Tags to add to resources that support them"
   default     = {}
 }
+

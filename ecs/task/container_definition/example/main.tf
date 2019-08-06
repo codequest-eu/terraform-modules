@@ -21,7 +21,7 @@ module "httpbin" {
     DEBUG = "true"
   }
 
-  log_config = "${module.httpbin_log.container_config}"
+  log_config = module.httpbin_log.container_config
 }
 
 module "httpbin_log" {
@@ -38,9 +38,10 @@ resource "aws_ecs_task_definition" "httpbin" {
 }
 
 output "container_definition" {
-  value = "${module.httpbin.definition}"
+  value = module.httpbin.definition
 }
 
 output "task_definition_arn" {
-  value = "${aws_ecs_task_definition.httpbin.arn}"
+  value = aws_ecs_task_definition.httpbin.arn
 }
+

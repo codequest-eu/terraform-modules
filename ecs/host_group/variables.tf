@@ -44,7 +44,7 @@ variable "ami_name" {
 }
 
 variable "subnet_ids" {
-  type        = "list"
+  type        = list(string)
   description = "Ids of subnets hosts should be launched in, private subnets created by the ecs/network module"
 }
 
@@ -59,3 +59,4 @@ variable "cluster_name" {
 variable "bastion_key_name" {
   description = "Name of the bastion key which will be added to authorized_keys, so you can ssh to the host from the bastion."
 }
+

@@ -26,3 +26,4 @@ variable "account_role_arn" {
   description = "If meta is being created in an AWS Organizations Account, ARN of the IAM role that lets root account administrators manage member account resources."
   default     = ""
 }
+
