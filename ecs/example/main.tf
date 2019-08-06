@@ -12,6 +12,18 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+provider "null" {
+  version = "~> 2.1.2"
+}
+
+provider "template" {
+  version = "~> 2.1.2"
+}
+
+provider "tls" {
+  version = "~> 2.0.1"
+}
+
 module "cluster" {
   source = ".."
 

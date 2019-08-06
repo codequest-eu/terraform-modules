@@ -4,6 +4,10 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+provider "template" {
+  version = "~> 2.1.2"
+}
+
 data "aws_vpc" "default" {
   default = true
 }

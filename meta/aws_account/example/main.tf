@@ -4,6 +4,10 @@ provider "aws" {
   region = "eu-west-1" # Ireland
 }
 
+provider "template" {
+  version = "~> 2.1.2"
+}
+
 # Create the account
 module "aws_account" {
   source = ".."
