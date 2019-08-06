@@ -1,13 +1,3 @@
-provider "aws" {
-  version = "~> 2.22.0"
-
-  region = "eu-west-1"
-}
-
-provider "random" {
-  version = "~> 2.1.2"
-}
-
 data "aws_vpc" "default" {
   default = true
 }
