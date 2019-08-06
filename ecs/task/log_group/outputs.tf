@@ -9,7 +9,11 @@ output "arn" {
 }
 
 output "container_config" {
-  description = "Container definition logging configuration JSON"
+  description = "Container definition logging configuration"
   value       = local.container_log_config
 }
 
+output "container_config_json" {
+  description = "Container definition logging configuration JSON"
+  value       = jsonencode(local.container_log_config)
+}

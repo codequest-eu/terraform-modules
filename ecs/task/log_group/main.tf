@@ -24,16 +24,13 @@ data "aws_region" "current" {
 }
 
 locals {
-  container_log_config = <<EOF
-{
-  "logDriver": "awslogs",
-  "options": {
-    "awslogs-group": ${jsonencode(aws_cloudwatch_log_group.log.name)},
-    "awslogs-region": ${jsonencode(data.aws_region.current.name)},
-    "awslogs-stream-prefix": ${jsonencode(aws_cloudwatch_log_group.log.name)}
+  container_log_config = {
+    "logDriver" = "awslogs"
+    "options" = {
+      "awslogs-group"         = aws_cloudwatch_log_group.log.name
+      "awslogs-region"        = data.aws_region.current.name
+      "awslogs-stream-prefix" = aws_cloudwatch_log_group.log.name
+    }
   }
-}
-EOF
-
 }
 
