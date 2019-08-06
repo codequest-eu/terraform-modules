@@ -1,4 +1,6 @@
 provider "aws" {
+  version = "~> 2.22.0"
+
   region = "eu-west-1" # Ireland
 }
 
@@ -11,6 +13,8 @@ module "aws_account" {
 }
 
 provider "aws" {
+  version = "~> 2.22.0"
+
   alias = "account"
 
   region              = "eu-west-1"                  # Ireland
