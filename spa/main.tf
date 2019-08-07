@@ -113,16 +113,24 @@ resource "aws_cloudfront_distribution" "assets" {
       }
     }
 
-    lambda_function_association {
-      event_type   = "viewer-request"
-      lambda_arn   = module.basic_auth.arn
-      include_body = false
+    dynamic "lambda_function_association" {
+      for_each = var.basic_auth_credentials != null ? [1] : []
+
+      content {
+        event_type   = "viewer-request"
+        lambda_arn   = module.basic_auth.arn
+        include_body = false
+      }
     }
 
-    lambda_function_association {
-      event_type   = "origin-request"
-      lambda_arn   = module.pull_request_router.arn
-      include_body = false
+    dynamic "lambda_function_association" {
+      for_each = var.pull_request_router ? [1] : []
+
+      content {
+        event_type   = "origin-request"
+        lambda_arn   = module.pull_request_router.arn
+        include_body = false
+      }
     }
   }
 
@@ -153,6 +161,8 @@ module "middleware_common" {
 }
 
 data "template_file" "basic_auth" {
+  count = var.basic_auth_credentials != null ? 1 : 0
+
   template = file("${path.module}/templates/basic-auth.js")
 
   vars = {
@@ -162,9 +172,10 @@ data "template_file" "basic_auth" {
 
 module "basic_auth" {
   source = "./middleware"
+  create = var.basic_auth_credentials != null
 
   name     = "${local.name_prefix}-basic-auth"
-  code     = data.template_file.basic_auth.rendered
+  code     = data.template_file.basic_auth[0].rendered
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 
@@ -174,6 +185,8 @@ module "basic_auth" {
 }
 
 data "template_file" "pull_request_router" {
+  count = var.pull_request_router ? 1 : 0
+
   template = file("${path.module}/templates/pull-request-router.js")
 
   vars = {
@@ -183,9 +196,10 @@ data "template_file" "pull_request_router" {
 
 module "pull_request_router" {
   source = "./middleware"
+  create = var.pull_request_router
 
   name     = "${local.name_prefix}-pull-request-router"
-  code     = data.template_file.pull_request_router.rendered
+  code     = data.template_file.pull_request_router[0].rendered
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 

@@ -1,3 +1,13 @@
+# TODO: replace create with count/for_each once it is supported by terraform for modules
+# https://www.terraform.io/docs/configuration/modules.html#other-meta-arguments
+# https://github.com/hashicorp/terraform/issues/953
+# https://github.com/hashicorp/terraform/issues/17519
+
+variable "create" {
+  type    = bool
+  default = true
+}
+
 variable "name" {
   type = string
 }

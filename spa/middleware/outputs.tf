@@ -1,4 +1,4 @@
 output "arn" {
-  value = aws_lambda_function.middleware.qualified_arn
+  value = var.create ? aws_lambda_function.middleware[0].qualified_arn : null
 }
 

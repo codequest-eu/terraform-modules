@@ -56,6 +56,13 @@ variable "bucket" {
 variable "basic_auth_credentials" {
   description = "Basic auth credentials in user:pass format"
   type        = string
+  default     = null
+}
+
+variable "pull_request_router" {
+  description = "Enables routing for pull request subdirectories"
+  type        = bool
+  default     = false
 }
 
 variable "pull_request_path_re" {

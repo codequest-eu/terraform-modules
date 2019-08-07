@@ -5,6 +5,8 @@ locals {
 }
 
 data "archive_file" "archive" {
+  count = var.create ? 1 : 0
+
   type        = "zip"
   output_path = local.archive_path
 
@@ -15,6 +17,9 @@ data "archive_file" "archive" {
 }
 
 resource "aws_lambda_function" "middleware" {
+  count      = var.create ? 1 : 0
+  depends_on = [data.archive_file.archive[0]]
+
   filename      = local.archive_path
   function_name = var.name
   role          = var.role_arn

@@ -27,9 +27,9 @@ The [`master`](https://github.com/codequest-eu/terraform-single-page-app/tree/ma
   Combines `basic-auth` and `pull-request-router`. Should be used for preview environments.
 
 > **But Why!?**
-> 
-> [`aws_cloudfront_distribution`](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html) uses `lambda_function_association` blocks to add Lambda@Edge hooks, unfortunately `lambda_function_association` doesn't have any `enabled` flag, which means, as of terraform 0.11, it's not possible to add only some associations based on variables. 
-> 
+>
+> [`aws_cloudfront_distribution`](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html) uses `lambda_function_association` blocks to add Lambda@Edge hooks, unfortunately `lambda_function_association` doesn't have any `enabled` flag, which means, as of terraform 0.11, it's not possible to add only some associations based on variables.
+>
 > This could be solved by:
 > - terraform AWS provider by making `lambda_function_association` it's own resource, which we could toggle by setting `count`
 > - terraform 0.12 which will make the configuration language a lot more powerful
@@ -38,7 +38,7 @@ The [`master`](https://github.com/codequest-eu/terraform-single-page-app/tree/ma
 
 | Name                            | Description                                                                                                                                 |  Type  |       Default        | Required |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :------------------: | :------: |
-| basic\_auth\_credentials        | Basic auth credentials in user:pass format                                                                                                  | string |         n/a          |   yes    |
+| basic\_auth\_credentials        | Basic auth credentials in user:pass format                                                                                                  | string |        `null`        |    no    |
 | bucket                          | Kebab-cased bucket name override                                                                                                            | string |         `""`         |    no    |
 | certificate\_arn                | ACM certificate ARN to use instead of the default cloudfront certificate                                                                    | string |         `""`         |    no    |
 | cloudfront\_price\_class        | CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass_100, PriceClass_200, PriceClass_All | string |  `"PriceClass_100"`  |    no    |
@@ -46,6 +46,7 @@ The [`master`](https://github.com/codequest-eu/terraform-single-page-app/tree/ma
 | environment                     | Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names                      | string |         n/a          |   yes    |
 | project                         | Kebab-cased name of the project. Will be included in resource names                                                                         | string |         n/a          |   yes    |
 | pull\_request\_path\_re         | Regular expression which extracts the base directory of a PR as it's first match group                                                      | string | `"^/(PR-\\d+)($|/)"` |    no    |
+| pull\_request\_router           | Enables routing for pull request subdirectories                                                                                             |  bool  |       `false`        |    no    |
 | static\_cors\_max\_age\_seconds | How long can CORS OPTIONS request responses be cached                                                                                       | string |       `"3600"`       |    no    |
 | static\_path                    | Base path for static assets                                                                                                                 | string |     `"/static"`      |    no    |
 | tags                            | Additional tags to add to each resource that supports them                                                                                  |  map   |       `<map>`        |    no    |
