@@ -16,7 +16,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "assets" {
-  bucket = var.bucket != "" ? var.bucket : "${local.name_prefix}-assets"
+  bucket = var.bucket != null ? var.bucket : "${local.name_prefix}-assets"
   acl    = "private"
   tags   = local.tags
 
@@ -133,7 +133,7 @@ resource "aws_cloudfront_distribution" "assets" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = var.certificate_arn == "" ? true : false
+    cloudfront_default_certificate = var.certificate_arn == null
 
     acm_certificate_arn = var.certificate_arn
     ssl_support_method  = "sni-only"
