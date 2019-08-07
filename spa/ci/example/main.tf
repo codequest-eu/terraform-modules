@@ -21,7 +21,8 @@ module "ci" {
   project = "terraform-spa-ci-example"
 
   bucket_arns = [
-    "${module.dev.bucket_arn}",
-    "${module.preview.bucket_arn}",
+    module.dev.bucket_arn,
+    module.preview.bucket_arn,
   ]
 }
+

@@ -7,13 +7,13 @@ variable "environment" {
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   description = "Additional tags to add to each resource that supports them"
   default     = {}
 }
 
 variable "domains" {
-  type        = "list"
+  type        = list(string)
   description = "List of domains which will serve the application. If empty, will use the default cloudfront domain"
   default     = []
 }
@@ -55,3 +55,4 @@ variable "pull_request_path_re" {
   description = "Regular expression which extracts the base directory of a PR as it's first match group"
   default     = "^/(PR-\\d+)($|/)"
 }
+

@@ -15,5 +15,6 @@ data "aws_iam_policy_document" "middleware" {
 
 resource "aws_iam_role" "role" {
   name               = "${var.name_prefix}-middleware"
-  assume_role_policy = "${data.aws_iam_policy_document.middleware.json}"
+  assume_role_policy = data.aws_iam_policy_document.middleware.json
 }
+

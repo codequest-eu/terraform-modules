@@ -1,6 +1,11 @@
-variable "name" {}
-variable "code" {}
-variable "role_arn" {}
+variable "name" {
+}
+
+variable "code" {
+}
+
+variable "role_arn" {
+}
 
 variable "runtime" {
   default = "nodejs8.10"
@@ -13,3 +18,4 @@ variable "handler" {
 variable "tags" {
   default = {}
 }
+

@@ -1,21 +1,21 @@
 locals {
   default_tags = {
-    Project = "${var.project}"
+    Project = var.project
   }
 
-  tags = "${merge(local.default_tags, var.tags)}"
+  tags = merge(local.default_tags, var.tags)
 }
 
 resource "aws_iam_user" "ci" {
   name = "${var.project}-ci"
-  tags = "${local.tags}"
+  tags = local.tags
 }
 
 data "aws_iam_policy_document" "ci" {
   # List buckets
   statement {
     actions   = ["s3:ListBucket"]
-    resources = ["${var.bucket_arns}"]
+    resources = var.bucket_arns
   }
 
   # Sync assets
@@ -28,16 +28,17 @@ data "aws_iam_policy_document" "ci" {
       "s3:ListMultipartUploadParts",
     ]
 
-    resources = ["${formatlist("%s/*", var.bucket_arns)}"]
+    resources = formatlist("%s/*", var.bucket_arns)
   }
 }
 
 resource "aws_iam_user_policy" "ci" {
-  name   = "${aws_iam_user.ci.name}"
-  user   = "${aws_iam_user.ci.name}"
-  policy = "${data.aws_iam_policy_document.ci.json}"
+  name   = aws_iam_user.ci.name
+  user   = aws_iam_user.ci.name
+  policy = data.aws_iam_policy_document.ci.json
 }
 
 resource "aws_iam_access_key" "ci" {
-  user = "${aws_iam_user.ci.name}"
+  user = aws_iam_user.ci.name
 }
+

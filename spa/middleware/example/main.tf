@@ -9,9 +9,9 @@ module "common" {
 }
 
 data "template_file" "hello" {
-  template = "${file("${path.module}/greeter.js")}"
+  template = file("${path.module}/greeter.js")
 
-  vars {
+  vars = {
     greeting = "hello"
     subject  = "world"
   }
@@ -21,8 +21,8 @@ module "hello" {
   source = "./.."
 
   name     = "terraform-spa-middleware-example"
-  code     = "${data.template_file.hello.rendered}"
-  role_arn = "${module.common.role_arn}"
+  code     = data.template_file.hello.rendered
+  role_arn = module.common.role_arn
 
   tags = {
     Project     = "terraform-spa"
@@ -30,3 +30,4 @@ module "hello" {
     Environment = "example"
   }
 }
+

@@ -14,9 +14,9 @@ module "basic" {
   # source = "github.com/codequest-eu/terraform-single-page-app?ref={commit}"
   source = "./.."
 
-  providers {
-    aws            = "aws"
-    aws.middleware = "aws.middleware"
+  providers = {
+    aws            = aws
+    aws.middleware = aws.middleware
   }
 
   # only project name and environment are required
@@ -26,9 +26,10 @@ module "basic" {
 }
 
 resource "aws_s3_bucket_object" "basic_index" {
-  bucket        = "${module.basic.bucket_name}"
+  bucket        = module.basic.bucket_name
   key           = "PR-1/index.html"
   content       = "<h1>Hello world</h1>"
   content_type  = "text/html"
   cache_control = "no-cache no-store"
 }
+
