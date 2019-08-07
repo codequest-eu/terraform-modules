@@ -15,7 +15,7 @@ module "preview" {
 }
 
 module "ci" {
-  source  = ".."
+  source  = "./.."
   project = "terraform-spa-ci-example"
 
   bucket_arns = [

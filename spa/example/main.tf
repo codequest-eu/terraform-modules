@@ -12,7 +12,7 @@ provider "aws" {
 # terraform output -module basic
 module "basic" {
   # source = "github.com/codequest-eu/terraform-single-page-app?ref={commit}"
-  source = ".."
+  source = "./.."
 
   providers {
     aws            = "aws"

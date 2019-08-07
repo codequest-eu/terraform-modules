@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "common" {
-  source = "../../middleware_common"
+  source = "./../../middleware_common"
 
   name_prefix = "terraform-spa-middleware-example"
 }
@@ -18,7 +18,7 @@ data "template_file" "hello" {
 }
 
 module "hello" {
-  source = ".."
+  source = "./.."
 
   name     = "terraform-spa-middleware-example"
   code     = "${data.template_file.hello.rendered}"
