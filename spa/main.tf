@@ -2,6 +2,19 @@ provider "aws" {
   alias = "middleware"
 }
 
+locals {
+  name_prefix = "${var.project}-${var.environment}"
+
+  default_tags = {
+    Project     = var.project
+    Environment = var.environment
+  }
+
+  tags = merge(local.default_tags, var.tags)
+
+  urls = formatlist("https://%s", var.domains)
+}
+
 resource "aws_s3_bucket" "assets" {
   bucket = var.bucket != "" ? var.bucket : "${local.name_prefix}-assets"
   acl    = "private"
