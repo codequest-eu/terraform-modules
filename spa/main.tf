@@ -144,7 +144,7 @@ resource "aws_cloudfront_distribution" "assets" {
     cloudfront_default_certificate = var.certificate_arn == null
 
     acm_certificate_arn = var.certificate_arn
-    ssl_support_method  = "sni-only"
+    ssl_support_method  = var.certificate_arn != null ? "sni-only" : null
   }
 
   tags = local.tags
