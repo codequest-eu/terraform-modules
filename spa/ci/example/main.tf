@@ -3,15 +3,17 @@ provider "aws" {
 }
 
 module "dev" {
-  source      = "../.."
-  project     = "terraform-spa-ci-example"
-  environment = "dev"
+  source                 = "../.."
+  project                = "terraform-spa-ci-example"
+  environment            = "dev"
+  basic_auth_credentials = "user:pass"
 }
 
 module "preview" {
-  source      = "../.."
-  project     = "terraform-spa-ci-example"
-  environment = "preview"
+  source                 = "../.."
+  project                = "terraform-spa-ci-example"
+  environment            = "preview"
+  basic_auth_credentials = "user:pass"
 }
 
 module "ci" {
