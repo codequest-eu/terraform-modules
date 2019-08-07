@@ -8,31 +8,8 @@ Module creates:
 
 - AWS S3 bucket for storing assets
 - AWS CloudFront distribution for serving the assets
-
-## Variants
-
-The [`master`](https://github.com/codequest-eu/terraform-single-page-app/tree/master) branch should be used for public production deployments, for development environments you might want to use:
-
-- [`basic-auth`](https://github.com/codequest-eu/terraform-single-page-app/tree/basic-auth)
-
-  Adds a AWS Lambda@Edge which protects the `index.html` using basic auth.
-  Should be used for development and staging environments.
-
-- [`pull-request-router`](https://github.com/codequest-eu/terraform-single-page-app/tree/pull-request-router)
-
-  Adds a AWS Lambda@Edge which routes traffic to Pull Request specific `index.html`
-
-- [`basic-auth-and-pull-request-router`](https://github.com/codequest-eu/terraform-single-page-app/tree/basic-auth-and-pull-request-router)
-
-  Combines `basic-auth` and `pull-request-router`. Should be used for preview environments.
-
-> **But Why!?**
->
-> [`aws_cloudfront_distribution`](https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html) uses `lambda_function_association` blocks to add Lambda@Edge hooks, unfortunately `lambda_function_association` doesn't have any `enabled` flag, which means, as of terraform 0.11, it's not possible to add only some associations based on variables.
->
-> This could be solved by:
-> - terraform AWS provider by making `lambda_function_association` it's own resource, which we could toggle by setting `count`
-> - terraform 0.12 which will make the configuration language a lot more powerful
+- AWS IAM role for adding middleware Lambda@Edge functions
+- Optional basic auth and pull request routing Lambdas
 
 ## Inputs
 
