@@ -4,8 +4,9 @@
 # https://github.com/hashicorp/terraform/issues/17519
 
 variable "create" {
-  type    = bool
+  description = "Should resources be created"
   default = true
+  type = bool
 }
 
 variable "name" {

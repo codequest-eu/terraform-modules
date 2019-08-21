@@ -1,3 +1,9 @@
+variable "create" {
+  description = "Should resources be created"
+  default = true
+  type = bool
+}
+
 variable "role_arn" {
   description = "The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services."
   type        = string
