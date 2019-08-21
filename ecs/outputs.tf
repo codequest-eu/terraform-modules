@@ -1,9 +1,11 @@
 output "name" {
-  value = aws_ecs_cluster.cluster.name
+  value       = var.create ? aws_ecs_cluster.cluster[0].name : null
+  description = "Cluster name"
 }
 
 output "arn" {
-  value = aws_ecs_cluster.cluster.arn
+  value       = var.create ? aws_ecs_cluster.cluster[0].arn : null
+  description = "Cluster ARN"
 }
 
 # network outputs

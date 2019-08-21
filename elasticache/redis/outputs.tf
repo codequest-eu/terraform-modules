@@ -1,6 +1,6 @@
 output "host" {
   description = "First Redis instance host"
-  value       = aws_elasticache_cluster.cache.cache_nodes[0].address
+  value       = var.create ? aws_elasticache_cluster.cache[0].cache_nodes[0].address : null
 }
 
 output "port" {
@@ -10,11 +10,11 @@ output "port" {
 
 output "url" {
   description = "First Redis instance connection url"
-  value       = "redis://${aws_elasticache_cluster.cache.cache_nodes[0].address}:${var.port}"
+  value       = var.create ? "redis://${aws_elasticache_cluster.cache[0].cache_nodes[0].address}:${var.port}" : null
 }
 
 locals {
-  hosts = aws_elasticache_cluster.cache.cache_nodes.*.address
+  hosts = var.create ? aws_elasticache_cluster.cache[0].cache_nodes.*.address : null
 }
 
 output "hosts" {
@@ -24,6 +24,6 @@ output "hosts" {
 
 output "urls" {
   description = "Redis connection urls"
-  value       = formatlist("redis://%s:%s", local.hosts, var.port)
+  value       = var.create ? formatlist("redis://%s:%s", local.hosts, var.port) : null
 }
 

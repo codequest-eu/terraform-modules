@@ -1,8 +1,8 @@
 output "role_name" {
-  value = aws_iam_role.role.name
+  value = var.create ? aws_iam_role.role[0].name : null
 }
 
 output "role_arn" {
-  value = aws_iam_role.role.arn
+  value = var.create ? aws_iam_role.role[0].arn : null
 }
 
