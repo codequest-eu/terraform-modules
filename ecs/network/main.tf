@@ -14,10 +14,11 @@ locals {
 }
 
 data "aws_availability_zones" "zones" {
+  count = var.create ? 1 : 0
 }
 
 locals {
-  az_names = slice(data.aws_availability_zones.zones.names, 0, 3)
+  az_names = var.create ? slice(data.aws_availability_zones.zones[0].names, 0, 3) : []
 
   # Divide the VPC address range into 4 blocks, 3 for AZs and one spare
   az_blocks = [
@@ -42,19 +43,23 @@ locals {
 }
 
 resource "aws_vpc" "cloud" {
+  count = var.create ? 1 : 0
+
   cidr_block = local.vpc_block
   tags       = local.tags
 }
 
 resource "aws_internet_gateway" "gateway" {
-  vpc_id = aws_vpc.cloud.id
+  count = var.create ? 1 : 0
+
+  vpc_id = aws_vpc.cloud[0].id
   tags   = local.tags
 }
 
 resource "aws_subnet" "private" {
-  count = var.availability_zones_count
+  count = var.create ? var.availability_zones_count : 0
 
-  vpc_id                  = aws_vpc.cloud.id
+  vpc_id                  = aws_vpc.cloud[0].id
   availability_zone       = element(local.az_names, count.index)
   cidr_block              = element(local.az_private_blocks, count.index)
   map_public_ip_on_launch = false
@@ -68,9 +73,9 @@ resource "aws_subnet" "private" {
 
 resource "aws_subnet" "public" {
   # HACK: ALB requires at least 2 subnets in different AZs
-  count = max(2, var.availability_zones_count)
+  count = var.create ? max(2, var.availability_zones_count) : 0
 
-  vpc_id                  = aws_vpc.cloud.id
+  vpc_id                  = aws_vpc.cloud[0].id
   availability_zone       = element(local.az_names, count.index)
   cidr_block              = element(local.az_public_blocks, count.index)
   map_public_ip_on_launch = true
@@ -83,8 +88,8 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_eip" "public_nat" {
-  count      = var.availability_zones_count
-  depends_on = [aws_internet_gateway.gateway]
+  count      = var.create ? var.availability_zones_count : 0
+  depends_on = [aws_internet_gateway.gateway[0]]
 
   vpc = true
   tags = merge(
@@ -96,10 +101,10 @@ resource "aws_eip" "public_nat" {
 }
 
 resource "aws_nat_gateway" "public" {
-  count = var.nat_instance ? 0 : var.availability_zones_count
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
-  allocation_id = element(aws_eip.public_nat.*.id, count.index)
-  subnet_id     = element(aws_subnet.public.*.id, count.index)
+  allocation_id = element(aws_eip.public_nat[*].id, count.index)
+  subnet_id     = element(aws_subnet.public[*].id, count.index)
   tags = merge(
     local.tags,
     {
@@ -109,6 +114,8 @@ resource "aws_nat_gateway" "public" {
 }
 
 data "aws_ami" "nat" {
+  count = var.create ? 1 : 0
+
   most_recent = true
   owners      = ["amazon"]
 
@@ -119,11 +126,11 @@ data "aws_ami" "nat" {
 }
 
 resource "aws_instance" "nat" {
-  count = var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && var.nat_instance ? var.availability_zones_count : 0
 
-  ami                    = data.aws_ami.nat.id
+  ami                    = data.aws_ami.nat[0].id
   instance_type          = var.nat_instance_type
-  subnet_id              = element(aws_subnet.public.*.id, count.index)
+  subnet_id              = element(aws_subnet.public[*].id, count.index)
   vpc_security_group_ids = [aws_security_group.nat[0].id]
   tags = merge(
     local.tags,
@@ -131,21 +138,21 @@ resource "aws_instance" "nat" {
       "Name" = "${local.name}-nat-${count.index}"
     },
   )
-  key_name          = aws_key_pair.bastion.key_name
+  key_name          = aws_key_pair.bastion[0].key_name
   source_dest_check = false
 }
 
 resource "aws_security_group" "nat" {
-  count = var.nat_instance ? 1 : 0
+  count = var.create && var.nat_instance ? 1 : 0
 
   name   = "${local.name}-nat"
-  vpc_id = aws_vpc.cloud.id
+  vpc_id = aws_vpc.cloud[0].id
 
   ingress {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.bastion.id]
+    security_groups = [aws_security_group.bastion[0].id]
   }
 
   ingress {
@@ -164,8 +171,10 @@ resource "aws_security_group" "nat" {
 }
 
 resource "aws_security_group" "lb" {
+  count = var.create ? 1 : 0
+
   name   = "${local.name}-lb"
-  vpc_id = aws_vpc.cloud.id
+  vpc_id = aws_vpc.cloud[0].id
 
   ingress {
     from_port   = 0
@@ -190,15 +199,19 @@ resource "aws_security_group" "lb" {
 }
 
 resource "aws_lb" "lb" {
+  count = var.create ? 1 : 0
+
   name               = local.name
   load_balancer_type = "application"
-  subnets            = aws_subnet.public.*.id
-  security_groups    = [aws_security_group.lb.id]
+  subnets            = aws_subnet.public[*].id
+  security_groups    = [aws_security_group.lb[0].id]
   tags               = local.tags
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.lb.arn
+  count = var.create ? 1 : 0
+
+  load_balancer_arn = aws_lb.lb[0].arn
   port              = "80"
   protocol          = "HTTP"
 
@@ -214,12 +227,16 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "tls_private_key" "lb_default" {
+  count = var.create ? 1 : 0
+
   algorithm = "RSA"
 }
 
 resource "tls_self_signed_cert" "lb_default" {
+  count = var.create ? 1 : 0
+
   key_algorithm         = "RSA"
-  private_key_pem       = tls_private_key.lb_default.private_key_pem
+  private_key_pem       = tls_private_key.lb_default[0].private_key_pem
   validity_period_hours = 365 * 24
 
   allowed_uses = [
@@ -229,21 +246,25 @@ resource "tls_self_signed_cert" "lb_default" {
   ]
 
   subject {
-    common_name = aws_lb.lb.dns_name
+    common_name = aws_lb.lb[0].dns_name
   }
 }
 
 resource "aws_acm_certificate" "lb_default" {
-  private_key      = tls_private_key.lb_default.private_key_pem
-  certificate_body = tls_self_signed_cert.lb_default.cert_pem
+  count = var.create ? 1 : 0
+
+  private_key      = tls_private_key.lb_default[0].private_key_pem
+  certificate_body = tls_self_signed_cert.lb_default[0].cert_pem
 }
 
 resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.lb.arn
+  count = var.create ? 1 : 0
+
+  load_balancer_arn = aws_lb.lb[0].arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate.lb_default.arn
+  certificate_arn   = aws_acm_certificate.lb_default[0].arn
 
   default_action {
     type = "fixed-response"
@@ -257,8 +278,10 @@ resource "aws_lb_listener" "https" {
 }
 
 resource "aws_security_group" "bastion" {
+  count = var.create ? 1 : 0
+
   name   = "${local.name}-bastions"
-  vpc_id = aws_vpc.cloud.id
+  vpc_id = aws_vpc.cloud[0].id
 
   ingress {
     from_port   = 22
@@ -283,8 +306,10 @@ resource "aws_security_group" "bastion" {
 }
 
 resource "aws_security_group" "hosts" {
+  count = var.create ? 1 : 0
+
   name   = "${local.name}-hosts"
-  vpc_id = aws_vpc.cloud.id
+  vpc_id = aws_vpc.cloud[0].id
 
   ingress {
     from_port = 0
@@ -292,8 +317,8 @@ resource "aws_security_group" "hosts" {
     protocol  = "-1"
 
     security_groups = [
-      aws_security_group.lb.id,
-      aws_security_group.bastion.id,
+      aws_security_group.lb[0].id,
+      aws_security_group.bastion[0].id,
     ]
   }
 
@@ -313,9 +338,9 @@ resource "aws_security_group" "hosts" {
 }
 
 resource "aws_route_table" "private" {
-  count = var.availability_zones_count
+  count = var.create ? var.availability_zones_count : 0
 
-  vpc_id = aws_vpc.cloud.id
+  vpc_id = aws_vpc.cloud[0].id
   tags = merge(
     local.tags,
     {
@@ -325,30 +350,32 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private_default" {
-  count = var.nat_instance ? 0 : var.availability_zones_count
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
-  route_table_id         = element(aws_route_table.private.*.id, count.index)
+  route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.public.*.id, count.index)
+  nat_gateway_id         = element(aws_nat_gateway.public[*].id, count.index)
 }
 
 resource "aws_route" "private_default_instance" {
-  count = var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && var.nat_instance ? var.availability_zones_count : 0
 
-  route_table_id         = element(aws_route_table.private.*.id, count.index)
+  route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  instance_id            = element(aws_instance.nat.*.id, count.index)
+  instance_id            = element(aws_instance.nat[*].id, count.index)
 }
 
 resource "aws_route_table_association" "private" {
-  count = var.availability_zones_count
+  count = var.create ? var.availability_zones_count : 0
 
-  route_table_id = element(aws_route_table.private.*.id, count.index)
-  subnet_id      = element(aws_subnet.private.*.id, count.index)
+  route_table_id = element(aws_route_table.private[*].id, count.index)
+  subnet_id      = element(aws_subnet.private[*].id, count.index)
 }
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.cloud.id
+  count = var.create ? 1 : 0
+
+  vpc_id = aws_vpc.cloud[0].id
   tags = merge(
     local.tags,
     {
@@ -358,19 +385,23 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route" "public_default" {
-  route_table_id         = aws_route_table.public.id
+  count = var.create ? 1 : 0
+
+  route_table_id         = aws_route_table.public[0].id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.gateway.id
+  gateway_id             = aws_internet_gateway.gateway[0].id
 }
 
 resource "aws_route_table_association" "public" {
-  count = var.availability_zones_count
+  count = var.create ? var.availability_zones_count : 0
 
-  route_table_id = aws_route_table.public.id
-  subnet_id      = element(aws_subnet.public.*.id, count.index)
+  route_table_id = aws_route_table.public[0].id
+  subnet_id      = element(aws_subnet.public[*].id, count.index)
 }
 
 data "aws_ami" "ubuntu_1804" {
+  count = var.create ? 1 : 0
+
   most_recent = true
   owners      = ["099720109477"]
 
@@ -381,27 +412,33 @@ data "aws_ami" "ubuntu_1804" {
 }
 
 resource "tls_private_key" "bastion" {
+  count = var.create ? 1 : 0
+
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
 resource "aws_key_pair" "bastion" {
+  count = var.create ? 1 : 0
+
   key_name   = "${local.name}-bastion"
-  public_key = tls_private_key.bastion.public_key_openssh
+  public_key = tls_private_key.bastion[0].public_key_openssh
 }
 
 resource "aws_instance" "bastion" {
-  count                  = var.availability_zones_count
-  ami                    = data.aws_ami.ubuntu_1804.id
+  count = var.create ? var.availability_zones_count : 0
+
+  ami                    = data.aws_ami.ubuntu_1804[0].id
   instance_type          = "t3.nano"
-  subnet_id              = element(aws_subnet.public.*.id, count.index)
-  vpc_security_group_ids = [aws_security_group.bastion.id]
+  subnet_id              = element(aws_subnet.public[*].id, count.index)
+  vpc_security_group_ids = [aws_security_group.bastion[0].id]
+  key_name               = aws_key_pair.bastion[0].key_name
+
   tags = merge(
     local.tags,
     {
       "Name" = "${local.name}-bastion-${count.index}"
     },
   )
-  key_name = aws_key_pair.bastion.key_name
 }
 

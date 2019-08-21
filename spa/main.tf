@@ -16,6 +16,8 @@ locals {
 }
 
 resource "aws_s3_bucket" "assets" {
+  count = var.create ? 1 : 0
+
   bucket = var.bucket != null ? var.bucket : "${local.name_prefix}-assets"
   acl    = "private"
   tags   = local.tags
@@ -30,42 +32,49 @@ resource "aws_s3_bucket" "assets" {
 }
 
 resource "aws_s3_bucket_policy" "assets" {
-  bucket = aws_s3_bucket.assets.id
-  policy = data.aws_iam_policy_document.assets_cdn.json
+  count = var.create ? 1 : 0
+
+  bucket = aws_s3_bucket.assets[0].id
+  policy = data.aws_iam_policy_document.assets_cdn[0].json
 }
 
 data "aws_iam_policy_document" "assets_cdn" {
+  count = var.create ? 1 : 0
+
   statement {
     actions   = ["s3:ListBucket"]
-    resources = [aws_s3_bucket.assets.arn]
+    resources = [aws_s3_bucket.assets[0].arn]
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.assets.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.assets[0].iam_arn]
     }
   }
 
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.assets.arn}/*"]
+    resources = ["${aws_s3_bucket.assets[0].arn}/*"]
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.assets.iam_arn]
+      identifiers = [aws_cloudfront_origin_access_identity.assets[0].iam_arn]
     }
   }
 }
 
 resource "aws_cloudfront_origin_access_identity" "assets" {
+  count = var.create ? 1 : 0
 }
 
 resource "aws_cloudfront_distribution" "assets" {
+  count = var.create ? 1 : 0
+
   origin {
-    domain_name = aws_s3_bucket.assets.bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.assets.id
+    domain_name = aws_s3_bucket.assets[0].bucket_regional_domain_name
+    origin_id   = aws_s3_bucket.assets[0].id
 
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.assets.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.assets[0].cloudfront_access_identity_path
     }
   }
 
@@ -79,7 +88,7 @@ resource "aws_cloudfront_distribution" "assets" {
     path_pattern           = "${var.static_path}/*"
     allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id       = aws_s3_bucket.assets.id
+    target_origin_id       = aws_s3_bucket.assets[0].id
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
 
@@ -101,7 +110,7 @@ resource "aws_cloudfront_distribution" "assets" {
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = aws_s3_bucket.assets.id
+    target_origin_id       = aws_s3_bucket.assets[0].id
     viewer_protocol_policy = "redirect-to-https"
     compress               = true
 
@@ -152,6 +161,7 @@ resource "aws_cloudfront_distribution" "assets" {
 
 module "middleware_common" {
   source = "./middleware_common"
+  create = var.create
 
   name_prefix = local.name_prefix
 
@@ -161,7 +171,7 @@ module "middleware_common" {
 }
 
 data "template_file" "basic_auth" {
-  count = var.basic_auth_credentials != null ? 1 : 0
+  count = var.create && var.basic_auth_credentials != null ? 1 : 0
 
   template = file("${path.module}/templates/basic-auth.js")
 
@@ -172,7 +182,7 @@ data "template_file" "basic_auth" {
 
 module "basic_auth" {
   source = "./middleware"
-  create = var.basic_auth_credentials != null
+  create = var.create && var.basic_auth_credentials != null
 
   name     = "${local.name_prefix}-basic-auth"
   code     = data.template_file.basic_auth[0].rendered
@@ -185,7 +195,7 @@ module "basic_auth" {
 }
 
 data "template_file" "pull_request_router" {
-  count = var.pull_request_router ? 1 : 0
+  count = var.create && var.pull_request_router ? 1 : 0
 
   template = file("${path.module}/templates/pull-request-router.js")
 
@@ -196,7 +206,7 @@ data "template_file" "pull_request_router" {
 
 module "pull_request_router" {
   source = "./middleware"
-  create = var.pull_request_router
+  create = var.create && var.pull_request_router
 
   name     = "${local.name_prefix}-pull-request-router"
   code     = data.template_file.pull_request_router[0].rendered

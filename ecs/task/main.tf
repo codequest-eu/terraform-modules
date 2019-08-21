@@ -2,12 +2,13 @@ locals {
   family    = "${var.project}-${var.environment}-${var.task}"
   container = var.container != null ? var.container : var.task
 
-  image_tag = var.image_tag != null ? var.image_tag : data.aws_ecs_container_definition.current.0.image_digest
+  image_tag = var.image_tag != null ? var.image_tag : data.aws_ecs_container_definition.current[0].image_digest
   image     = var.image != null ? var.image : "${var.image_name}:${local.image_tag}"
 }
 
 module "container_log" {
   source = "./log_group"
+  create = var.create
 
   project     = var.project
   environment = var.environment
@@ -17,13 +18,14 @@ module "container_log" {
 }
 
 data "aws_ecs_container_definition" "current" {
-  count           = var.image_tag != null ? 0 : 1
+  count           = var.create && var.image_tag == null ? 1 : 0
   task_definition = local.family
   container_name  = local.container
 }
 
 module "container" {
   source = "./container_definition"
+  create = var.create
 
   name                  = local.container
   image                 = local.image
@@ -40,6 +42,8 @@ module "container" {
 }
 
 resource "aws_ecs_task_definition" "task" {
+  count = var.create ? 1 : 0
+
   family                = local.family
   container_definitions = jsonencode([module.container.definition])
   task_role_arn         = var.role_arn

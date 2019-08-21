@@ -11,6 +11,8 @@ locals {
 }
 
 resource "aws_security_group" "cache" {
+  count = var.create ? 1 : 0
+
   name   = "${local.name}-cache"
   vpc_id = var.vpc_id
   tags = merge(
@@ -22,9 +24,9 @@ resource "aws_security_group" "cache" {
 }
 
 resource "aws_security_group_rule" "private" {
-  count = length(var.security_group_ids)
+  count = var.create ? length(var.security_group_ids) : 0
 
-  security_group_id        = aws_security_group.cache.id
+  security_group_id        = aws_security_group.cache[0].id
   type                     = "ingress"
   from_port                = 0
   to_port                  = 0
@@ -33,11 +35,15 @@ resource "aws_security_group_rule" "private" {
 }
 
 resource "aws_elasticache_subnet_group" "cache" {
+  count = var.create ? 1 : 0
+
   name       = local.name
   subnet_ids = var.subnet_ids
 }
 
 resource "aws_elasticache_cluster" "cache" {
+  count = var.create ? 1 : 0
+
   cluster_id = var.id != null ? var.id : local.name
 
   engine               = "redis"
@@ -46,8 +52,8 @@ resource "aws_elasticache_cluster" "cache" {
   num_cache_nodes      = var.instance_count
   parameter_group_name = var.parameter_group_name
   port                 = var.port
-  subnet_group_name    = aws_elasticache_subnet_group.cache.name
-  security_group_ids   = [aws_security_group.cache.id]
+  subnet_group_name    = aws_elasticache_subnet_group.cache[0].name
+  security_group_ids   = [aws_security_group.cache[0].id]
 
   tags = local.tags
 }

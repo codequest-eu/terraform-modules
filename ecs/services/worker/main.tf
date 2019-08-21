@@ -1,4 +1,6 @@
 resource "aws_ecs_service" "service" {
+  count = var.create ? 1 : 0
+
   name                               = var.name
   cluster                            = var.cluster_arn
   task_definition                    = var.task_definition_arn

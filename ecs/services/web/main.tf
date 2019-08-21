@@ -1,5 +1,5 @@
 locals {
-  cluster_name = substr(data.aws_arn.cluster.resource, length("cluster/"), -1)
+  cluster_name = var.create ? substr(data.aws_arn.cluster[0].resource, length("cluster/"), -1) : ""
   container    = var.container != null ? var.container : var.name
 
   # make sure the default doesn't exceed 32 characters
@@ -12,10 +12,14 @@ locals {
 }
 
 data "aws_arn" "cluster" {
+  count = var.create ? 1 : 0
+
   arn = var.cluster_arn
 }
 
 resource "aws_ecs_service" "service" {
+  count = var.create ? 1 : 0
+
   name                               = var.name
   cluster                            = var.cluster_arn
   task_definition                    = var.task_definition_arn
@@ -27,7 +31,7 @@ resource "aws_ecs_service" "service" {
   iam_role                           = var.role_arn
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.service.arn
+    target_group_arn = aws_lb_target_group.service[0].arn
     container_name   = local.container
     container_port   = var.container_port
   }
@@ -38,6 +42,8 @@ resource "aws_ecs_service" "service" {
 }
 
 resource "aws_lb_target_group" "service" {
+  count = var.create ? 1 : 0
+
   name                 = local.target_group_name
   protocol             = "HTTP"
   port                 = var.container_port
@@ -56,11 +62,13 @@ resource "aws_lb_target_group" "service" {
 }
 
 resource "aws_lb_listener_rule" "service" {
+  count = var.create ? 1 : 0
+
   listener_arn = var.listener_arn
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.service.arn
+    target_group_arn = aws_lb_target_group.service[0].arn
   }
 
   condition {

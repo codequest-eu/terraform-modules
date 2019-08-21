@@ -1,4 +1,6 @@
 resource "aws_acm_certificate" "cert" {
+  count = var.create ? 1 : 0
+
   domain_name               = var.domains[0]
   subject_alternative_names = slice(var.domains, 1, length(var.domains))
   validation_method         = "DNS"
@@ -14,16 +16,18 @@ resource "aws_acm_certificate" "cert" {
 # Workaround that can deal with up to 4 domains
 
 resource "aws_acm_certificate_validation" "cert" {
-  certificate_arn         = aws_acm_certificate.cert.arn
-  validation_record_fqdns = aws_route53_record.validation.*.fqdn
+  count = var.create ? 1 : 0
+
+  certificate_arn         = aws_acm_certificate.cert[0].arn
+  validation_record_fqdns = aws_route53_record.validation[*].fqdn
 }
 
 resource "aws_route53_record" "validation" {
-  count = length(var.domains)
+  count = var.create ? length(var.domains) : 0
 
   zone_id = var.hosted_zone_id
-  name    = aws_acm_certificate.cert.domain_validation_options[count.index].resource_record_name
-  type    = aws_acm_certificate.cert.domain_validation_options[count.index].resource_record_type
+  name    = aws_acm_certificate.cert[0].domain_validation_options[count.index].resource_record_name
+  type    = aws_acm_certificate.cert[0].domain_validation_options[count.index].resource_record_type
   ttl     = "60"
-  records = [aws_acm_certificate.cert.domain_validation_options[count.index].resource_record_value]
+  records = [aws_acm_certificate.cert[0].domain_validation_options[count.index].resource_record_value]
 }

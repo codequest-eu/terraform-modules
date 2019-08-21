@@ -5,6 +5,6 @@ output "definition" {
 
 output "json" {
   description = "container definition JSON"
-  value       = var.create ? jsonencode(local.definition) : null
+  value       = jsonencode(local.definition)
 }
 
