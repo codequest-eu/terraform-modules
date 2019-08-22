@@ -4,6 +4,10 @@ Terraform modules commonly used by our projects
 
 ## Modules
 
+- [`ecs`](./ecs)
+
+  Creates an ECS cluster, contains submodules for creating additional resources within the cluster.
+
 - [`meta`](./meta)
 
   Creates infrastructure for terraform itself and infrastructure CI/CD
