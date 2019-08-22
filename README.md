@@ -13,11 +13,23 @@ If you're on 0.11.x use the [`terraform-0.11`](https://github.com/codequest-eu/t
 
   Creates an ECS cluster, contains submodules for creating additional resources within the cluster.
 
+- [`elasticache/redis`](./elasticache/redis)
+
+  Creates a Redis cluster using AWS ElastiCache
+
 - [`meta`](./meta)
 
   Creates infrastructure for terraform itself and infrastructure CI/CD
 
-- [ssl/acm](./ssl/acm)
+- [`rds/postgres`](./rds/postgres)
+
+  Creates a PostgreSQL database using AWS RDS
+
+- [`spa`](./spa)
+
+  Creates common infrastructure for single page applications
+
+- [`ssl/acm`](./ssl/acm)
 
   Creates an SSL certificate using AWS ACM
 
