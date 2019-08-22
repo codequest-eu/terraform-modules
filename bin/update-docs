@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Update module documentation
+#
+# Usage:
+# bin/update-docs module/README.md
+#
+# The readme has to contain a <!-- bin/docs --> comment which signifies
+# the point where the output of bin/docs should be appended
+
+manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
+generated_docs=$(bin/docs "$(dirname $1)")
+
+echo "$manual_docs" > $1
+echo "$generated_docs" >> $1
