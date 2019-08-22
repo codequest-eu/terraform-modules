@@ -6,7 +6,7 @@ Creates an AWS user for CI/CD pipelines which can update the contents of the giv
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

@@ -6,7 +6,7 @@ Creates IAM resources needed to run host instances and services in the ECS clust
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

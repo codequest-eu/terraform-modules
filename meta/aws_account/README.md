@@ -6,7 +6,7 @@ Creates a sub-account for a given project's, environment's resources.
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

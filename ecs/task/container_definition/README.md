@@ -6,7 +6,7 @@ Creates a container definition that can be provided to a task definition
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 

@@ -38,7 +38,7 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

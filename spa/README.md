@@ -15,7 +15,7 @@ Module creates:
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

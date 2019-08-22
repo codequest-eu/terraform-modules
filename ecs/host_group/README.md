@@ -6,7 +6,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

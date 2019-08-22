@@ -6,7 +6,7 @@ Creates a CloudWatch log group for a container and outputs container logging con
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

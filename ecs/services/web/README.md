@@ -6,7 +6,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

@@ -6,7 +6,7 @@ Creates an ECR repository and a policy for CI which allows push/pull access.
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

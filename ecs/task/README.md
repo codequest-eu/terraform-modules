@@ -32,7 +32,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

@@ -32,7 +32,7 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |

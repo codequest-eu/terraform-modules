@@ -67,7 +67,7 @@ func showModuleMarkdown(module *tfconfig.Module) {
 const markdownTemplate = `
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | {{ if .RequiredCore }}{{ commas .RequiredCore | tt }}{{ else }}(any version){{ end }} |
 {{- range $name, $versions := .RequiredProviders }}

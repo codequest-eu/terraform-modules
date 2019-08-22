@@ -6,7 +6,7 @@ Creates an RDS PostgreSQL database instance
 
 ## Versions
 
-| | |
+| Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.22.0` |
