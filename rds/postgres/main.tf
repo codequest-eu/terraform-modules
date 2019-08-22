@@ -14,14 +14,14 @@ locals {
 }
 
 resource "random_string" "username" {
-  count   = var.create && var.username == null ? 1 : 0
+  count = var.create && var.username == null ? 1 : 0
 
   length  = var.username_length
   special = false
 }
 
 resource "random_string" "password" {
-  count   = var.create && var.password == null ? 1 : 0
+  count = var.create && var.password == null ? 1 : 0
 
   length  = var.password_length
   special = false

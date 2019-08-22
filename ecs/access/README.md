@@ -2,22 +2,57 @@
 
 Creates IAM resources needed to run host instances and services in the ECS cluster.
 
+<!-- bin/docs -->
+
+## Versions
+
+| | |
+|-|-|
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.22.0` |
+
 ## Inputs
 
-| Name        | Description                                                         |  Type  | Default | Required |
-| ----------- | ------------------------------------------------------------------- | :----: | :-----: | :------: |
-| environment | Kebab-cased environment name, eg. development, staging, production. | string |   n/a   |   yes    |
-| project     | Kebab-cased project name                                            | string |   n/a   |   yes    |
+* `create` (`bool`, default: `true`)
+
+    Should resources be created
+
+* `environment` (`string`, required)
+
+    Kebab-cased environment name, eg. development, staging, production.
+
+* `project` (`string`, required)
+
+    Kebab-cased project name
+
+
 
 ## Outputs
 
-| Name                     | Description                    |
-| ------------------------ | ------------------------------ |
-| host\_profile\_arn       | ECS host instance profile ARN  |
-| host\_profile\_id        | ECS host instance profile ID   |
-| host\_profile\_name      | ECS host instance profile name |
-| host\_role\_arn          | ECS host role ARN              |
-| host\_role\_name         | ECS host role name             |
-| web\_service\_role\_arn  | ECS web service task role ARN  |
-| web\_service\_role\_name | ECS web service task role name |
+* `host_profile_arn`
 
+    ECS host instance profile ARN
+
+* `host_profile_id`
+
+    ECS host instance profile ID
+
+* `host_profile_name`
+
+    ECS host instance profile name
+
+* `host_role_arn`
+
+    ECS host role ARN
+
+* `host_role_name`
+
+    ECS host role name
+
+* `web_service_role_arn`
+
+    ECS web service task role ARN
+
+* `web_service_role_name`
+
+    ECS web service task role name
