@@ -1,11 +1,11 @@
 output "id" {
   description = "AWS project account id"
-  value       = aws_organizations_account.project.id
+  value       = var.create ? aws_organizations_account.project[0].id : null
 }
 
 output "arn" {
   description = "AWS project account ARN"
-  value       = aws_organizations_account.project.arn
+  value       = var.create ? aws_organizations_account.project[0].arn : null
 }
 
 output "role_arn" {
@@ -15,6 +15,6 @@ output "role_arn" {
 
 output "provider_config" {
   description = "Terraform AWS provider block"
-  value       = data.template_file.provider_config.rendered
+  value       = var.create ? data.template_file.provider_config[0].rendered : null
 }
 

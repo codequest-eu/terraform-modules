@@ -10,21 +10,29 @@ locals {
 }
 
 data "aws_caller_identity" "current" {
+  count = var.create ? 1 : 0
 }
 
 data "aws_region" "current" {
+  count = var.create ? 1 : 0
 }
 
 resource "aws_iam_user" "ci" {
+  count = var.create ? 1 : 0
+
   name = "${local.name_prefix}-ci"
   tags = local.tags
 }
 
 resource "aws_iam_access_key" "ci" {
-  user = aws_iam_user.ci.name
+  count = var.create ? 1 : 0
+
+  user = aws_iam_user.ci[0].name
 }
 
 data "aws_iam_policy_document" "ci" {
+  count = var.create ? 1 : 0
+
   # Allow all...
   statement {
     actions   = ["*"]
@@ -37,20 +45,24 @@ data "aws_iam_policy_document" "ci" {
     actions = ["*"]
 
     resources = [
-      "${aws_s3_bucket.state.arn}/${var.meta_state_key}",
-      aws_dynamodb_table.meta_lock.arn,
-      aws_iam_user.ci.arn,
+      "${aws_s3_bucket.state[0].arn}/${var.meta_state_key}",
+      aws_dynamodb_table.meta_lock[0].arn,
+      aws_iam_user.ci[0].arn,
     ]
   }
 }
 
 resource "aws_iam_user_policy" "ci" {
-  name   = aws_iam_user.ci.name
-  user   = aws_iam_user.ci.name
-  policy = data.aws_iam_policy_document.ci.json
+  count = var.create ? 1 : 0
+
+  name   = aws_iam_user.ci[0].name
+  user   = aws_iam_user.ci[0].name
+  policy = data.aws_iam_policy_document.ci[0].json
 }
 
 resource "aws_s3_bucket" "state" {
+  count = var.create ? 1 : 0
+
   bucket = var.state_bucket != null ? var.state_bucket : "${local.name_prefix}-state"
   acl    = "private"
 
@@ -62,6 +74,8 @@ resource "aws_s3_bucket" "state" {
 }
 
 resource "aws_dynamodb_table" "state_lock" {
+  count = var.create ? 1 : 0
+
   name           = "${local.name_prefix}-state-lock"
   hash_key       = "LockID"
   read_capacity  = 20
@@ -76,6 +90,8 @@ resource "aws_dynamodb_table" "state_lock" {
 }
 
 resource "aws_dynamodb_table" "meta_lock" {
+  count = var.create ? 1 : 0
+
   name           = "${local.name_prefix}-meta-lock"
   hash_key       = "LockID"
   read_capacity  = 20
@@ -95,41 +111,47 @@ locals {
 }
 
 data "template_file" "provider_aws_config" {
+  count = var.create ? 1 : 0
+
   template = file(
     "${path.module}/templates/${local.provider_aws_config_template}.tf",
   )
 
   vars = {
-    region           = data.aws_region.current.name
-    account_id       = data.aws_caller_identity.current.account_id
+    region           = data.aws_region.current[0].name
+    account_id       = data.aws_caller_identity.current[0].account_id
     account_role_arn = var.account_role_arn
   }
 }
 
 data "template_file" "meta_backend_config" {
+  count = var.create ? 1 : 0
+
   template = file(
     "${path.module}/templates/${local.backend_config_template}.tf",
   )
 
   vars = {
-    bucket           = aws_s3_bucket.state.bucket
+    bucket           = aws_s3_bucket.state[0].bucket
     key              = var.meta_state_key
-    lock_table       = aws_dynamodb_table.meta_lock.name
-    region           = data.aws_region.current.name
+    lock_table       = aws_dynamodb_table.meta_lock[0].name
+    region           = data.aws_region.current[0].name
     account_role_arn = var.account_role_arn
   }
 }
 
 data "template_file" "backend_config" {
+  count = var.create ? 1 : 0
+
   template = file(
     "${path.module}/templates/${local.backend_config_template}.tf",
   )
 
   vars = {
-    bucket           = aws_s3_bucket.state.bucket
+    bucket           = aws_s3_bucket.state[0].bucket
     key              = var.state_key
-    lock_table       = aws_dynamodb_table.state_lock.name
-    region           = data.aws_region.current.name
+    lock_table       = aws_dynamodb_table.state_lock[0].name
+    region           = data.aws_region.current[0].name
     account_role_arn = var.account_role_arn
   }
 }

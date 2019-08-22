@@ -1,16 +1,16 @@
 output "family" {
   description = "Task definition family"
-  value       = aws_ecs_task_definition.task.family
+  value       = var.create ? aws_ecs_task_definition.task[0].family : null
 }
 
 output "revision" {
   description = "Task definition revision"
-  value       = aws_ecs_task_definition.task.revision
+  value       = var.create ? aws_ecs_task_definition.task[0].revision : null
 }
 
 output "arn" {
   description = "Created task definition revision ARN"
-  value       = aws_ecs_task_definition.task.arn
+  value       = var.create ? aws_ecs_task_definition.task[0].arn : null
 }
 
 output "image" {

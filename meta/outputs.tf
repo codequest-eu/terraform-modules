@@ -1,36 +1,36 @@
 output "ci_user_name" {
   description = "Infrastructure CI AWS user"
-  value       = aws_iam_user.ci.name
+  value       = var.create ? aws_iam_user.ci[0].name : null
 }
 
 output "ci_user_arn" {
   description = "Infrastructure CI AWS user ARN"
-  value       = aws_iam_user.ci.arn
+  value       = var.create ? aws_iam_user.ci[0].arn : null
 }
 
 output "ci_access_key_id" {
   description = "AWS access key for infrastructure CI user"
-  value       = aws_iam_access_key.ci.id
+  value       = var.create ? aws_iam_access_key.ci[0].id : null
 }
 
 output "ci_secret_access_key" {
   description = "AWS secret key for infrastructure CI user"
-  value       = aws_iam_access_key.ci.secret
+  value       = var.create ? aws_iam_access_key.ci[0].secret : null
   sensitive   = true
 }
 
 output "provider_aws_config" {
   description = "Terraform AWS provider block"
-  value       = data.template_file.provider_aws_config.rendered
+  value       = var.create ? data.template_file.provider_aws_config[0].rendered : null
 }
 
 output "backend_config" {
   description = "Terraform backend config"
-  value       = data.template_file.backend_config.rendered
+  value       = var.create ? data.template_file.backend_config[0].rendered : null
 }
 
 output "meta_backend_config" {
   description = "Terraform meta backend config"
-  value       = data.template_file.meta_backend_config.rendered
+  value       = var.create ? data.template_file.meta_backend_config[0].rendered : null
 }
 

@@ -7,11 +7,15 @@ locals {
 }
 
 resource "aws_iam_user" "ci" {
+  count = var.create ? 1 : 0
+
   name = "${var.project}-ci"
   tags = local.tags
 }
 
 data "aws_iam_policy_document" "ci" {
+  count = var.create ? 1 : 0
+
   # List buckets
   statement {
     actions   = ["s3:ListBucket"]
@@ -33,12 +37,16 @@ data "aws_iam_policy_document" "ci" {
 }
 
 resource "aws_iam_user_policy" "ci" {
-  name   = aws_iam_user.ci.name
-  user   = aws_iam_user.ci.name
-  policy = data.aws_iam_policy_document.ci.json
+  count = var.create ? 1 : 0
+
+  name   = aws_iam_user.ci[0].name
+  user   = aws_iam_user.ci[0].name
+  policy = data.aws_iam_policy_document.ci[0].json
 }
 
 resource "aws_iam_access_key" "ci" {
-  user = aws_iam_user.ci.name
+  count = var.create ? 1 : 0
+
+  user = aws_iam_user.ci[0].name
 }
 

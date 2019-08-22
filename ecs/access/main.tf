@@ -3,6 +3,8 @@ locals {
 }
 
 data "aws_iam_policy_document" "assume_ec2_role" {
+  count = var.create ? 1 : 0
+
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -14,31 +16,43 @@ data "aws_iam_policy_document" "assume_ec2_role" {
 }
 
 resource "aws_iam_role" "host" {
+  count = var.create ? 1 : 0
+
   name               = "${local.name}-host"
-  assume_role_policy = data.aws_iam_policy_document.assume_ec2_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_ec2_role[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "host_ecs_for_ec2" {
-  role       = aws_iam_role.host.name
+  count = var.create ? 1 : 0
+
+  role       = aws_iam_role.host[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 resource "aws_iam_role_policy_attachment" "host_ec2_for_ssm" {
-  role       = aws_iam_role.host.name
+  count = var.create ? 1 : 0
+
+  role       = aws_iam_role.host[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 resource "aws_iam_role_policy_attachment" "host_cloudwatch_agent" {
-  role       = aws_iam_role.host.name
+  count = var.create ? 1 : 0
+
+  role       = aws_iam_role.host[0].name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
 resource "aws_iam_instance_profile" "host" {
-  name = aws_iam_role.host.name
-  role = aws_iam_role.host.name
+  count = var.create ? 1 : 0
+
+  name = aws_iam_role.host[0].name
+  role = aws_iam_role.host[0].name
 }
 
 data "aws_iam_policy_document" "assume_ecs_role" {
+  count = var.create ? 1 : 0
+
   statement {
     actions = ["sts:AssumeRole"]
 
@@ -50,12 +64,16 @@ data "aws_iam_policy_document" "assume_ecs_role" {
 }
 
 resource "aws_iam_role" "web_service" {
+  count = var.create ? 1 : 0
+
   name               = "${local.name}-web-service"
-  assume_role_policy = data.aws_iam_policy_document.assume_ecs_role.json
+  assume_role_policy = data.aws_iam_policy_document.assume_ecs_role[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "web_service_role" {
-  role       = aws_iam_role.web_service.name
+  count = var.create ? 1 : 0
+
+  role       = aws_iam_role.web_service[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 

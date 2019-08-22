@@ -1,3 +1,9 @@
+variable "create" {
+  description = "Should resources be created"
+  default = true
+  type = bool
+}
+
 variable "project" {
   description = "Kebab-cased name of the project, will be used in resource names"
   type        = string

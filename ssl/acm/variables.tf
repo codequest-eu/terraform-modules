@@ -1,3 +1,9 @@
+variable "create" {
+  description = "Should resources be created"
+  default = true
+  type = bool
+}
+
 variable "domains" {
   description = "Certificate domains, have to be in one Route53 hosted zone."
   type        = list(string)

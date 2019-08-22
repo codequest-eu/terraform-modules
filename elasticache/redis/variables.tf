@@ -1,3 +1,9 @@
+variable "create" {
+  description = "Should resources be created"
+  default = true
+  type = bool
+}
+
 variable "id" {
   description = "Elasticache cluster id, defaults to project-environment, 1 to 20 alphanumeric characters or hyphens"
   type        = string

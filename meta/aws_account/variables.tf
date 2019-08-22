@@ -1,3 +1,9 @@
+variable "create" {
+  description = "Should resources be created"
+  default = true
+  type = bool
+}
+
 variable "name" {
   description = "AWS account name, usually the name of the project"
 }

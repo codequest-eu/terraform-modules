@@ -1,5 +1,6 @@
 module "network" {
   source = "./network"
+  create = var.create
 
   project                     = var.project
   project_index               = var.project_index
@@ -13,12 +14,15 @@ module "network" {
 
 module "access" {
   source = "./access"
+  create = var.create
 
   project     = var.project
   environment = var.environment
 }
 
 resource "aws_ecs_cluster" "cluster" {
+  count = var.create ? 1 : 0
+
   name = "${var.project}-${var.environment}"
 }
 
