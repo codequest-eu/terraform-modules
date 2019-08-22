@@ -1,15 +1,15 @@
 locals {
   default_tags = {
-    Name    = "${var.project}"
-    Project = "${var.project}"
+    Name    = var.project
+    Project = var.project
   }
 
-  tags = "${merge(local.default_tags, var.tags)}"
+  tags = merge(local.default_tags, var.tags)
 }
 
 resource "aws_ecr_repository" "repo" {
-  name = "${var.project}"
-  tags = "${local.tags}"
+  name = var.project
+  tags = local.tags
 }
 
 data "aws_iam_policy_document" "ci" {
@@ -29,12 +29,13 @@ data "aws_iam_policy_document" "ci" {
       "ecr:CompleteLayerUpload",
     ]
 
-    resources = ["${aws_ecr_repository.repo.arn}"]
+    resources = [aws_ecr_repository.repo.arn]
   }
 }
 
 resource "aws_iam_policy" "ci" {
   name        = "${var.project}-repo-ci"
   description = "Allows a user to push and pull from the ${var.project} docker repository"
-  policy      = "${data.aws_iam_policy_document.ci.json}"
+  policy      = data.aws_iam_policy_document.ci.json
 }
+

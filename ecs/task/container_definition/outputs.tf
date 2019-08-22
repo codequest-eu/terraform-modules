@@ -1,4 +1,10 @@
 output "definition" {
-  description = "container definition JSON"
-  value       = "${local.definition}"
+  description = "container definition"
+  value       = local.definition
 }
+
+output "json" {
+  description = "container definition JSON"
+  value       = jsonencode(local.definition)
+}
+

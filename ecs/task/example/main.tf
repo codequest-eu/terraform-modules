@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "httpbin" {
-  source = ".."
+  source = "./.."
 
   project           = "terraform-modules"
   environment       = "example"
@@ -20,5 +20,6 @@ module "httpbin" {
 }
 
 output "httpbin_arn" {
-  value = "${module.httpbin.arn}"
+  value = module.httpbin.arn
 }
+

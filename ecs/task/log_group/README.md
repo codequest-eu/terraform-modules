@@ -14,9 +14,9 @@ Creates a CloudWatch log group for a container and outputs container logging con
 
 ## Outputs
 
-| Name              | Description                                     |
-| ----------------- | ----------------------------------------------- |
-| arn               | CloudWatch log group ARN                        |
-| container\_config | Container definition logging configuration JSON |
-| name              | CloudWatch log group name                       |
-
+| Name                    | Description                                     |
+| ----------------------- | ----------------------------------------------- |
+| arn                     | CloudWatch log group ARN                        |
+| container\_config       | Container definition logging configuration      |
+| container\_config\_json | Container definition logging configuration JSON |
+| name                    | CloudWatch log group name                       |

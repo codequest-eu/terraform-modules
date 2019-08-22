@@ -6,28 +6,29 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_availability_zones" "all" {}
+data "aws_availability_zones" "all" {
+}
 
 data "aws_subnet" "a" {
-  vpc_id            = "${data.aws_vpc.default.id}"
-  availability_zone = "${data.aws_availability_zones.all.names[0]}"
+  vpc_id            = data.aws_vpc.default.id
+  availability_zone = data.aws_availability_zones.all.names[0]
   default_for_az    = true
 }
 
 data "aws_subnet" "b" {
-  vpc_id            = "${data.aws_vpc.default.id}"
-  availability_zone = "${data.aws_availability_zones.all.names[1]}"
+  vpc_id            = data.aws_vpc.default.id
+  availability_zone = data.aws_availability_zones.all.names[1]
   default_for_az    = true
 }
 
 module "db" {
-  source = ".."
+  source = "./.."
 
   project     = "terraform-modules-postgres"
   environment = "example"
 
-  vpc_id     = "${data.aws_vpc.default.id}"
-  subnet_ids = ["${data.aws_subnet.a.id}", "${data.aws_subnet.b.id}"]
+  vpc_id     = data.aws_vpc.default.id
+  subnet_ids = [data.aws_subnet.a.id, data.aws_subnet.b.id]
   multi_az   = false
 
   instance_type = "db.t2.micro"
@@ -38,6 +39,7 @@ module "db" {
 }
 
 output "db_url" {
-  value     = "${module.db.url}"
+  value     = module.db.url
   sensitive = true
 }
+

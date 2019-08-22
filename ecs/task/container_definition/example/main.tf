@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "httpbin" {
-  source = ".."
+  source = "./.."
 
   name              = "httpbin"
   image             = "kennethreitz/httpbin:latest"
@@ -15,11 +15,11 @@ module "httpbin" {
     DEBUG = "true"
   }
 
-  log_config = "${module.httpbin_log.container_config}"
+  log_config = module.httpbin_log.container_config
 }
 
 module "httpbin_log" {
-  source = "../../log_group"
+  source = "./../../log_group"
 
   project     = "terraform-modules"
   environment = "example"
@@ -32,9 +32,10 @@ resource "aws_ecs_task_definition" "httpbin" {
 }
 
 output "container_definition" {
-  value = "${module.httpbin.definition}"
+  value = module.httpbin.definition
 }
 
 output "task_definition_arn" {
-  value = "${aws_ecs_task_definition.httpbin.arn}"
+  value = aws_ecs_task_definition.httpbin.arn
 }
+

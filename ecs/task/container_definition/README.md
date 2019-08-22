@@ -25,5 +25,6 @@ Creates a container definition that can be provided to a task definition
 
 | Name       | Description               |
 | ---------- | ------------------------- |
-| definition | container definition JSON |
+| definition | container definition      |
+| json       | container definition JSON |
 
