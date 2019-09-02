@@ -86,3 +86,14 @@ module "web" {
   healthcheck_path = "/"
 }
 
+output "bastion" {
+  value = {
+    host        = module.cluster.bastion_public_ips[0]
+    private_key = module.cluster.bastion_private_key
+  }
+  sensitive = true
+}
+
+output "host_ip" {
+  value = module.hosts.instance_private_ips[0]
+}

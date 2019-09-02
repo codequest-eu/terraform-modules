@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Connects to the host created by the example using SSH proxied through a bastion node.
+# Requires jq to be installed for parsing terraform output -json
+# https://stedolan.github.io/jq/
+
+# Usage:
+# bin/ssh-to-host
+
+set -e
+
+echo >&2 "Fetching outputs..."
+output=$(terraform output -no-color -json)
+
+host=$(printf '%s' "$output" | jq -r '.host_ip.value')
+host_user=ec2-user
+
+bastion_host=$(printf '%s' "$output" | jq -r '.bastion.value.host')
+bastion_private_key=$(printf '%s' "$output" | jq -r '.bastion.value.private_key')
+bastion_user=ec2-user
+
+key_path=$(mktemp)
+trap "rm -f \"$key_path\"" EXIT
+chmod 0600 "$key_path"
+echo "$bastion_private_key" > "$key_path"
+
+bastion_proxy="ssh -F /dev/null -W %h:%p -i \"$key_path\" $bastion_user@$bastion_host"
+
+echo >&2 "SSHing to $host_user@$host via bastion $bastion_user@$bastion_host..."
+ssh -F /dev/null -i "$key_path" "$host_user@$host" -o "proxycommand $bastion_proxy"
