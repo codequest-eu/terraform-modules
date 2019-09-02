@@ -33,27 +33,13 @@ variable "port" {
 }
 
 variable "username" {
-  description = "Username for the master DB user, if not provided a random one will be generated"
+  description = "Username for the master DB user"
   type        = string
-  default     = null
-}
-
-variable "username_length" {
-  description = "Random username length"
-  type        = number
-  default     = 8
 }
 
 variable "password" {
-  description = "Password for the master DB user, if not provided a random one will be generated"
+  description = "Password for the master DB user"
   type        = string
-  default     = null
-}
-
-variable "password_length" {
-  description = "Random password length"
-  type        = number
-  default     = 32
 }
 
 variable "vpc_id" {

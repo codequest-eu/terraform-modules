@@ -15,16 +15,16 @@ output "db" {
 
 output "username" {
   description = "DB master username"
-  value       = local.username
+  value       = var.username
 }
 
 output "password" {
   description = "DB master password"
-  value       = local.password
+  value       = var.password
 }
 
 output "url" {
   description = "DB connection url"
-  value       = var.create ? "postgres://${local.username}:${local.password}@${aws_db_instance.db[0].address}:${aws_db_instance.db[0].port}/${local.db}" : null
+  value       = var.create ? "postgres://${var.username}:${var.password}@${aws_db_instance.db[0].address}:${aws_db_instance.db[0].port}/${local.db}" : null
 }
 

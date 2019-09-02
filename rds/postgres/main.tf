@@ -1,8 +1,6 @@
 locals {
-  name     = "${var.project}-${var.environment}"
-  db       = var.db != null ? var.db : replace(var.project, "-", "_")
-  username = var.create && var.username == null ? random_string.username[0].result : var.username
-  password = var.create && var.password == null ? random_string.password[0].result : var.password
+  name = "${var.project}-${var.environment}"
+  db   = var.db != null ? var.db : replace(var.project, "-", "_")
 
   default_tags = {
     Name        = local.name
@@ -11,20 +9,6 @@ locals {
   }
 
   tags = merge(local.default_tags, var.tags)
-}
-
-resource "random_string" "username" {
-  count = var.create && var.username == null ? 1 : 0
-
-  length  = var.username_length
-  special = false
-}
-
-resource "random_string" "password" {
-  count = var.create && var.password == null ? 1 : 0
-
-  length  = var.password_length
-  special = false
 }
 
 resource "aws_db_subnet_group" "db" {
@@ -91,8 +75,8 @@ resource "aws_db_instance" "db" {
 
   port     = var.port
   name     = local.db
-  username = local.username
-  password = local.password
+  username = var.username
+  password = var.password
 
   tags = local.tags
 }

@@ -21,6 +21,11 @@ data "aws_subnet" "b" {
   default_for_az    = true
 }
 
+resource "random_string" "password" {
+  length  = 32
+  special = false
+}
+
 module "db" {
   source = "./.."
 
@@ -34,6 +39,8 @@ module "db" {
   instance_type = "db.t2.micro"
   storage       = 20
   public        = true
+  username      = "admin"
+  password      = random_string.password.result
 
   prevent_destroy = false
 }
