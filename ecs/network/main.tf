@@ -440,5 +440,16 @@ resource "aws_instance" "bastion" {
       "Name" = "${local.name}-bastion-${count.index}"
     },
   )
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = aws_instance.bastion[count.index].public_ip
+    private_key = tls_private_key.bastion[0].private_key_pem
+    agent       = false
+  }
+
+  # wait for SSH connection
+  provisioner "remote-exec" {}
 }
 
