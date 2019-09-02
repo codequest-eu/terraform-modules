@@ -97,3 +97,50 @@ output "bastion" {
 output "host_ip" {
   value = module.hosts.instance_private_ips[0]
 }
+
+resource "null_resource" "on_bastion" {
+  triggers = {
+    ip = module.cluster.bastion_public_ips[0]
+  }
+
+  connection {
+    type        = "ssh"
+    agent       = false
+    user        = "ec2-user"
+    host        = module.cluster.bastion_public_ips[0]
+    private_key = module.cluster.bastion_private_key
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Bastion'",
+      "cat /etc/os-release",
+      "uname -r"
+    ]
+  }
+}
+
+resource "null_resource" "on_host" {
+  triggers = {
+    ip = module.hosts.instance_private_ips[0]
+  }
+
+  connection {
+    type                = "ssh"
+    agent               = false
+    user                = "ec2-user"
+    host                = module.hosts.instance_private_ips[0]
+    private_key         = module.cluster.bastion_private_key
+    bastion_user        = "ec2-user"
+    bastion_host        = module.cluster.bastion_public_ips[0]
+    bastion_private_key = module.cluster.bastion_private_key
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Host'",
+      "cat /etc/os-release",
+      "uname -r"
+    ]
+  }
+}
