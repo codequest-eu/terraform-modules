@@ -252,6 +252,6 @@ data "aws_iam_policy_document" "ci" {
 resource "aws_iam_policy" "ci" {
   count = var.create ? 1 : 0
 
-  name   = "${local.name_prefix}-ci"
+  name   = "${local.name_prefix}-assets-ci"
   policy = data.aws_iam_policy_document.ci[0].json
 }
