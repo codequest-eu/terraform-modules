@@ -218,3 +218,40 @@ module "pull_request_router" {
   }
 }
 
+data "aws_iam_policy_document" "ci" {
+  count = var.create ? 1 : 0
+
+  # Find the assets bucket
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.assets[0].arn]
+  }
+
+  # Sync assets
+  statement {
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject",
+      "s3:AbortMultipartUpload",
+      "s3:ListMultipartUploadParts",
+    ]
+    resources = ["${aws_s3_bucket.assets[0].arn}/*"]
+  }
+
+  # Invalidate cache
+  statement {
+    actions = [
+      "cloudfront:CreateInvalidation",
+      "cloudfront:GetInvalidation"
+    ]
+    resources = [aws_cloudfront_distribution.assets[0].arn]
+  }
+}
+
+resource "aws_iam_policy" "ci" {
+  count = var.create ? 1 : 0
+
+  name   = "${local.name_prefix}-ci"
+  policy = data.aws_iam_policy_document.ci[0].json
+}
