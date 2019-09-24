@@ -40,3 +40,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 * `id`
 
     ACM certificate id
+
+* `validated_arn`
+
+    ACM certificate ARN, once it's validated
