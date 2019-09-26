@@ -121,6 +121,19 @@ data "template_file" "provider_aws_config" {
   }
 }
 
+data "template_file" "provider_aws_alias_config_template" {
+  count = var.create ? 1 : 0
+
+  template = file("${local.templates_path}/provider_aws_alias.tf")
+
+  vars = {
+    alias            = "$${alias}"
+    region           = "$${region}"
+    account_id       = data.aws_caller_identity.current[0].account_id
+    account_role_arn = var.account_role_arn
+  }
+}
+
 locals {
   backend_type = "s3"
   backend_config = {

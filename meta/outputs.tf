@@ -24,6 +24,11 @@ output "provider_aws_config" {
   value       = var.create ? data.template_file.provider_aws_config[0].rendered : null
 }
 
+output "provider_aws_alias_config_template" {
+  description = "Terraform AWS provider block template for defining aliases, accepts alias and region variables"
+  value       = var.create ? data.template_file.provider_aws_alias_config_template[0].rendered : null
+}
+
 output "backend_config" {
   description = "Terraform backend config block"
   value       = var.create ? data.template_file.backend_config[0].rendered : null
