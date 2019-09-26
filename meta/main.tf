@@ -112,7 +112,7 @@ locals {
 data "template_file" "provider_aws_config" {
   count = var.create ? 1 : 0
 
-  template = file("${local.templates_path}/provider_aws.tf")
+  template = file("${local.templates_path}/provider_aws.tf.tpl")
 
   vars = {
     region           = data.aws_region.current[0].name
@@ -124,7 +124,7 @@ data "template_file" "provider_aws_config" {
 data "template_file" "provider_aws_alias_config_template" {
   count = var.create ? 1 : 0
 
-  template = file("${local.templates_path}/provider_aws_alias.tf")
+  template = file("${local.templates_path}/provider_aws_alias.tf.tpl")
 
   vars = {
     alias            = "$${alias}"
@@ -150,14 +150,14 @@ locals {
 data "template_file" "meta_backend_config" {
   count = var.create ? 1 : 0
 
-  template = file("${local.templates_path}/backend.tf")
+  template = file("${local.templates_path}/backend.tf.tpl")
   vars     = local.meta_backend_config
 }
 
 data "template_file" "backend_config" {
   count = var.create ? 1 : 0
 
-  template = file("${local.templates_path}/backend.tf")
+  template = file("${local.templates_path}/backend.tf.tpl")
   vars     = local.backend_config
 }
 
