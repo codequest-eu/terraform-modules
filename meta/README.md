@@ -74,7 +74,15 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
 * `backend_config`
 
-    Terraform backend config
+    Terraform backend config block
+
+* `backend_config_map`
+
+    Terraform backend config map
+
+* `backend_type`
+
+    Terraform backend type
 
 * `ci_access_key_id`
 
@@ -94,7 +102,15 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
 * `meta_backend_config`
 
-    Terraform meta backend config
+    Terraform meta backend config block
+
+* `meta_backend_config_map`
+
+    Terraform meta backend config map
+
+* `provider_aws_alias_config_template`
+
+    Terraform AWS provider block template for defining aliases, accepts alias and region variables
 
 * `provider_aws_config`
 
