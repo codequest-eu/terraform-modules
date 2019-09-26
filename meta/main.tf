@@ -151,13 +151,13 @@ data "template_file" "meta_backend_config" {
   count = var.create ? 1 : 0
 
   template = file("${local.templates_path}/backend.tf")
-  vars     = local.backend_config
+  vars     = local.meta_backend_config
 }
 
 data "template_file" "backend_config" {
   count = var.create ? 1 : 0
 
   template = file("${local.templates_path}/backend.tf")
-  vars     = local.meta_backend_config
+  vars     = local.backend_config
 }
 
