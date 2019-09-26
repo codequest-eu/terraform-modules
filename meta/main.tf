@@ -121,31 +121,30 @@ data "template_file" "provider_aws_config" {
   }
 }
 
+locals {
+  backend_type = "s3"
+  backend_config = {
+    bucket         = aws_s3_bucket.state[0].bucket
+    key            = var.state_key
+    dynamodb_table = aws_dynamodb_table.state_lock[0].name
+    region         = data.aws_region.current[0].name
+    encrypt        = true
+    role_arn       = var.account_role_arn
+  }
+  meta_backend_config = merge(local.backend_config, { key : var.meta_state_key })
+}
+
 data "template_file" "meta_backend_config" {
   count = var.create ? 1 : 0
 
   template = file("${local.templates_path}/backend.tf")
-
-  vars = {
-    bucket           = aws_s3_bucket.state[0].bucket
-    key              = var.meta_state_key
-    lock_table       = aws_dynamodb_table.meta_lock[0].name
-    region           = data.aws_region.current[0].name
-    account_role_arn = var.account_role_arn
-  }
+  vars     = local.backend_config
 }
 
 data "template_file" "backend_config" {
   count = var.create ? 1 : 0
 
   template = file("${local.templates_path}/backend.tf")
-
-  vars = {
-    bucket           = aws_s3_bucket.state[0].bucket
-    key              = var.state_key
-    lock_table       = aws_dynamodb_table.state_lock[0].name
-    region           = data.aws_region.current[0].name
-    account_role_arn = var.account_role_arn
-  }
+  vars     = local.meta_backend_config
 }
 
