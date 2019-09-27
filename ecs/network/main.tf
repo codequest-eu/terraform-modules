@@ -399,15 +399,15 @@ resource "aws_route_table_association" "public" {
   subnet_id      = element(aws_subnet.public[*].id, count.index)
 }
 
-data "aws_ami" "ubuntu_1804" {
+data "aws_ami" "amazon_linux" {
   count = var.create ? 1 : 0
 
   most_recent = true
-  owners      = ["099720109477"]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190531"]
+    values = ["amzn2-ami-hvm-2.0.20190618-x86_64-ebs"]
   }
 }
 
@@ -428,7 +428,7 @@ resource "aws_key_pair" "bastion" {
 resource "aws_instance" "bastion" {
   count = var.create ? var.availability_zones_count : 0
 
-  ami                    = data.aws_ami.ubuntu_1804[0].id
+  ami                    = data.aws_ami.amazon_linux[0].id
   instance_type          = "t3.nano"
   subnet_id              = element(aws_subnet.public[*].id, count.index)
   vpc_security_group_ids = [aws_security_group.bastion[0].id]
@@ -440,5 +440,16 @@ resource "aws_instance" "bastion" {
       "Name" = "${local.name}-bastion-${count.index}"
     },
   )
+
+  connection {
+    type        = "ssh"
+    user        = "ec2-user"
+    host        = aws_instance.bastion[count.index].public_ip
+    private_key = tls_private_key.bastion[0].private_key_pem
+    agent       = false
+  }
+
+  # wait for SSH connection
+  provisioner "remote-exec" {}
 }
 

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Connects to the bastion host created by the example.
+# Requires jq to be installed for parsing terraform output -json
+# https://stedolan.github.io/jq/
+
+# Usage:
+# bin/ssh-to-bastion
+
+set -e
+
+echo >&2 "Fetching bastion output..."
+output=$(terraform output -no-color -json bastion)
+
+bastion_host=$(printf '%s' "$output" | jq -r '.host')
+bastion_private_key=$(printf '%s' "$output" | jq -r '.private_key')
+bastion_user=ec2-user
+
+key_path=$(mktemp)
+trap "rm -f \"$key_path\"" EXIT
+chmod 0600 "$key_path"
+echo "$bastion_private_key" > "$key_path"
+
+echo >&2 "SSHing to $bastion_user@$bastion_host..."
+ssh -F /dev/null -i "$key_path" "$bastion_user@$bastion_host"
