@@ -12,9 +12,6 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
-# https://github.com/hashicorp/terraform/issues/18359
-# Workaround that can deal with up to 4 domains
-
 resource "aws_acm_certificate_validation" "cert" {
   count = var.create ? 1 : 0
 

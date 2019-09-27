@@ -24,6 +24,5 @@ module "certificate" {
 }
 
 output "certificate_arn" {
-  value = module.certificate.arn
+  value = module.certificate.validated_arn
 }
-
