@@ -2,6 +2,10 @@
 
 Creates an AWS user for CI/CD pipelines which can update the contents of the given asset buckets.
 
+> **Deprecated**
+>
+> `terraform-modules/spa` now provides an IAM policy which can be used with `terraform-modules/iam/user_with_policies` to create a CI user
+
 <!-- bin/docs -->
 
 ## Versions

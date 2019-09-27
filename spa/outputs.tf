@@ -33,3 +33,7 @@ output "distribution_url" {
   value       = var.create ? "https://${aws_cloudfront_distribution.assets[0].domain_name}" : null
 }
 
+output "ci_policy_arn" {
+  description = "ARN of the IAM policy which grants actions needed for CI/CD"
+  value       = var.create ? aws_iam_policy.ci[0].arn : null
+}

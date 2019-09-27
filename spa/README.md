@@ -87,6 +87,10 @@ Module creates:
 
     Name of the created assets S3 bucket
 
+* `ci_policy_arn`
+
+    ARN of the IAM policy which grants actions needed for CI/CD
+
 * `distribution_arn`
 
     ARN of the created assets CloudFront distribution
