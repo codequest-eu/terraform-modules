@@ -40,11 +40,7 @@ Creates an RDS PostgreSQL database instance
 
 * `password` (`string`, required)
 
-    Password for the master DB user, if not provided a random one will be generated
-
-* `password_length` (`number`, default: `32`)
-
-    Random password length
+    Password for the master DB user
 
 * `port` (`number`, default: `5432`)
 
@@ -84,11 +80,7 @@ Creates an RDS PostgreSQL database instance
 
 * `username` (`string`, required)
 
-    Username for the master DB user, if not provided a random one will be generated
-
-* `username_length` (`number`, default: `8`)
-
-    Random username length
+    Username for the master DB user
 
 * `vpc_id` (`string`, required)
 
