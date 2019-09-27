@@ -2,39 +2,125 @@
 
 Creates an ECS service exposed to the internet using an Application Load Balancer.
 
+<!-- bin/docs -->
+
+## Versions
+
+| Provider | Requirements |
+|-|-|
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.22.0` |
+
 ## Inputs
 
-| Name                     | Description                                                                                                                                                                                                                  |  Type  |     Default      | Required |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----: | :--------------: | :------: |
-| cluster\_arn             | ARN of the ECS cluster to create the service in                                                                                                                                                                              | string |       n/a        |   yes    |
-| container                | Container to forward requests to, defaults to service name                                                                                                                                                                   | string |       `""`       |    no    |
-| container\_port          | Port on which the container is listening                                                                                                                                                                                     | string |      `"80"`      |    no    |
-| deployment\_max\_percent | The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Rounded down to get the maximum number of running tasks.                | string |     `"200"`      |    no    |
-| deployment\_min\_percent | The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment. Rounded up to get the minimum number of running tasks. | string |      `"50"`      |    no    |
-| deregistration\_delay    | Connection draining time in seconds.                                                                                                                                                                                         | string |      `"30"`      |    no    |
-| desired\_count           | The number of instances of the task definition to place and keep running.                                                                                                                                                    | string |      `"2"`       |    no    |
-| healthcheck\_interval    | How often, in seconds, healtchecks should be sent.                                                                                                                                                                           | string |      `"5"`       |    no    |
-| healthcheck\_path        | Healthcheck endpoint path                                                                                                                                                                                                    | string | `"/healthcheck"` |    no    |
-| healthcheck\_status      | Healthy response status                                                                                                                                                                                                      | string |     `"200"`      |    no    |
-| healthcheck\_timeout     | Healthcheck request timeout, in seconds.                                                                                                                                                                                     | string |      `"2"`       |    no    |
-| healthy\_threshold       | The number of consecutive health checks successes required before considering an unhealthy target healthy                                                                                                                    | string |      `"2"`       |    no    |
-| launch\_type             | The launch type on which to run your service. Either EC2 or FARGATE.                                                                                                                                                         | string |     `"EC2"`      |    no    |
-| listener\_arn            | ALB listener ARN                                                                                                                                                                                                             | string |       n/a        |   yes    |
-| name                     | ECS service name                                                                                                                                                                                                             | string |       n/a        |   yes    |
-| role\_arn                | ARN of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf.                                                                                                                               | string |       n/a        |   yes    |
-| rule\_domain             |                                                                                                                                                                                                                              | string |      `"*"`       |    no    |
-| rule\_path               |                                                                                                                                                                                                                              | string |      `"/*"`      |    no    |
-| slow\_start              | The amount time to warm up before the load balancer sends the full share of requests.                                                                                                                                        | string |      `"0"`       |    no    |
-| target\_group\_name      | Load balancer target group name, defaults to {cluster name}-{service name}. Max 32 characters.                                                                                                                               | string |       `""`       |    no    |
-| task\_definition\_arn    | ECS task definition ARN to run as a service                                                                                                                                                                                  | string |       n/a        |   yes    |
-| unhealthy\_threshold     | The number of consecutive health check failures required before considering the target unhealthy                                                                                                                             | string |      `"2"`       |    no    |
-| vpc\_id                  | VPC id                                                                                                                                                                                                                       | string |       n/a        |   yes    |
+* `cluster_arn` (`string`, required)
+
+    ARN of the ECS cluster to create the service in
+
+* `container` (`string`, required)
+
+    Container to forward requests to, defaults to service name
+
+* `container_port` (`number`, default: `80`)
+
+    Port on which the container is listening
+
+* `create` (`bool`, default: `true`)
+
+    Should resources be created
+
+* `deployment_max_percent` (`number`, default: `200`)
+
+    The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Rounded down to get the maximum number of running tasks.
+
+* `deployment_min_percent` (`number`, default: `50`)
+
+    The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment. Rounded up to get the minimum number of running tasks.
+
+* `deregistration_delay` (`number`, default: `30`)
+
+    Connection draining time in seconds.
+
+* `desired_count` (`number`, default: `2`)
+
+    The number of instances of the task definition to place and keep running.
+
+* `healthcheck_interval` (`number`, default: `5`)
+
+    How often, in seconds, healtchecks should be sent.
+
+* `healthcheck_path` (`string`, default: `"/healthcheck"`)
+
+    Healthcheck endpoint path
+
+* `healthcheck_status` (`number`, default: `200`)
+
+    Healthy response status
+
+* `healthcheck_timeout` (`number`, default: `2`)
+
+    Healthcheck request timeout, in seconds.
+
+* `healthy_threshold` (`number`, default: `2`)
+
+    The number of consecutive health checks successes required before considering an unhealthy target healthy
+
+* `launch_type` (`string`, default: `"EC2"`)
+
+    The launch type on which to run your service. Either EC2 or FARGATE.
+
+* `listener_arn` (`string`, required)
+
+    ALB listener ARN
+
+* `name` (`string`, required)
+
+    ECS service name
+
+* `role_arn` (`string`, required)
+
+    ARN of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf.
+
+* `rule_domain` (`string`, default: `"*"`)
+
+    
+
+* `rule_path` (`string`, default: `"/*"`)
+
+    
+
+* `slow_start` (`number`, required)
+
+    The amount time to warm up before the load balancer sends the full share of requests.
+
+* `target_group_name` (`string`, required)
+
+    Load balancer target group name, defaults to {cluster name}-{service name}. Max 32 characters.
+
+* `task_definition_arn` (`string`, required)
+
+    ECS task definition ARN to run as a service
+
+* `unhealthy_threshold` (`number`, default: `2`)
+
+    The number of consecutive health check failures required before considering the target unhealthy
+
+* `vpc_id` (`string`, required)
+
+    VPC id
+
+
 
 ## Outputs
 
-| Name                | Description                     |
-| ------------------- | ------------------------------- |
-| id                  | Service id                      |
-| target\_group\_arn  | Load balancer target group ARN  |
-| target\_group\_name | Load balancer target group name |
+* `id`
 
+    Service id
+
+* `target_group_arn`
+
+    Load balancer target group ARN
+
+* `target_group_name`
+
+    Load balancer target group name

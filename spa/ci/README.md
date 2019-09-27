@@ -2,20 +2,49 @@
 
 Creates an AWS user for CI/CD pipelines which can update the contents of the given asset buckets.
 
+<!-- bin/docs -->
+
+## Versions
+
+| Provider | Requirements |
+|-|-|
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.22.0` |
+
 ## Inputs
 
-| Name         | Description                                              |  Type  | Default | Required |
-| ------------ | -------------------------------------------------------- | :----: | :-----: | :------: |
-| bucket\_arns | AWS ARNs of all project SPA assets buckets               |  list  |   n/a   |   yes    |
-| project      | Kebab-cased project name                                 | string |   n/a   |   yes    |
-| tags         | Additional tags to apply to resources that support them. |  map   | `<map>` |    no    |
+* `bucket_arns` (`list(string)`, required)
+
+    AWS ARNs of all project SPA assets buckets
+
+* `create` (`bool`, default: `true`)
+
+    Should resources be created
+
+* `project` (`string`, required)
+
+    Kebab-cased project name
+
+* `tags` (`map(string)`, required)
+
+    Additional tags to apply to resources that support them.
+
+
 
 ## Outputs
 
-| Name                    | Description                |
-| ----------------------- | -------------------------- |
-| ci\_access\_key\_id     | AWS access key for CI user |
-| ci\_secret\_access\_key | AWS secret key for CI user |
-| ci\_user\_arn           | CI AWS user ARN            |
-| ci\_user\_name          | CI AWS user                |
+* `ci_access_key_id`
 
+    AWS access key for CI user
+
+* `ci_secret_access_key`
+
+    AWS secret key for CI user
+
+* `ci_user_arn`
+
+    CI AWS user ARN
+
+* `ci_user_name`
+
+    CI AWS user

@@ -2,21 +2,53 @@
 
 Creates an ECR repository and a policy for CI which allows push/pull access.
 
+<!-- bin/docs -->
+
+## Versions
+
+| Provider | Requirements |
+|-|-|
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.22.0` |
+
 ## Inputs
 
-| Name    | Description                                |  Type  | Default | Required |
-| ------- | ------------------------------------------ | :----: | :-----: | :------: |
-| project | Kebab-cased project name                   | string |   n/a   |   yes    |
-| tags    | Tags to add to resources that support them |  map   | `<map>` |    no    |
+* `create` (`bool`, default: `true`)
+
+    Should resources be created
+
+* `project` (`string`, required)
+
+    Kebab-cased project name
+
+* `tags` (`map(string)`, required)
+
+    Tags to add to resources that support them
+
+
 
 ## Outputs
 
-| Name             | Description                                      |
-| ---------------- | ------------------------------------------------ |
-| arn              | ECR repository ARN                               |
-| ci\_policy\_arn  | IAM policy ARN for CI                            |
-| ci\_policy\_name | IAM policy name for CI                           |
-| name             | ECR repository name                              |
-| registry\_id     | ECR registry id where the repository was created |
-| url              | ECR repository URL                               |
+* `arn`
 
+    ECR repository ARN
+
+* `ci_policy_arn`
+
+    IAM policy ARN for CI
+
+* `ci_policy_name`
+
+    IAM policy name for CI
+
+* `name`
+
+    ECR repository name
+
+* `registry_id`
+
+    ECR registry id where the repository was created
+
+* `url`
+
+    ECR repository URL

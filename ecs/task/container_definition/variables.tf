@@ -1,7 +1,7 @@
 variable "create" {
   description = "Should resources be created"
-  default = true
-  type = bool
+  default     = true
+  type        = bool
 }
 
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#standard_container_definition_params

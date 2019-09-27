@@ -1,7 +1,7 @@
 variable "create" {
   description = "Should resources be created"
-  default = true
-  type = bool
+  default     = true
+  type        = bool
 }
 
 variable "domains" {

@@ -69,7 +69,7 @@ resource "aws_autoscaling_group" "hosts" {
 }
 
 data "aws_instances" "hosts" {
-  count = var.create ? 1 : 0
+  count      = var.create ? 1 : 0
   depends_on = [aws_autoscaling_group.hosts[0]]
 
   filter {
