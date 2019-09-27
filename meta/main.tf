@@ -106,16 +106,13 @@ resource "aws_dynamodb_table" "meta_lock" {
 }
 
 locals {
-  provider_aws_config_template = var.account_role_arn != null ? "provider_aws_role" : "provider_aws"
-  backend_config_template      = var.account_role_arn != null ? "backend_role" : "backend"
+  templates_path = "${path.module}/templates${var.account_role_arn != null ? "/role" : ""}"
 }
 
 data "template_file" "provider_aws_config" {
   count = var.create ? 1 : 0
 
-  template = file(
-    "${path.module}/templates/${local.provider_aws_config_template}.tf",
-  )
+  template = file("${local.templates_path}/provider_aws.tf.tpl")
 
   vars = {
     region           = data.aws_region.current[0].name
@@ -124,35 +121,43 @@ data "template_file" "provider_aws_config" {
   }
 }
 
+data "template_file" "provider_aws_alias_config_template" {
+  count = var.create ? 1 : 0
+
+  template = file("${local.templates_path}/provider_aws_alias.tf.tpl")
+
+  vars = {
+    alias            = "$${alias}"
+    region           = "$${region}"
+    account_id       = data.aws_caller_identity.current[0].account_id
+    account_role_arn = var.account_role_arn
+  }
+}
+
+locals {
+  backend_type = "s3"
+  backend_config = {
+    bucket         = aws_s3_bucket.state[0].bucket
+    key            = var.state_key
+    dynamodb_table = aws_dynamodb_table.state_lock[0].name
+    region         = data.aws_region.current[0].name
+    encrypt        = true
+    role_arn       = var.account_role_arn
+  }
+  meta_backend_config = merge(local.backend_config, { key : var.meta_state_key })
+}
+
 data "template_file" "meta_backend_config" {
   count = var.create ? 1 : 0
 
-  template = file(
-    "${path.module}/templates/${local.backend_config_template}.tf",
-  )
-
-  vars = {
-    bucket           = aws_s3_bucket.state[0].bucket
-    key              = var.meta_state_key
-    lock_table       = aws_dynamodb_table.meta_lock[0].name
-    region           = data.aws_region.current[0].name
-    account_role_arn = var.account_role_arn
-  }
+  template = file("${local.templates_path}/backend.tf.tpl")
+  vars     = local.meta_backend_config
 }
 
 data "template_file" "backend_config" {
   count = var.create ? 1 : 0
 
-  template = file(
-    "${path.module}/templates/${local.backend_config_template}.tf",
-  )
-
-  vars = {
-    bucket           = aws_s3_bucket.state[0].bucket
-    key              = var.state_key
-    lock_table       = aws_dynamodb_table.state_lock[0].name
-    region           = data.aws_region.current[0].name
-    account_role_arn = var.account_role_arn
-  }
+  template = file("${local.templates_path}/backend.tf.tpl")
+  vars     = local.backend_config
 }
 

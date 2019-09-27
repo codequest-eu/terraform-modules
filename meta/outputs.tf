@@ -24,13 +24,32 @@ output "provider_aws_config" {
   value       = var.create ? data.template_file.provider_aws_config[0].rendered : null
 }
 
+output "provider_aws_alias_config_template" {
+  description = "Terraform AWS provider block template for defining aliases, accepts alias and region variables"
+  value       = var.create ? data.template_file.provider_aws_alias_config_template[0].rendered : null
+}
+
 output "backend_config" {
-  description = "Terraform backend config"
+  description = "Terraform backend config block"
   value       = var.create ? data.template_file.backend_config[0].rendered : null
 }
 
+output "backend_type" {
+  description = "Terraform backend type"
+  value       = local.backend_type
+}
+
+output "backend_config_map" {
+  description = "Terraform backend config map"
+  value       = var.create ? local.backend_config : null
+}
+
 output "meta_backend_config" {
-  description = "Terraform meta backend config"
+  description = "Terraform meta backend config block"
   value       = var.create ? data.template_file.meta_backend_config[0].rendered : null
 }
 
+output "meta_backend_config_map" {
+  description = "Terraform meta backend config map"
+  value       = var.create ? local.meta_backend_config : null
+}
