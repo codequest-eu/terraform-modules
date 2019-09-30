@@ -144,7 +144,10 @@ locals {
     encrypt        = true
     role_arn       = var.account_role_arn
   }
-  meta_backend_config = merge(local.backend_config, { key : var.meta_state_key })
+  meta_backend_config = merge(local.backend_config, {
+    key            = var.meta_state_key
+    dynamodb_table = aws_dynamodb_table.meta_lock[0].name
+  })
 }
 
 data "template_file" "meta_backend_config" {
