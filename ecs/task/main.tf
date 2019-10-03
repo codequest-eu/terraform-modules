@@ -18,7 +18,7 @@ module "container_log" {
 }
 
 data "aws_ecs_container_definition" "current" {
-  count           = var.create && var.image_tag == null ? 1 : 0
+  count           = var.create && var.image == null && var.image_tag == null ? 1 : 0
   task_definition = local.family
   container_name  = local.container
 }
