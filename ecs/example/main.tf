@@ -38,7 +38,8 @@ module "hosts" {
 module "repo" {
   source = "./../repository"
 
-  project = local.project
+  project    = local.project
+  image_name = "httpbin"
 }
 
 module "worker_task" {

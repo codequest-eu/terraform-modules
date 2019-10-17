@@ -9,6 +9,11 @@ variable "project" {
   type        = string
 }
 
+variable "image_name" {
+  description = "Container image name"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags to add to resources that support them"
   type        = map(string)
