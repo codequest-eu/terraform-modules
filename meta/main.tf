@@ -78,8 +78,8 @@ resource "aws_dynamodb_table" "state_lock" {
 
   name           = "${local.name_prefix}-state-lock"
   hash_key       = "LockID"
-  read_capacity  = 20
-  write_capacity = 20
+  read_capacity  = 1
+  write_capacity = 1
 
   attribute {
     name = "LockID"
@@ -94,8 +94,8 @@ resource "aws_dynamodb_table" "meta_lock" {
 
   name           = "${local.name_prefix}-meta-lock"
   hash_key       = "LockID"
-  read_capacity  = 20
-  write_capacity = 20
+  read_capacity  = 1
+  write_capacity = 1
 
   attribute {
     name = "LockID"
