@@ -196,7 +196,7 @@ module "basic_auth" {
   create = var.create && var.basic_auth_credentials != null
 
   name     = "${local.name_prefix}-basic-auth"
-  code     = data.template_file.basic_auth[0].rendered
+  code     = join("", data.template_file.basic_auth.*.rendered)
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 
@@ -220,7 +220,7 @@ module "pull_request_router" {
   create = var.create && var.pull_request_router
 
   name     = "${local.name_prefix}-pull-request-router"
-  code     = data.template_file.pull_request_router[0].rendered
+  code     = join("", data.template_file.pull_request_router.*.rendered)
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 
