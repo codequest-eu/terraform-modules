@@ -106,6 +106,10 @@ Creates an RDS PostgreSQL database instance
 
     DB port
 
+* `security_group_id`
+
+    DB security group id
+
 * `url`
 
     DB connection url
