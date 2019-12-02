@@ -2,7 +2,7 @@ locals {
   family    = "${var.project}-${var.environment}-${var.task}"
   container = var.container != null ? var.container : var.task
 
-  image_tag = var.image_tag != null ? var.image_tag : data.aws_ecs_container_definition.current[0].image_digest
+  image_tag = var.image_tag != null ? var.image_tag : join("", data.aws_ecs_container_definition.current.*.image_digest)
   image     = var.image != null ? var.image : "${var.image_name}:${local.image_tag}"
 }
 

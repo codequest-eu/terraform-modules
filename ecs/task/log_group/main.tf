@@ -27,13 +27,13 @@ data "aws_region" "current" {
 }
 
 locals {
-  container_log_config = {
+  container_log_config = var.create ? {
     "logDriver" = "awslogs"
     "options" = {
       "awslogs-group"         = aws_cloudwatch_log_group.log[0].name
       "awslogs-region"        = data.aws_region.current[0].name
       "awslogs-stream-prefix" = aws_cloudwatch_log_group.log[0].name
     }
-  }
+  } : null
 }
 
