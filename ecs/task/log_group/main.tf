@@ -34,6 +34,6 @@ locals {
       "awslogs-region"        = data.aws_region.current[0].name
       "awslogs-stream-prefix" = aws_cloudwatch_log_group.log[0].name
     }
-  } : {}
+  } : null
 }
 

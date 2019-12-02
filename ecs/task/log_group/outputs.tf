@@ -15,5 +15,5 @@ output "container_config" {
 
 output "container_config_json" {
   description = "Container definition logging configuration JSON"
-  value       = var.create ? jsonencode(local.container_log_config) : null
+  value       = var.create && local.container_log_config != null ? jsonencode(local.container_log_config) : null
 }
