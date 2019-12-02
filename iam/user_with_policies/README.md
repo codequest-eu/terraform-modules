@@ -9,7 +9,7 @@ Creates an IAM user along with an access key and attaches the given policies to 
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

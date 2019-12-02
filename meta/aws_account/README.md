@@ -9,7 +9,7 @@ Creates a sub-account for a given project's, environment's resources.
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 | `template` | `>= 2.1.2` |
 
 ## Inputs

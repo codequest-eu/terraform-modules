@@ -9,7 +9,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

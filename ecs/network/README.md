@@ -19,7 +19,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 | `tls` | `>= 2.0.1` |
 
 ## Inputs

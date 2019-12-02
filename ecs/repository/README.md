@@ -9,7 +9,7 @@ Creates an ECR repository and a policy for CI which allows push/pull access.
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

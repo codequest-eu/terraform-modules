@@ -9,7 +9,7 @@ Creates an RDS PostgreSQL database instance
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 | `random` | `>= 2.1.2` |
 
 ## Inputs

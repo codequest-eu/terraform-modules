@@ -35,7 +35,7 @@ terraform output -module NAME_OF_META_MODULE backend_config
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 | `template` | `>= 2.1.2` |
 
 ## Inputs

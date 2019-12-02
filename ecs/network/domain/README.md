@@ -9,7 +9,7 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

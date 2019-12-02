@@ -9,7 +9,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 | `template` | `>= 2.1.2` |
 
 ## Inputs

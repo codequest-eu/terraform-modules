@@ -9,7 +9,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

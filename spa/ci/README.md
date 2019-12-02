@@ -13,7 +13,7 @@ Creates an AWS user for CI/CD pipelines which can update the contents of the giv
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

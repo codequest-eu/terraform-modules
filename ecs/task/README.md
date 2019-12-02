@@ -35,7 +35,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.22.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 
