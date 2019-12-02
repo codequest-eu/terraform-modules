@@ -444,7 +444,7 @@ resource "aws_instance" "bastion" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    host        = aws_instance.bastion[count.index].public_ip
+    host        = self.public_ip
     private_key = tls_private_key.bastion[0].private_key_pem
     agent       = false
   }
