@@ -17,6 +17,10 @@ Creates an ECR repository and a policy for CI which allows push/pull access.
 
     Should resources be created
 
+* `image_name` (`string`, required)
+
+    Container image name
+
 * `project` (`string`, required)
 
     Kebab-cased project name
