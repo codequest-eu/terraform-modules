@@ -28,3 +28,7 @@ output "url" {
   value       = var.create ? "postgres://${var.username}:${var.password}@${aws_db_instance.db[0].address}:${aws_db_instance.db[0].port}/${local.db}" : null
 }
 
+output "security_group_id" {
+  description = "DB security group id"
+  value       = var.create ? aws_security_group.db[0].id : null
+}
