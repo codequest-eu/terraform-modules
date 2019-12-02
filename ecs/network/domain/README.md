@@ -8,8 +8,8 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
 | Provider | Requirements |
 |-|-|
-| terraform | (any version) |
-| `aws` | (any version) |
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.22.0` |
 
 ## Inputs
 
