@@ -19,6 +19,12 @@ variable "zone_id" {
   description = "Route53 hosted zone id to add the CNAME record to"
 }
 
+variable "https" {
+  type        = bool
+  description = "Whether to add an SSL certificate to the load balancer's HTTPS listener"
+  default     = true
+}
+
 variable "https_listener_arn" {
   type        = string
   description = "Load balancer HTTPS listener ARN"

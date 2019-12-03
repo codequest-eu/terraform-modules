@@ -21,6 +21,10 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
     Should resources be created
 
+* `https` (`bool`, default: `true`)
+
+    Whether to add an SSL certificate to the load balancer's HTTPS listener
+
 * `https_listener_arn` (`string`, required)
 
     Load balancer HTTPS listener ARN

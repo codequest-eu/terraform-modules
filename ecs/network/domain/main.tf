@@ -19,7 +19,7 @@ resource "aws_route53_record" "lb" {
 }
 
 locals {
-  assign_certificate = var.create && var.https_listener_arn != null
+  assign_certificate = var.create && var.https
   create_certificate = local.assign_certificate && var.certificate_arn == null
 }
 
