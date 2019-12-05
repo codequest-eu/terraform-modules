@@ -97,9 +97,3 @@ variable "dmarc_report_emails" {
   type        = list(string)
   default     = []
 }
-
-variable "tags" {
-  description = "Tags to add to resources that support them"
-  type        = map(string)
-  default     = {}
-}

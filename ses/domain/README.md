@@ -92,10 +92,6 @@ Registers a domain with AWS SES and verifies it
 
     IPv6 addresses to include in the SPF record
 
-* `tags` (`map(string)`, required)
-
-    Tags to add to resources that support them
-
 
 
 ## Outputs
