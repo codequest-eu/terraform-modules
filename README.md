@@ -36,3 +36,7 @@ If you're on 0.11.x use the [`terraform-0.11`](https://github.com/codequest-eu/t
 - [`iam/user_with_policies`](./iam/user_with_policies)
 
   Creates an AWS IAM user with an access key and attaches policies to it
+
+- [`ses/domain`](./ses/domain)
+
+  Registers a domain with AWS SES and verifies it
