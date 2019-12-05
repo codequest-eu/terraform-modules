@@ -5,6 +5,7 @@ Registers a domain with AWS SES and verifies it
 - Adds a domain to SES
 - Adds an MX record pointing to either SES or a specified server
 - Sets up [DKIM](https://en.wikipedia.org/wiki/DomainKeys_Identified_Mail), [SPF](https://en.wikipedia.org/wiki/Sender_Policy_Framework) and [DMARC](https://en.wikipedia.org/wiki/DMARC)
+- Adds an IAM policy for sending emails via SES
 
 > **Important**
 >
@@ -94,3 +95,15 @@ Registers a domain with AWS SES and verifies it
 * `tags` (`map(string)`, required)
 
     Tags to add to resources that support them
+
+
+
+## Outputs
+
+* `sender_policy_arn`
+
+    IAM policy ARN for email senders
+
+* `sender_policy_name`
+
+    IAM policy name for email senders

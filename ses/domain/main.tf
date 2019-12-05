@@ -114,3 +114,28 @@ resource "aws_route53_record" "dmarc" {
   ttl     = 300
   records = [join(";", [for k, v in local.dmarc_options : "${k}=${v}"])]
 }
+
+# sender policy
+
+data "aws_iam_policy_document" "sender" {
+  count = var.create ? 1 : 0
+
+  statement {
+    actions = [
+      "ses:SendEmail",
+      "ses:SendTemplatedEmail",
+      "ses:SendRawEmail",
+      "ses:SendBulkTemplatedEmail"
+    ]
+    resources = [aws_ses_domain_identity.domain[0].arn]
+  }
+}
+
+resource "aws_iam_policy" "sender" {
+  count      = var.create ? 1 : 0
+  depends_on = [aws_ses_domain_identity_verification.domain]
+
+  name        = "email-sender-${local.domain}"
+  description = "Allows sending emails from @${local.domain}"
+  policy      = data.aws_iam_policy_document.sender[0].json
+}

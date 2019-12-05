@@ -14,3 +14,7 @@ module "domain" {
   hosted_zone_id      = data.aws_route53_zone.cq.id
   dmarc_report_emails = ["marek@codequest.com"]
 }
+
+output "sender_policy_arn" {
+  value = module.domain.sender_policy_arn
+}
