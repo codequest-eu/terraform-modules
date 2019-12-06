@@ -127,7 +127,12 @@ data "aws_iam_policy_document" "sender" {
       "ses:SendRawEmail",
       "ses:SendBulkTemplatedEmail"
     ]
-    resources = [aws_ses_domain_identity.domain[0].arn]
+    resources = ["*"]
+    condition {
+      test     = "StringLike"
+      variable = "ses:FromAddress"
+      values   = ["*@${local.domain}", "*@*.${local.domain}"]
+    }
   }
 }
 
