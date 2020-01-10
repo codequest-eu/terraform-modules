@@ -19,8 +19,12 @@ resource "aws_acm_certificate_validation" "cert" {
   validation_record_fqdns = aws_route53_record.validation[*].fqdn
 }
 
+locals {
+  validation_record_count = var.validation_record_count != null ? var.validation_record_count : length(var.domains)
+}
+
 resource "aws_route53_record" "validation" {
-  count = var.create ? length(var.domains) : 0
+  count = var.create ? local.validation_record_count : 0
 
   zone_id = var.hosted_zone_id
   name    = aws_acm_certificate.cert[0].domain_validation_options[count.index].resource_record_name

@@ -29,6 +29,10 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Tags to set on resources that support them
 
+* `validation_record_count` (`number`, required)
+
+    Override the number of validation records to work around aws_acm_certificate domain_validation_options non-deterministic behavior, eg. https://github.com/terraform-providers/terraform-provider-aws/issues/9840
+
 
 
 ## Outputs

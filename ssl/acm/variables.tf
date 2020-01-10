@@ -20,3 +20,8 @@ variable "tags" {
   default     = {}
 }
 
+variable "validation_record_count" {
+  description = "Override the number of validation records to work around aws_acm_certificate domain_validation_options non-deterministic behavior, eg. https://github.com/terraform-providers/terraform-provider-aws/issues/9840"
+  type        = number
+  default     = null
+}
