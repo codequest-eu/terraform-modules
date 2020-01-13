@@ -51,6 +51,10 @@ Module creates:
 
     Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names
 
+* `name_prefix` (`string`, required)
+
+    Kebab-cased resource name name prefix, defaults to project-environment
+
 * `project` (`string`, required)
 
     Kebab-cased name of the project. Will be included in resource names

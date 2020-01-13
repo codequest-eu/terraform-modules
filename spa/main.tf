@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  name_prefix = "${var.project}-${var.environment}"
+  name_prefix = var.name_prefix != null ? var.name_prefix : "${var.project}-${var.environment}"
 
   default_tags = {
     Project     = var.project
