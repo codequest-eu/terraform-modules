@@ -23,7 +23,7 @@ variable "role_arn" {
 
 variable "runtime" {
   type    = string
-  default = "nodejs12.x"
+  default = "nodejs10.x"
 }
 
 variable "handler" {
