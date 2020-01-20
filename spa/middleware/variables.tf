@@ -22,6 +22,8 @@ variable "role_arn" {
 }
 
 variable "runtime" {
+  # When changing the runtime remember to also update it in lambda source to work around
+  # https://github.com/terraform-providers/terraform-provider-aws/issues/11592
   type    = string
   default = "nodejs10.x"
 }

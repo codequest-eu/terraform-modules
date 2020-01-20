@@ -1,3 +1,6 @@
+// Workaround for https://github.com/terraform-providers/terraform-provider-aws/issues/11592
+// Runtime: nodejs 10.x
+
 // Expected Authorization header value
 const authorization = "Basic ${credentials}"
 
