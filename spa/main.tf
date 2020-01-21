@@ -75,7 +75,7 @@ resource "aws_s3_bucket_policy" "assets" {
 }
 
 resource "aws_cloudfront_origin_access_identity" "assets" {
-  count = var.create && ! var.static_website ? 1 : 0
+  count = var.create ? 1 : 0
 }
 
 data "aws_iam_policy_document" "assets_cdn" {
