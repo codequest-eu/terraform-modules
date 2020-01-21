@@ -19,7 +19,7 @@ resource "aws_s3_bucket" "assets" {
   count = var.create ? 1 : 0
 
   bucket = var.bucket != null ? var.bucket : "${local.name_prefix}-assets"
-  acl    = var.static_website ? "public-read" : "private"
+  acl    = "private"
   tags   = local.tags
 
   cors_rule {
@@ -68,10 +68,14 @@ locals {
 }
 
 resource "aws_s3_bucket_policy" "assets" {
-  count = var.create && ! var.static_website ? 1 : 0
+  count = var.create ? 1 : 0
 
   bucket = aws_s3_bucket.assets[0].id
-  policy = data.aws_iam_policy_document.assets_cdn[0].json
+  policy = (
+    var.static_website ?
+    data.aws_iam_policy_document.assets_cdn_website[0].json :
+    data.aws_iam_policy_document.assets_cdn[0].json
+  )
 }
 
 resource "aws_cloudfront_origin_access_identity" "assets" {
@@ -98,6 +102,20 @@ data "aws_iam_policy_document" "assets_cdn" {
     principals {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.assets[0].iam_arn]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "assets_cdn_website" {
+  count = var.create && var.static_website ? 1 : 0
+
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.assets[0].arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
     }
   }
 }
