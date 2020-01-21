@@ -41,6 +41,32 @@ resource "aws_s3_bucket" "assets" {
   }
 }
 
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  # HACK:
+  # Using aws_s3_bucket.assets.website_endpoint directly causes issues
+  # during planning when switching on var.static_website.
+  # While planning changes to the cloudfront distribution terraform throws:
+  #
+  #   Error: "origin.0.domain_name": required field is not set
+  #
+  # because the bucket during planning doesn't have a website_endpoint
+  # assigned yet. Since the website endpoint is very predictable we can
+  # fill it in ahead of time to make sure it's always available.
+
+  website_actual_endpoint   = var.create ? aws_s3_bucket.assets[0].website_endpoint : ""
+  website_expected_domain   = var.create ? "s3-website-${data.aws_region.current[0].name}.amazonaws.com" : ""
+  website_expected_endpoint = var.create ? "${aws_s3_bucket.assets[0].bucket}.${local.website_expected_domain}" : ""
+  website_endpoint = (
+    local.website_actual_endpoint != null && local.website_actual_endpoint != "" ?
+    local.website_actual_endpoint :
+    local.website_expected_endpoint
+  )
+}
+
 resource "aws_s3_bucket_policy" "assets" {
   count = var.create && ! var.static_website ? 1 : 0
 
@@ -96,7 +122,7 @@ resource "aws_cloudfront_distribution" "assets" {
     for_each = toset(var.static_website ? ["website"] : [])
 
     content {
-      domain_name = aws_s3_bucket.assets[0].website_endpoint
+      domain_name = local.website_endpoint
       origin_id   = aws_s3_bucket.assets[0].id
 
       custom_origin_config {
