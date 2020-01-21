@@ -19,7 +19,7 @@ resource "aws_s3_bucket" "assets" {
   count = var.create ? 1 : 0
 
   bucket = var.bucket != null ? var.bucket : "${local.name_prefix}-assets"
-  acl    = "private"
+  acl    = var.static_website ? "public-read" : "private"
   tags   = local.tags
 
   cors_rule {
