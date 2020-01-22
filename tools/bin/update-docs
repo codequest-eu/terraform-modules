@@ -15,5 +15,4 @@ TOOLS_BIN=$(dirname $0)
 manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
 generated_docs=$("$TOOLS_BIN/docs" "$(dirname $1)")
 
-echo "$manual_docs" > $1
-echo "$generated_docs" >> $1
+printf "%s\n%s\n" "$manual_docs" "$generated_docs" >$1
