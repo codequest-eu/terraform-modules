@@ -18,17 +18,17 @@ precommit-pop :
 	git add $(STAGED_MODULE_PATHS) $(STAGED_MODULE_DOC_PATHS) $(STAGED_DOC_PATHS)
 
 clean :
-	rm bin/docs
+	rm tools/bin/docs
 
 $(MODULE_PATHS) :
 	terraform fmt $@
 
-$(MODULE_DOC_PATHS) : bin/docs bin/update-docs
-	bin/update-docs $@
+$(MODULE_DOC_PATHS) : tools/bin/docs tools/bin/update-docs
+	tools/bin/update-docs $@
 
-build : bin/docs
+build : tools/bin/docs
 
-bin/docs : tools/docs/main.go tools/docs/go.mod tools/docs/go.sum
-	cd tools/docs && go build -o ../../bin/docs
+tools/bin/docs : tools/docs/main.go tools/docs/go.mod tools/docs/go.sum
+	cd tools/docs && go build -o ../bin/docs
 
 .PHONY : all staged precommit precommit-stash precommit-pop clean build $(MODULE_PATHS) $(MODULE_DOC_PATHS)
