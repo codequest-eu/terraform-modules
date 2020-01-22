@@ -12,9 +12,9 @@ $(MODULE_PATHS) :
 $(MODULE_DOC_PATHS) : tools/bin/docs tools/bin/update-docs
 	tools/bin/update-docs $@
 
-build : tools/bin/docs
+tools : tools/bin/docs
 
 tools/bin/docs : tools/docs/main.go tools/docs/go.mod tools/docs/go.sum
 	cd tools/docs && go build -o ../bin/docs
 
-.PHONY : all clean build $(MODULE_PATHS) $(MODULE_DOC_PATHS)
+.PHONY : all clean tools $(MODULE_PATHS) $(MODULE_DOC_PATHS)
