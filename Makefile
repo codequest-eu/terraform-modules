@@ -4,7 +4,7 @@ MODULE_DOC_PATHS:=$(shell find . -name README.md -exec grep -qF '<!-- bin/docs -
 all : $(MODULE_PATHS) $(MODULE_DOC_PATHS)
 
 clean :
-	rm tools/bin/docs
+	rm -f tools/bin/docs
 
 $(MODULE_PATHS) :
 	terraform fmt $@
