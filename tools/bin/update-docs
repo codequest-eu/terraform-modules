@@ -8,8 +8,10 @@
 # The readme has to contain a <!-- bin/docs --> comment which signifies
 # the point where the output of bin/docs should be appended
 
+TOOLS_BIN=$(dirname $0)
+
 manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
-generated_docs=$(tools/bin/docs "$(dirname $1)")
+generated_docs=$("$TOOLS_BIN/docs" "$(dirname $1)")
 
 echo "$manual_docs" > $1
 echo "$generated_docs" >> $1
