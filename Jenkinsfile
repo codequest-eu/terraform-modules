@@ -32,9 +32,27 @@ node {
 
     stage("docs") {
       parallel moduleDirs.collectEntries { moduleDir ->
+        def moduleReadme = "${moduleDir}/README.md"
+
         [(moduleDir): {
           stage(moduleDir) {
-            fileExists "${moduleDir}/README.md"
+            if (!fileExists(moduleReadme)) {
+              error("Missing ${moduleReadme}")
+            }
+
+            try {
+              sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
+            } catch (err) {
+              error("Missing bin/docs marker in ${moduleReadme}")
+            }
+
+            try {
+              sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
+            } catch (err) {
+              error("${moduleReadme} is out of date")
+            } finally {
+              sh "git checkout '${moduleReadme}'"
+            }
           }
         }]
       }
