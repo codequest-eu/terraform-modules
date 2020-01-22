@@ -15,17 +15,33 @@ node {
   )
 
   image.inside {
-    stage("terraform fmt") {
-      sh 'terraform fmt -check -recursive -diff'
-    }
+    def moduleDirs = sh(
+      script: "find . -name variables.tf -o -name outputs.tf -exec dirname '{}' \\; | sort -u",
+      returnStdout: true
+    ).split("\n")
 
-    def exampleDirectories = sh(
+    def exampleDirs = sh(
       script: "find . -name '*.tf' -exec dirname '{}' \\; | sort -u | egrep '/examples?(\$|/)'",
       returnStdout: true
     ).split("\n")
 
+
+    stage("terraform fmt") {
+      sh 'terraform fmt -check -recursive -diff'
+    }
+
+    stage("docs") {
+      parallel moduleDirs.collectEntries { moduleDir ->
+        [(moduleDir): {
+          stage(moduleDir) {
+            fileExists "${moduleDir}/README.md"
+          }
+        }]
+      }
+    }
+
     stage("terraform init") {
-      parallel exampleDirectories.collectEntries { exampleDir ->
+      parallel exampleDirs.collectEntries { exampleDir ->
         [(exampleDir): {
           stage(exampleDir) {
             sh "cd ${exampleDir} && terraform init"
@@ -35,7 +51,7 @@ node {
     }
 
     stage("terraform validate") {
-      parallel exampleDirectories.collectEntries { exampleDir ->
+      parallel exampleDirs.collectEntries { exampleDir ->
         [(exampleDir): {
           stage(exampleDir) {
             sh "cd ${exampleDir} && terraform validate"
