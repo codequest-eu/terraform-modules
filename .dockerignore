@@ -1,0 +1,33 @@
+# Terraform
+**/*.tfvars
+**/.terraform
+**/*.tfstate
+**/*.tfstate.*
+**/override.tf
+**/override.tf.json
+**/*_override.tf
+**/*_override.tf.json
+
+# Git
+**/.git
+**/.gitignore
+**/.gitattributes
+
+# Docker
+**/Dockerfile
+**/*.Dockerfile
+**/.dockerignore
+
+# Jenkins
+Jenkinsfile
+
+# Build results
+tools/bin/docs
+
+# Misc
+**/.env
+**/*.env
+**/*.log
+**/*.md
+**/*.editorconfig
+tools/bin/jenkins

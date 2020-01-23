@@ -83,11 +83,11 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
 * `rule_domain` (`string`, default: `"*"`)
 
-    
+    Domain to route to the service
 
 * `rule_path` (`string`, default: `"/*"`)
 
-    
+    Path pattern to route to the service
 
 * `slow_start` (`number`, required)
 
