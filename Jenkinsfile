@@ -62,7 +62,7 @@ node {
       parallel exampleDirs.collectEntries { exampleDir ->
         [(exampleDir): {
           stage(exampleDir) {
-            sh "cd ${exampleDir} && terraform init"
+            sh "cd ${exampleDir} && terraform init -backend=false"
           }
         }]
       }
