@@ -29,98 +29,102 @@ node {
       sh 'terraform fmt -check -recursive -diff'
     }
 
-    try {
-      stage("terraform init modules") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          [(moduleDir): {
-            stage(moduleDir) {
-              sh "cd ${moduleDir} && terraform init -backend=false -upgrade=true"
-            }
-          }]
-        }
-      }
-
-      stage("terraform validate modules") {
-        withEnv([
-          // required to validate modules which use the aws provider
-          "AWS_REGION=eu-west-1"
-        ]) {
+    withEnv([
+      "TF_PLUGIN_CACHE_DIR=${pwd()}/.terraform.d/plugin-cache"
+    ]) {
+      try {
+        stage("terraform init modules") {
           parallel moduleDirs.collectEntries { moduleDir ->
             [(moduleDir): {
               stage(moduleDir) {
-                sh "cd ${moduleDir} && terraform validate"
+                sh "cd ${moduleDir} && terraform init -backend=false -upgrade=true"
               }
             }]
           }
         }
-      }
 
-      stage("tflint modules") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          [(moduleDir): {
-            stage(moduleDir) {
-              sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
+        stage("terraform validate modules") {
+          withEnv([
+            // required to validate modules which use the aws provider
+            "AWS_REGION=eu-west-1"
+          ]) {
+            parallel moduleDirs.collectEntries { moduleDir ->
+              [(moduleDir): {
+                stage(moduleDir) {
+                  sh "cd ${moduleDir} && terraform validate"
+                }
+              }]
             }
-          }]
+          }
         }
-      }
 
-      stage("check module docs") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          def moduleReadme = "${moduleDir}/README.md"
-
-          [(moduleDir): {
-            stage(moduleDir) {
-              if (!fileExists(moduleReadme)) {
-                error("Missing ${moduleReadme}")
+        stage("tflint modules") {
+          parallel moduleDirs.collectEntries { moduleDir ->
+            [(moduleDir): {
+              stage(moduleDir) {
+                sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
               }
+            }]
+          }
+        }
 
-              try {
-                sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-              } catch (err) {
-                error("Missing bin/docs marker in ${moduleReadme}")
+        stage("check module docs") {
+          parallel moduleDirs.collectEntries { moduleDir ->
+            def moduleReadme = "${moduleDir}/README.md"
+
+            [(moduleDir): {
+              stage(moduleDir) {
+                if (!fileExists(moduleReadme)) {
+                  error("Missing ${moduleReadme}")
+                }
+
+                try {
+                  sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
+                } catch (err) {
+                  error("Missing bin/docs marker in ${moduleReadme}")
+                }
+
+                try {
+                  sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
+                } catch (err) {
+                  error("${moduleReadme} is out of date")
+                } finally {
+                  sh "git checkout '${moduleReadme}'"
+                }
               }
+            }]
+          }
+        }
+      } finally {
+        moduleDirs.each { moduleDir ->
+          sh "rm -rf '${moduleDir}/.terraform'"
+        }
+      }
 
-              try {
-                sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-              } catch (err) {
-                error("${moduleReadme} is out of date")
-              } finally {
-                sh "git checkout '${moduleReadme}'"
+      try {
+        stage("terraform init examples") {
+          parallel exampleDirs.collectEntries { exampleDir ->
+            [(exampleDir): {
+              stage(exampleDir) {
+                sh "cd ${exampleDir} && terraform init -backend=false -upgrade=true"
               }
-            }
-          }]
+            }]
+          }
         }
-      }
-    } finally {
-      moduleDirs.each { moduleDir ->
-        sh "rm -rf '${moduleDir}/.terraform'"
-      }
-    }
 
-    try {
-      stage("terraform init examples") {
-        parallel exampleDirs.collectEntries { exampleDir ->
-          [(exampleDir): {
-            stage(exampleDir) {
-              sh "cd ${exampleDir} && terraform init -backend=false -upgrade=true"
-            }
-          }]
+        stage("terraform validate examples") {
+          parallel exampleDirs.collectEntries { exampleDir ->
+            [(exampleDir): {
+              stage(exampleDir) {
+                sh "cd ${exampleDir} && terraform validate"
+              }
+            }]
+          }
         }
-      }
-
-      stage("terraform validate examples") {
-        parallel exampleDirs.collectEntries { exampleDir ->
-          [(exampleDir): {
-            stage(exampleDir) {
-              sh "cd ${exampleDir} && terraform validate"
-            }
-          }]
+      } finally {
+        exampleDirs.each { exampleDir ->
+          sh "rm -rf '${exampleDir}/.terraform'"
         }
-      }
-    } finally {
-      exampleDirs.each { exampleDir ->
-        sh "rm -rf '${exampleDir}/.terraform'"
       }
     }
   }
