@@ -10,29 +10,34 @@ variable "create" {
 }
 
 variable "name" {
-  type = string
+  description = "Lambda name"
+  type        = string
 }
 
 variable "code" {
-  type = string
+  description = "Lambda code"
+  type        = string
 }
 
 variable "role_arn" {
-  type = string
+  description = "Role which should be assumed by the Lambda, created by middleware_common module"
+  type        = string
 }
 
 variable "runtime" {
-  type    = string
-  default = "nodejs10.x"
+  description = "Lambda runtime"
+  type        = string
+  default     = "nodejs10.x"
 }
 
 variable "handler" {
-  type    = string
-  default = "index.handler"
+  description = "Path to the function which will handle lambda calls"
+  type        = string
+  default     = "index.handler"
 }
 
 variable "tags" {
-  type    = map(string)
-  default = {}
+  description = "Tags to add to resources that support them"
+  type        = map(string)
+  default     = {}
 }
-

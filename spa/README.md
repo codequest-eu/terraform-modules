@@ -59,7 +59,7 @@ Module creates:
 
     Kebab-cased name of the project. Will be included in resource names
 
-* `pull_request_path_re` (`string`, default: `"^/(PR-\d+)($|/)"`)
+* `pull_request_path_re` (`string`, default: `"^/(PR-\\d+)($|/)"`)
 
     Regular expression which extracts the base directory of a PR as it's first match group
 
