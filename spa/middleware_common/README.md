@@ -19,7 +19,7 @@
 
 * `name_prefix` (`string`, required)
 
-    
+    Name prefix for created resources, usually project-environment
 
 
 
@@ -27,8 +27,8 @@
 
 * `role_arn`
 
-    
+    ARN of the IAM role that should be assumed by middleware Lambdas
 
 * `role_name`
 
-    
+    Name of the IAM role that should be assumed by middleware Lambdas

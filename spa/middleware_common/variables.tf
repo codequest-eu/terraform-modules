@@ -5,6 +5,7 @@ variable "create" {
 }
 
 variable "name_prefix" {
-  type = string
+  description = "Name prefix for created resources, usually project-environment"
+  type        = string
 }
 
