@@ -10,7 +10,14 @@ RUN apk --no-cache add \
   git \
   jq \
   go \
-  make
+  make \
+  curl
+
+# Install tflint
+RUN curl -L -o /tmp/tflint.zip "https://github.com/terraform-linters/tflint/releases/download/v0.13.4/tflint_linux_amd64.zip" && \
+  unzip /tmp/tflint.zip -d /tmp/ && \
+  mv /tmp/tflint /usr/local/bin && \
+  rm /tmp/tflint.zip
 
 # build custom tools
 RUN mkdir -p /opt/terraform-modules/tools

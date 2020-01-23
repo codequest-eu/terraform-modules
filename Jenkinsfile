@@ -77,5 +77,15 @@ node {
         }]
       }
     }
+
+    stage("tflint") {
+      parallel exampleDirs.collectEntries { exampleDir ->
+        [(exampleDir): {
+          stage(exampleDir) {
+            sh "cd ${exampleDir} && tflint --module"
+          }
+        }]
+      }
+    }
   }
 }
