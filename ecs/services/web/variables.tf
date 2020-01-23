@@ -77,13 +77,13 @@ variable "target_group_name" {
 }
 
 variable "rule_domain" {
-  description = ""
+  description = "Domain to route to the service"
   type        = string
   default     = "*"
 }
 
 variable "rule_path" {
-  description = ""
+  description = "Path pattern to route to the service"
   type        = string
   default     = "/*"
 }
