@@ -30,7 +30,42 @@ node {
       sh 'terraform fmt -check -recursive -diff'
     }
 
-    stage("docs") {
+    stage("terraform init modules") {
+      parallel moduleDirs.collectEntries { moduleDir ->
+        [(moduleDir): {
+          stage(moduleDir) {
+            sh "cd ${moduleDir} && terraform init -backend=false -upgrade=true"
+          }
+        }]
+      }
+    }
+
+    stage("terraform validate modules") {
+      withEnv([
+        // required to validate modules which use the aws provider
+        "AWS_REGION=eu-west-1"
+      ]) {
+        parallel moduleDirs.collectEntries { moduleDir ->
+          [(moduleDir): {
+            stage(moduleDir) {
+              sh "cd ${moduleDir} && terraform validate"
+            }
+          }]
+        }
+      }
+    }
+
+    stage("tflint modules") {
+      parallel moduleDirs.collectEntries { moduleDir ->
+        [(moduleDir): {
+          stage(moduleDir) {
+            sh "cd ${moduleDir} && tflint"
+          }
+        }]
+      }
+    }
+
+    stage("check module docs") {
       parallel moduleDirs.collectEntries { moduleDir ->
         def moduleReadme = "${moduleDir}/README.md"
 
@@ -58,31 +93,21 @@ node {
       }
     }
 
-    stage("terraform init") {
+    stage("terraform init examples") {
       parallel exampleDirs.collectEntries { exampleDir ->
         [(exampleDir): {
           stage(exampleDir) {
-            sh "cd ${exampleDir} && terraform init -backend=false"
+            sh "cd ${exampleDir} && terraform init -backend=false -upgrade=true"
           }
         }]
       }
     }
 
-    stage("terraform validate") {
+    stage("terraform validate examples") {
       parallel exampleDirs.collectEntries { exampleDir ->
         [(exampleDir): {
           stage(exampleDir) {
             sh "cd ${exampleDir} && terraform validate"
-          }
-        }]
-      }
-    }
-
-    stage("tflint") {
-      parallel exampleDirs.collectEntries { exampleDir ->
-        [(exampleDir): {
-          stage(exampleDir) {
-            sh "cd ${exampleDir} && tflint --module"
           }
         }]
       }
