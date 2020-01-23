@@ -9,10 +9,12 @@ output "arn" {
 }
 
 output "instance_ids" {
-  value = var.create ? data.aws_instances.hosts[0].ids : null
+  description = "Ids of EC2 instances created by the autoscaling group"
+  value       = var.create ? data.aws_instances.hosts[0].ids : null
 }
 
 output "instance_private_ips" {
-  value = var.create ? data.aws_instances.hosts[0].private_ips : null
+  description = "IP addresses of EC2 instances created by the autoscaling group"
+  value       = var.create ? data.aws_instances.hosts[0].private_ips : null
 }
 
