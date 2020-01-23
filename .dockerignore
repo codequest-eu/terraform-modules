@@ -30,3 +30,4 @@ tools/bin/docs
 **/*.log
 **/*.md
 **/*.editorconfig
+tools/bin/jenkins
