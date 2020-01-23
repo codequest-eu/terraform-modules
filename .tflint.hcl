@@ -23,3 +23,8 @@ rule "terraform_module_semver_source" {
   enabled = true
 }
 
+rule "aws_elasticache_cluster_default_parameter_group" {
+  # parameter_group_name is required and it doesn't make sense to
+  # create a copy of the default parameter group
+  enabled = false
+}
