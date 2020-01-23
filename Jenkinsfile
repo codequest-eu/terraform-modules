@@ -25,7 +25,6 @@ node {
       returnStdout: true
     ).split("\n")
 
-
     stage("terraform fmt") {
       sh 'terraform fmt -check -recursive -diff'
     }
@@ -59,7 +58,7 @@ node {
       parallel moduleDirs.collectEntries { moduleDir ->
         [(moduleDir): {
           stage(moduleDir) {
-            sh "cd ${moduleDir} && tflint"
+            sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
           }
         }]
       }

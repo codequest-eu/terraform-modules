@@ -26,8 +26,9 @@ ADD tools /opt/terraform-modules/tools
 RUN cd /opt/terraform-modules && make tools
 
 ENV TOOLS_BIN=/opt/terraform-modules/tools/bin
+ENV TFLINT_CONFIG=/opt/terraform-modules/.tflint.hcl
 
-ADD .tflint.hcl /root/
+ADD .tflint.hcl $TFLINT_CONFIG
 
 # Clear the hashicorp/terraform default entrypoint
 ENTRYPOINT [ ]
