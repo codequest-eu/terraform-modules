@@ -75,6 +75,22 @@ Module creates:
 
     Base path for static assets
 
+* `static_website` (`bool`, required)
+
+    Use S3 static website hosting
+
+* `static_website_error` (`string`, default: `"404.html"`)
+
+    S3 static website hosting error document path
+
+* `static_website_index` (`string`, default: `"index.html"`)
+
+    S3 static website index document
+
+* `static_website_routing_rules` (`string`, required)
+
+    S3 static website hosting routing rules
+
 * `tags` (`map(string)`, required)
 
     Additional tags to add to each resource that supports them

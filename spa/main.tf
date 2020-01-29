@@ -29,17 +29,61 @@ resource "aws_s3_bucket" "assets" {
     max_age_seconds = var.static_cors_max_age_seconds
     expose_headers  = ["ETag"]
   }
+
+  dynamic "website" {
+    for_each = toset(var.static_website ? ["website"] : [])
+
+    content {
+      index_document = var.static_website_index
+      error_document = var.static_website_error
+      routing_rules  = var.static_website_routing_rules
+    }
+  }
+}
+
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  # HACK:
+  # Using aws_s3_bucket.assets.website_endpoint directly causes issues
+  # during planning when switching on var.static_website.
+  # While planning changes to the cloudfront distribution terraform throws:
+  #
+  #   Error: "origin.0.domain_name": required field is not set
+  #
+  # because the bucket during planning doesn't have a website_endpoint
+  # assigned yet. Since the website endpoint is very predictable we can
+  # fill it in ahead of time to make sure it's always available.
+
+  website_actual_endpoint   = var.create ? aws_s3_bucket.assets[0].website_endpoint : ""
+  website_expected_domain   = var.create ? "s3-website-${data.aws_region.current[0].name}.amazonaws.com" : ""
+  website_expected_endpoint = var.create ? "${aws_s3_bucket.assets[0].bucket}.${local.website_expected_domain}" : ""
+  website_endpoint = (
+    local.website_actual_endpoint != null && local.website_actual_endpoint != "" ?
+    local.website_actual_endpoint :
+    local.website_expected_endpoint
+  )
 }
 
 resource "aws_s3_bucket_policy" "assets" {
   count = var.create ? 1 : 0
 
   bucket = aws_s3_bucket.assets[0].id
-  policy = data.aws_iam_policy_document.assets_cdn[0].json
+  policy = (
+    var.static_website ?
+    data.aws_iam_policy_document.assets_cdn_website[0].json :
+    data.aws_iam_policy_document.assets_cdn[0].json
+  )
+}
+
+resource "aws_cloudfront_origin_access_identity" "assets" {
+  count = var.create ? 1 : 0
 }
 
 data "aws_iam_policy_document" "assets_cdn" {
-  count = var.create ? 1 : 0
+  count = var.create && ! var.static_website ? 1 : 0
 
   statement {
     actions   = ["s3:ListBucket"]
@@ -62,19 +106,49 @@ data "aws_iam_policy_document" "assets_cdn" {
   }
 }
 
-resource "aws_cloudfront_origin_access_identity" "assets" {
-  count = var.create ? 1 : 0
+data "aws_iam_policy_document" "assets_cdn_website" {
+  count = var.create && var.static_website ? 1 : 0
+
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.assets[0].arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
 }
 
 resource "aws_cloudfront_distribution" "assets" {
   count = var.create ? 1 : 0
 
-  origin {
-    domain_name = aws_s3_bucket.assets[0].bucket_regional_domain_name
-    origin_id   = aws_s3_bucket.assets[0].id
+  dynamic "origin" {
+    for_each = toset(var.static_website ? [] : ["spa"])
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.assets[0].cloudfront_access_identity_path
+    content {
+      domain_name = aws_s3_bucket.assets[0].bucket_regional_domain_name
+      origin_id   = aws_s3_bucket.assets[0].id
+
+      s3_origin_config {
+        origin_access_identity = aws_cloudfront_origin_access_identity.assets[0].cloudfront_access_identity_path
+      }
+    }
+  }
+
+  dynamic "origin" {
+    for_each = toset(var.static_website ? ["website"] : [])
+
+    content {
+      domain_name = local.website_endpoint
+      origin_id   = aws_s3_bucket.assets[0].id
+
+      custom_origin_config {
+        http_port              = 80
+        https_port             = 443
+        origin_protocol_policy = "http-only"
+        origin_ssl_protocols   = ["TLSv1.2"]
+      }
     }
   }
 
@@ -144,7 +218,7 @@ resource "aws_cloudfront_distribution" "assets" {
   }
 
   dynamic "custom_error_response" {
-    for_each = var.pull_request_router ? [] : [1]
+    for_each = var.static_website || var.pull_request_router ? [] : [1]
 
     content {
       error_code            = 404
