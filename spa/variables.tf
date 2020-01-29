@@ -83,3 +83,26 @@ variable "pull_request_path_re" {
   default     = "^/(PR-\\d+)($|/)"
 }
 
+variable "static_website" {
+  description = "Use S3 static website hosting"
+  type        = bool
+  default     = false
+}
+
+variable "static_website_index" {
+  description = "S3 static website index document"
+  type        = string
+  default     = "index.html"
+}
+
+variable "static_website_error" {
+  description = "S3 static website hosting error document path"
+  type        = string
+  default     = "404.html"
+}
+
+variable "static_website_routing_rules" {
+  description = "S3 static website hosting routing rules"
+  type        = string
+  default     = null
+}
