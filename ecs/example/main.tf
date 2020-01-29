@@ -50,6 +50,11 @@ module "worker_task" {
   task              = "worker"
   image             = "kennethreitz/httpbin:latest"
   memory_soft_limit = 128
+
+  environment_variables = {
+    DEBUG            = "True"
+    HTTPBIN_TRACKING = "enabled"
+  }
 }
 
 module "worker" {
@@ -70,6 +75,11 @@ module "web_task" {
   image             = "kennethreitz/httpbin:latest"
   memory_soft_limit = 128
   ports             = [80]
+
+  environment_variables = {
+    DEBUG            = "True"
+    HTTPBIN_TRACKING = "enabled"
+  }
 }
 
 module "web" {
