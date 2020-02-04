@@ -70,7 +70,7 @@ Registers a domain with AWS SES and verifies it
 
 * `mail_server` (`string`, required)
 
-    email server ip/domain, if omitted SES will be used for incomming emails
+    **DEPRECATED, use `mx_records = ['10 {mail_server}']` instead**.<br/>Email server ip/domain, if omitted SES will be used for incomming emails
 
 * `mx_records` (`list(string)`, required)
 
