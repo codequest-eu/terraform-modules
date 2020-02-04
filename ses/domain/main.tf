@@ -60,17 +60,17 @@ locals {
     [for ip in var.spf_ip4 : "ip4:${ip}"],
     [for ip in var.spf_ip6 : "ip6:${ip}"],
   )
+  spf_record = var.spf ? ["v=spf1 ${join(" ", local.spf_entries)} -all"] : []
 }
 
 resource "aws_route53_record" "txt" {
-  count      = var.create && (var.spf || length(var.txt_records) > 0) ? 1 : 0
-  spf_record = var.spf ? ["v=spf1 ${join(" ", local.spf_entries)} -all"] : []
+  count = var.create && (var.spf || length(var.txt_records) > 0) ? 1 : 0
 
   zone_id = var.hosted_zone_id
   name    = "${local.domain}."
   type    = "TXT"
   ttl     = 300
-  records = flatten([spf_record, var.txt_records])
+  records = flatten([local.spf_record, var.txt_records])
 }
 
 # DKIM ------------------------------------------------------------------------
