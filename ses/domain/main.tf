@@ -63,7 +63,7 @@ locals {
 }
 
 resource "aws_route53_record" "txt" {
-  count = var.create && (var.spf || length(var.txt_records) > 0) ? 1 : 0
+  count      = var.create && (var.spf || length(var.txt_records) > 0) ? 1 : 0
   spf_record = var.spf ? ["v=spf1 ${join(" ", local.spf_entries)} -all"] : []
 
   zone_id = var.hosted_zone_id
