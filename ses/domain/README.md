@@ -72,6 +72,10 @@ Registers a domain with AWS SES and verifies it
 
     email server ip/domain, if omitted SES will be used for incomming emails
 
+* `mx_records` (`list(string)`, required)
+
+    MX records to be included
+
 * `name` (`string`, required)
 
     Domain name to register with SES
@@ -91,6 +95,10 @@ Registers a domain with AWS SES and verifies it
 * `spf_ip6` (`list(string)`, required)
 
     IPv6 addresses to include in the SPF record
+
+* `txt_records` (`list(string)`, required)
+
+    TXT records to be included
 
 
 
