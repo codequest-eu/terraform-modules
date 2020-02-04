@@ -26,16 +26,6 @@ resource "aws_route53_record" "ses_verification" {
   records = [aws_ses_domain_identity.domain[0].verification_token]
 }
 
-resource "aws_route53_record" "txt" {
-  count = var.create && length(var.txt_records) > 0 ? 1 : 0
-
-  zone_id = var.hosted_zone_id
-  name    = "${local.domain}."
-  type    = "TXT"
-  ttl     = 300
-  records = var.txt_records
-}
-
 resource "aws_ses_domain_identity_verification" "domain" {
   count      = var.create ? 1 : 0
   depends_on = [aws_route53_record.ses_verification]
@@ -72,14 +62,15 @@ locals {
   )
 }
 
-resource "aws_route53_record" "spf" {
-  count = var.create && var.spf ? 1 : 0
+resource "aws_route53_record" "txt" {
+  count = var.create && (var.spf || length(var.txt_records) > 0) ? 1 : 0
+  spf_record = var.spf ? ["v=spf1 ${join(" ", local.spf_entries)} -all"] : []
 
   zone_id = var.hosted_zone_id
   name    = "${local.domain}."
   type    = "TXT"
   ttl     = 300
-  records = ["v=spf1 ${join(" ", local.spf_entries)} -all"]
+  records = flatten([spf_record, var.txt_records])
 }
 
 # DKIM ------------------------------------------------------------------------
