@@ -82,7 +82,7 @@ Registers a domain with AWS SES and verifies it
 
 * `spf` (`bool`, default: `true`)
 
-    Whether to add an SPF record
+    Whether to add a TXT record with SPF. If you need additional TXT records, create your own aws_route53_record and add the `spf_record` output to it
 
 * `spf_include` (`list(string)`, required)
 
@@ -96,10 +96,6 @@ Registers a domain with AWS SES and verifies it
 
     IPv6 addresses to include in the SPF record
 
-* `txt_records` (`list(string)`, required)
-
-    TXT records to be included
-
 
 
 ## Outputs
@@ -111,3 +107,7 @@ Registers a domain with AWS SES and verifies it
 * `sender_policy_name`
 
     IAM policy name for email senders
+
+* `spf_record`
+
+    SPF record which you should include in the domain's TXT record in case you specified `spf = false`

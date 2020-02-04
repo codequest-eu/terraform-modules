@@ -39,7 +39,7 @@ variable "dkim" {
 }
 
 variable "spf" {
-  description = "Whether to add an SPF record"
+  description = "Whether to add a TXT record with SPF. If you need additional TXT records, create your own aws_route53_record and add the `spf_record` output to it"
   type        = bool
   default     = true
 }
@@ -100,12 +100,6 @@ variable "dmarc_strict_spf_alignment" {
 
 variable "dmarc_report_emails" {
   description = "E-mail addresses that SMTP servers should send DMARC reports to"
-  type        = list(string)
-  default     = []
-}
-
-variable "txt_records" {
-  description = "TXT records to be included"
   type        = list(string)
   default     = []
 }
