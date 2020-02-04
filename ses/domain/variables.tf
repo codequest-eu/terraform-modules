@@ -98,6 +98,12 @@ variable "dmarc_report_emails" {
   default     = []
 }
 
+variable "mx_records" {
+  description = "MX records to be included"
+  type        = list(string)
+  default     = []
+}
+
 variable "txt_records" {
   description = "TXT records to be included"
   type        = list(string)

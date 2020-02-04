@@ -58,7 +58,7 @@ resource "aws_route53_record" "mx" {
   name    = "${local.domain}."
   type    = "MX"
   ttl     = 300
-  records = ["10 ${local.mail_server}"]
+  records = length(var.mx_records) == 0 ? ["10 ${local.mail_server}"] : var.mx_records
 }
 
 # SPF -------------------------------------------------------------------------
