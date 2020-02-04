@@ -74,7 +74,7 @@ Registers a domain with AWS SES and verifies it
 
 * `mx_records` (`list(string)`, required)
 
-    MX records to be included
+    MX records that point to your email servers, if omitted SES will be used for incomming emails
 
 * `name` (`string`, required)
 

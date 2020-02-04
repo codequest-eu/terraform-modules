@@ -21,9 +21,9 @@ variable "mail_server" {
 }
 
 variable "mx_records" {
-  description = "MX records to be included"
+  description = "MX records that point to your email servers, if omitted SES will be used for incomming emails"
   type        = list(string)
-  default     = []
+  default     = null
 }
 
 variable "incomming_region" {

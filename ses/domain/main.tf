@@ -38,7 +38,12 @@ resource "aws_ses_domain_identity_verification" "domain" {
 locals {
   ses_incomming_region = var.incomming_region != null ? var.incomming_region : local.region
   ses_incomming_server = "inbound-smtp.${local.ses_incomming_region}.amazonaws.com."
-  mail_server          = var.mail_server != null ? var.mail_server : local.ses_incomming_server
+
+  mx_records = (
+    var.mx_records != null ? var.mx_records :
+    var.mail_server != null ? ["10 ${var.mail_server}"] :
+    ["10 ${local.ses_incomming_server}"]
+  )
 }
 
 resource "aws_route53_record" "mx" {
@@ -48,7 +53,7 @@ resource "aws_route53_record" "mx" {
   name    = "${local.domain}."
   type    = "MX"
   ttl     = 300
-  records = length(var.mx_records) == 0 ? ["10 ${local.mail_server}"] : var.mx_records
+  records = local.mx_records
 }
 
 # SPF -------------------------------------------------------------------------
