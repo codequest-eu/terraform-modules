@@ -26,6 +26,16 @@ resource "aws_route53_record" "ses_verification" {
   records = [aws_ses_domain_identity.domain[0].verification_token]
 }
 
+resource "aws_route53_record" "txt" {
+  count = var.create && length(var.txt_records) > 0 ? 1 : 0
+
+  zone_id = var.hosted_zone_id
+  name    = "${local.domain}."
+  type    = "TXT"
+  ttl     = 300
+  records = var.txt_records
+}
+
 resource "aws_ses_domain_identity_verification" "domain" {
   count      = var.create ? 1 : 0
   depends_on = [aws_route53_record.ses_verification]
