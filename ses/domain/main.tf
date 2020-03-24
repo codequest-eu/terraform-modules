@@ -38,7 +38,12 @@ resource "aws_ses_domain_identity_verification" "domain" {
 locals {
   ses_incomming_region = var.incomming_region != null ? var.incomming_region : local.region
   ses_incomming_server = "inbound-smtp.${local.ses_incomming_region}.amazonaws.com."
-  mail_server          = var.mail_server != null ? var.mail_server : local.ses_incomming_server
+
+  mx_records = (
+    var.mx_records != null ? var.mx_records :
+    var.mail_server != null ? ["10 ${var.mail_server}"] :
+    ["10 ${local.ses_incomming_server}"]
+  )
 }
 
 resource "aws_route53_record" "mx" {
@@ -48,7 +53,7 @@ resource "aws_route53_record" "mx" {
   name    = "${local.domain}."
   type    = "MX"
   ttl     = 300
-  records = ["10 ${local.mail_server}"]
+  records = local.mx_records
 }
 
 # SPF -------------------------------------------------------------------------
@@ -60,16 +65,17 @@ locals {
     [for ip in var.spf_ip4 : "ip4:${ip}"],
     [for ip in var.spf_ip6 : "ip6:${ip}"],
   )
+  spf_record = "v=spf1 ${join(" ", local.spf_entries)} -all"
 }
 
-resource "aws_route53_record" "spf" {
+resource "aws_route53_record" "txt" {
   count = var.create && var.spf ? 1 : 0
 
   zone_id = var.hosted_zone_id
   name    = "${local.domain}."
   type    = "TXT"
   ttl     = 300
-  records = ["v=spf1 ${join(" ", local.spf_entries)} -all"]
+  records = [local.spf_record]
 }
 
 # DKIM ------------------------------------------------------------------------
