@@ -142,6 +142,13 @@ resource "aws_instance" "nat" {
   source_dest_check = false
 }
 
+resource "aws_eip_association" "public_nat" {
+  count = var.create && var.nat_instance ? var.availability_zones_count : 0
+
+  instance_id   = aws_instance.nat[count.index].id
+  allocation_id = aws_eip.public_nat[count.index].id
+}
+
 resource "aws_security_group" "nat" {
   count = var.create && var.nat_instance ? 1 : 0
 
