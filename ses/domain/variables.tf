@@ -15,8 +15,14 @@ variable "hosted_zone_id" {
 }
 
 variable "mail_server" {
-  description = "email server ip/domain, if omitted SES will be used for incomming emails"
+  description = "**DEPRECATED, use `mx_records = ['10 {mail_server}']` instead**.<br/>Email server ip/domain, if omitted SES will be used for incomming emails"
   type        = string
+  default     = null
+}
+
+variable "mx_records" {
+  description = "MX records that point to your email servers, if omitted SES will be used for incomming emails"
+  type        = list(string)
   default     = null
 }
 
@@ -33,7 +39,7 @@ variable "dkim" {
 }
 
 variable "spf" {
-  description = "Whether to add an SPF record"
+  description = "Whether to add a TXT record with SPF. If you need additional TXT records, create your own aws_route53_record and add the `spf_record` output to it"
   type        = bool
   default     = true
 }
