@@ -1,30 +1,51 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Connects to the host created by the example using SSH proxied through a bastion node.
-# Requires jq to be installed for parsing terraform output -json
-# https://stedolan.github.io/jq/
-
+# Connects to the host created by the example using SSH proxied through SSM.
+#
+# Requires:
+# - aws cli https://docs.aws.amazon.com/cli/latest/userguide/install-cliv1.html
+# - aws cli session manager plugin https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+# - openssh
+#
+# Based on https://github.com/elpy1/ssh-over-ssm/blob/master/ssh-ssm.sh
+#
 # Usage:
 # bin/ssh-to-host
 
-set -e
+set -euo pipefail
 
-echo >&2 "Fetching outputs..."
-output=$(terraform output -no-color -json)
+ssh_key_path=$(mktemp)
+ssh_pub_key_path="$ssh_key_path.pub"
 
-host=$(printf '%s' "$output" | jq -r '.host_ip.value')
+function cleanup {
+  echo >&2 "Removing key $ssh_key_path..."
+  rm -f "$ssh_key_path" "$ssh_pub_key_path"
+}
+trap cleanup EXIT
+
+echo >&2 "Generating key $ssh_key_path..."
+rm "$ssh_key_path"
+ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_path" -C "temporary key"
+ssh_pub_key=$(cat "$ssh_pub_key_path")
+
+echo >&2 "Fetching instance id..."
+host_id=$(terraform output host_id)
 host_user=ec2-user
+host_authorized_keys_path="/home/$host_user/.ssh/authorized_keys"
 
-bastion_host=$(printf '%s' "$output" | jq -r '.bastion.value.host')
-bastion_private_key=$(printf '%s' "$output" | jq -r '.bastion.value.private_key')
-bastion_user=ec2-user
+echo >&2 "Sending the key to $host_id via SSM..."
+aws ssm send-command >/dev/null \
+  --instance-ids "$host_id" \
+  --document-name AWS-RunShellScript \
+  --parameters commands="\"
+    printf '$ssh_pub_key' | tee -a '$host_authorized_keys_path' && sleep 5
+    sed -i s,'$ssh_pub_key',, '$host_authorized_keys_path'
+    \"" \
+  --comment "temporary ssm ssh access"
 
-key_path=$(mktemp)
-trap "rm -f \"$key_path\"" EXIT
-chmod 0600 "$key_path"
-echo "$bastion_private_key" > "$key_path"
-
-bastion_proxy="ssh -F /dev/null -W %h:%p -i \"$key_path\" $bastion_user@$bastion_host"
-
-echo >&2 "SSHing to $host_user@$host via bastion $bastion_user@$bastion_host..."
-ssh -F /dev/null -i "$key_path" "$host_user@$host" -o "proxycommand $bastion_proxy"
+echo >&2 "SSHing to $host_user@$host_id via SSM..."
+ssh \
+  -F /dev/null \
+  -i "$ssh_key_path" \
+  -o "proxycommand aws ssm start-session --document-name AWS-StartSSHSession --target $host_id" \
+  "$host_user@$host_id"

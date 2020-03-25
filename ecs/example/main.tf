@@ -105,8 +105,8 @@ output "bastion" {
   sensitive = true
 }
 
-output "host_ip" {
-  value = module.hosts.instance_private_ips[0]
+output "host_id" {
+  value = module.hosts.instance_ids[0]
 }
 
 resource "null_resource" "on_bastion" {
