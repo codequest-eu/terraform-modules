@@ -14,7 +14,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
 ## Inputs
 
-* `ami_name` (`string`, default: `"amzn2-ami-ecs-hvm-2.0.20190603-x86_64-ebs"`)
+* `ami_name` (`string`, default: `"amzn2-ami-ecs-hvm-2.0.20200319-x86_64-ebs"`)
 
     ECS-optimized Amazon Linux AMI name to use
 

@@ -56,7 +56,7 @@ variable "instance_profile" {
 variable "ami_name" {
   description = "ECS-optimized Amazon Linux AMI name to use"
   type        = string
-  default     = "amzn2-ami-ecs-hvm-2.0.20190603-x86_64-ebs"
+  default     = "amzn2-ami-ecs-hvm-2.0.20200319-x86_64-ebs"
 }
 
 variable "subnet_ids" {
