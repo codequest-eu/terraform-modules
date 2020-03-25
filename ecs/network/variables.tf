@@ -31,12 +31,6 @@ variable "availability_zones_count" {
   default     = 2
 }
 
-variable "bastion_ingress_cidr_blocks" {
-  description = "CIDR blocks from where you should be able to access the bastion host"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
-
 variable "nat_instance" {
   description = "Use NAT instances instead of NAT gateways."
   type        = bool

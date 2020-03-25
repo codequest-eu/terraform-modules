@@ -74,8 +74,3 @@ variable "cluster_name" {
   type        = string
 }
 
-variable "bastion_key_name" {
-  description = "Name of the bastion key which will be added to authorized_keys, so you can ssh to the host from the bastion."
-  type        = string
-}
-

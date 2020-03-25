@@ -146,7 +146,6 @@ resource "aws_instance" "nat" {
       "Name" = "${local.name}-nat-${count.index}"
     },
   )
-  key_name          = aws_key_pair.bastion[0].key_name
   source_dest_check = false
 
   lifecycle {
@@ -175,13 +174,6 @@ resource "aws_security_group" "nat" {
 
   name   = "${local.name}-nat"
   vpc_id = aws_vpc.cloud[0].id
-
-  ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = [aws_security_group.bastion[0].id]
-  }
 
   ingress {
     from_port   = 0
@@ -305,6 +297,9 @@ resource "aws_lb_listener" "https" {
   }
 }
 
+# Left for backwards compatibility.
+# Otherwise terraform tries to delete this security group before
+# removing references to it from other security groups.
 resource "aws_security_group" "bastion" {
   count = var.create ? 1 : 0
 
@@ -315,7 +310,7 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
-    cidr_blocks = var.bastion_ingress_cidr_blocks
+    cidr_blocks = ["0.0.0.0/32"]
   }
 
   egress {
@@ -340,14 +335,10 @@ resource "aws_security_group" "hosts" {
   vpc_id = aws_vpc.cloud[0].id
 
   ingress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-
-    security_groups = [
-      aws_security_group.lb[0].id,
-      aws_security_group.bastion[0].id,
-    ]
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.lb[0].id]
   }
 
   egress {
@@ -438,46 +429,3 @@ data "aws_ami" "amazon_linux" {
     values = ["amzn2-ami-hvm-2.0.20190618-x86_64-ebs"]
   }
 }
-
-resource "tls_private_key" "bastion" {
-  count = var.create ? 1 : 0
-
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "aws_key_pair" "bastion" {
-  count = var.create ? 1 : 0
-
-  key_name   = "${local.name}-bastion"
-  public_key = tls_private_key.bastion[0].public_key_openssh
-}
-
-resource "aws_instance" "bastion" {
-  count = var.create ? var.availability_zones_count : 0
-
-  ami                    = data.aws_ami.amazon_linux[0].id
-  instance_type          = "t3.nano"
-  subnet_id              = element(aws_subnet.public[*].id, count.index)
-  vpc_security_group_ids = [aws_security_group.bastion[0].id]
-  key_name               = aws_key_pair.bastion[0].key_name
-
-  tags = merge(
-    local.tags,
-    {
-      "Name" = "${local.name}-bastion-${count.index}"
-    },
-  )
-
-  connection {
-    type        = "ssh"
-    user        = "ec2-user"
-    host        = self.public_ip
-    private_key = tls_private_key.bastion[0].private_key_pem
-    agent       = false
-  }
-
-  # wait for SSH connection
-  provisioner "remote-exec" {}
-}
-

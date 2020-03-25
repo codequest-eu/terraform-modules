@@ -18,10 +18,6 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     ECS-optimized Amazon Linux AMI name to use
 
-* `bastion_key_name` (`string`, required)
-
-    Name of the bastion key which will be added to authorized_keys, so you can ssh to the host from the bastion.
-
 * `cluster_name` (`string`, required)
 
     Name of the ECS cluster to attach to

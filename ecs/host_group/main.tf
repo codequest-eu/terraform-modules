@@ -44,7 +44,6 @@ resource "aws_launch_configuration" "hosts" {
   security_groups      = [var.security_group_id]
   iam_instance_profile = var.instance_profile
   user_data            = data.template_file.user_data[0].rendered
-  key_name             = var.bastion_key_name
 
   lifecycle {
     create_before_destroy = true
