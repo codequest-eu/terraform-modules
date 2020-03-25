@@ -43,6 +43,36 @@ resource "aws_iam_role_policy_attachment" "host_cloudwatch_agent" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
+data "aws_iam_policy_document" "host_metrics" {
+  count = var.create ? 1 : 0
+
+  # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html#mon-scripts-permissions
+  statement {
+    actions = [
+      "cloudwatch:PutMetricData",
+      "cloudwatch:GetMetricStatistics",
+      "cloudwatch:ListMetrics",
+      "ec2:DescribeTags",
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_policy" "host_metrics" {
+  count = var.create ? 1 : 0
+
+  name        = "${local.name}-host-metrics"
+  description = "Allows an ECS instance to report additional memory and disk usage metrics"
+  policy      = data.aws_iam_policy_document.host_metrics[0].json
+}
+
+resource "aws_iam_role_policy_attachment" "host_metrics" {
+  count = var.create ? 1 : 0
+
+  role       = aws_iam_role.host[0].name
+  policy_arn = aws_iam_policy.host_metrics[0].arn
+}
+
 resource "aws_iam_instance_profile" "host" {
   count = var.create ? 1 : 0
 
