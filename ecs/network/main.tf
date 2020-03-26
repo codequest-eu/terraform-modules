@@ -297,37 +297,6 @@ resource "aws_lb_listener" "https" {
   }
 }
 
-# Left for backwards compatibility.
-# Otherwise terraform tries to delete this security group before
-# removing references to it from other security groups.
-resource "aws_security_group" "bastion" {
-  count = var.create ? 1 : 0
-
-  name   = "${local.name}-bastions"
-  vpc_id = aws_vpc.cloud[0].id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "TCP"
-    cidr_blocks = ["0.0.0.0/32"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge(
-    local.tags,
-    {
-      "Name" = "${local.name}-bastions"
-    },
-  )
-}
-
 resource "aws_security_group" "hosts" {
   count = var.create ? 1 : 0
 
@@ -418,14 +387,45 @@ resource "aws_route_table_association" "public" {
   subnet_id      = element(aws_subnet.public[*].id, count.index)
 }
 
-data "aws_ami" "amazon_linux" {
+# Bastion hosts remains, that we can't remove because of weird destroy cycle issues
+resource "aws_security_group" "bastion" {
   count = var.create ? 1 : 0
 
-  most_recent = true
-  owners      = ["amazon"]
+  name   = "${local.name}-bastions"
+  vpc_id = aws_vpc.cloud[0].id
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20190618-x86_64-ebs"]
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["0.0.0.0/32"]
   }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    local.tags,
+    {
+      "Name" = "${local.name}-bastions"
+    },
+  )
+}
+
+resource "tls_private_key" "bastion" {
+  count = var.create ? 1 : 0
+
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "bastion" {
+  count = var.create ? 1 : 0
+
+  key_name   = "${local.name}-bastion"
+  public_key = tls_private_key.bastion[0].public_key_openssh
 }
