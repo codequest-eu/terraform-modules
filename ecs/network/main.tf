@@ -121,7 +121,7 @@ data "aws_ami" "nat" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-2018.03.0.20190611-x86_64-ebs"]
+    values = ["amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"]
   }
 }
 
@@ -140,6 +140,10 @@ resource "aws_instance" "nat" {
   )
   key_name          = aws_key_pair.bastion[0].key_name
   source_dest_check = false
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_eip_association" "public_nat" {
