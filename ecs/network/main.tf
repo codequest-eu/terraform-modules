@@ -13,6 +13,14 @@ locals {
   vpc_block = cidrsubnet("10.0.0.0/8", 8, var.project_index)
 }
 
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  aws_region = var.create ? data.aws_region.current[0].name : ""
+}
+
 data "aws_availability_zones" "zones" {
   count = var.create ? 1 : 0
 }
@@ -143,6 +151,11 @@ resource "aws_instance" "nat" {
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  provisioner "local-exec" {
+    # Wait for a new NAT instance to be ready before switching to it
+    command = "aws ec2 wait instance-status-ok --region '${local.aws_region}' --instance-ids '${self.id}'"
   }
 }
 
