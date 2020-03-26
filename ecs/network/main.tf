@@ -151,6 +151,10 @@ resource "aws_eip_association" "public_nat" {
 
   instance_id   = aws_instance.nat[count.index].id
   allocation_id = aws_eip.public_nat[count.index].id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "nat" {
