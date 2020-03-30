@@ -38,13 +38,17 @@ data "template_file" "user_data" {
 resource "aws_launch_configuration" "hosts" {
   count = var.create ? 1 : 0
 
-  name                 = local.full_name
+  name_prefix          = "${local.full_name}-"
   image_id             = data.aws_ami.ecs_amazon_linux[0].id
   instance_type        = var.instance_type
   security_groups      = [var.security_group_id]
   iam_instance_profile = var.instance_profile
   user_data            = data.template_file.user_data[0].rendered
   key_name             = var.bastion_key_name
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_autoscaling_group" "hosts" {
