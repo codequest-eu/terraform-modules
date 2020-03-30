@@ -13,6 +13,14 @@ locals {
   vpc_block = cidrsubnet("10.0.0.0/8", 8, var.project_index)
 }
 
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  aws_region = var.create ? data.aws_region.current[0].name : ""
+}
+
 data "aws_availability_zones" "zones" {
   count = var.create ? 1 : 0
 }
@@ -121,7 +129,7 @@ data "aws_ami" "nat" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-2018.03.0.20190611-x86_64-ebs"]
+    values = ["amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"]
   }
 }
 
@@ -140,6 +148,15 @@ resource "aws_instance" "nat" {
   )
   key_name          = aws_key_pair.bastion[0].key_name
   source_dest_check = false
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  provisioner "local-exec" {
+    # Wait for a new NAT instance to be ready before switching to it
+    command = "aws ec2 wait instance-status-ok --region '${local.aws_region}' --instance-ids '${self.id}'"
+  }
 }
 
 resource "aws_eip_association" "public_nat" {
@@ -147,6 +164,10 @@ resource "aws_eip_association" "public_nat" {
 
   instance_id   = aws_instance.nat[count.index].id
   allocation_id = aws_eip.public_nat[count.index].id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "nat" {
