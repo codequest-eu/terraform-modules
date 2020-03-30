@@ -20,6 +20,11 @@ data "aws_arn" "cluster" {
 resource "aws_ecs_service" "service" {
   count = var.create ? 1 : 0
 
+  # make sure the target group is attached to a load balancer to avoid:
+  # Error: InvalidParameterException: The target group with targetGroupArn
+  #        (...) does not have an associated load balancer.
+  depends_on = [aws_lb_listener_rule.service]
+
   name                               = var.name
   cluster                            = var.cluster_arn
   task_definition                    = var.task_definition_arn
