@@ -1,4 +1,4 @@
-// copy of github.com/hashicorp/terraform-config-inspect@v0.0.0-20200210163047-f7d8399e1194/tfconfig/schema.go
+// copy of https://github.com/hashicorp/terraform-config-inspect/blob/f7d8399e11941abf90bf7550be1eef1d1a70752d/tfconfig/schema.go
 package main
 
 import (
