@@ -40,7 +40,7 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
 ## Inputs
 
-* `account_role_arn` (`string`, required)
+* `account_role_arn` (`string`, default: `null`)
 
     If meta is being created in an AWS Organizations Account, ARN of the IAM role that lets root account administrators manage member account resources.
 
@@ -56,7 +56,7 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
     Kebab-cased name of the project, will be used in resource names
 
-* `state_bucket` (`string`, required)
+* `state_bucket` (`string`, default: `null`)
 
     Kebab-cased state bucket name override
 
@@ -64,7 +64,7 @@ terraform output -module NAME_OF_META_MODULE backend_config
 
     State file name
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Additional tags to apply to resources which support them
 

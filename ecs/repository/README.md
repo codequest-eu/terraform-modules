@@ -25,7 +25,7 @@ Creates an ECR repository and a policy for CI which allows push/pull access.
 
     Kebab-cased project name
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

@@ -42,11 +42,11 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     EC2 instance type
 
-* `max_size` (`number`, required)
+* `max_size` (`number`, default: `null`)
 
     The maximum size of the auto scale group, defaults to size
 
-* `min_size` (`number`, required)
+* `min_size` (`number`, default: `null`)
 
     The minimum size of the auto scale group, defaults to size
 
@@ -70,7 +70,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     Ids of subnets hosts should be launched in, private subnets created by the ecs/network module
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

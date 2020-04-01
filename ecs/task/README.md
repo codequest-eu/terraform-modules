@@ -39,15 +39,15 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
 ## Inputs
 
-* `command` (`list(string)`, required)
+* `command` (`list(string)`, default: `null`)
 
     Command override.
 
-* `container` (`string`, required)
+* `container` (`string`, default: `null`)
 
     Container name within the task definition, defaults to task name
 
-* `cpu` (`number`, required)
+* `cpu` (`number`, default: `0`)
 
     The number of cpu units (1/1024 vCPU) the Amazon ECS container agent will reserve for the container.
 
@@ -55,7 +55,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     Should resources be created
 
-* `entry_point` (`list(string)`, required)
+* `entry_point` (`list(string)`, default: `null`)
 
     Entry point override.
 
@@ -63,7 +63,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     Kebab-cased environment name, eg. development, staging, production.
 
-* `environment_variables` (`map(string)`, required)
+* `environment_variables` (`map(string)`, default: `{}`)
 
     The environment variables to pass to a container.
 
@@ -71,15 +71,15 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped.
 
-* `image` (`string`, required)
+* `image` (`string`, default: `null`)
 
     Full container image name, including the version tag. Either image or image_name has to be provided.
 
-* `image_name` (`string`, required)
+* `image_name` (`string`, default: `null`)
 
     Container image name, without the version tag. Either image or image_name has to be provided.
 
-* `image_tag` (`string`, required)
+* `image_tag` (`string`, default: `null`)
 
     Container image version tag, if omitted will use one from the latest revision. Used only when image_name is provided.
 
@@ -91,7 +91,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when needed.
 
-* `ports` (`list(number)`, required)
+* `ports` (`list(number)`, default: `[]`)
 
     List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port
 
@@ -99,11 +99,11 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     Kebab-cased project name
 
-* `role_arn` (`string`, required)
+* `role_arn` (`string`, default: `""`)
 
     The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 
@@ -111,7 +111,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     ECS task definition name
 
-* `working_directory` (`string`, required)
+* `working_directory` (`string`, default: `null`)
 
     Working directory override.
 

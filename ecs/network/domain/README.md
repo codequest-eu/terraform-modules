@@ -13,7 +13,7 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
 ## Inputs
 
-* `certificate_arn` (`string`, required)
+* `certificate_arn` (`string`, default: `null`)
 
     ACM certificate ARN which should be used for this domain. If https_listener_arn is provided without a certificate_arn, a certificate will be created for you.
 
@@ -25,7 +25,7 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
     Whether to add an SSL certificate to the load balancer's HTTPS listener
 
-* `https_listener_arn` (`string`, required)
+* `https_listener_arn` (`string`, default: `null`)
 
     Load balancer HTTPS listener ARN
 
@@ -37,7 +37,7 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
     Domain which should CNAME to the load balancer
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to set on resources that support them
 

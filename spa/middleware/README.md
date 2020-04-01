@@ -38,7 +38,7 @@
 
     Lambda runtime
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

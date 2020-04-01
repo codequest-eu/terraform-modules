@@ -17,7 +17,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     ARN of the ECS cluster to create the service in
 
-* `container` (`string`, required)
+* `container` (`string`, default: `null`)
 
     Container to forward requests to, defaults to service name
 
@@ -89,11 +89,11 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Path pattern to route to the service
 
-* `slow_start` (`number`, required)
+* `slow_start` (`number`, default: `0`)
 
     The amount time to warm up before the load balancer sends the full share of requests.
 
-* `target_group_name` (`string`, required)
+* `target_group_name` (`string`, default: `null`)
 
     Load balancer target group name, defaults to {cluster name}-{service name}. Max 32 characters.
 

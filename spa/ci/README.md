@@ -29,7 +29,7 @@ Creates an AWS user for CI/CD pipelines which can update the contents of the giv
 
     Kebab-cased project name
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Additional tags to apply to resources that support them.
 

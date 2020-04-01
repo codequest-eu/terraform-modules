@@ -22,7 +22,7 @@ Creates an RDS PostgreSQL database instance
 
     Should resources be created
 
-* `db` (`string`, required)
+* `db` (`string`, default: `null`)
 
     The name of the database to create when the DB instance is created, defaults to project name converted to snake_case
 
@@ -58,11 +58,11 @@ Creates an RDS PostgreSQL database instance
 
     Kebab-cased project name
 
-* `public` (`bool`, required)
+* `public` (`bool`, default: `false`)
 
     Should the DB be publicly accessible, will have no effect if placed in a private subnet
 
-* `security_group_ids` (`list(string)`, required)
+* `security_group_ids` (`list(string)`, default: `[]`)
 
     Security group ids which should have access to the DB
 
@@ -74,7 +74,7 @@ Creates an RDS PostgreSQL database instance
 
     VPC subnet IDs in which the DB should be created
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 
