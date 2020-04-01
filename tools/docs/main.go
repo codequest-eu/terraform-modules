@@ -94,7 +94,7 @@ const markdownTemplate = `
 ## Inputs
 
 {{ range $i, $var := .Variables -}}
-* {{ tt $var.Name }} ({{ tt $var.Type }}, {{ if $var | isVariableOptional }}default: {{ json .Default | tt }}{{else}}required{{end}})
+* {{ tt .Name }} ({{ tt .Type }}, {{ if $var | isVariableOptional }}default: {{ json .Default | tt }}{{else}}required{{end}})
 
     {{ .Description }}
 
