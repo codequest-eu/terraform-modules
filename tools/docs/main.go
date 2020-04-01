@@ -70,8 +70,8 @@ const markdownTemplate = `
 | Provider | Requirements |
 |-|-|
 | terraform | {{ if .RequiredCore }}{{ commas .RequiredCore | tt }}{{ else }}(any version){{ end }} |
-{{- range $name, $versions := .RequiredProviders }}
-| {{ tt $name }} | {{ if $versions }}{{ commas $versions | tt }}{{ else }}(any version){{ end }} |
+{{- range $name, $req := .RequiredProviders }}
+| {{ tt $name }}{{ if $req.Source }} ({{ $req.Source | tt }}){{ end }} | {{ if $req.VersionConstraints }}{{ commas $req.VersionConstraints | tt }}{{ else }}(any version){{ end }} |
 {{- end}}
 
 {{- if .Variables}}
