@@ -44,15 +44,15 @@ Registers a domain with AWS SES and verifies it
 
     DMARC policy, one of: none, quarantine, reject
 
-* `dmarc_report_emails` (`list(string)`, required)
+* `dmarc_report_emails` (`list(string)`, default: `[]`)
 
     E-mail addresses that SMTP servers should send DMARC reports to
 
-* `dmarc_strict_dkim_alignment` (`bool`, required)
+* `dmarc_strict_dkim_alignment` (`bool`, default: `false`)
 
     Enables strict alignment mode for DKIM
 
-* `dmarc_strict_spf_alignment` (`bool`, required)
+* `dmarc_strict_spf_alignment` (`bool`, default: `false`)
 
     Enables strict alignment mode for SPF
 
@@ -64,15 +64,15 @@ Registers a domain with AWS SES and verifies it
 
     Route53 hosted zone id that the domain belongs to
 
-* `incomming_region` (`string`, required)
+* `incomming_region` (`string`, default: `null`)
 
     Region where SES incomming email handling is set up, defaults to the current region, which **might not support it**
 
-* `mail_server` (`string`, required)
+* `mail_server` (`string`, default: `null`)
 
     **DEPRECATED, use `mx_records = ['10 {mail_server}']` instead**.<br/>Email server ip/domain, if omitted SES will be used for incomming emails
 
-* `mx_records` (`list(string)`, required)
+* `mx_records` (`list(string)`, default: `null`)
 
     MX records that point to your email servers, if omitted SES will be used for incomming emails
 
@@ -84,15 +84,15 @@ Registers a domain with AWS SES and verifies it
 
     Whether to add a TXT record with SPF. If you need additional TXT records, create your own aws_route53_record and add the `spf_record` output to it
 
-* `spf_include` (`list(string)`, required)
+* `spf_include` (`list(string)`, default: `[]`)
 
     Domains to include in the SPF record, amazonses.com doesn't need to be specified
 
-* `spf_ip4` (`list(string)`, required)
+* `spf_ip4` (`list(string)`, default: `[]`)
 
     IPv4 addresses to include in the SPF record
 
-* `spf_ip6` (`list(string)`, required)
+* `spf_ip6` (`list(string)`, default: `[]`)
 
     IPv6 addresses to include in the SPF record
 

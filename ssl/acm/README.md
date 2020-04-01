@@ -25,7 +25,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Route53 hosted zone id for ACM domain ownership validation
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to set on resources that support them
 

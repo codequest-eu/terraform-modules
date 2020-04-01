@@ -12,11 +12,11 @@ Creates a container definition that can be provided to a task definition
 
 ## Inputs
 
-* `command` (`list(string)`, required)
+* `command` (`list(string)`, default: `null`)
 
     Command override.
 
-* `cpu` (`number`, required)
+* `cpu` (`number`, default: `0`)
 
     The number of cpu units (1/1024 vCPU) the Amazon ECS container agent will reserve for the container.
 
@@ -24,11 +24,11 @@ Creates a container definition that can be provided to a task definition
 
     Should resources be created
 
-* `entry_point` (`list(string)`, required)
+* `entry_point` (`list(string)`, default: `null`)
 
     Entry point override.
 
-* `environment_variables` (`map(string)`, required)
+* `environment_variables` (`map(string)`, default: `{}`)
 
     The environment variables to pass to a container.
 
@@ -40,7 +40,7 @@ Creates a container definition that can be provided to a task definition
 
     Container image
 
-* `log_config` (``, required)
+* `log_config` (``, default: `null`)
 
     jsonencodable logging configuration
 
@@ -56,11 +56,11 @@ Creates a container definition that can be provided to a task definition
 
     Container name
 
-* `ports` (`list(number)`, required)
+* `ports` (`list(number)`, default: `[]`)
 
     List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port
 
-* `working_directory` (`string`, required)
+* `working_directory` (`string`, default: `null`)
 
     Working directory override.
 

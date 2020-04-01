@@ -7,6 +7,8 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/hashicorp/hcl/v2"
+	"github.com/hashicorp/hcl/v2/hclparse"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
 	flag "github.com/spf13/pflag"
 )
@@ -33,6 +35,19 @@ func main() {
 func showModuleMarkdown(module *tfconfig.Module) {
 	tmpl := template.New("md")
 	tmpl.Funcs(template.FuncMap{
+		"isVariableOptional": func(variable *tfconfig.Variable) bool {
+			if variable.Default != nil {
+				return true
+			}
+
+			// HACK:
+			// workaround for default = null, which make a variable optional, but
+			// there's no difference in tfconfig.Variable between default = null
+			// and no default at all
+			block := parseVariable(variable.Pos.Filename, variable.Name)
+			_, hasDefault := block.Attributes["default"]
+			return hasDefault
+		},
 		"tt": func(s string) string {
 			return "`" + s + "`"
 		},
@@ -70,16 +85,16 @@ const markdownTemplate = `
 | Provider | Requirements |
 |-|-|
 | terraform | {{ if .RequiredCore }}{{ commas .RequiredCore | tt }}{{ else }}(any version){{ end }} |
-{{- range $name, $versions := .RequiredProviders }}
-| {{ tt $name }} | {{ if $versions }}{{ commas $versions | tt }}{{ else }}(any version){{ end }} |
+{{- range $name, $req := .RequiredProviders }}
+| {{ tt $name }}{{ if $req.Source }} ({{ $req.Source | tt }}){{ end }} | {{ if $req.VersionConstraints }}{{ commas $req.VersionConstraints | tt }}{{ else }}(any version){{ end }} |
 {{- end}}
 
 {{- if .Variables}}
 
 ## Inputs
 
-{{ range .Variables -}}
-* {{ tt .Name }} ({{ tt .Type }}, {{ if .Default }}default: {{ json .Default | tt }}{{else}}required{{end}})
+{{ range $i, $var := .Variables -}}
+* {{ tt .Name }} ({{ tt .Type }}, {{ if $var | isVariableOptional }}default: {{ json .Default | tt }}{{else}}required{{end}})
 
     {{ .Description }}
 
@@ -113,3 +128,36 @@ const markdownTemplate = `
 {{- end}}{{end}}
 
 `
+
+var parseCache = make(map[string]*hcl.File)
+
+func parse(filename string) *hcl.File {
+	file, fileCached := parseCache[filename]
+
+	if !fileCached {
+		parser := hclparse.NewParser()
+		file, _ = parser.ParseHCLFile(filename)
+		parseCache[filename] = file
+	}
+
+	return file
+}
+
+var variableCache = make(map[string]*hcl.BodyContent)
+
+func parseVariable(filename string, name string) *hcl.BodyContent {
+	_, cached := variableCache[name]
+
+	if !cached {
+		file := parse(filename)
+		fileContent, _, _ := file.Body.PartialContent(rootSchema)
+
+		for _, block := range fileContent.Blocks.OfType("variable") {
+			blockName := block.Labels[0]
+			blockContent, _, _ := block.Body.PartialContent(variableSchema)
+			variableCache[blockName] = blockContent
+		}
+	}
+
+	return variableCache[name]
+}

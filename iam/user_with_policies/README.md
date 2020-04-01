@@ -25,7 +25,7 @@ Creates an IAM user along with an access key and attaches the given policies to 
 
     ARNs of policies that should be attached to the user
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

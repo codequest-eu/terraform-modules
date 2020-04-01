@@ -23,15 +23,15 @@ Module creates:
 
 ## Inputs
 
-* `basic_auth_credentials` (`string`, required)
+* `basic_auth_credentials` (`string`, default: `null`)
 
     Basic auth credentials in user:pass format
 
-* `bucket` (`string`, required)
+* `bucket` (`string`, default: `null`)
 
     Kebab-cased bucket name override
 
-* `certificate_arn` (`string`, required)
+* `certificate_arn` (`string`, default: `null`)
 
     ACM certificate ARN to use instead of the default cloudfront certificate
 
@@ -43,7 +43,7 @@ Module creates:
 
     Should resources be created
 
-* `domains` (`list(string)`, required)
+* `domains` (`list(string)`, default: `[]`)
 
     List of domains which will serve the application. If empty, will use the default cloudfront domain
 
@@ -51,7 +51,7 @@ Module creates:
 
     Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names
 
-* `name_prefix` (`string`, required)
+* `name_prefix` (`string`, default: `null`)
 
     Kebab-cased resource name name prefix, defaults to project-environment
 
@@ -63,7 +63,7 @@ Module creates:
 
     Regular expression which extracts the base directory of a PR as it's first match group
 
-* `pull_request_router` (`bool`, required)
+* `pull_request_router` (`bool`, default: `false`)
 
     Enables routing for pull request subdirectories
 
@@ -75,7 +75,7 @@ Module creates:
 
     Base path for static assets
 
-* `static_website` (`bool`, required)
+* `static_website` (`bool`, default: `false`)
 
     Use S3 static website hosting
 
@@ -87,11 +87,11 @@ Module creates:
 
     S3 static website index document
 
-* `static_website_routing_rules` (`string`, required)
+* `static_website_routing_rules` (`string`, default: `null`)
 
     S3 static website hosting routing rules
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Additional tags to add to each resource that supports them
 

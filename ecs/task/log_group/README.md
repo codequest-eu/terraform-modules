@@ -13,7 +13,7 @@ Creates a CloudWatch log group for a container and outputs container logging con
 
 ## Inputs
 
-* `container` (`string`, required)
+* `container` (`string`, default: `""`)
 
     Container name within the task definition
 
@@ -29,7 +29,7 @@ Creates a CloudWatch log group for a container and outputs container logging con
 
     Kebab-cased project name
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

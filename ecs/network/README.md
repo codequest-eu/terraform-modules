@@ -40,7 +40,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     Kebab-cased environment name, eg. development, staging, production.
 
-* `nat_instance` (`bool`, required)
+* `nat_instance` (`bool`, default: `false`)
 
     Use NAT instances instead of NAT gateways.
 
@@ -56,7 +56,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project_index}.0.0/16
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 

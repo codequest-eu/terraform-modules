@@ -22,7 +22,7 @@ Creates an Elasticache Redis cluster
 
     Kebab-cased environment name, eg. development, staging, production
 
-* `id` (`string`, required)
+* `id` (`string`, default: `null`)
 
     Elasticache cluster id, defaults to project-environment, 1 to 20 alphanumeric characters or hyphens
 
@@ -50,7 +50,7 @@ Creates an Elasticache Redis cluster
 
     Elasticache Redis engine version
 
-* `security_group_ids` (`list(string)`, required)
+* `security_group_ids` (`list(string)`, default: `[]`)
 
     Security group ids which should have access to Redis
 
@@ -58,7 +58,7 @@ Creates an Elasticache Redis cluster
 
     VPC subnet IDs in which Redis should be created
 
-* `tags` (`map(string)`, required)
+* `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
 
