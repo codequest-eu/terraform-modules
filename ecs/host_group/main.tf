@@ -64,6 +64,17 @@ resource "aws_autoscaling_group" "hosts" {
   desired_capacity = var.size
   max_size         = local.max_size
 
+  enabled_metrics = var.detailed_monitoring ? [
+    "GroupMinSize",
+    "GroupMaxSize",
+    "GroupDesiredCapacity",
+    "GroupInServiceInstances",
+    "GroupPendingInstances",
+    "GroupStandbyInstances",
+    "GroupTerminatingInstances",
+    "GroupTotalInstances",
+  ] : null
+
   dynamic "tag" {
     for_each = local.tags
     content {
