@@ -30,6 +30,10 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     Should resources be created
 
+* `detailed_monitoring` (`bool`, default: `true`)
+
+    Whether to enable detailed monitoring on EC2 instances
+
 * `environment` (`string`, required)
 
     Kebab-cased environment name, eg. development, staging, production.

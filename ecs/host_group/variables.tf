@@ -79,3 +79,9 @@ variable "bastion_key_name" {
   type        = string
 }
 
+variable "detailed_monitoring" {
+  description = "Whether to enable detailed monitoring on EC2 instances"
+  type        = bool
+  default     = true
+}
+

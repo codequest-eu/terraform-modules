@@ -31,7 +31,8 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
 
   vars = {
-    cluster_name = var.cluster_name
+    cluster_name        = var.cluster_name
+    detailed_monitoring = var.detailed_monitoring
   }
 }
 
@@ -45,6 +46,7 @@ resource "aws_launch_configuration" "hosts" {
   iam_instance_profile = var.instance_profile
   user_data            = data.template_file.user_data[0].rendered
   key_name             = var.bastion_key_name
+  enable_monitoring    = var.detailed_monitoring
 
   lifecycle {
     create_before_destroy = true
