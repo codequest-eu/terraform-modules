@@ -19,6 +19,6 @@ unzip CloudWatchMonitoringScripts-1.2.2.zip && \
 rm CloudWatchMonitoringScripts-1.2.2.zip
 
 cat >/etc/cron.d/ec2_metrics <<EOF
-* * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --mem-util --mem-used --mem-avail --swap-util --swap-used
-* * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --disk-path=/ --disk-space-util --disk-space-used --disk-space-avail
+*${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --mem-util --mem-used --mem-avail --swap-util --swap-used
+*${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --disk-path=/ --disk-space-util --disk-space-used --disk-space-avail
 EOF

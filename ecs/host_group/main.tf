@@ -31,7 +31,8 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
 
   vars = {
-    cluster_name = var.cluster_name
+    cluster_name        = var.cluster_name
+    detailed_monitoring = var.detailed_monitoring
   }
 }
 
@@ -44,6 +45,7 @@ resource "aws_launch_configuration" "hosts" {
   security_groups      = [var.security_group_id]
   iam_instance_profile = var.instance_profile
   user_data            = data.template_file.user_data[0].rendered
+  enable_monitoring    = var.detailed_monitoring
 
   lifecycle {
     create_before_destroy = true
@@ -60,6 +62,17 @@ resource "aws_autoscaling_group" "hosts" {
   min_size         = local.min_size
   desired_capacity = var.size
   max_size         = local.max_size
+
+  enabled_metrics = var.detailed_monitoring ? [
+    "GroupMinSize",
+    "GroupMaxSize",
+    "GroupDesiredCapacity",
+    "GroupInServiceInstances",
+    "GroupPendingInstances",
+    "GroupStandbyInstances",
+    "GroupTerminatingInstances",
+    "GroupTotalInstances",
+  ] : null
 
   dynamic "tag" {
     for_each = local.tags
