@@ -24,8 +24,11 @@ function cleanup {
 trap cleanup EXIT
 
 echo >&2 "Generating key $ssh_key_path..."
+user_name=$(whoami)
+user_ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 rm "$ssh_key_path"
-ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_path" -C "temporary key"
+ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_path" -C "$user_name@$user_ip $now"
 ssh_pub_key=$(cat "$ssh_pub_key_path")
 
 echo >&2 "Fetching instance id..."
