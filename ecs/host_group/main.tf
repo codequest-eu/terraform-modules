@@ -83,19 +83,3 @@ resource "aws_autoscaling_group" "hosts" {
     }
   }
 }
-
-data "aws_instances" "hosts" {
-  count      = var.create ? 1 : 0
-  depends_on = [aws_autoscaling_group.hosts[0]]
-
-  filter {
-    name   = "tag:aws:autoscaling:groupName"
-    values = [aws_autoscaling_group.hosts[0].name]
-  }
-
-  filter {
-    name   = "instance-state-name"
-    values = ["pending", "running"]
-  }
-}
-

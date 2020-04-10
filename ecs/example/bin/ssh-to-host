@@ -29,9 +29,21 @@ ssh-keygen -q -t ed25519 -N '' -f "$ssh_key_path" -C "temporary key"
 ssh_pub_key=$(cat "$ssh_pub_key_path")
 
 echo >&2 "Fetching instance id..."
-host_id=$(terraform output host_id)
+host_id=$(
+  aws ec2 describe-instances \
+  --filters \
+    Name=tag:aws:autoscaling:groupName,Values="$(terraform output hosts_id)" \
+    Name=instance-state-name,Values=running \
+  --output text \
+  --query 'Reservations[0].Instances[0].InstanceId'
+)
 host_user=ec2-user
 host_authorized_keys_path="/home/$host_user/.ssh/authorized_keys"
+
+if [ "$host_id" = "None" ]; then
+  echo >&2 "No running instances"
+  exit 1
+fi
 
 echo >&2 "Sending the key to $host_id via SSM..."
 aws ssm send-command >/dev/null \

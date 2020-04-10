@@ -85,11 +85,3 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 * `id`
 
     Autoscaling group id
-
-* `instance_ids`
-
-    Ids of EC2 instances created by the autoscaling group
-
-* `instance_private_ips`
-
-    IP addresses of EC2 instances created by the autoscaling group

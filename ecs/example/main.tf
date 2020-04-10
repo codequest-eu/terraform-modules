@@ -96,6 +96,6 @@ module "web" {
   healthcheck_path = "/"
 }
 
-output "host_id" {
-  value = module.hosts.instance_ids[0]
+output "hosts_id" {
+  value = module.hosts.id
 }
