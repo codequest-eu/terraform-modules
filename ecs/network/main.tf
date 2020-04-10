@@ -353,6 +353,45 @@ resource "aws_route" "private_default_instance" {
   instance_id            = element(aws_instance.nat[*].id, count.index)
 }
 
+resource "null_resource" "ssm_restart_after_nat_change" {
+  count = var.create && var.nat_instance ? var.availability_zones_count : 0
+
+  triggers = {
+    instance_id = aws_route.private_default_instance[count.index].instance_id
+  }
+
+  provisioner "local-exec" {
+    # Workaround for https://github.com/aws/amazon-ssm-agent/issues/266
+    # Restart SSM agents of instances within the private subnet
+    command = <<EOT
+      set -e
+      export AWS_REGION=${local.aws_region}
+      subnet_id=${aws_subnet.private[count.index].id}
+
+      echo "Fetching running EC2 instance ids in subnet $subnet_id"
+      instance_ids=$(
+        aws ec2 describe-instances \
+        --filters \
+          Name=subnet-id,Values=$subnet_id \
+          Name=instance-state-name,Values=running \
+        --output text \
+        --query 'Reservations[].Instances[].InstanceId' \
+      )
+
+      for instance_id in $instance_ids; do
+        echo "Restarting SSM agent on $instance_id"
+        aws ssm send-command \
+          --comment "restart SSM agent after NAT instance change" \
+          --document-name AWS-RunShellScript \
+          --parameters commands="systemctl restart amazon-ssm-agent.service" \
+          --instance-ids $instance_id \
+          --output text \
+          || true
+      done
+    EOT
+  }
+}
+
 resource "aws_route_table_association" "private" {
   count = var.create ? var.availability_zones_count : 0
 
