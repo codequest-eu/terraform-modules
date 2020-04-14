@@ -1,6 +1,9 @@
 #!/bin/bash
 echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 
+# Update ECS agent
+yum update -y ecs-init
+
 # Setup memory and disk usage monitoring
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html
 
