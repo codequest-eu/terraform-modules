@@ -4,6 +4,13 @@ echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 # Update ECS agent
 yum update -y ecs-init
 
+# Keep the ECS agent up to date
+cat >/etc/cron.daily/ecs-agent-update <<EOF
+#!/bin/sh
+date >>/var/log/ecs/ecs-init-update.log
+yum update -y ecs-init >>/var/log/ecs/ecs-init-update.log 2>&1
+EOF
+
 # Install security updates
 yum update -y --security
 
