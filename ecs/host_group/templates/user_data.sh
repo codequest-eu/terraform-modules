@@ -21,6 +21,12 @@ cat >/etc/cron.daily/ecs-agent-update <<EOF
 EOF
 chmod +x /etc/cron.daily/ecs-agent-update
 
+# HACK:
+# For some reason simply doing docker pull amazon/amazon-ecs-agent:latest
+# in the user data script doesn't fully update the ECS agent, so
+# lets force running the daily script once ECS starts up
+nohup sh -c 'while ! systemctl is-active -q ecs; do sleep 5; done; /etc/cron.daily/ecs-agent-update' &
+
 # Install security updates
 yum update -y --security
 
