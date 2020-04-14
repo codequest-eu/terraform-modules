@@ -47,7 +47,7 @@ EOF
 # Enable docker daemon live restore, so we can update docker without
 # restarting containers
 # https://docs.docker.com/config/containers/live-restore/
-cat >/etc/docker/damon.json <<EOF
+cat >/etc/docker/daemon.json <<EOF
 {
   "live-restore": true
 }
