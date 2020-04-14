@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# Log executed commands so it's easier to debug script failures
+set -x
+
 echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 
 # Update ECS agent
