@@ -10,6 +10,7 @@ cat >/etc/cron.daily/ecs-agent-update <<EOF
 date >>/var/log/ecs/ecs-init-update.log
 yum update -y ecs-init >>/var/log/ecs/ecs-init-update.log 2>&1
 EOF
+chmod +x /etc/cron.daily/ecs-agent-update
 
 # Install security updates
 yum update -y --security
