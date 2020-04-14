@@ -1,12 +1,52 @@
 #!/bin/bash
 echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 
-
 # Update ECS agent
 yum update -y ecs-init
 
 # Install security updates
 yum update -y --security
+
+# Install yum-cron to automate security updates
+yum install -y yum-cron
+
+# Setup daily security updates
+# Exclude:
+# - kernel - requires rebooting to take effect, at which point we might
+#            as well create a new instance
+cat >/etc/yum/yum-cron.conf <<EOF
+[commands]
+update_cmd = security
+update_messages = yes
+download_updates = yes
+apply_updates = yes
+random_sleep = 0
+
+[base]
+exclude = kernel*
+EOF
+
+# disable hourly updates
+cat >/etc/yum/yum-cron-hourly.conf <<EOF
+[commands]
+update_cmd = security
+update_messages = no
+download_updates = no
+apply_updates = no
+random_sleep = 0
+EOF
+
+# Enable docker daemon live restore, so we can update docker without
+# restarting containers
+# https://docs.docker.com/config/containers/live-restore/
+cat >/etc/docker/damon.json <<EOF
+{
+  "live-restore": true
+}
+EOF
+
+systemctl enable yum-cron
+systemctl start yum-cron
 
 # Setup memory and disk usage monitoring
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html
