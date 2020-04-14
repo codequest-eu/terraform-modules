@@ -36,29 +36,35 @@ data "template_file" "user_data" {
   }
 }
 
-resource "aws_launch_configuration" "hosts" {
+resource "aws_launch_template" "hosts" {
   count = var.create ? 1 : 0
 
-  name_prefix          = "${local.full_name}-"
-  image_id             = data.aws_ami.ecs_amazon_linux[0].id
-  instance_type        = var.instance_type
-  security_groups      = [var.security_group_id]
-  iam_instance_profile = var.instance_profile
-  user_data            = data.template_file.user_data[0].rendered
-  key_name             = var.bastion_key_name
-  enable_monitoring    = var.detailed_monitoring
+  name                   = local.full_name
+  image_id               = data.aws_ami.ecs_amazon_linux[0].id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [var.security_group_id]
 
-  lifecycle {
-    create_before_destroy = true
+  iam_instance_profile {
+    name = var.instance_profile
+  }
+
+  user_data = base64encode(data.template_file.user_data[0].rendered)
+  key_name  = var.bastion_key_name
+
+  monitoring {
+    enabled = var.detailed_monitoring
   }
 }
 
 resource "aws_autoscaling_group" "hosts" {
   count = var.create ? 1 : 0
 
-  name                 = local.full_name
-  launch_configuration = aws_launch_configuration.hosts[0].name
-  vpc_zone_identifier  = var.subnet_ids
+  name = local.full_name
+  launch_template {
+    id      = aws_launch_template.hosts[0].id
+    version = "$Latest"
+  }
+  vpc_zone_identifier = var.subnet_ids
 
   min_size         = local.min_size
   desired_capacity = var.size
