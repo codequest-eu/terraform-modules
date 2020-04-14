@@ -53,6 +53,9 @@ apply_updates = no
 random_sleep = 0
 EOF
 
+systemctl enable yum-cron
+systemctl start yum-cron
+
 # Enable docker daemon live restore, so we can update docker without
 # restarting containers
 # https://docs.docker.com/config/containers/live-restore/
@@ -61,9 +64,7 @@ cat >/etc/docker/daemon.json <<EOF
   "live-restore": true
 }
 EOF
-
-systemctl enable yum-cron
-systemctl start yum-cron
+systemctl restart docker
 
 # Setup memory and disk usage monitoring
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html
