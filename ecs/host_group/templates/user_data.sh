@@ -3,12 +3,17 @@ echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 
 # Update ECS agent
 yum update -y ecs-init
+docker pull amazon/amazon-ecs-agent:latest
 
 # Keep the ECS agent up to date
 cat >/etc/cron.daily/ecs-agent-update <<EOF
 #!/bin/sh
-date >>/var/log/ecs/ecs-init-update.log
-yum update -y ecs-init >>/var/log/ecs/ecs-init-update.log 2>&1
+{
+  date
+  yum update -y ecs-init
+  docker pull amazon/amazon-ecs-agent:latest
+  systemctl restart ecs
+} >>/var/log/ecs/ecs-init-update.log 2>&1
 EOF
 chmod +x /etc/cron.daily/ecs-agent-update
 
