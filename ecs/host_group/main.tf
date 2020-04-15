@@ -73,6 +73,10 @@ resource "aws_launch_template" "hosts" {
   monitoring {
     enabled = var.detailed_monitoring
   }
+
+  credit_specification {
+    cpu_credits = var.cpu_credits
+  }
 }
 
 resource "aws_autoscaling_group" "hosts" {
