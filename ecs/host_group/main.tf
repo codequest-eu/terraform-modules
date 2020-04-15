@@ -36,6 +36,9 @@ data "template_file" "user_data" {
   }
 }
 
+# No longer used, left to make sure terraform doesn't try to destroy this
+# before switching autoscaling group to the launch template,
+# will be removed in another PR
 resource "aws_launch_configuration" "hosts" {
   count = var.create ? 1 : 0
 
@@ -53,12 +56,30 @@ resource "aws_launch_configuration" "hosts" {
   }
 }
 
+resource "aws_launch_template" "hosts" {
+  count = var.create ? 1 : 0
+
+  name                   = local.full_name
+  image_id               = data.aws_ami.ecs_amazon_linux[0].id
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [var.security_group_id]
+  key_name               = var.bastion_key_name
+  user_data              = base64encode(data.template_file.user_data[0].rendered)
+
+  iam_instance_profile {
+    name = var.instance_profile
+  }
+
+  monitoring {
+    enabled = var.detailed_monitoring
+  }
+}
+
 resource "aws_autoscaling_group" "hosts" {
   count = var.create ? 1 : 0
 
-  name                 = local.full_name
-  launch_configuration = aws_launch_configuration.hosts[0].name
-  vpc_zone_identifier  = var.subnet_ids
+  name                = local.full_name
+  vpc_zone_identifier = var.subnet_ids
 
   min_size         = local.min_size
   desired_capacity = var.size
@@ -74,6 +95,11 @@ resource "aws_autoscaling_group" "hosts" {
     "GroupTerminatingInstances",
     "GroupTotalInstances",
   ] : null
+
+  launch_template {
+    id      = aws_launch_template.hosts[0].id
+    version = "$Latest"
+  }
 
   dynamic "tag" {
     for_each = local.tags
