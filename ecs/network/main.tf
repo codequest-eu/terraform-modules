@@ -365,7 +365,7 @@ resource "null_resource" "ssm_restart_after_nat_change" {
     # Restart SSM agents of instances within the private subnet
     command = <<EOT
       set -e
-      export AWS_REGION=${local.aws_region}
+      export AWS_DEFAULT_REGION=${local.aws_region}
       subnet_id=${aws_subnet.private[count.index].id}
 
       echo "Fetching running EC2 instance ids in subnet $subnet_id"
