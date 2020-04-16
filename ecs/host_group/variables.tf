@@ -83,5 +83,5 @@ variable "detailed_monitoring" {
 variable "cpu_credits" {
   description = "The credit option for CPU usage. Can be 'standard' or 'unlimited'."
   type        = string
-  default     = "standard"
+  default     = null
 }
