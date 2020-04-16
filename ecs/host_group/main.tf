@@ -74,8 +74,11 @@ resource "aws_launch_template" "hosts" {
     enabled = var.detailed_monitoring
   }
 
-  credit_specification {
-    cpu_credits = var.cpu_credits
+  dynamic "credit_specification" {
+    for_each = toset(var.cpu_credits != null ? ["credit_specification"] : [])
+    content {
+      cpu_credits = var.cpu_credits
+    }
   }
 }
 
@@ -102,7 +105,7 @@ resource "aws_autoscaling_group" "hosts" {
 
   launch_template {
     id      = aws_launch_template.hosts[0].id
-    version = "$Latest"
+    version = aws_launch_template.hosts[0].latest_version
   }
 
   dynamic "tag" {
