@@ -56,7 +56,7 @@ variable "instance_profile" {
 variable "ami_name" {
   description = "ECS-optimized Amazon Linux AMI name to use"
   type        = string
-  default     = "amzn2-ami-ecs-hvm-2.0.20190603-x86_64-ebs"
+  default     = "amzn2-ami-ecs-hvm-2.0.20200319-x86_64-ebs"
 }
 
 variable "subnet_ids" {
@@ -71,11 +71,6 @@ variable "security_group_id" {
 
 variable "cluster_name" {
   description = "Name of the ECS cluster to attach to"
-  type        = string
-}
-
-variable "bastion_key_name" {
-  description = "Name of the bastion key which will be added to authorized_keys, so you can ssh to the host from the bastion."
   type        = string
 }
 

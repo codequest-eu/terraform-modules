@@ -33,7 +33,7 @@ resource "aws_iam_role_policy_attachment" "host_ec2_for_ssm" {
   count = var.create ? 1 : 0
 
   role       = aws_iam_role.host[0].name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_role_policy_attachment" "host_cloudwatch_agent" {

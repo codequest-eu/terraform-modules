@@ -6,7 +6,6 @@ Creates networking resources needed for a standard ECS cluster setup:
 2. Public and private subnet in each availability zone
 3. NAT Gateway in each public subnet for outbound traffic
 4. Application Load Balancer for inbound traffic with HTTP and HTTPS listeners
-5. Bastion hosts for accessing hosts within the private subnets
 
 # To do
 
@@ -20,6 +19,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.40.0` |
+| `null` | `>= 2.1.2` |
 | `tls` | `>= 2.0.1` |
 
 ## Inputs
@@ -27,10 +27,6 @@ Creates networking resources needed for a standard ECS cluster setup:
 * `availability_zones_count` (`number`, default: `2`)
 
     Number of availability zones the network should span
-
-* `bastion_ingress_cidr_blocks` (`list(string)`, default: `["0.0.0.0/0"]`)
-
-    CIDR blocks from where you should be able to access the bastion host
 
 * `create` (`bool`, default: `true`)
 
@@ -67,34 +63,6 @@ Creates networking resources needed for a standard ECS cluster setup:
 * `availability_zones`
 
     The availability zones in which corresponding public and private subnets were created
-
-* `bastion_key_name`
-
-    Name of the AWS key pair that can be used to access the bastion
-
-* `bastion_private_ips`
-
-    Private IP addresses of bastion hosts
-
-* `bastion_private_key`
-
-    Private key which can be used to SSH onto a bastion host
-
-* `bastion_public_ips`
-
-    Public IP addresses of bastion hosts
-
-* `bastion_public_key_openssh`
-
-    Public key to add to authorized_keys on machines which should be accessible from the bastion
-
-* `bastions_security_group_arn`
-
-    The ARN of the Security Group which should be used by bastion instances
-
-* `bastions_security_group_id`
-
-    The ID of the Security Group which should be used by bastion instances
 
 * `hosts_security_group_arn`
 

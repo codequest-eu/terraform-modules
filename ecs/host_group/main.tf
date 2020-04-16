@@ -48,7 +48,6 @@ resource "aws_launch_configuration" "hosts" {
   security_groups      = [var.security_group_id]
   iam_instance_profile = var.instance_profile
   user_data            = data.template_file.user_data[0].rendered
-  key_name             = var.bastion_key_name
   enable_monitoring    = var.detailed_monitoring
 
   lifecycle {
@@ -63,7 +62,6 @@ resource "aws_launch_template" "hosts" {
   image_id               = data.aws_ami.ecs_amazon_linux[0].id
   instance_type          = var.instance_type
   vpc_security_group_ids = [var.security_group_id]
-  key_name               = var.bastion_key_name
   user_data              = base64encode(data.template_file.user_data[0].rendered)
 
   iam_instance_profile {
@@ -117,19 +115,3 @@ resource "aws_autoscaling_group" "hosts" {
     }
   }
 }
-
-data "aws_instances" "hosts" {
-  count      = var.create ? 1 : 0
-  depends_on = [aws_autoscaling_group.hosts[0]]
-
-  filter {
-    name   = "tag:aws:autoscaling:groupName"
-    values = [aws_autoscaling_group.hosts[0].name]
-  }
-
-  filter {
-    name   = "instance-state-name"
-    values = ["pending", "running"]
-  }
-}
-

@@ -49,10 +49,6 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
     Number of availability zones the network should span
 
-* `bastion_ingress_cidr_blocks` (`list(string)`, default: `["0.0.0.0/0"]`)
-
-    CIDR blocks from where you should be able to access the bastion host
-
 * `create` (`bool`, default: `true`)
 
     Should resources be created
@@ -92,34 +88,6 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 * `availability_zones`
 
     The availability zones in which corresponding public and private subnets were created
-
-* `bastion_key_name`
-
-    Name of the AWS key pair that can be used to access the bastion
-
-* `bastion_private_ips`
-
-    Private IP addresses of bastion hosts
-
-* `bastion_private_key`
-
-    Private key which can be used to SSH onto a bastion host
-
-* `bastion_public_ips`
-
-    Public IP addresses of bastion hosts
-
-* `bastion_public_key_openssh`
-
-    Public key to add to authorized_keys on machines which should be accessible from the bastion
-
-* `bastions_security_group_arn`
-
-    The ARN of the Security Group which should be used by bastion instances
-
-* `bastions_security_group_id`
-
-    The ID of the Security Group which should be used by bastion instances
 
 * `host_profile_arn`
 
