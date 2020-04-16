@@ -26,7 +26,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     Name of the ECS cluster to attach to
 
-* `cpu_credits` (`string`, default: `"standard"`)
+* `cpu_credits` (`string`, default: `null`)
 
     The credit option for CPU usage. Can be 'standard' or 'unlimited'.
 
