@@ -105,7 +105,7 @@ resource "aws_autoscaling_group" "hosts" {
 
   launch_template {
     id      = aws_launch_template.hosts[0].id
-    version = "$Latest"
+    version = aws_launch_template.hosts[0].latest_version
   }
 
   dynamic "tag" {
