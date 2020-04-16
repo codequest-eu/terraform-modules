@@ -74,8 +74,11 @@ resource "aws_launch_template" "hosts" {
     enabled = var.detailed_monitoring
   }
 
-  credit_specification {
-    cpu_credits = var.cpu_credits
+  dynamic "credit_specification" {
+    for_each = toset(var.cpu_credits != null ? ["credit_specification"] : [])
+    content {
+      cpu_credits = var.cpu_credits
+    }
   }
 }
 
