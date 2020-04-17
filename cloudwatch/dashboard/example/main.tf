@@ -64,6 +64,9 @@ module "widget_cpu_credit_balance" {
     m1 = module.metric_cpu_credit_balance
   }
   left_range = [0, null]
+  metric_options = {
+    m1 = { color = "#ff0000" }
+  }
 }
 
 module "dashboard" {

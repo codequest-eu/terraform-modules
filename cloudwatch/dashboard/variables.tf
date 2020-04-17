@@ -12,12 +12,5 @@ variable "name" {
 
 variable "widgets" {
   description = "Widgets to place on the dashboard"
-  type = list(object({
-    type       = string,
-    x          = number,
-    y          = number,
-    width      = number,
-    height     = number,
-    properties = any
-  }))
+  type        = any
 }

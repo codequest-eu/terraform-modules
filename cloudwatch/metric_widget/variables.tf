@@ -80,6 +80,6 @@ variable "hidden_metrics" {
 
 variable "metric_options" {
   description = "Additional metric options, eg. for specifying custom colors or labels"
-  type        = map(any)
+  type        = any
   default     = {}
 }
