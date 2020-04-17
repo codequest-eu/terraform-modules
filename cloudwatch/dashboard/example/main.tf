@@ -32,6 +32,18 @@ module "metric_cpu_utilization" {
   }
 }
 
+module "widget_cpu_utilization" {
+  source = "./../../metric_widget"
+
+  title      = "${aws_instance.instance.id} CPU utilization"
+  position   = [0, 0]
+  dimensions = [12, 6]
+  left_metrics = {
+    m1 = module.metric_cpu_utilization
+  }
+  left_range = [0, null]
+}
+
 module "metric_cpu_credit_balance" {
   source = "./../../metric"
 
@@ -42,36 +54,24 @@ module "metric_cpu_credit_balance" {
   }
 }
 
+module "widget_cpu_credit_balance" {
+  source = "./../../metric_widget"
+
+  title      = "${aws_instance.instance.id} CPU credit balance"
+  position   = [12, 0]
+  dimensions = [12, 6]
+  left_metrics = {
+    m1 = module.metric_cpu_credit_balance
+  }
+  left_range = [0, null]
+}
+
 module "dashboard" {
   source = "./.."
 
   name = "terraform-modules-cloudwatch-dashboard-example"
   widgets = [
-    {
-      type   = "metric"
-      x      = 0
-      y      = 0
-      width  = 12 # 50%
-      height = 4
-      properties = {
-        region = "eu-west-1"
-        metrics = [
-          module.metric_cpu_utilization.graph_metric
-        ]
-      }
-    },
-    {
-      type   = "metric"
-      x      = 12 # 50%
-      y      = 0
-      width  = 12
-      height = 4
-      properties = {
-        region = "eu-west-1"
-        metrics = [
-          module.metric_cpu_credit_balance.graph_metric
-        ]
-      }
-    },
+    module.widget_cpu_utilization,
+    module.widget_cpu_credit_balance
   ]
 }
