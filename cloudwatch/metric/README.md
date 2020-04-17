@@ -10,6 +10,10 @@
 
 ## Inputs
 
+* `color` (`string`, default: `null`)
+
+    Color to use in graphs
+
 * `dimensions` (`map(string)`, default: `{}`)
 
     Additional metric filters, eg. `{ InstanceId = i-abc123 }`

@@ -10,7 +10,8 @@ locals {
       period = var.period
     },
     var.id != null ? { id = var.id } : {},
-    var.label != null ? { label = var.label } : {}
+    var.label != null ? { label = var.label } : {},
+    var.color != null ? { color = var.color } : {}
   )
   graph_metric = concat(local.graph_metric_path, [local.graph_metric_options])
 

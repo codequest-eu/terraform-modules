@@ -37,3 +37,9 @@ variable "label" {
   type        = string
   default     = null
 }
+
+variable "color" {
+  description = "Color to use in graphs"
+  type        = string
+  default     = null
+}
