@@ -3,7 +3,9 @@
 # Log executed commands so it's easier to debug script failures
 set -x
 
-echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
+cat >/etc/ecs/ecs.config <<EOF
+ECS_CLUSTER=${cluster_name}
+EOF
 
 # Update ECS agent
 yum update -y ecs-init
