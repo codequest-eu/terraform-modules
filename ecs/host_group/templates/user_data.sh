@@ -5,6 +5,11 @@ set -x
 
 cat >/etc/ecs/ecs.config <<EOF
 ECS_CLUSTER=${cluster_name}
+
+# Ensure ECS agent logs don't exceed 100MB of disk space
+ECS_LOG_ROLLOVER_TYPE=size
+ECS_LOG_MAX_FILE_SIZE_MB=10
+ECS_LOG_MAX_ROLL_COUNT=10
 EOF
 
 # Update ECS agent
