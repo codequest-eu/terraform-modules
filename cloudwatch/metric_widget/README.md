@@ -41,7 +41,7 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Minimum and maximum values to display on the left Y axis
 
-* `metric_options` (`map(any)`, default: `{}`)
+* `metric_options` (`any`, default: `{}`)
 
     Additional metric options, eg. for specifying custom colors or labels
 
@@ -82,24 +82,24 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
 * `height`
 
-    
+    Widget height
 
 * `properties`
 
-    
+    Widget properties
 
 * `type`
 
-    
+    Widget type
 
 * `width`
 
-    
+    Widget width
 
 * `x`
 
-    
+    Widget position on the x axis
 
 * `y`
 
-    
+    Widget position on the y axis
