@@ -30,12 +30,6 @@ cat >/etc/cron.daily/ecs-agent-update <<EOF
 EOF
 chmod +x /etc/cron.daily/ecs-agent-update
 
-# HACK:
-# For some reason simply doing docker pull amazon/amazon-ecs-agent:latest
-# in the user data script doesn't fully update the ECS agent, so
-# lets force running the daily script once ECS starts up
-nohup sh -c 'while ! systemctl is-active -q ecs; do sleep 5; done; /etc/cron.daily/ecs-agent-update' &
-
 # Install security updates
 yum update -y --security
 
@@ -69,7 +63,6 @@ random_sleep = 0
 EOF
 
 systemctl enable yum-cron
-systemctl start yum-cron
 
 # Enable docker daemon live restore, so we can update docker without
 # restarting containers
@@ -79,11 +72,9 @@ cat >/etc/docker/daemon.json <<EOF
   "live-restore": true
 }
 EOF
-systemctl restart docker
 
 # Setup memory and disk usage monitoring
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mon-scripts.html
-
 yum install -y \
   unzip \
   curl \
@@ -104,3 +95,12 @@ cat >/etc/cron.d/ec2_metrics <<EOF
 EOF
 
 ${user_data}
+
+systemctl start yum-cron
+systemctl restart docker
+
+# HACK:
+# For some reason simply doing docker pull amazon/amazon-ecs-agent:latest
+# in the user data script doesn't fully update the ECS agent, so
+# lets force running the daily script once ECS starts up
+nohup sh -c 'while ! systemctl is-active -q ecs; do sleep 5; done; /etc/cron.daily/ecs-agent-update' &
