@@ -113,7 +113,7 @@ chmod +x /etc/update-motd.d/40-project-environment
 /usr/sbin/update-motd
 
 cat >>/home/ec2-user/.bashrc <<EOF
-export PS1="\u@$instance_id ${project} \033[${environment_color}m${environment}\033[m ${name}\n\w \$ "
+export PS1="\u@$instance_id ${project} \033[${environment_color}m${environment}\033[m\n\w \$ "
 EOF
 
 ${user_data}
