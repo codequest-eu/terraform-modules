@@ -55,7 +55,7 @@ module "metric_cpu_credit_balance" {
 }
 
 module "expression_cpu_credit_balance_rate" {
-  source = "./../../expression"
+  source = "./../../metric_expression"
 
   expression = "RATE(m1)"
   label      = "Rate of CPUCreditBalance"

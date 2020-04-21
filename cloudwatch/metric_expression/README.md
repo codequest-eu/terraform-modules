@@ -1,4 +1,4 @@
-# cloudwatch/expression
+# cloudwatch/metric_expression
 
 <!-- bin/docs -->
 
