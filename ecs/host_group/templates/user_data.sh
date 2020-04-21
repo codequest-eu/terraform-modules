@@ -3,6 +3,8 @@
 # Log executed commands so it's easier to debug script failures
 set -x
 
+instance_id=$(ec2-metadata -i | sed -r 's/instance-id: //')
+
 cat >/etc/ecs/ecs.config <<EOF
 ECS_CLUSTER=${cluster_name}
 
@@ -92,6 +94,26 @@ rm CloudWatchMonitoringScripts-1.2.2.zip
 cat >/etc/cron.d/ec2_metrics <<EOF
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --mem-util --mem-used --mem-avail --swap-util --swap-used
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --disk-path=/ --disk-space-util --disk-space-used --disk-space-avail
+EOF
+
+# Setup SSH login banner message and bash prompt
+
+amazon-linux-extras install -y epel && yum install -y figlet
+cat >/etc/update-motd.d/40-project-environment <<EOF
+#!/bin/sh
+echo -e '$(figlet -c -f slant "${project}")'
+printf '\033[${environment_color}m'
+echo -e '$(figlet -c -f term "${environment} environment")'
+printf '\033[m'
+echo -e '$(figlet -c -f term "${name} group")'
+echo
+EOF
+yum remove -y figlet epel-release
+chmod +x /etc/update-motd.d/40-project-environment
+/usr/sbin/update-motd
+
+cat >>/home/ec2-user/.bashrc <<EOF
+export PS1="\u@$instance_id ${project} \033[${environment_color}m${environment}\033[m\n\w \$ "
 EOF
 
 ${user_data}
