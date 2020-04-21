@@ -26,14 +26,6 @@
 
     Human-friendly metric description
 
-* `period` (`number`, default: `60`)
-
-    Metric aggregation period in seconds
-
-* `stat` (`string`, default: `"Average"`)
-
-    Metric aggregation function
-
 
 
 ## Outputs
@@ -69,11 +61,3 @@
 * `label`
 
     Human-friendly metric description
-
-* `period`
-
-    Metric aggregation period in seconds
-
-* `stat`
-
-    Metric aggregation function

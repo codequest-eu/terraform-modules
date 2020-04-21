@@ -29,16 +29,6 @@ output "expression" {
   value       = var.expression
 }
 
-output "period" {
-  description = "Metric aggregation period in seconds"
-  value       = var.period
-}
-
-output "stat" {
-  description = "Metric aggregation function"
-  value       = var.stat
-}
-
 output "id" {
   description = "Metric id to use in expressions"
   value       = var.id
