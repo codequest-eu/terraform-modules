@@ -1,23 +1,29 @@
 output "type" {
-  value = "metric"
+  description = "Widget type"
+  value       = "metric"
 }
 
 output "x" {
-  value = local.x
+  description = "Widget position on the x axis"
+  value       = local.x
 }
 
 output "y" {
-  value = local.y
+  description = "Widget position on the y axis"
+  value       = local.y
 }
 
 output "width" {
-  value = local.width
+  description = "Widget width"
+  value       = local.width
 }
 
 output "height" {
-  value = local.height
+  description = "Widget height"
+  value       = local.height
 }
 
 output "properties" {
-  value = local.properties
+  description = "Widget properties"
+  value       = local.properties
 }
