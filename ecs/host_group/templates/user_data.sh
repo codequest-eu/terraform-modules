@@ -3,7 +3,14 @@
 # Log executed commands so it's easier to debug script failures
 set -x
 
-echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
+cat >/etc/ecs/ecs.config <<EOF
+ECS_CLUSTER=${cluster_name}
+
+# Speed up stopped container removal, defaults to 3h.
+# Long wait duration can lead to the disk being filled up with instances
+# of a broken container that gets restarted over and over again.
+ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=5m
+EOF
 
 # Update ECS agent
 yum update -y ecs-init
