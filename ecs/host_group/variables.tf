@@ -91,3 +91,9 @@ variable "user_data" {
   type        = string
   default     = ""
 }
+
+variable "ecs_agent_config" {
+  description = "ECS agent configuration to append to the default one"
+  type        = string
+  default     = ""
+}

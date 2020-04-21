@@ -34,6 +34,7 @@ data "template_file" "user_data" {
     cluster_name        = var.cluster_name
     detailed_monitoring = var.detailed_monitoring
     user_data           = var.user_data
+    ecs_agent_config    = var.ecs_agent_config
   }
 }
 

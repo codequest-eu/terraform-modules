@@ -10,6 +10,8 @@ ECS_CLUSTER=${cluster_name}
 # Long wait duration can lead to the disk being filled up with instances
 # of a broken container that gets restarted over and over again.
 ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=5m
+
+${ecs_agent_config}
 EOF
 
 # Update ECS agent
