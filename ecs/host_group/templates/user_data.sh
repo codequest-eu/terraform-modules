@@ -3,6 +3,11 @@
 # Log executed commands so it's easier to debug script failures
 set -x
 
+project='${project}'
+environment='${environment}'
+name='${name}'
+instance_id=$(ec2-metadata -i | sed -r 's/instance-id: //')
+
 cat >/etc/ecs/ecs.config <<EOF
 ECS_CLUSTER=${cluster_name}
 
@@ -93,6 +98,20 @@ cat >/etc/cron.d/ec2_metrics <<EOF
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --mem-util --mem-used --mem-avail --swap-util --swap-used
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --disk-path=/ --disk-space-util --disk-space-used --disk-space-avail
 EOF
+
+# Setup SSH login banner message and bash prompt
+
+amazon-linux-extras install -y epel && yum install -y figlet
+cat >/etc/update-motd.d/40-project-environment <<EOF
+#!/bin/sh
+echo -e '$(figlet -c -f slant "$project")'
+echo -e '$(figlet -c -f term "$environment environment")'
+echo -e '$(figlet -c -f term "$name group")'
+echo
+EOF
+yum remove -y figlet epel-release
+chmod +x /etc/update-motd.d/40-project-environment
+/usr/sbin/update-motd
 
 ${user_data}
 

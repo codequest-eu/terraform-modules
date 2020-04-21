@@ -31,6 +31,9 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
 
   vars = {
+    project             = var.project
+    environment         = var.environment
+    name                = var.name
     cluster_name        = var.cluster_name
     detailed_monitoring = var.detailed_monitoring
     user_data           = var.user_data
