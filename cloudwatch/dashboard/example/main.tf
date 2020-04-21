@@ -54,6 +54,13 @@ module "metric_cpu_credit_balance" {
   }
 }
 
+module "expression_cpu_credit_balance_rate" {
+  source = "./../../expression"
+
+  expression = "RATE(m1)"
+  label      = "Rate of CPUCreditBalance"
+}
+
 module "widget_cpu_credit_balance" {
   source = "./../../metric_widget"
 
@@ -64,8 +71,12 @@ module "widget_cpu_credit_balance" {
     m1 = module.metric_cpu_credit_balance
   }
   left_range = [0, null]
+  right_metrics = {
+    e1 = module.expression_cpu_credit_balance_rate
+  }
   metric_options = {
     m1 = { color = "#ff0000" }
+    e1 = { color = "#0000ff" }
   }
 }
 
