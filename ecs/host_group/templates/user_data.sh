@@ -100,3 +100,5 @@ cat >/etc/cron.d/ec2_metrics <<EOF
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --mem-util --mem-used --mem-avail --swap-util --swap-used
 *${detailed_monitoring ? "" : "/5"} * * * * ec2-user /opt/aws-scripts-mon/mon-put-instance-data.pl --from-cron --auto-scaling --disk-path=/ --disk-space-util --disk-space-used --disk-space-avail
 EOF
+
+${user_data}

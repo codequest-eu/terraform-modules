@@ -85,3 +85,9 @@ variable "cpu_credits" {
   type        = string
   default     = null
 }
+
+variable "user_data" {
+  description = "Bash script to append to the default user data script"
+  type        = string
+  default     = ""
+}

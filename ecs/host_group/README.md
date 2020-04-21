@@ -78,6 +78,10 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     Tags to add to resources that support them
 
+* `user_data` (`string`, default: `""`)
+
+    Bash script to append to the default user data script
+
 
 
 ## Outputs
