@@ -78,6 +78,18 @@ module "widget_cpu_credit_balance" {
   }
 }
 
+module "widget_current_cpu_credit_balance" {
+  source = "./../../metric_widget"
+
+  title      = "${aws_instance.instance.id} CPU"
+  dimensions = [6, 3]
+  view       = "singleValue"
+  left_metrics = {
+    m1 = module.metric_cpu_utilization
+    m2 = module.metric_cpu_credit_balance
+  }
+}
+
 module "dashboard" {
   source = "./.."
 
@@ -85,5 +97,6 @@ module "dashboard" {
   widgets = [
     module.widget_cpu_utilization.definition,
     module.widget_cpu_credit_balance.definition,
+    module.widget_current_cpu_credit_balance.definition
   ]
 }
