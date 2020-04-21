@@ -21,13 +21,6 @@ Creates a dashboard in cloudwatch with the given widgets, created with `cloudwat
 
     Name of the dashboard
 
-* `widgets` (`list(object({
-    type       = string,
-    x          = number,
-    y          = number,
-    width      = number,
-    height     = number,
-    properties = any
-  }))`, required)
+* `widgets` (`any`, required)
 
     Widgets to place on the dashboard
