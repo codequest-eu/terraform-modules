@@ -39,9 +39,13 @@ data "template_file" "user_data" {
   template = file("${path.module}/templates/user_data.sh")
 
   vars = {
-    project             = var.project
-    environment         = var.environment
-    environment_color   = var.environment == "production" ? local.shell_colors.red : var.environment == "staging" ? local.shell_colors.yellow : local.shell_colors.green
+    project     = var.project
+    environment = var.environment
+    environment_color = (
+      var.environment == "production" ? local.shell_colors.red :
+      var.environment == "staging" ? local.shell_colors.yellow :
+      local.shell_colors.green
+    )
     name                = var.name
     cluster_name        = var.cluster_name
     detailed_monitoring = var.detailed_monitoring
