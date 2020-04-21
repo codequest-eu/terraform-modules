@@ -85,3 +85,15 @@ variable "cpu_credits" {
   type        = string
   default     = null
 }
+
+variable "user_data" {
+  description = "Bash script to append to the default user data script"
+  type        = string
+  default     = ""
+}
+
+variable "ecs_agent_config" {
+  description = "ECS agent configuration to append to the default one"
+  type        = string
+  default     = ""
+}

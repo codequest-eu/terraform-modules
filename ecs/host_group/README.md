@@ -34,6 +34,10 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
     Whether to enable detailed monitoring on EC2 instances
 
+* `ecs_agent_config` (`string`, default: `""`)
+
+    ECS agent configuration to append to the default one
+
 * `environment` (`string`, required)
 
     Kebab-cased environment name, eg. development, staging, production.
@@ -77,6 +81,10 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 * `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
+
+* `user_data` (`string`, default: `""`)
+
+    Bash script to append to the default user data script
 
 
 
