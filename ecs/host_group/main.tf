@@ -25,6 +25,14 @@ data "aws_ami" "ecs_amazon_linux" {
   }
 }
 
+locals {
+  shell_colors = {
+    red    = 31
+    yellow = 33
+    green  = 32
+  }
+}
+
 data "template_file" "user_data" {
   count = var.create ? 1 : 0
 
@@ -33,6 +41,7 @@ data "template_file" "user_data" {
   vars = {
     project             = var.project
     environment         = var.environment
+    environment_color   = var.environment == "production" ? local.shell_colors.red : var.environment == "staging" ? local.shell_colors.yellow : local.shell_colors.green
     name                = var.name
     cluster_name        = var.cluster_name
     detailed_monitoring = var.detailed_monitoring

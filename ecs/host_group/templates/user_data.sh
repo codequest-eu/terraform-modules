@@ -3,9 +3,6 @@
 # Log executed commands so it's easier to debug script failures
 set -x
 
-project='${project}'
-environment='${environment}'
-name='${name}'
 instance_id=$(ec2-metadata -i | sed -r 's/instance-id: //')
 
 cat >/etc/ecs/ecs.config <<EOF
@@ -104,9 +101,11 @@ EOF
 amazon-linux-extras install -y epel && yum install -y figlet
 cat >/etc/update-motd.d/40-project-environment <<EOF
 #!/bin/sh
-echo -e '$(figlet -c -f slant "$project")'
-echo -e '$(figlet -c -f term "$environment environment")'
-echo -e '$(figlet -c -f term "$name group")'
+echo -e '$(figlet -c -f slant "${project}")'
+printf '\033[${environment_color}m'
+echo -e '$(figlet -c -f term "${environment} environment")'
+printf '\033[m'
+echo -e '$(figlet -c -f term "${name} group")'
 echo
 EOF
 yum remove -y figlet epel-release
