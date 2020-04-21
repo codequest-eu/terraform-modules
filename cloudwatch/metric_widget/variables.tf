@@ -29,16 +29,13 @@ variable "dimensions" {
 
 variable "left_metrics" {
   description = "Metrics to display on the widget's left Y axis"
-  type = map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))
-  default = {}
+  type        = any
+  default     = {}
 }
 
 variable "left_annotations" {
   description = "Annotations to display on the widget's left Y axis"
-  type        = list(any)
+  type        = any
   default     = []
 }
 
@@ -50,16 +47,13 @@ variable "left_range" {
 
 variable "right_metrics" {
   description = "Metrics to display on the widget's right Y axis"
-  type = map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))
-  default = {}
+  type        = any
+  default     = {}
 }
 
 variable "right_annotations" {
   description = "Annotations to display on the widget's right Y axis"
-  type        = list(any)
+  type        = any
   default     = []
 }
 
@@ -71,11 +65,8 @@ variable "right_range" {
 
 variable "hidden_metrics" {
   description = "Metrics used in expressions"
-  type = map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))
-  default = {}
+  type        = any
+  default     = {}
 }
 
 variable "metric_options" {

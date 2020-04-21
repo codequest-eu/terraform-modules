@@ -1,11 +1,6 @@
 data "aws_region" "current" {}
 
 locals {
-  x      = var.position != null ? var.position[0] : null
-  y      = var.position != null ? var.position[1] : null
-  width  = var.dimensions != null ? var.dimensions[0] : null
-  height = var.dimensions != null ? var.dimensions[1] : null
-
   left_metrics = [for id, metric in var.left_metrics : concat(
     metric.graph_metric_path,
     [merge(
@@ -54,4 +49,13 @@ locals {
       local.hidden_metrics
     )
   }
+
+  definition = merge(
+    {
+      type       = "metric",
+      properties = local.properties
+    },
+    var.position != null ? { x = var.position[0], y = var.position[1] } : {},
+    var.dimensions != null ? { width = var.dimensions[0], height = var.dimensions[1] } : {},
+  )
 }

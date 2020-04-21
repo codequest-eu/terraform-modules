@@ -19,21 +19,15 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Dimensions of the widget
 
-* `hidden_metrics` (`map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))`, default: `{}`)
+* `hidden_metrics` (`any`, default: `{}`)
 
     Metrics used in expressions
 
-* `left_annotations` (`list(any)`, default: `[]`)
+* `left_annotations` (`any`, default: `[]`)
 
     Annotations to display on the widget's left Y axis
 
-* `left_metrics` (`map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))`, default: `{}`)
+* `left_metrics` (`any`, default: `{}`)
 
     Metrics to display on the widget's left Y axis
 
@@ -49,14 +43,11 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Position of the widget
 
-* `right_annotations` (`list(any)`, default: `[]`)
+* `right_annotations` (`any`, default: `[]`)
 
     Annotations to display on the widget's right Y axis
 
-* `right_metrics` (`map(object({
-    graph_metric_path    = list(string),
-    graph_metric_options = any
-  }))`, default: `{}`)
+* `right_metrics` (`any`, default: `{}`)
 
     Metrics to display on the widget's right Y axis
 
@@ -80,26 +71,6 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
 ## Outputs
 
-* `height`
+* `definition`
 
-    Widget height
-
-* `properties`
-
-    Widget properties
-
-* `type`
-
-    Widget type
-
-* `width`
-
-    Widget width
-
-* `x`
-
-    Widget position on the x axis
-
-* `y`
-
-    Widget position on the y axis
+    Widget definition object, which can be passed to cloudwatch/dashboard widgets list
