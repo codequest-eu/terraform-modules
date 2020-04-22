@@ -18,6 +18,8 @@ locals {
 }
 
 resource "aws_cloudwatch_dashboard" "dashboard" {
+  count = var.create ? 1 : 0
+
   dashboard_name = var.name
   dashboard_body = jsonencode(local.dashboard_source)
 }
