@@ -40,21 +40,19 @@ Alarm trigger condition as a `[metric_id, operator, threshold]` tuple, eg. `['m1
   type        = tuple([string, string, any])
 }
 
+variable "condition_period" {
+  description = <<EOF
+How many (N) periods have to meet the condition within the last M periods
+to trigger the alarm, as a `[N, M]` tuple,
+eg. `[3, 4]` will require the condition to be met at least 3 times in the last 4 periods
+EOF
+  type        = tuple([number, number])
+  default     = [1, 1]
+}
+
 variable "metrics" {
   description = "Metrics used by the alarm condition"
   type        = any
-}
-
-variable "min_periods" {
-  description = "How many metric periods have to pass with the condition met to trigger the alarm"
-  type        = number
-  default     = 1
-}
-
-variable "min_datapoints" {
-  description = "How many datapoints have to meet the condition to trigger the alarm"
-  type        = number
-  default     = 1
 }
 
 variable "on_actions" {

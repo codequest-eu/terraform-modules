@@ -28,6 +28,13 @@
     For anomaly detection `threshold` should be the id of the `ANOMALY_DETECTION_BAND` function.
 
 
+* `condition_period` (`tuple([number, number])`, default: `[1,1]`)
+
+    How many (N) periods have to meet the condition within the last M periods
+to trigger the alarm, as a `[N, M]` tuple,
+eg. `[3, 4]` will require the condition to be met at least 3 times in the last 4 periods
+
+
 * `create` (`bool`, default: `true`)
 
     Should resources be created
@@ -39,14 +46,6 @@
 * `metrics` (`any`, required)
 
     Metrics used by the alarm condition
-
-* `min_datapoints` (`number`, default: `1`)
-
-    How many datapoints have to meet the condition to trigger the alarm
-
-* `min_periods` (`number`, default: `1`)
-
-    How many metric periods have to pass with the condition met to trigger the alarm
 
 * `name` (`string`, required)
 

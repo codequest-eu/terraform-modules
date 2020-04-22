@@ -30,7 +30,8 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
   threshold           = local.threshold
   threshold_metric_id = local.threshold_metric_id
   comparison_operator = local.operator
-  evaluation_periods  = var.min_periods
+  evaluation_periods  = var.condition_period[1]
+  datapoints_to_alarm = var.condition_period[0]
 
   dynamic "metric_query" {
     for_each = { for metric in var.metrics : metric.id => metric if can(metric.name) }
