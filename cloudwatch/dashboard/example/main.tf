@@ -35,12 +35,10 @@ module "metric_cpu_utilization" {
 module "widget_cpu_utilization" {
   source = "./../../metric_widget"
 
-  title      = "${aws_instance.instance.id} CPU utilization"
-  dimensions = [12, 6]
-  left_metrics = {
-    m1 = module.metric_cpu_utilization
-  }
-  left_range = [0, null]
+  title        = "${aws_instance.instance.id} CPU utilization"
+  dimensions   = [12, 6]
+  left_metrics = [module.metric_cpu_utilization]
+  left_range   = [0, null]
 }
 
 module "metric_cpu_credit_balance" {
