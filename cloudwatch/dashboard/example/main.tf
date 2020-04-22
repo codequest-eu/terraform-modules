@@ -82,6 +82,14 @@ module "widget_current_cpu_credit_balance" {
   ]
 }
 
+module "alarm_cpu_utilization" {
+  source = "./../../alarm"
+
+  name      = "terraform-modules-cloudwatch-dashboard-example-cpu-utilization"
+  condition = [module.metric_cpu_utilization.id, ">", 80]
+  metrics   = [module.metric_cpu_utilization]
+}
+
 module "dashboard" {
   source = "./.."
 
