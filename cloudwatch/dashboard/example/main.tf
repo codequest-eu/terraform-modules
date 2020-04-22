@@ -90,6 +90,13 @@ module "alarm_cpu_utilization" {
   metrics   = [module.metric_cpu_utilization]
 }
 
+module "widget_cpu_utilization_alarm" {
+  source = "./../../alarm_widget"
+
+  title     = "CPU utilization alarm"
+  alarm_arn = module.alarm_cpu_utilization.arn
+}
+
 module "dashboard" {
   source = "./.."
 
@@ -98,5 +105,6 @@ module "dashboard" {
     module.widget_cpu_utilization,
     module.widget_cpu_credit_balance,
     module.widget_current_cpu_credit_balance,
+    module.widget_cpu_utilization_alarm,
   ]
 }
