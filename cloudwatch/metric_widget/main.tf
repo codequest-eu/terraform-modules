@@ -1,38 +1,31 @@
 data "aws_region" "current" {}
 
 locals {
-  left_metrics = [for id, metric in var.left_metrics : concat(
-    metric.graph_metric_path,
-    [merge(
-      metric.graph_metric_options,
-      lookup(var.metric_options, id, {}),
-      { id = id, yAxis = "left" }
-    )]
-  )]
-
-  right_metrics = [for id, metric in var.right_metrics : concat(
-    metric.graph_metric_path,
-    [merge(
-      metric.graph_metric_options,
-      lookup(var.metric_options, id, {}),
-      { id = id, yAxis = "right" }
-    )]
-  )]
-
-  hidden_metrics = [for id, metric in var.hidden_metrics : concat(
-    metric.graph_metric_path,
-    [merge(metric.graph_metric_options, { id = id, visible = false })]
-  )]
-
-  left_axis = merge(
-    var.left_range[0] != null ? { min = var.left_range[0] } : {},
-    var.left_range[1] != null ? { max = var.left_range[1] } : {}
+  metrics = concat(
+    [for metric in var.left_metrics : merge(metric, { yAxis = "left" })],
+    [for metric in var.right_metrics : merge(metric, { yAxis = "right" })],
+    [for metric in var.hidden_metrics : metric],
   )
 
-  right_axis = merge(
-    var.right_range[0] != null ? { min = var.right_range[0] } : {},
-    var.right_range[1] != null ? { max = var.right_range[1] } : {}
-  )
+  # https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html#CloudWatch-Dashboard-Properties-Metrics-Array-Format
+  metrics_property = [for metric in local.metrics : concat(
+    can(metric.name) ? concat(
+      [metric.namespace, metric.name],
+      flatten([for k, v in metric.dimensions : [k, v]])
+    ) : [],
+    [merge(
+      {
+        id      = metric.id
+        visible = can(metric.yAxis)
+      },
+      metric.label != null ? { label = metric.label } : {},
+      metric.color != null ? { color = metric.color } : {},
+      try({ stat = metric.stat }, {}),
+      try({ period = metric.period }, {}),
+      try({ expression = metric.expression }, {}),
+      try({ yAxis = metric.yAxis }, {}),
+    )]
+  )]
 
   properties = {
     title   = var.title
@@ -40,22 +33,15 @@ locals {
     stacked = var.stacked
     region  = data.aws_region.current.name
     yAxis = {
-      left  = local.left_axis,
-      right = local.right_axis
+      left = merge(
+        var.left_range[0] != null ? { min = var.left_range[0] } : {},
+        var.left_range[1] != null ? { max = var.left_range[1] } : {},
+      )
+      right = merge(
+        var.right_range[0] != null ? { min = var.right_range[0] } : {},
+        var.right_range[1] != null ? { max = var.right_range[1] } : {},
+      )
     }
-    metrics = concat(
-      local.left_metrics,
-      local.right_metrics,
-      local.hidden_metrics
-    )
+    metrics = local.metrics_property
   }
-
-  definition = merge(
-    {
-      type       = "metric",
-      properties = local.properties
-    },
-    var.position != null ? { x = var.position[0], y = var.position[1] } : {},
-    var.dimensions != null ? { width = var.dimensions[0], height = var.dimensions[1] } : {},
-  )
 }

@@ -56,26 +56,18 @@ module "metric_cpu_credit_balance" {
 module "expression_cpu_credit_balance_rate" {
   source = "./../../metric_expression"
 
-  expression = "RATE(m1)"
+  expression = "RATE(${module.metric_cpu_credit_balance.id})"
   label      = "Rate of CPUCreditBalance"
 }
 
 module "widget_cpu_credit_balance" {
   source = "./../../metric_widget"
 
-  title      = "${aws_instance.instance.id} CPU credit balance"
-  dimensions = [12, 6]
-  left_metrics = {
-    m1 = module.metric_cpu_credit_balance
-  }
-  left_range = [0, null]
-  right_metrics = {
-    e1 = module.expression_cpu_credit_balance_rate
-  }
-  metric_options = {
-    m1 = { color = "#ff0000" }
-    e1 = { color = "#0000ff" }
-  }
+  title         = "${aws_instance.instance.id} CPU credit balance"
+  dimensions    = [12, 6]
+  left_metrics  = [module.metric_cpu_credit_balance]
+  left_range    = [0, null]
+  right_metrics = [module.expression_cpu_credit_balance_rate]
 }
 
 module "widget_current_cpu_credit_balance" {
@@ -84,10 +76,10 @@ module "widget_current_cpu_credit_balance" {
   title      = "${aws_instance.instance.id} CPU"
   dimensions = [6, 3]
   view       = "singleValue"
-  left_metrics = {
-    m1 = module.metric_cpu_utilization
-    m2 = module.metric_cpu_credit_balance
-  }
+  left_metrics = [
+    module.metric_cpu_utilization,
+    module.metric_cpu_credit_balance
+  ]
 }
 
 module "dashboard" {
@@ -95,8 +87,8 @@ module "dashboard" {
 
   name = "terraform-modules-cloudwatch-dashboard-example"
   widgets = [
-    module.widget_cpu_utilization.definition,
-    module.widget_cpu_credit_balance.definition,
-    module.widget_current_cpu_credit_balance.definition
+    module.widget_cpu_utilization,
+    module.widget_cpu_credit_balance,
+    module.widget_current_cpu_credit_balance,
   ]
 }

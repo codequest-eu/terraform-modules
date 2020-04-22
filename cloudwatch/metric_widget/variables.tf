@@ -68,9 +68,3 @@ variable "hidden_metrics" {
   type        = any
   default     = {}
 }
-
-variable "metric_options" {
-  description = "Additional metric options, eg. for specifying custom colors or labels"
-  type        = any
-  default     = {}
-}

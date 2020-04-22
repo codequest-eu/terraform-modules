@@ -35,10 +35,6 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Minimum and maximum values to display on the left Y axis
 
-* `metric_options` (`any`, default: `{}`)
-
-    Additional metric options, eg. for specifying custom colors or labels
-
 * `position` (`tuple([number, number])`, default: `null`)
 
     Position of the widget
@@ -71,6 +67,18 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
 ## Outputs
 
-* `definition`
+* `dimensions`
 
-    Widget definition object, which can be passed to cloudwatch/dashboard widgets list
+    Widget dimensions
+
+* `position`
+
+    Widget position
+
+* `properties`
+
+    Widget properties
+
+* `type`
+
+    Widget type

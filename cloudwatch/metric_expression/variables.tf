@@ -3,12 +3,6 @@ variable "expression" {
   type        = string
 }
 
-variable "id" {
-  description = "Metric id to use in expressions"
-  type        = string
-  default     = null
-}
-
 variable "label" {
   description = "Human-friendly metric description"
   type        = string
