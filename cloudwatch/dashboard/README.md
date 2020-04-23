@@ -42,3 +42,19 @@ Creates a dashboard in cloudwatch with the given widgets.
 * `widgets` (`any`, required)
 
     Widgets to place on the dashboard
+
+
+
+## Outputs
+
+* `arn`
+
+    Dashboard ARN
+
+* `name`
+
+    Dashboard name
+
+* `url`
+
+    Dashboard URL

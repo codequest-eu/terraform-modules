@@ -51,6 +51,10 @@ module "dashboard_simple" {
   ]
 }
 
+output "simple_dashboard_url" {
+  value = module.dashboard_simple.url
+}
+
 # Dashboard with custom layout and time range
 module "widget_custom_cpu_utilization" {
   source = "./../../metric_widget"
@@ -80,4 +84,8 @@ module "dashboard_custom" {
     module.widget_custom_cpu_utilization,
     module.widget_custom_network_traffic,
   ]
+}
+
+output "custom_dashboard_url" {
+  value = module.dashboard_custom.url
 }

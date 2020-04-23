@@ -26,3 +26,14 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
   dashboard_name = var.name
   dashboard_body = jsonencode(local.body)
 }
+
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  region = var.create ? data.aws_region.current[0].name : ""
+  name   = var.create ? aws_cloudwatch_dashboard.dashboard[0].dashboard_name : var.name
+  arn    = var.create ? aws_cloudwatch_dashboard.dashboard[0].dashboard_arn : ""
+  url    = var.create ? "https://${local.region}.console.aws.amazon.com/cloudwatch/home#dashboards:name=${urlencode(local.name)}" : ""
+}
