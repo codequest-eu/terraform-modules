@@ -14,6 +14,7 @@ module "dashboard" {
     module.widget_stacked,
     module.widget_current_values,
     module.widget_expressions,
+    module.widget_annotations,
   ]
 }
 
@@ -153,5 +154,60 @@ module "widget_expressions" {
   hidden_metrics = [
     module.metric_average_cpu_utilization,
     module.metric_max_cpu_utilization,
+  ]
+}
+
+# Widget with annotations
+module "annotation_high_cpu" {
+  source = "./../../annotation"
+
+  value = 80
+  color = "#ff0000"
+  fill  = "above"
+  label = "High CPU Utilization"
+}
+
+module "annotation_low_cpu" {
+  source = "./../../annotation"
+
+  value = 20
+  color = "#ff0000"
+  fill  = "below"
+  label = "Low CPU Utilization"
+}
+
+module "annotation_normal_cpu" {
+  source = "./../../annotation"
+
+  value_range = [20, 80]
+  color       = "#00ff00"
+  labels = [
+    "Minimum expected CPU Utilization",
+    "Maximum expected CPU Utilization",
+  ]
+}
+
+module "annotation_last_release" {
+  source = "./../../annotation"
+
+  time  = "2020-04-22T15:30:00Z"
+  color = "#000000"
+  label = "Last release"
+}
+
+module "widget_annotations" {
+  source = "./.."
+
+  title        = "Annotations"
+  stacked      = true
+  left_metrics = [module.metric_average_cpu_utilization]
+  left_range   = [0, 100]
+  left_annotations = [
+    module.annotation_low_cpu,
+    module.annotation_high_cpu,
+    module.annotation_normal_cpu,
+  ]
+  vertical_annotations = [
+    module.annotation_last_release,
   ]
 }

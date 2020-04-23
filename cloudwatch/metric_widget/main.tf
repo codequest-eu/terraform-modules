@@ -27,6 +27,20 @@ locals {
     )]
   )]
 
+  annotations_property = {
+    vertical = [for annotation in var.vertical_annotations : annotation.body],
+    horizontal = concat(
+      [for annotation in var.left_annotations : try(
+        merge(annotation.body, { yAxis = "left" }),
+        [merge(annotation.body[0], { yAxis = "left" }), annotation.body[1]],
+      )],
+      [for annotation in var.right_annotations : try(
+        merge(annotation.body, { yAxis = "right" }),
+        [merge(annotation.body[0], { yAxis = "right" }), annotation.body[1]],
+      )],
+    )
+  }
+
   properties = {
     title   = var.title
     view    = var.view
@@ -42,6 +56,7 @@ locals {
         var.right_range[1] != null ? { max = var.right_range[1] } : {},
       )
     }
-    metrics = local.metrics_property
+    metrics     = local.metrics_property
+    annotations = local.annotations_property
   }
 }
