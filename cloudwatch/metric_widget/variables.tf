@@ -33,12 +33,6 @@ variable "left_metrics" {
   default     = {}
 }
 
-variable "left_annotations" {
-  description = "Annotations to display on the widget's left Y axis"
-  type        = any
-  default     = []
-}
-
 variable "left_range" {
   description = "Minimum and maximum values to display on the left Y axis"
   type        = tuple([number, number])
@@ -49,12 +43,6 @@ variable "right_metrics" {
   description = "Metrics to display on the widget's right Y axis"
   type        = any
   default     = {}
-}
-
-variable "right_annotations" {
-  description = "Annotations to display on the widget's right Y axis"
-  type        = any
-  default     = []
 }
 
 variable "right_range" {

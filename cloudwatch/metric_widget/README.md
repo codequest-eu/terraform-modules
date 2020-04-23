@@ -23,10 +23,6 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Metrics used in expressions
 
-* `left_annotations` (`any`, default: `[]`)
-
-    Annotations to display on the widget's left Y axis
-
 * `left_metrics` (`any`, default: `{}`)
 
     Metrics to display on the widget's left Y axis
@@ -38,10 +34,6 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 * `position` (`tuple([number, number])`, default: `null`)
 
     Position of the widget
-
-* `right_annotations` (`any`, default: `[]`)
-
-    Annotations to display on the widget's right Y axis
 
 * `right_metrics` (`any`, default: `{}`)
 
