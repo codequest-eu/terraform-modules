@@ -58,7 +58,7 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
 
     content {
       id          = metric.value.id
-      return_data = metric.value.id == local.metric_id
+      return_data = metric.value.id == local.metric_id || metric.value.id == local.threshold_metric_id
       expression  = metric.value.expression
       label       = metric.value.label
     }
