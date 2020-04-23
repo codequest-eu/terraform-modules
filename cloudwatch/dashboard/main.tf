@@ -1,5 +1,8 @@
 locals {
-  dashboard_source = {
+  body = {
+    start          = var.start,
+    end            = var.end,
+    periodOverride = var.period_override,
     widgets = [for widget in var.widgets : merge(
       {
         type : widget.type,
@@ -21,5 +24,5 @@ resource "aws_cloudwatch_dashboard" "dashboard" {
   count = var.create ? 1 : 0
 
   dashboard_name = var.name
-  dashboard_body = jsonencode(local.dashboard_source)
+  dashboard_body = jsonencode(local.body)
 }

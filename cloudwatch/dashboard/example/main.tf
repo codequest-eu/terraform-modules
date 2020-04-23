@@ -51,7 +51,7 @@ module "dashboard_simple" {
   ]
 }
 
-# Dashboard with custom layout
+# Dashboard with custom layout and time range
 module "widget_custom_cpu_utilization" {
   source = "./../../metric_widget"
 
@@ -74,7 +74,8 @@ module "widget_custom_network_traffic" {
 module "dashboard_custom" {
   source = "./.."
 
-  name = "terraform-modules-cloudwatch-dashboard-example-custom"
+  name  = "terraform-modules-cloudwatch-dashboard-example-custom"
+  start = "-P1W"
   widgets = [
     module.widget_custom_cpu_utilization,
     module.widget_custom_network_traffic,
