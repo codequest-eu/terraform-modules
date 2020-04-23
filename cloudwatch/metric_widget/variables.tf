@@ -30,7 +30,7 @@ variable "dimensions" {
 variable "left_metrics" {
   description = "Metrics to display on the widget's left Y axis"
   type        = any
-  default     = {}
+  default     = []
 }
 
 variable "left_range" {
@@ -42,7 +42,7 @@ variable "left_range" {
 variable "right_metrics" {
   description = "Metrics to display on the widget's right Y axis"
   type        = any
-  default     = {}
+  default     = []
 }
 
 variable "right_range" {
@@ -54,5 +54,5 @@ variable "right_range" {
 variable "hidden_metrics" {
   description = "Metrics used in expressions"
   type        = any
-  default     = {}
+  default     = []
 }

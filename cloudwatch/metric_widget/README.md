@@ -19,11 +19,11 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Dimensions of the widget
 
-* `hidden_metrics` (`any`, default: `{}`)
+* `hidden_metrics` (`any`, default: `[]`)
 
     Metrics used in expressions
 
-* `left_metrics` (`any`, default: `{}`)
+* `left_metrics` (`any`, default: `[]`)
 
     Metrics to display on the widget's left Y axis
 
@@ -35,7 +35,7 @@ https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dash
 
     Position of the widget
 
-* `right_metrics` (`any`, default: `{}`)
+* `right_metrics` (`any`, default: `[]`)
 
     Metrics to display on the widget's right Y axis
 
