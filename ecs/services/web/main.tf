@@ -87,3 +87,171 @@ resource "aws_lb_listener_rule" "service" {
   }
 }
 
+# cloudwatch metrics ----------------------------------------------------------
+
+data "aws_lb_listener" "listener" {
+  count = var.create ? 1 : 0
+
+  arn = var.listener_arn
+}
+
+data "aws_lb" "lb" {
+  count = var.create ? 1 : 0
+
+  arn = data.aws_lb_listener.listener[0].load_balancer_arn
+}
+
+module "cloudwatch_consts" {
+  source = "./../../../cloudwatch/consts"
+}
+
+locals {
+  colors = module.cloudwatch_consts.colors
+}
+
+module "metric_responses" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "RequestCount"
+  label     = "Responses"
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_2xx_responses" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "HTTPCode_Target_2XX_Count"
+  label     = "2xx responses"
+  color     = local.colors.green
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_2xx_responses_ratio" {
+  source = "./../../../cloudwatch/metric_expression"
+
+  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_2xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  label      = "2xx response ratio"
+  color      = module.metric_2xx_responses.color
+}
+
+module "metric_3xx_responses" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "HTTPCode_Target_3XX_Count"
+  label     = "3xx responses"
+  color     = local.colors.blue
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_3xx_responses_ratio" {
+  source = "./../../../cloudwatch/metric_expression"
+
+  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_3xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  label      = "3xx response ratio"
+  color      = module.metric_3xx_responses.color
+}
+
+module "metric_4xx_responses" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "HTTPCode_Target_4XX_Count"
+  label     = "4xx responses"
+  color     = local.colors.orange
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_4xx_responses_ratio" {
+  source = "./../../../cloudwatch/metric_expression"
+
+  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_4xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  label      = "4xx response ratio"
+  color      = module.metric_4xx_responses.color
+}
+
+module "metric_5xx_responses" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "HTTPCode_Target_5XX_Count"
+  label     = "5xx responses"
+  color     = local.colors.red
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_5xx_responses_ratio" {
+  source = "./../../../cloudwatch/metric_expression"
+
+  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_5xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  label      = "5xx response ratio"
+  color      = module.metric_5xx_responses.color
+}
+
+# cloudwatch dashboard widgets ------------------------------------------------
+
+module "widget_responses" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title   = "Responses"
+  stacked = true
+  left_metrics = [
+    module.metric_5xx_responses,
+    module.metric_4xx_responses,
+    module.metric_3xx_responses,
+    module.metric_2xx_responses,
+  ]
+}
+
+module "widget_response_ratios" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title   = "Response ratios"
+  stacked = true
+  left_metrics = [
+    module.metric_5xx_responses_ratio,
+    module.metric_4xx_responses_ratio,
+    module.metric_3xx_responses_ratio,
+    module.metric_2xx_responses_ratio,
+  ]
+  left_range = [0, 100]
+  hidden_metrics = [
+    module.metric_responses,
+    module.metric_2xx_responses,
+    module.metric_3xx_responses,
+    module.metric_4xx_responses,
+    module.metric_5xx_responses,
+  ]
+}

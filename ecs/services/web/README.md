@@ -117,6 +117,42 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Service id
 
+* `metric_2xx_responses`
+
+    Cloudwatch metric tracking the number of 2xx responses
+
+* `metric_2xx_responses_ratio`
+
+    Cloudwatch metric tracking percentage of 2xx responses
+
+* `metric_3xx_responses`
+
+    Cloudwatch metric tracking the number of 3xx responses
+
+* `metric_3xx_responses_ratio`
+
+    Cloudwatch metric tracking percentage of 3xx responses
+
+* `metric_4xx_responses`
+
+    Cloudwatch metric tracking the number of 4xx responses
+
+* `metric_4xx_responses_ratio`
+
+    Cloudwatch metric tracking percentage of 4xx responses
+
+* `metric_5xx_responses`
+
+    Cloudwatch metric tracking the number of 5xx responses
+
+* `metric_5xx_responses_ratio`
+
+    Cloudwatch metric tracking percentage of 5xx responses
+
+* `metric_responses`
+
+    Cloudwatch metric tracking total number of responses
+
 * `target_group_arn`
 
     Load balancer target group ARN
@@ -124,3 +160,11 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 * `target_group_name`
 
     Load balancer target group name
+
+* `widget_response_ratios`
+
+    Cloudwatch dashboard widget that shows a breakdown of response status code percentages
+
+* `widget_responses`
+
+    Cloudwatch dashboard widget that shows a breakdown of response status codes
