@@ -99,3 +99,7 @@ module "web" {
 output "hosts_id" {
   value = module.hosts.id
 }
+
+output "lb_url" {
+  value = "http://${module.cluster.load_balancer_domain}"
+}

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -eux
+
+docker run \
+  -p 8089:8089 \
+  --volume "$PWD/locust/locustfile.py:/mnt/locust/locustfile.py" \
+  -e LOCUSTFILE_PATH=/mnt/locust/locustfile.py \
+  -e TARGET_URL="$(terraform output lb_url)" \
+  locustio/locust
