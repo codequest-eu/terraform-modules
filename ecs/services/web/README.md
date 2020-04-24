@@ -149,6 +149,30 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking percentage of 5xx responses
 
+* `metric_average_response_time`
+
+    Cloudwatch metric tracking average response time
+
+* `metric_max_response_time`
+
+    Cloudwatch metric tracking maximum response time
+
+* `metric_p50_response_time`
+
+    Cloudwatch metric tracking median response time
+
+* `metric_p90_response_time`
+
+    Cloudwatch metric tracking 90th percentile response time
+
+* `metric_p95_response_time`
+
+    Cloudwatch metric tracking 95th percentile response time
+
+* `metric_p99_response_time`
+
+    Cloudwatch metric tracking 99th percentile response time
+
 * `metric_responses`
 
     Cloudwatch metric tracking total number of responses
@@ -164,6 +188,10 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 * `widget_response_ratios`
 
     Cloudwatch dashboard widget that shows a breakdown of response status code percentages
+
+* `widget_response_time`
+
+    Cloudwatch dashboard widget that shows a breakdown of response time percentiles
 
 * `widget_responses`
 

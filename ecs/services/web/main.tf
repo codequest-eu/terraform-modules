@@ -220,6 +220,98 @@ module "metric_5xx_responses_ratio" {
   color      = module.metric_5xx_responses.color
 }
 
+module "metric_average_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "Average response time"
+  color     = local.colors.red
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_p50_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "p50 response time"
+  color     = local.colors.red
+  stat      = "p50"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_p90_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "p90 response time"
+  stat      = "p90"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_p95_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "p95 response time"
+  stat      = "p95"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_p99_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "p99 response time"
+  stat      = "p99"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_max_response_time" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetResponseTime"
+  label     = "Maximum response time"
+  stat      = "Maximum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
 # cloudwatch dashboard widgets ------------------------------------------------
 
 module "widget_responses" {
@@ -253,5 +345,18 @@ module "widget_response_ratios" {
     module.metric_3xx_responses,
     module.metric_4xx_responses,
     module.metric_5xx_responses,
+  ]
+}
+
+module "widget_response_time" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title   = "Response time"
+  stacked = true
+  left_metrics = [
+    merge(module.metric_p50_response_time, { color = local.colors.red }),
+    merge(module.metric_p95_response_time, { color = local.colors.orange }),
+    merge(module.metric_p99_response_time, { color = local.colors.light_red }),
+    merge(module.metric_max_response_time, { color = local.colors.light_orange }),
   ]
 }

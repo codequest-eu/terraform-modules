@@ -103,6 +103,7 @@ module "dashboard" {
   widgets = [
     module.web.widget_responses,
     module.web.widget_response_ratios,
+    module.web.widget_response_time,
   ]
 }
 
