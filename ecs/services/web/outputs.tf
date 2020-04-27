@@ -75,6 +75,34 @@ output "metric_max_response_time" {
   description = "Cloudwatch metric tracking maximum response time"
   value       = module.metric_max_response_time
 }
+output "metric_tasks" {
+  description = "Cloudwatch metric tracking tasks count"
+  value       = module.metric_tasks
+}
+output "metric_min_cpu_utilization" {
+  description = "Cloudwatch metric tracking minimum CPU utilization"
+  value       = module.metric_min_cpu_utilization
+}
+output "metric_average_cpu_utilization" {
+  description = "Cloudwatch metric tracking average CPU utilization"
+  value       = module.metric_average_cpu_utilization
+}
+output "metric_max_cpu_utilization" {
+  description = "Cloudwatch metric tracking maximum CPU utilization"
+  value       = module.metric_max_cpu_utilization
+}
+output "metric_min_memory_utilization" {
+  description = "Cloudwatch metric tracking minimum memory utilization"
+  value       = module.metric_min_memory_utilization
+}
+output "metric_average_memory_utilization" {
+  description = "Cloudwatch metric tracking average memory utilization"
+  value       = module.metric_average_memory_utilization
+}
+output "metric_max_memory_utilization" {
+  description = "Cloudwatch metric tracking maximum memory utilization"
+  value       = module.metric_max_memory_utilization
+}
 
 # cloudwatch dashboard widgets ------------------------------------------------
 
@@ -91,4 +119,19 @@ output "widget_response_ratios" {
 output "widget_response_time" {
   description = "Cloudwatch dashboard widget that shows a breakdown of response time percentiles"
   value       = module.widget_response_time
+}
+
+output "widget_tasks" {
+  description = "Cloudwatch dashboard widget that shows tasks count"
+  value       = module.widget_tasks
+}
+
+output "widget_cpu" {
+  description = "Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation"
+  value       = module.widget_cpu
+}
+
+output "widget_memory" {
+  description = "Cloudwatch dashboard widget that shows memory utilization relative to memory reservation"
+  value       = module.widget_memory
 }

@@ -312,6 +312,129 @@ module "metric_max_response_time" {
   }
 }
 
+module "metric_tasks" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "CPUUtilization"
+  label     = "Task count"
+  stat      = "SampleCount"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+data "aws_ecs_container_definition" "web" {
+  count = var.create ? 1 : 0
+
+  task_definition = var.task_definition_arn
+  container_name  = local.container
+}
+
+locals {
+  cpu_reservation    = var.create ? data.aws_ecs_container_definition.web[0].cpu : 0
+  memory_reservation = var.create ? data.aws_ecs_container_definition.web[0].memory_reservation : 0
+}
+
+module "metric_min_cpu_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "CPUUtilization"
+  label     = "Minimum CPU utilization"
+  color     = local.colors.green
+  stat      = "Minimum"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_average_cpu_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "CPUUtilization"
+  label     = "Average CPU utilization"
+  color     = local.colors.orange
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_max_cpu_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "CPUUtilization"
+  label     = "Maximum CPU utilization"
+  color     = local.colors.red
+  stat      = "Maximum"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_min_memory_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "MemoryUtilization"
+  label     = "Minimum memory utilization"
+  color     = local.colors.green
+  stat      = "Minimum"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_average_memory_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "MemoryUtilization"
+  label     = "Average memory utilization"
+  color     = local.colors.orange
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_max_memory_utilization" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ECS"
+  name      = "MemoryUtilization"
+  label     = "Maximum memory utilization"
+  color     = local.colors.red
+  stat      = "Maximum"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
 # cloudwatch dashboard widgets ------------------------------------------------
 
 module "widget_responses" {
@@ -359,4 +482,54 @@ module "widget_response_time" {
     merge(module.metric_p99_response_time, { color = local.colors.light_red }),
     merge(module.metric_max_response_time, { color = local.colors.light_orange }),
   ]
+}
+
+module "widget_tasks" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title        = "Tasks"
+  left_metrics = [module.metric_tasks]
+  left_range   = [0, null]
+}
+
+module "annotation_cpu_reservation" {
+  source = "./../../../cloudwatch/annotation"
+
+  value = 100
+  label = "Reservation - ${local.cpu_reservation / 1024} vCPU"
+  color = local.colors.grey
+}
+
+module "widget_cpu" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title = "CPU utilization"
+  left_metrics = [
+    module.metric_min_cpu_utilization,
+    module.metric_average_cpu_utilization,
+    module.metric_max_cpu_utilization,
+  ]
+  left_annotations = [module.annotation_cpu_reservation]
+  left_range       = [0, null]
+}
+
+module "annotation_memory_reservation" {
+  source = "./../../../cloudwatch/annotation"
+
+  value = 100
+  label = "Reservation - ${local.memory_reservation} MB"
+  color = local.colors.grey
+}
+
+module "widget_memory" {
+  source = "./../../../cloudwatch/metric_widget"
+
+  title = "Memory utilization"
+  left_metrics = [
+    module.metric_min_memory_utilization,
+    module.metric_average_memory_utilization,
+    module.metric_max_memory_utilization,
+  ]
+  left_annotations = [module.annotation_memory_reservation]
+  left_range       = [0, null]
 }

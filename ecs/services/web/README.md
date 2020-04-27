@@ -149,13 +149,37 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking percentage of 5xx responses
 
+* `metric_average_cpu_utilization`
+
+    Cloudwatch metric tracking average CPU utilization
+
+* `metric_average_memory_utilization`
+
+    Cloudwatch metric tracking average memory utilization
+
 * `metric_average_response_time`
 
     Cloudwatch metric tracking average response time
 
+* `metric_max_cpu_utilization`
+
+    Cloudwatch metric tracking maximum CPU utilization
+
+* `metric_max_memory_utilization`
+
+    Cloudwatch metric tracking maximum memory utilization
+
 * `metric_max_response_time`
 
     Cloudwatch metric tracking maximum response time
+
+* `metric_min_cpu_utilization`
+
+    Cloudwatch metric tracking minimum CPU utilization
+
+* `metric_min_memory_utilization`
+
+    Cloudwatch metric tracking minimum memory utilization
 
 * `metric_p50_response_time`
 
@@ -177,6 +201,10 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking total number of responses
 
+* `metric_tasks`
+
+    Cloudwatch metric tracking tasks count
+
 * `target_group_arn`
 
     Load balancer target group ARN
@@ -184,6 +212,14 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 * `target_group_name`
 
     Load balancer target group name
+
+* `widget_cpu`
+
+    Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation
+
+* `widget_memory`
+
+    Cloudwatch dashboard widget that shows memory utilization relative to memory reservation
 
 * `widget_response_ratios`
 
@@ -196,3 +232,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 * `widget_responses`
 
     Cloudwatch dashboard widget that shows a breakdown of response status codes
+
+* `widget_tasks`
+
+    Cloudwatch dashboard widget that shows tasks count

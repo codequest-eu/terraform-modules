@@ -73,6 +73,7 @@ module "web_task" {
   task              = "web"
   image             = "kennethreitz/httpbin:latest"
   memory_soft_limit = 128
+  cpu               = 128
   ports             = [80]
 
   environment_variables = {
@@ -104,6 +105,9 @@ module "dashboard" {
     module.web.widget_responses,
     module.web.widget_response_ratios,
     module.web.widget_response_time,
+    module.web.widget_tasks,
+    module.web.widget_cpu,
+    module.web.widget_memory,
   ]
 }
 
