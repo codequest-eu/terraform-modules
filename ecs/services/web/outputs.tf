@@ -15,9 +15,9 @@ output "target_group_arn" {
 
 # cloudwatch metrics ----------------------------------------------------------
 
-output "metric_responses" {
-  description = "Cloudwatch metric tracking total number of responses"
-  value       = module.metric_responses
+output "metric_requests" {
+  description = "Cloudwatch metric tracking total number of requests"
+  value       = module.metric_requests
 }
 output "metric_2xx_responses" {
   description = "Cloudwatch metric tracking the number of 2xx responses"

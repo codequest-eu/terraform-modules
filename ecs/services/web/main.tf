@@ -109,7 +109,7 @@ locals {
   colors = module.cloudwatch_consts.colors
 }
 
-module "metric_responses" {
+module "metric_requests" {
   source = "./../../../cloudwatch/metric"
 
   namespace = "AWS/ApplicationELB"
@@ -143,7 +143,7 @@ module "metric_2xx_responses" {
 module "metric_2xx_responses_ratio" {
   source = "./../../../cloudwatch/metric_expression"
 
-  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_2xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_2xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
   label      = "2xx response ratio"
   color      = module.metric_2xx_responses.color
 }
@@ -167,7 +167,7 @@ module "metric_3xx_responses" {
 module "metric_3xx_responses_ratio" {
   source = "./../../../cloudwatch/metric_expression"
 
-  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_3xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_3xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
   label      = "3xx response ratio"
   color      = module.metric_3xx_responses.color
 }
@@ -191,7 +191,7 @@ module "metric_4xx_responses" {
 module "metric_4xx_responses_ratio" {
   source = "./../../../cloudwatch/metric_expression"
 
-  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_4xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_4xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
   label      = "4xx response ratio"
   color      = module.metric_4xx_responses.color
 }
@@ -215,7 +215,7 @@ module "metric_5xx_responses" {
 module "metric_5xx_responses_ratio" {
   source = "./../../../cloudwatch/metric_expression"
 
-  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_5xx_responses.id}, 0) / ${module.metric_responses.id} * 100)"
+  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_5xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
   label      = "5xx response ratio"
   color      = module.metric_5xx_responses.color
 }
@@ -239,7 +239,7 @@ module "metric_connection_errors" {
 module "metric_connection_errors_ratio" {
   source = "./../../../cloudwatch/metric_expression"
 
-  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_connection_errors.id}, 0) / ${module.metric_responses.id} * 100)"
+  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_connection_errors.id}, 0) / ${module.metric_requests.id} * 100)"
   label      = "Connection errors ratio"
   color      = module.metric_connection_errors.color
 }
@@ -489,7 +489,7 @@ module "widget_response_ratios" {
   ]
   left_range = [0, 100]
   hidden_metrics = [
-    module.metric_responses,
+    module.metric_requests,
     module.metric_2xx_responses,
     module.metric_3xx_responses,
     module.metric_4xx_responses,

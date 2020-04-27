@@ -205,9 +205,9 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking 99th percentile response time
 
-* `metric_responses`
+* `metric_requests`
 
-    Cloudwatch metric tracking total number of responses
+    Cloudwatch metric tracking total number of requests
 
 * `metric_tasks`
 
