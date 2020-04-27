@@ -48,7 +48,8 @@ module "worker_task" {
   environment       = local.environment
   task              = "worker"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 128
+  memory_soft_limit = 48
+  cpu               = 128
 
   environment_variables = {
     DEBUG            = "True"
@@ -72,7 +73,7 @@ module "web_task" {
   environment       = local.environment
   task              = "web"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 128
+  memory_soft_limit = 48
   cpu               = 128
   ports             = [80]
 
