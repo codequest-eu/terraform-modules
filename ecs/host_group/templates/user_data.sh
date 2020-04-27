@@ -13,6 +13,11 @@ ECS_CLUSTER=${cluster_name}
 # of a broken container that gets restarted over and over again.
 ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=5m
 
+# Reserve 256MiB for system processes to minimize the chance of tasks/containers
+# overflowing the instance and killing critical processes and the whole
+# instance along with them
+ECS_RESERVED_MEMORY=256
+
 ${ecs_agent_config}
 EOF
 
