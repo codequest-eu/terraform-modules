@@ -517,7 +517,7 @@ module "metric_max_memory_utilization" {
 module "widget_responses" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title   = "Responses"
+  title   = "${var.name} service responses"
   stacked = true
   left_metrics = [
     module.metric_connection_errors,
@@ -531,7 +531,7 @@ module "widget_responses" {
 module "widget_response_ratios" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title   = "Response ratios"
+  title   = "${var.name} service response ratios"
   stacked = true
   left_metrics = [
     module.metric_connection_errors_ratio,
@@ -554,7 +554,7 @@ module "widget_response_ratios" {
 module "widget_response_time" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title   = "Response time"
+  title   = "${var.name} service response times"
   stacked = true
   left_metrics = [
     merge(module.metric_p50_response_time, { color = local.colors.red }),
@@ -567,7 +567,7 @@ module "widget_response_time" {
 module "widget_tasks" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title = "Scaling"
+  title = "${var.name} service scaling"
   left_metrics = [
     module.metric_desired_tasks,
     module.metric_pending_tasks,
@@ -579,7 +579,7 @@ module "widget_tasks" {
 module "widget_cpu_utilization" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title = "CPU utilization"
+  title = "${var.name} service CPU utilization"
   left_metrics = [
     module.metric_average_cpu_reservation,
     module.metric_min_cpu_utilization,
@@ -592,7 +592,7 @@ module "widget_cpu_utilization" {
 module "widget_memory_utilization" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title = "Memory utilization"
+  title = "${var.name} service memory utilization"
   left_metrics = [
     module.metric_average_memory_reservation,
     module.metric_min_memory_utilization,
