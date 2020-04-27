@@ -177,6 +177,10 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking percentage of connection errors from the load balancer
 
+* `metric_desired_tasks`
+
+    Cloudwatch metric tracking desired tasks count
+
 * `metric_max_cpu_utilization`
 
     Cloudwatch metric tracking maximum CPU utilization
@@ -213,13 +217,17 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking 99th percentile response time
 
+* `metric_pending_tasks`
+
+    Cloudwatch metric tracking pending tasks count
+
 * `metric_requests`
 
     Cloudwatch metric tracking total number of requests
 
-* `metric_tasks`
+* `metric_running_tasks`
 
-    Cloudwatch metric tracking tasks count
+    Cloudwatch metric tracking running tasks count
 
 * `target_group_arn`
 
@@ -249,6 +257,6 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch dashboard widget that shows a breakdown of response status codes
 
-* `widget_tasks`
+* `widget_scaling`
 
-    Cloudwatch dashboard widget that shows tasks count
+    Cloudwatch dashboard widget that shows scaling state

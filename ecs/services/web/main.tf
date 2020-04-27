@@ -336,13 +336,46 @@ module "metric_max_response_time" {
   }
 }
 
-module "metric_tasks" {
+module "metric_desired_tasks" {
   source = "./../../../cloudwatch/metric"
 
-  namespace = "AWS/ECS"
-  name      = "CPUUtilization"
-  label     = "Task count"
-  stat      = "SampleCount"
+  namespace = "ECS/ContainerInsights"
+  name      = "DesiredTaskCount"
+  label     = "Desired task count"
+  color     = local.colors.grey
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_pending_tasks" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "ECS/ContainerInsights"
+  name      = "PendingTaskCount"
+  label     = "Pending task count"
+  color     = local.colors.orange
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    ServiceName = var.name
+    ClusterName = local.cluster_name
+  }
+}
+
+module "metric_running_tasks" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "ECS/ContainerInsights"
+  name      = "RunningTaskCount"
+  label     = "Running task count"
+  color     = local.colors.green
+  stat      = "Average"
   period    = 60
 
   dimensions = {
@@ -534,9 +567,13 @@ module "widget_response_time" {
 module "widget_tasks" {
   source = "./../../../cloudwatch/metric_widget"
 
-  title        = "Tasks"
-  left_metrics = [module.metric_tasks]
-  left_range   = [0, null]
+  title = "Scaling"
+  left_metrics = [
+    module.metric_desired_tasks,
+    module.metric_pending_tasks,
+    module.metric_running_tasks,
+  ]
+  left_range = [0, null]
 }
 
 module "widget_cpu_utilization" {

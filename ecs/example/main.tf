@@ -106,7 +106,7 @@ module "dashboard" {
     module.web.widget_responses,
     module.web.widget_response_ratios,
     module.web.widget_response_time,
-    module.web.widget_tasks,
+    module.web.widget_scaling,
     module.web.widget_cpu_utilization,
     module.web.widget_memory_utilization,
   ]

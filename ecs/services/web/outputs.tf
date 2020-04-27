@@ -83,9 +83,17 @@ output "metric_max_response_time" {
   description = "Cloudwatch metric tracking maximum response time"
   value       = module.metric_max_response_time
 }
-output "metric_tasks" {
-  description = "Cloudwatch metric tracking tasks count"
-  value       = module.metric_tasks
+output "metric_desired_tasks" {
+  description = "Cloudwatch metric tracking desired tasks count"
+  value       = module.metric_desired_tasks
+}
+output "metric_pending_tasks" {
+  description = "Cloudwatch metric tracking pending tasks count"
+  value       = module.metric_pending_tasks
+}
+output "metric_running_tasks" {
+  description = "Cloudwatch metric tracking running tasks count"
+  value       = module.metric_running_tasks
 }
 output "metric_average_cpu_reservation" {
   description = "Cloudwatch metric tracking average CPU reservation"
@@ -137,8 +145,8 @@ output "widget_response_time" {
   value       = module.widget_response_time
 }
 
-output "widget_tasks" {
-  description = "Cloudwatch dashboard widget that shows tasks count"
+output "widget_scaling" {
+  description = "Cloudwatch dashboard widget that shows scaling state"
   value       = module.widget_tasks
 }
 
