@@ -527,7 +527,7 @@ module "annotation_cpu_reservation" {
   color = local.colors.grey
 }
 
-module "widget_cpu" {
+module "widget_cpu_reservation" {
   source = "./../../../cloudwatch/metric_widget"
 
   title = "CPU utilization"
@@ -548,7 +548,7 @@ module "annotation_memory_reservation" {
   color = local.colors.grey
 }
 
-module "widget_memory" {
+module "widget_memory_reservation" {
   source = "./../../../cloudwatch/metric_widget"
 
   title = "Memory utilization"

@@ -134,12 +134,12 @@ output "widget_tasks" {
   value       = module.widget_tasks
 }
 
-output "widget_cpu" {
+output "widget_cpu_reservation" {
   description = "Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation"
-  value       = module.widget_cpu
+  value       = module.widget_cpu_reservation
 }
 
-output "widget_memory" {
+output "widget_memory_reservation" {
   description = "Cloudwatch dashboard widget that shows memory utilization relative to memory reservation"
-  value       = module.widget_memory
+  value       = module.widget_memory_reservation
 }

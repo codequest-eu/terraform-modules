@@ -221,11 +221,11 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Load balancer target group name
 
-* `widget_cpu`
+* `widget_cpu_reservation`
 
     Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation
 
-* `widget_memory`
+* `widget_memory_reservation`
 
     Cloudwatch dashboard widget that shows memory utilization relative to memory reservation
 
