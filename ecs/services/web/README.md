@@ -117,117 +117,9 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Service id
 
-* `metric_2xx_responses`
+* `metrics`
 
-    Cloudwatch metric tracking the number of 2xx responses
-
-* `metric_2xx_responses_ratio`
-
-    Cloudwatch metric tracking percentage of 2xx responses
-
-* `metric_3xx_responses`
-
-    Cloudwatch metric tracking the number of 3xx responses
-
-* `metric_3xx_responses_ratio`
-
-    Cloudwatch metric tracking percentage of 3xx responses
-
-* `metric_4xx_responses`
-
-    Cloudwatch metric tracking the number of 4xx responses
-
-* `metric_4xx_responses_ratio`
-
-    Cloudwatch metric tracking percentage of 4xx responses
-
-* `metric_5xx_responses`
-
-    Cloudwatch metric tracking the number of 5xx responses
-
-* `metric_5xx_responses_ratio`
-
-    Cloudwatch metric tracking percentage of 5xx responses
-
-* `metric_average_cpu_reservation`
-
-    Cloudwatch metric tracking average CPU reservation
-
-* `metric_average_cpu_utilization`
-
-    Cloudwatch metric tracking average CPU utilization
-
-* `metric_average_memory_reservation`
-
-    Cloudwatch metric tracking average memory reservation
-
-* `metric_average_memory_utilization`
-
-    Cloudwatch metric tracking average memory utilization
-
-* `metric_average_response_time`
-
-    Cloudwatch metric tracking average response time
-
-* `metric_connection_errors`
-
-    Cloudwatch metric tracking the number of connection errors from the load balancer
-
-* `metric_connection_errors_ratio`
-
-    Cloudwatch metric tracking percentage of connection errors from the load balancer
-
-* `metric_desired_tasks`
-
-    Cloudwatch metric tracking desired tasks count
-
-* `metric_max_cpu_utilization`
-
-    Cloudwatch metric tracking maximum CPU utilization
-
-* `metric_max_memory_utilization`
-
-    Cloudwatch metric tracking maximum memory utilization
-
-* `metric_max_response_time`
-
-    Cloudwatch metric tracking maximum response time
-
-* `metric_min_cpu_utilization`
-
-    Cloudwatch metric tracking minimum CPU utilization
-
-* `metric_min_memory_utilization`
-
-    Cloudwatch metric tracking minimum memory utilization
-
-* `metric_p50_response_time`
-
-    Cloudwatch metric tracking median response time
-
-* `metric_p90_response_time`
-
-    Cloudwatch metric tracking 90th percentile response time
-
-* `metric_p95_response_time`
-
-    Cloudwatch metric tracking 95th percentile response time
-
-* `metric_p99_response_time`
-
-    Cloudwatch metric tracking 99th percentile response time
-
-* `metric_pending_tasks`
-
-    Cloudwatch metric tracking pending tasks count
-
-* `metric_requests`
-
-    Cloudwatch metric tracking total number of requests
-
-* `metric_running_tasks`
-
-    Cloudwatch metric tracking running tasks count
+    Cloudwatch metrics, see [metrics.tf](./metrics.tf)
 
 * `target_group_arn`
 
@@ -237,26 +129,6 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Load balancer target group name
 
-* `widget_cpu_utilization`
+* `widgets`
 
-    Cloudwatch dashboard widget that shows CPU utilization
-
-* `widget_memory_utilization`
-
-    Cloudwatch dashboard widget that shows memory utilization
-
-* `widget_response_ratios`
-
-    Cloudwatch dashboard widget that shows a breakdown of response status code percentages
-
-* `widget_response_time`
-
-    Cloudwatch dashboard widget that shows a breakdown of response time percentiles
-
-* `widget_responses`
-
-    Cloudwatch dashboard widget that shows a breakdown of response status codes
-
-* `widget_scaling`
-
-    Cloudwatch dashboard widget that shows scaling state
+    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)
