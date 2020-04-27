@@ -89,7 +89,7 @@ module "web" {
   name                = "web"
   cluster_arn         = module.cluster.arn
   task_definition_arn = module.web_task.arn
-  desired_count       = 1
+  desired_count       = 2
 
   vpc_id           = module.cluster.vpc_id
   listener_arn     = module.cluster.http_listener_arn
@@ -107,8 +107,8 @@ module "dashboard" {
     module.web.widget_response_ratios,
     module.web.widget_response_time,
     module.web.widget_tasks,
-    module.web.widget_cpu_reservation,
-    module.web.widget_memory_reservation,
+    module.web.widget_cpu_utilization,
+    module.web.widget_memory_utilization,
   ]
 }
 

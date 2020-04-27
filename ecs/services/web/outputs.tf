@@ -87,6 +87,10 @@ output "metric_tasks" {
   description = "Cloudwatch metric tracking tasks count"
   value       = module.metric_tasks
 }
+output "metric_average_cpu_reservation" {
+  description = "Cloudwatch metric tracking average CPU reservation"
+  value       = module.metric_average_cpu_reservation
+}
 output "metric_min_cpu_utilization" {
   description = "Cloudwatch metric tracking minimum CPU utilization"
   value       = module.metric_min_cpu_utilization
@@ -98,6 +102,10 @@ output "metric_average_cpu_utilization" {
 output "metric_max_cpu_utilization" {
   description = "Cloudwatch metric tracking maximum CPU utilization"
   value       = module.metric_max_cpu_utilization
+}
+output "metric_average_memory_reservation" {
+  description = "Cloudwatch metric tracking average memory reservation"
+  value       = module.metric_average_memory_reservation
 }
 output "metric_min_memory_utilization" {
   description = "Cloudwatch metric tracking minimum memory utilization"
@@ -134,12 +142,12 @@ output "widget_tasks" {
   value       = module.widget_tasks
 }
 
-output "widget_cpu_reservation" {
-  description = "Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation"
-  value       = module.widget_cpu_reservation
+output "widget_cpu_utilization" {
+  description = "Cloudwatch dashboard widget that shows CPU utilization"
+  value       = module.widget_cpu_utilization
 }
 
-output "widget_memory_reservation" {
-  description = "Cloudwatch dashboard widget that shows memory utilization relative to memory reservation"
-  value       = module.widget_memory_reservation
+output "widget_memory_utilization" {
+  description = "Cloudwatch dashboard widget that shows memory utilization"
+  value       = module.widget_memory_utilization
 }

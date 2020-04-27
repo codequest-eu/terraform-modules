@@ -149,9 +149,17 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking percentage of 5xx responses
 
+* `metric_average_cpu_reservation`
+
+    Cloudwatch metric tracking average CPU reservation
+
 * `metric_average_cpu_utilization`
 
     Cloudwatch metric tracking average CPU utilization
+
+* `metric_average_memory_reservation`
+
+    Cloudwatch metric tracking average memory reservation
 
 * `metric_average_memory_utilization`
 
@@ -221,13 +229,13 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Load balancer target group name
 
-* `widget_cpu_reservation`
+* `widget_cpu_utilization`
 
-    Cloudwatch dashboard widget that shows CPU utilization relative to CPU reservation
+    Cloudwatch dashboard widget that shows CPU utilization
 
-* `widget_memory_reservation`
+* `widget_memory_utilization`
 
-    Cloudwatch dashboard widget that shows memory utilization relative to memory reservation
+    Cloudwatch dashboard widget that shows memory utilization
 
 * `widget_response_ratios`
 
