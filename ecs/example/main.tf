@@ -109,6 +109,9 @@ module "dashboard" {
     module.web.widgets.scaling,
     module.web.widgets.cpu_utilization,
     module.web.widgets.memory_utilization,
+    module.worker.widgets.scaling,
+    module.worker.widgets.cpu_utilization,
+    module.worker.widgets.memory_utilization,
   ]
 }
 
