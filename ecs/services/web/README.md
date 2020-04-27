@@ -161,6 +161,14 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Cloudwatch metric tracking average response time
 
+* `metric_connection_errors`
+
+    Cloudwatch metric tracking the number of connection errors from the load balancer
+
+* `metric_connection_errors_ratio`
+
+    Cloudwatch metric tracking percentage of connection errors from the load balancer
+
 * `metric_max_cpu_utilization`
 
     Cloudwatch metric tracking maximum CPU utilization

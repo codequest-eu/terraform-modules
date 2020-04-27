@@ -51,6 +51,14 @@ output "metric_5xx_responses_ratio" {
   description = "Cloudwatch metric tracking percentage of 5xx responses"
   value       = module.metric_5xx_responses_ratio
 }
+output "metric_connection_errors" {
+  description = "Cloudwatch metric tracking the number of connection errors from the load balancer"
+  value       = module.metric_connection_errors
+}
+output "metric_connection_errors_ratio" {
+  description = "Cloudwatch metric tracking percentage of connection errors from the load balancer"
+  value       = module.metric_connection_errors_ratio
+}
 output "metric_average_response_time" {
   description = "Cloudwatch metric tracking average response time"
   value       = module.metric_average_response_time

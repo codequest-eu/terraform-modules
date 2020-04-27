@@ -220,6 +220,30 @@ module "metric_5xx_responses_ratio" {
   color      = module.metric_5xx_responses.color
 }
 
+module "metric_connection_errors" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "TargetConnectionErrorCount"
+  label     = "Connection errors"
+  color     = local.colors.purple
+  stat      = "Sum"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+  }
+}
+
+module "metric_connection_errors_ratio" {
+  source = "./../../../cloudwatch/metric_expression"
+
+  expression = "IF(${module.metric_responses.id} == 0, 0, FILL(${module.metric_connection_errors.id}, 0) / ${module.metric_responses.id} * 100)"
+  label      = "Connection errors ratio"
+  color      = module.metric_connection_errors.color
+}
+
 module "metric_average_response_time" {
   source = "./../../../cloudwatch/metric"
 
@@ -443,6 +467,7 @@ module "widget_responses" {
   title   = "Responses"
   stacked = true
   left_metrics = [
+    module.metric_connection_errors,
     module.metric_5xx_responses,
     module.metric_4xx_responses,
     module.metric_3xx_responses,
@@ -456,6 +481,7 @@ module "widget_response_ratios" {
   title   = "Response ratios"
   stacked = true
   left_metrics = [
+    module.metric_connection_errors_ratio,
     module.metric_5xx_responses_ratio,
     module.metric_4xx_responses_ratio,
     module.metric_3xx_responses_ratio,
@@ -468,6 +494,7 @@ module "widget_response_ratios" {
     module.metric_3xx_responses,
     module.metric_4xx_responses,
     module.metric_5xx_responses,
+    module.metric_connection_errors,
   ]
 }
 
