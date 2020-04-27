@@ -1,5 +1,5 @@
 # hashicorp/terraform is based on alpine 3.11
-FROM hashicorp/terraform:0.12.19
+FROM hashicorp/terraform:0.12.24
 
 # Install AWS CLI
 RUN apk --no-cache add python3 py3-pip groff
