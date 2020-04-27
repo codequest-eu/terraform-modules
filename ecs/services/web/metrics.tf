@@ -20,6 +20,7 @@ locals {
     desired_tasks                  = module.metric_desired_tasks
     pending_tasks                  = module.metric_pending_tasks
     running_tasks                  = module.metric_running_tasks
+    healthy_tasks                  = module.metric_healthy_tasks
     average_cpu_reservation        = module.metric_average_cpu_reservation
     min_cpu_utilization            = module.metric_min_cpu_utilization
     average_cpu_utilization        = module.metric_average_cpu_utilization
@@ -316,13 +317,29 @@ module "metric_running_tasks" {
   namespace = "ECS/ContainerInsights"
   name      = "RunningTaskCount"
   label     = "Running task count"
-  color     = local.colors.green
+  color     = local.colors.light_green
   stat      = "Average"
   period    = 60
 
   dimensions = {
     ServiceName = var.name
     ClusterName = local.cluster_name
+  }
+}
+
+module "metric_healthy_tasks" {
+  source = "./../../../cloudwatch/metric"
+
+  namespace = "AWS/ApplicationELB"
+  name      = "HealthyHostCount"
+  label     = "Healthy task count"
+  color     = local.colors.green
+  stat      = "Average"
+  period    = 60
+
+  dimensions = {
+    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
   }
 }
 

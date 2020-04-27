@@ -67,6 +67,7 @@ module "widget_scaling" {
     local.metrics.desired_tasks,
     local.metrics.pending_tasks,
     local.metrics.running_tasks,
+    local.metrics.healthy_tasks,
   ]
   left_range = [0, null]
 }
