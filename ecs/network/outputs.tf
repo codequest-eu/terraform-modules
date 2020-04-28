@@ -92,3 +92,13 @@ output "hosts_security_group_arn" {
   value       = var.create ? aws_security_group.hosts[0].arn : null
   description = "The ARN of the Security Group which should be used by host instances"
 }
+
+output "metrics" {
+  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.metrics
+}
+
+output "widgets" {
+  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.widgets
+}
