@@ -39,9 +39,7 @@ node {
       stage("terraform init modules") {
         parallel moduleDirs.collectEntries { moduleDir ->
           [(moduleDir): {
-            stage(moduleDir) {
-              sh "cd ${moduleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-            }
+            sh "cd ${moduleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
           }]
         }
       }
@@ -53,9 +51,7 @@ node {
         ]) {
           parallel moduleDirs.collectEntries { moduleDir ->
             [(moduleDir): {
-              stage(moduleDir) {
-                sh "cd ${moduleDir} && terraform validate"
-              }
+              sh "cd ${moduleDir} && terraform validate"
             }]
           }
         }
@@ -64,9 +60,7 @@ node {
       stage("tflint modules") {
         parallel moduleDirs.collectEntries { moduleDir ->
           [(moduleDir): {
-            stage(moduleDir) {
-              sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
-            }
+            sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
           }]
         }
       }
@@ -76,24 +70,22 @@ node {
           def moduleReadme = "${moduleDir}/README.md"
 
           [(moduleDir): {
-            stage(moduleDir) {
-              if (!fileExists(moduleReadme)) {
-                error("Missing ${moduleReadme}")
-              }
+            if (!fileExists(moduleReadme)) {
+              error("Missing ${moduleReadme}")
+            }
 
-              try {
-                sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-              } catch (err) {
-                error("Missing bin/docs marker in ${moduleReadme}")
-              }
+            try {
+              sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
+            } catch (err) {
+              error("Missing bin/docs marker in ${moduleReadme}")
+            }
 
-              try {
-                sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-              } catch (err) {
-                error("${moduleReadme} is out of date")
-              } finally {
-                sh "git checkout '${moduleReadme}'"
-              }
+            try {
+              sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
+            } catch (err) {
+              error("${moduleReadme} is out of date")
+            } finally {
+              sh "git checkout '${moduleReadme}'"
             }
           }]
         }
@@ -102,9 +94,7 @@ node {
       stage("terraform init examples") {
         parallel exampleDirs.collectEntries { exampleDir ->
           [(exampleDir): {
-            stage(exampleDir) {
-              sh "cd ${exampleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-            }
+            sh "cd ${exampleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
           }]
         }
       }
@@ -112,9 +102,7 @@ node {
       stage("terraform validate examples") {
         parallel exampleDirs.collectEntries { exampleDir ->
           [(exampleDir): {
-            stage(exampleDir) {
-              sh "cd ${exampleDir} && terraform validate"
-            }
+            sh "cd ${exampleDir} && terraform validate"
           }]
         }
       }
