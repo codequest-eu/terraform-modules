@@ -50,6 +50,16 @@ locals {
     average_fs_reads         = module.metric_average_fs_reads
     average_fs_bytes_written = module.metric_average_fs_bytes_written
     average_fs_writes        = module.metric_average_fs_writes
+
+    # network in/out
+    bytes_received           = module.metric_bytes_received
+    packets_received         = module.metric_packets_received
+    bytes_sent               = module.metric_bytes_sent
+    packets_sent             = module.metric_packets_sent
+    average_bytes_received   = module.metric_average_bytes_received
+    average_packets_received = module.metric_average_packets_received
+    average_bytes_sent       = module.metric_average_bytes_sent
+    average_packets_sent     = module.metric_average_packets_sent
   }
 }
 
@@ -514,6 +524,102 @@ module "metric_average_fs_writes" {
   dimensions = local.group_dimensions
   name       = "EBSWriteOps"
   label      = "Average writes"
+  color      = local.fs_colors.write
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_bytes_received" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkIn"
+  label      = "Received bytes"
+  color      = local.fs_colors.read
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_bytes_received" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkIn"
+  label      = "Average received bytes"
+  color      = local.fs_colors.read
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_packets_received" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkPacketsIn"
+  label      = "Received packets"
+  color      = local.fs_colors.read
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_packets_received" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkPacketsIn"
+  label      = "Average received packets"
+  color      = local.fs_colors.read
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_bytes_sent" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkOut"
+  label      = "Received bytes"
+  color      = local.fs_colors.write
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_bytes_sent" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkOut"
+  label      = "Average sent bytes"
+  color      = local.fs_colors.write
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_packets_sent" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkPacketsOut"
+  label      = "Received packets"
+  color      = local.fs_colors.write
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_packets_sent" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "NetworkPacketsOut"
+  label      = "Average sent packets"
   color      = local.fs_colors.write
   stat       = "Average"
   period     = 60

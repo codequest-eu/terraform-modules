@@ -10,6 +10,8 @@ locals {
     root_fs_free        = module.widget_root_fs_free
     fs_io_bytes         = module.widget_fs_io_bytes
     fs_io_ops           = module.widget_fs_io_ops
+    network_bytes       = module.widget_network_bytes
+    network_packets     = module.widget_network_packets
   }
 }
 
@@ -134,6 +136,30 @@ module "widget_fs_io_ops" {
   left_metrics = [
     local.metrics.average_fs_writes,
     local.metrics.average_fs_reads,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_network_bytes" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "${var.name} group network traffic"
+  stacked = true
+  left_metrics = [
+    local.metrics.average_bytes_sent,
+    local.metrics.average_bytes_received,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_network_packets" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "${var.name} group network traffic"
+  stacked = true
+  left_metrics = [
+    local.metrics.average_packets_sent,
+    local.metrics.average_packets_received,
   ]
   left_range = [0, null]
 }

@@ -111,6 +111,8 @@ module "dashboard" {
     module.hosts.widgets.root_fs_free,
     module.hosts.widgets.fs_io_bytes,
     module.hosts.widgets.fs_io_ops,
+    module.hosts.widgets.network_bytes,
+    module.hosts.widgets.network_packets,
   ]
 }
 
