@@ -36,6 +36,7 @@ module "metric_min_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_max_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -50,6 +51,7 @@ module "metric_max_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_desired_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -64,6 +66,7 @@ module "metric_desired_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -78,6 +81,7 @@ module "metric_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_in_service_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -92,6 +96,7 @@ module "metric_in_service_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_pending_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -106,6 +111,7 @@ module "metric_pending_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_standby_instances" {
   source = "./../../cloudwatch/metric"
 
@@ -120,6 +126,7 @@ module "metric_standby_instances" {
     AutoScalingGroupName = var.create ? aws_autoscaling_group.hosts[0].name : ""
   }
 }
+
 module "metric_terminating_instances" {
   source = "./../../cloudwatch/metric"
 
