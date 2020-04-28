@@ -3,6 +3,7 @@ locals {
     instance_scaling   = module.widget_instance_scaling
     instance_states    = module.widget_instance_states
     memory_utilization = module.widget_memory_utilization
+    cpu_utilization    = module.widget_cpu_utilization
   }
 }
 
@@ -46,6 +47,18 @@ module "widget_memory_utilization" {
     local.metrics.min_swap_utilization,
     local.metrics.average_swap_utilization,
     local.metrics.max_swap_utilization,
+  ]
+  left_range = [0, 100]
+}
+
+module "widget_cpu_utilization" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title = "${var.name} group CPU utilization"
+  left_metrics = [
+    local.metrics.min_cpu_utilization,
+    local.metrics.average_cpu_utilization,
+    local.metrics.max_cpu_utilization,
   ]
   left_range = [0, 100]
 }

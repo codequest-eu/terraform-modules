@@ -21,6 +21,11 @@ locals {
     min_swap_utilization       = module.metric_min_swap_utilization
     average_swap_utilization   = module.metric_average_swap_utilization
     max_swap_utilization       = module.metric_max_swap_utilization
+
+    # cpu utilization
+    min_cpu_utilization     = module.metric_min_cpu_utilization
+    average_cpu_utilization = module.metric_average_cpu_utilization
+    max_cpu_utilization     = module.metric_max_cpu_utilization
   }
 }
 
@@ -221,6 +226,42 @@ module "metric_max_swap_utilization" {
   name       = "SwapUtilization"
   label      = "Maximum swap utilization"
   color      = local.colors.purple
+  stat       = "Maximum"
+  period     = 60
+}
+
+module "metric_min_cpu_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUUtilization"
+  label      = "Minimum CPU utilization"
+  color      = local.colors.light_orange
+  stat       = "Minimum"
+  period     = 60
+}
+
+module "metric_average_cpu_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUUtilization"
+  label      = "Average CPU utilization"
+  color      = local.colors.orange
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_max_cpu_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUUtilization"
+  label      = "Maximum CPU utilization"
+  color      = local.colors.red
   stat       = "Maximum"
   period     = 60
 }

@@ -104,6 +104,7 @@ module "dashboard" {
     module.hosts.widgets.instance_scaling,
     module.hosts.widgets.instance_states,
     module.hosts.widgets.memory_utilization,
+    module.hosts.widgets.cpu_utilization,
   ]
 }
 
