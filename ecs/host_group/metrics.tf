@@ -11,6 +11,16 @@ locals {
     pending_instances     = module.metric_pending_instances
     standby_instances     = module.metric_standby_instances
     terminating_instances = module.metric_terminating_instances
+
+    # memory utilization
+    memory_utilization         = module.metric_memory_utilization
+    min_memory_utilization     = module.metric_min_memory_utilization
+    average_memory_utilization = module.metric_average_memory_utilization
+    max_memory_utilization     = module.metric_max_memory_utilization
+    swap_utilization           = module.metric_swap_utilization
+    min_swap_utilization       = module.metric_min_swap_utilization
+    average_swap_utilization   = module.metric_average_swap_utilization
+    max_swap_utilization       = module.metric_max_swap_utilization
   }
 }
 
@@ -119,4 +129,98 @@ module "metric_terminating_instances" {
   color      = local.colors.red
   period     = 60
   stat       = "Average"
+}
+
+module "metric_memory_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "MemoryUtilization"
+  label      = "Memory utilization"
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_min_memory_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "MemoryUtilization"
+  label      = "Minimum memory utilization"
+  color      = local.colors.light_orange
+  stat       = "Minimum"
+  period     = 60
+}
+
+module "metric_average_memory_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "MemoryUtilization"
+  label      = "Average memory utilization"
+  color      = local.colors.orange
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_max_memory_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "MemoryUtilization"
+  label      = "Maximum memory utilization"
+  color      = local.colors.red
+  stat       = "Maximum"
+  period     = 60
+}
+
+module "metric_swap_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "SwapUtilization"
+  label      = "Swap utilization"
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_min_swap_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "SwapUtilization"
+  label      = "Minimum swap utilization"
+  color      = local.colors.light_pink
+  stat       = "Minimum"
+  period     = 60
+}
+
+module "metric_average_swap_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "SwapUtilization"
+  label      = "Average swap utilization"
+  color      = local.colors.pink
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_max_swap_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_dimensions
+  name       = "SwapUtilization"
+  label      = "Maximum swap utilization"
+  color      = local.colors.purple
+  stat       = "Maximum"
+  period     = 60
 }
