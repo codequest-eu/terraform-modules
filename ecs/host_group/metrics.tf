@@ -26,6 +26,12 @@ locals {
     min_cpu_utilization     = module.metric_min_cpu_utilization
     average_cpu_utilization = module.metric_average_cpu_utilization
     max_cpu_utilization     = module.metric_max_cpu_utilization
+
+    # cpu credit balance
+    cpu_credit_usage            = module.metric_cpu_credit_usage
+    cpu_credit_balance          = module.metric_cpu_credit_balance
+    cpu_surplus_credit_balance  = module.metric_cpu_surplus_credit_balance
+    cpu_surplus_credits_charged = module.metric_cpu_surplus_credits_charged
   }
 }
 
@@ -264,4 +270,51 @@ module "metric_max_cpu_utilization" {
   color      = local.colors.red
   stat       = "Maximum"
   period     = 60
+}
+
+module "metric_cpu_credit_usage" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUCreditUsage"
+  label      = "CPU credit usage"
+  stat       = "Sum"
+  period     = 300
+}
+
+module "metric_cpu_credit_balance" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUCreditBalance"
+  label      = "CPU credit balance"
+  color      = local.colors.green
+  stat       = "Average"
+  period     = 300
+}
+
+module "metric_cpu_surplus_credit_balance" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUSurplusCreditBalance"
+  label      = "CPU surplus credit balance"
+  color      = local.colors.orange
+  stat       = "Average"
+  period     = 300
+}
+
+module "metric_cpu_surplus_credits_charged" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "CPUSurplusCreditsCharged"
+  label      = "CPU surplus credits charged"
+  color      = local.colors.red
+  stat       = "Average"
+  period     = 300
 }

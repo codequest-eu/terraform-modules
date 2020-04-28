@@ -4,6 +4,8 @@ locals {
     instance_states    = module.widget_instance_states
     memory_utilization = module.widget_memory_utilization
     cpu_utilization    = module.widget_cpu_utilization
+    cpu_credit_balance = module.widget_cpu_credit_balance
+    cpu_credit_usage   = module.widget_cpu_credit_usage
   }
 }
 
@@ -61,4 +63,25 @@ module "widget_cpu_utilization" {
     local.metrics.max_cpu_utilization,
   ]
   left_range = [0, 100]
+}
+
+module "widget_cpu_credit_balance" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "${var.name} group CPU credit balance"
+  stacked = true
+  left_metrics = [
+    local.metrics.cpu_surplus_credits_charged,
+    local.metrics.cpu_surplus_credit_balance,
+    local.metrics.cpu_credit_balance,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_cpu_credit_usage" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title        = "${var.name} group CPU credit usage"
+  left_metrics = [local.metrics.cpu_credit_usage]
+  left_range   = [0, null]
 }
