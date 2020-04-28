@@ -84,6 +84,14 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     The ID of the Internet Gateway
 
+* `lb_metrics`
+
+    Load balancer related Cloudwatch metrics, see [metrics.tf](./metrics.tf)
+
+* `lb_widgets`
+
+    Load balancer related Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)
+
 * `load_balancer_arn`
 
     The ARN of the Application Load Balancer
@@ -107,10 +115,6 @@ Creates networking resources needed for a standard ECS cluster setup:
 * `load_balancer_zone_id`
 
     The canonical hosted zone ID of the Application Load Balancer (to be used in a Route 53 Alias record)
-
-* `metrics`
-
-    Cloudwatch metrics, see [metrics.tf](./metrics.tf)
 
 * `private_blocks`
 
@@ -139,7 +143,3 @@ Creates networking resources needed for a standard ECS cluster setup:
 * `vpc_id`
 
     The ID of the VPC
-
-* `widgets`
-
-    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)

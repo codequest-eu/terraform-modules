@@ -93,12 +93,12 @@ output "hosts_security_group_arn" {
   description = "The ARN of the Security Group which should be used by host instances"
 }
 
-output "metrics" {
-  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
-  value       = local.metrics
+output "lb_metrics" {
+  description = "Load balancer related Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.lb_metrics
 }
 
-output "widgets" {
-  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
-  value       = local.widgets
+output "lb_widgets" {
+  description = "Load balancer related Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.lb_widgets
 }

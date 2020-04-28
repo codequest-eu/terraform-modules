@@ -96,6 +96,21 @@ module "web" {
   healthcheck_path = "/"
 }
 
+module "dashboard" {
+  source = "./../../cloudwatch/dashboard"
+
+  name = "terraform-ecs-example"
+  widgets = [
+    module.cluster.lb_widgets.responses,
+    module.cluster.lb_widgets.response_percentages,
+    module.cluster.lb_widgets.response_time,
+  ]
+}
+
 output "hosts_id" {
   value = module.hosts.id
+}
+
+output "dashboard_url" {
+  value = module.dashboard.url
 }

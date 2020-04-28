@@ -129,6 +129,14 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
     The ID of the Internet Gateway
 
+* `lb_metrics`
+
+    Load balancer related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+
+* `lb_widgets`
+
+    Load balancer related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+
 * `load_balancer_arn`
 
     The ARN of the Application Load Balancer
