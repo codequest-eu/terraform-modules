@@ -13,8 +13,8 @@ module "widget_instance_scaling" {
     local.metrics.min_instances,
     local.metrics.max_instances,
     local.metrics.desired_instances,
-    local.metrics.pending_instances,
     local.metrics.terminating_instances,
+    local.metrics.pending_instances,
     local.metrics.in_service_instances,
   ]
   left_range = [0, null]
@@ -26,8 +26,8 @@ module "widget_instance_states" {
   title   = "${var.name} group scaling"
   stacked = true
   left_metrics = [
-    local.metrics.pending_instances,
     local.metrics.terminating_instances,
+    local.metrics.pending_instances,
     local.metrics.standby_instances,
     local.metrics.in_service_instances,
   ]
