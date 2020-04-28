@@ -1,11 +1,13 @@
 locals {
   widgets = {
-    instance_scaling   = module.widget_instance_scaling
-    instance_states    = module.widget_instance_states
-    memory_utilization = module.widget_memory_utilization
-    cpu_utilization    = module.widget_cpu_utilization
-    cpu_credit_balance = module.widget_cpu_credit_balance
-    cpu_credit_usage   = module.widget_cpu_credit_usage
+    instance_scaling    = module.widget_instance_scaling
+    instance_states     = module.widget_instance_states
+    memory_utilization  = module.widget_memory_utilization
+    cpu_utilization     = module.widget_cpu_utilization
+    cpu_credit_balance  = module.widget_cpu_credit_balance
+    cpu_credit_usage    = module.widget_cpu_credit_usage
+    root_fs_utilization = module.widget_root_fs_utilization
+    root_fs_free        = module.widget_root_fs_free
   }
 }
 
@@ -84,4 +86,28 @@ module "widget_cpu_credit_usage" {
   title        = "${var.name} group CPU credit usage"
   left_metrics = [local.metrics.cpu_credit_usage]
   left_range   = [0, null]
+}
+
+module "widget_root_fs_utilization" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title = "${var.name} group root filesystem utilization"
+  left_metrics = [
+    local.metrics.min_root_fs_utilization,
+    local.metrics.average_root_fs_utilization,
+    local.metrics.max_root_fs_utilization,
+  ]
+  left_range = [0, 100]
+}
+
+module "widget_root_fs_free" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title = "${var.name} group root filesystem free space"
+  left_metrics = [
+    local.metrics.min_root_fs_free,
+    local.metrics.average_root_fs_free,
+    local.metrics.max_root_fs_free,
+  ]
+  left_range = [0, null]
 }

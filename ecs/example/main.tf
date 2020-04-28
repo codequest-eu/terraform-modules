@@ -107,6 +107,8 @@ module "dashboard" {
     module.hosts.widgets.cpu_utilization,
     module.hosts.widgets.cpu_credit_balance,
     module.hosts.widgets.cpu_credit_usage,
+    module.hosts.widgets.root_fs_utilization,
+    module.hosts.widgets.root_fs_free,
   ]
 }
 

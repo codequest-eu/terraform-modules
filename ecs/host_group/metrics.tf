@@ -32,6 +32,14 @@ locals {
     cpu_credit_balance          = module.metric_cpu_credit_balance
     cpu_surplus_credit_balance  = module.metric_cpu_surplus_credit_balance
     cpu_surplus_credits_charged = module.metric_cpu_surplus_credits_charged
+
+    # filesystem utilization
+    min_root_fs_utilization     = module.metric_min_root_fs_utilization
+    average_root_fs_utilization = module.metric_average_root_fs_utilization
+    max_root_fs_utilization     = module.metric_max_root_fs_utilization
+    min_root_fs_free            = module.metric_min_root_fs_free
+    average_root_fs_free        = module.metric_average_root_fs_free
+    max_root_fs_free            = module.metric_max_root_fs_free
   }
 }
 
@@ -317,4 +325,83 @@ module "metric_cpu_surplus_credits_charged" {
   color      = local.colors.red
   stat       = "Average"
   period     = 300
+}
+
+locals {
+  group_root_fs_dimensions = merge(local.group_dimensions, {
+    MountPath  = "/"
+    Filesystem = "/dev/nvme0n1p1"
+  })
+}
+
+module "metric_min_root_fs_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceUtilization"
+  label      = "Minimum root filesystem utilization"
+  color      = local.colors.light_orange
+  stat       = "Minimum"
+  period     = 60
+}
+
+module "metric_average_root_fs_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceUtilization"
+  label      = "Average root filesystem utilization"
+  color      = local.colors.orange
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_max_root_fs_utilization" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceUtilization"
+  label      = "Maximum root filesystem utilization"
+  color      = local.colors.red
+  stat       = "Maximum"
+  period     = 60
+}
+
+module "metric_min_root_fs_free" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceAvailable"
+  label      = "Minimum root filesystem free space"
+  color      = local.colors.red
+  stat       = "Minimum"
+  period     = 60
+}
+
+module "metric_average_root_fs_free" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceAvailable"
+  label      = "Average root filesystem free space"
+  color      = local.colors.orange
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_max_root_fs_free" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "System/Linux"
+  dimensions = local.group_root_fs_dimensions
+  name       = "DiskSpaceAvailable"
+  label      = "Maximum root filesystem free space"
+  color      = local.colors.light_orange
+  stat       = "Maximum"
+  period     = 60
 }
