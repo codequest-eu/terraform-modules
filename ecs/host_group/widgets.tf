@@ -8,6 +8,8 @@ locals {
     cpu_credit_usage    = module.widget_cpu_credit_usage
     root_fs_utilization = module.widget_root_fs_utilization
     root_fs_free        = module.widget_root_fs_free
+    fs_io_bytes         = module.widget_fs_io_bytes
+    fs_io_ops           = module.widget_fs_io_ops
   }
 }
 
@@ -108,6 +110,30 @@ module "widget_root_fs_free" {
     local.metrics.min_root_fs_free,
     local.metrics.average_root_fs_free,
     local.metrics.max_root_fs_free,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_fs_io_bytes" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "${var.name} group filesystem IO"
+  stacked = true
+  left_metrics = [
+    local.metrics.average_fs_bytes_written,
+    local.metrics.average_fs_bytes_read,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_fs_io_ops" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "${var.name} group filesystem IO"
+  stacked = true
+  left_metrics = [
+    local.metrics.average_fs_writes,
+    local.metrics.average_fs_reads,
   ]
   left_range = [0, null]
 }

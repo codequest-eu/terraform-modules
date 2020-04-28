@@ -40,6 +40,16 @@ locals {
     min_root_fs_free            = module.metric_min_root_fs_free
     average_root_fs_free        = module.metric_average_root_fs_free
     max_root_fs_free            = module.metric_max_root_fs_free
+
+    # filesystem reads/writes
+    fs_bytes_read            = module.metric_fs_bytes_read
+    fs_reads                 = module.metric_fs_reads
+    fs_bytes_written         = module.metric_fs_bytes_written
+    fs_writes                = module.metric_fs_writes
+    average_fs_bytes_read    = module.metric_average_fs_bytes_read
+    average_fs_reads         = module.metric_average_fs_reads
+    average_fs_bytes_written = module.metric_average_fs_bytes_written
+    average_fs_writes        = module.metric_average_fs_writes
   }
 }
 
@@ -403,5 +413,108 @@ module "metric_max_root_fs_free" {
   label      = "Maximum root filesystem free space"
   color      = local.colors.light_orange
   stat       = "Maximum"
+  period     = 60
+}
+
+locals {
+  fs_colors = {
+    read  = local.colors.green
+    write = local.colors.orange
+  }
+}
+
+module "metric_fs_bytes_read" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSReadBytes"
+  label      = "Bytes read"
+  color      = local.fs_colors.read
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_fs_bytes_read" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSReadBytes"
+  label      = "Average bytes read"
+  color      = local.fs_colors.read
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_fs_reads" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSReadOps"
+  label      = "Reads"
+  color      = local.fs_colors.read
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_fs_reads" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSReadOps"
+  label      = "Average reads"
+  color      = local.fs_colors.read
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_fs_bytes_written" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSWriteBytes"
+  label      = "Bytes written"
+  color      = local.fs_colors.write
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_fs_bytes_written" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSWriteBytes"
+  label      = "Average bytes written"
+  color      = local.fs_colors.write
+  stat       = "Average"
+  period     = 60
+}
+
+module "metric_fs_writes" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSWriteOps"
+  label      = "Writes"
+  color      = local.fs_colors.write
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_average_fs_writes" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/EC2"
+  dimensions = local.group_dimensions
+  name       = "EBSWriteOps"
+  label      = "Average writes"
+  color      = local.fs_colors.write
+  stat       = "Average"
   period     = 60
 }
