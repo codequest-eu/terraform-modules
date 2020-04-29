@@ -1,34 +1,34 @@
 locals {
   metrics = {
     requests                       = module.metric_requests
-    status_2xx_responses           = module.metric_2xx_responses
-    status_2xx_response_percentage = module.metric_2xx_response_percentage
-    status_3xx_responses           = module.metric_3xx_responses
-    status_3xx_response_percentage = module.metric_3xx_response_percentage
-    status_4xx_responses           = module.metric_4xx_responses
-    status_4xx_response_percentage = module.metric_4xx_response_percentage
-    status_5xx_responses           = module.metric_5xx_responses
-    status_5xx_response_percentage = module.metric_5xx_response_percentage
+    status_2xx_responses           = module.metrics_response_statuses.out_map["2xx"]
+    status_2xx_response_percentage = module.metrics_response_status_percentages.out_map["2xx"]
+    status_3xx_responses           = module.metrics_response_statuses.out_map["3xx"]
+    status_3xx_response_percentage = module.metrics_response_status_percentages.out_map["3xx"]
+    status_4xx_responses           = module.metrics_response_statuses.out_map["4xx"]
+    status_4xx_response_percentage = module.metrics_response_status_percentages.out_map["4xx"]
+    status_5xx_responses           = module.metrics_response_statuses.out_map["5xx"]
+    status_5xx_response_percentage = module.metrics_response_status_percentages.out_map["5xx"]
     connection_errors              = module.metric_connection_errors
     connection_error_percentage    = module.metric_connection_error_percentage
-    average_response_time          = module.metric_average_response_time
-    p50_response_time              = module.metric_p50_response_time
-    p90_response_time              = module.metric_p90_response_time
-    p95_response_time              = module.metric_p95_response_time
-    p99_response_time              = module.metric_p99_response_time
-    max_response_time              = module.metric_max_response_time
-    desired_tasks                  = module.metric_desired_tasks
-    pending_tasks                  = module.metric_pending_tasks
-    running_tasks                  = module.metric_running_tasks
+    average_response_time          = module.metrics_response_time.out_map.average
+    p50_response_time              = module.metrics_response_time.out_map.p50
+    p90_response_time              = module.metrics_response_time.out_map.p90
+    p95_response_time              = module.metrics_response_time.out_map.p95
+    p99_response_time              = module.metrics_response_time.out_map.p99
+    max_response_time              = module.metrics_response_time.out_map.max
+    desired_tasks                  = module.metrics_tasks.out_map.desired
+    pending_tasks                  = module.metrics_tasks.out_map.pending
+    running_tasks                  = module.metrics_tasks.out_map.running
     healthy_tasks                  = module.metric_healthy_tasks
     average_cpu_reservation        = module.metric_average_cpu_reservation
-    min_cpu_utilization            = module.metric_min_cpu_utilization
-    average_cpu_utilization        = module.metric_average_cpu_utilization
-    max_cpu_utilization            = module.metric_max_cpu_utilization
+    min_cpu_utilization            = module.metrics_cpu_utilization.out_map.min
+    average_cpu_utilization        = module.metrics_cpu_utilization.out_map.average
+    max_cpu_utilization            = module.metrics_cpu_utilization.out_map.max
     average_memory_reservation     = module.metric_average_memory_reservation
-    min_memory_utilization         = module.metric_min_memory_utilization
-    average_memory_utilization     = module.metric_average_memory_utilization
-    max_memory_utilization         = module.metric_max_memory_utilization
+    min_memory_utilization         = module.metrics_memory_utilization.out_map.min
+    average_memory_utilization     = module.metrics_memory_utilization.out_map.average
+    max_memory_utilization         = module.metrics_memory_utilization.out_map.max
   }
 }
 
@@ -67,100 +67,41 @@ module "metric_requests" {
   }
 }
 
-module "metric_2xx_responses" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "HTTPCode_Target_2XX_Count"
-  label     = "2xx responses"
-  color     = local.colors.green
-  stat      = "Sum"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+locals {
+  metrics_response_statuses = {
+    "2xx" = { color = local.colors.green }
+    "3xx" = { color = local.colors.blue }
+    "4xx" = { color = local.colors.orange }
+    "5xx" = { color = local.colors.red }
   }
 }
 
-module "metric_2xx_response_percentage" {
-  source = "./../../../cloudwatch/metric_expression"
+module "metrics_response_statuses" {
+  source = "./../../../cloudwatch/metric/many"
 
-  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_2xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
-  label      = "2xx response ratio"
-  color      = module.metric_2xx_responses.color
+  vars_map = { for status, variant in local.metrics_response_statuses : status => {
+    namespace = "AWS/ApplicationELB"
+    name      = "HTTPCode_Target_${upper(status)}_Count"
+    label     = "${status} responses"
+    color     = variant.color
+    stat      = "Sum"
+    period    = 60
+
+    dimensions = {
+      LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+      TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+    }
+  } }
 }
 
-module "metric_3xx_responses" {
-  source = "./../../../cloudwatch/metric"
+module "metrics_response_status_percentages" {
+  source = "./../../../cloudwatch/metric_expression/many"
 
-  namespace = "AWS/ApplicationELB"
-  name      = "HTTPCode_Target_3XX_Count"
-  label     = "3xx responses"
-  color     = local.colors.blue
-  stat      = "Sum"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_3xx_response_percentage" {
-  source = "./../../../cloudwatch/metric_expression"
-
-  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_3xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
-  label      = "3xx response ratio"
-  color      = module.metric_3xx_responses.color
-}
-
-module "metric_4xx_responses" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "HTTPCode_Target_4XX_Count"
-  label     = "4xx responses"
-  color     = local.colors.orange
-  stat      = "Sum"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_4xx_response_percentage" {
-  source = "./../../../cloudwatch/metric_expression"
-
-  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_4xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
-  label      = "4xx response ratio"
-  color      = module.metric_4xx_responses.color
-}
-
-module "metric_5xx_responses" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "HTTPCode_Target_5XX_Count"
-  label     = "5xx responses"
-  color     = local.colors.red
-  stat      = "Sum"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_5xx_response_percentage" {
-  source = "./../../../cloudwatch/metric_expression"
-
-  expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_5xx_responses.id}, 0) / ${module.metric_requests.id} * 100)"
-  label      = "5xx response ratio"
-  color      = module.metric_5xx_responses.color
+  vars_map = { for status, variant in local.metrics_response_statuses : status => {
+    expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metrics_response_statuses.out_map[status].id}, 0) / ${module.metric_requests.id} * 100)"
+    label      = "${status} responses"
+    color      = variant.color
+  } }
 }
 
 module "metric_connection_errors" {
@@ -183,148 +124,63 @@ module "metric_connection_error_percentage" {
   source = "./../../../cloudwatch/metric_expression"
 
   expression = "IF(${module.metric_requests.id} == 0, 0, FILL(${module.metric_connection_errors.id}, 0) / ${module.metric_requests.id} * 100)"
-  label      = "Connection errors ratio"
+  label      = "Connection errors"
   color      = module.metric_connection_errors.color
 }
 
-module "metric_average_response_time" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "Average response time"
-  color     = local.colors.red
-  stat      = "Average"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+locals {
+  metrics_response_time_variants = {
+    average = { stat = "Average", color = local.colors.red }
+    p50     = { stat = "p50", color = local.colors.red }
+    p90     = { stat = "p90", color = local.colors.orange }
+    p95     = { stat = "p95", color = local.colors.orange }
+    p99     = { stat = "p99", color = local.colors.light_red }
+    max     = { stat = "Maximum", color = local.colors.light_orange }
   }
 }
 
-module "metric_p50_response_time" {
-  source = "./../../../cloudwatch/metric"
+module "metrics_response_time" {
+  source = "./../../../cloudwatch/metric/many"
 
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "p50 response time"
-  color     = local.colors.red
-  stat      = "p50"
-  period    = 60
+  vars_map = { for k, variant in local.metrics_response_time_variants : k => {
+    namespace = "AWS/ApplicationELB"
+    name      = "TargetResponseTime"
+    label     = "${variant.stat} response time"
+    color     = variant.color
+    stat      = variant.stat
+    period    = 60
 
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+    dimensions = {
+      LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
+      TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
+    }
+  } }
+}
+
+locals {
+  metrics_tasks_variants = {
+    desired = { state = "Desired", color = local.colors.grey }
+    pending = { state = "Pending", color = local.colors.orange }
+    running = { state = "Running", color = local.colors.light_green }
   }
 }
 
-module "metric_p90_response_time" {
-  source = "./../../../cloudwatch/metric"
+module "metrics_tasks" {
+  source = "./../../../cloudwatch/metric/many"
 
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "p90 response time"
-  stat      = "p90"
-  period    = 60
+  vars_map = { for k, variant in local.metrics_tasks_variants : k => {
+    namespace = "ECS/ContainerInsights"
+    name      = "${variant.state}TaskCount"
+    label     = "${variant.state} task count"
+    color     = variant.color
+    stat      = "Average"
+    period    = 60
 
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_p95_response_time" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "p95 response time"
-  stat      = "p95"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_p99_response_time" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "p99 response time"
-  stat      = "p99"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_max_response_time" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "AWS/ApplicationELB"
-  name      = "TargetResponseTime"
-  label     = "Maximum response time"
-  stat      = "Maximum"
-  period    = 60
-
-  dimensions = {
-    LoadBalancer = var.create ? data.aws_lb.lb[0].arn_suffix : ""
-    TargetGroup  = var.create ? aws_lb_target_group.service[0].arn_suffix : ""
-  }
-}
-
-module "metric_desired_tasks" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "DesiredTaskCount"
-  label     = "Desired task count"
-  color     = local.colors.grey
-  stat      = "Average"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
-}
-
-module "metric_pending_tasks" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "PendingTaskCount"
-  label     = "Pending task count"
-  color     = local.colors.orange
-  stat      = "Average"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
-}
-
-module "metric_running_tasks" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "RunningTaskCount"
-  label     = "Running task count"
-  color     = local.colors.light_green
-  stat      = "Average"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
+    dimensions = {
+      ServiceName = var.name
+      ClusterName = local.cluster_name
+    }
+  } }
 }
 
 module "metric_healthy_tasks" {
@@ -359,52 +215,30 @@ module "metric_average_cpu_reservation" {
   }
 }
 
-module "metric_min_cpu_utilization" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "CpuUtilized"
-  label     = "Minimum CPU utilized"
-  color     = local.colors.light_orange
-  stat      = "Minimum"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
+locals {
+  metrics_utilization_variants = {
+    min     = { stat = "Minimum", color = local.colors.light_orange }
+    average = { stat = "Average", color = local.colors.orange }
+    max     = { stat = "Maximum", color = local.colors.red }
   }
 }
 
-module "metric_average_cpu_utilization" {
-  source = "./../../../cloudwatch/metric"
+module "metrics_cpu_utilization" {
+  source = "./../../../cloudwatch/metric/many"
 
-  namespace = "ECS/ContainerInsights"
-  name      = "CpuUtilized"
-  label     = "Average CPU utilized"
-  color     = local.colors.orange
-  stat      = "Average"
-  period    = 60
+  vars_map = { for k, variant in local.metrics_utilization_variants : k => {
+    namespace = "ECS/ContainerInsights"
+    name      = "CpuUtilized"
+    label     = "${variant.stat} CPU utilized"
+    color     = variant.color
+    stat      = variant.stat
+    period    = 60
 
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
-}
-
-module "metric_max_cpu_utilization" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "CpuUtilized"
-  label     = "Maximum CPU utilized"
-  color     = local.colors.red
-  stat      = "Maximum"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
+    dimensions = {
+      ServiceName = var.name
+      ClusterName = local.cluster_name
+    }
+  } }
 }
 
 module "metric_average_memory_reservation" {
@@ -423,50 +257,20 @@ module "metric_average_memory_reservation" {
   }
 }
 
-module "metric_min_memory_utilization" {
-  source = "./../../../cloudwatch/metric"
+module "metrics_memory_utilization" {
+  source = "./../../../cloudwatch/metric/many"
 
-  namespace = "ECS/ContainerInsights"
-  name      = "MemoryUtilized"
-  label     = "Minimum memory utilized"
-  color     = local.colors.light_orange
-  stat      = "Minimum"
-  period    = 60
+  vars_map = { for k, variant in local.metrics_utilization_variants : k => {
+    namespace = "ECS/ContainerInsights"
+    name      = "MemoryUtilized"
+    label     = "${variant.stat} memory utilized"
+    color     = variant.color
+    stat      = variant.stat
+    period    = 60
 
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
-}
-
-module "metric_average_memory_utilization" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "MemoryUtilized"
-  label     = "Average memory utilized"
-  color     = local.colors.orange
-  stat      = "Average"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
-}
-
-module "metric_max_memory_utilization" {
-  source = "./../../../cloudwatch/metric"
-
-  namespace = "ECS/ContainerInsights"
-  name      = "MemoryUtilized"
-  label     = "Maximum memory utilized"
-  color     = local.colors.red
-  stat      = "Maximum"
-  period    = 60
-
-  dimensions = {
-    ServiceName = var.name
-    ClusterName = local.cluster_name
-  }
+    dimensions = {
+      ServiceName = var.name
+      ClusterName = local.cluster_name
+    }
+  } }
 }

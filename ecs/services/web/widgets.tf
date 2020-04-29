@@ -52,10 +52,10 @@ module "widget_response_time" {
   title   = "${var.name} service response times"
   stacked = true
   left_metrics = [
-    merge(local.metrics.p50_response_time, { color = local.colors.red }),
-    merge(local.metrics.p95_response_time, { color = local.colors.orange }),
-    merge(local.metrics.p99_response_time, { color = local.colors.light_red }),
-    merge(local.metrics.max_response_time, { color = local.colors.light_orange }),
+    local.metrics.p50_response_time,
+    local.metrics.p95_response_time,
+    local.metrics.p99_response_time,
+    local.metrics.max_response_time,
   ]
 }
 
