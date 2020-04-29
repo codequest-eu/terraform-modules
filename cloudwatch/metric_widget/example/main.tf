@@ -15,6 +15,8 @@ module "dashboard" {
     module.widget_current_values,
     module.widget_expressions,
     module.widget_annotations,
+    module.widget_metric_many_module,
+    module.widget_expression_many_module,
   ]
 }
 
@@ -209,5 +211,64 @@ module "widget_annotations" {
   ]
   vertical_annotations = [
     module.annotation_last_release,
+  ]
+}
+
+# Widget using metric/many and metric_expression/many modules
+
+locals {
+  cpu_utilization_stats = {
+    min     = "Minimum"
+    average = "Average"
+    max     = "Maximum"
+  }
+}
+
+module "metrics_cpu_utilization" {
+  source = "./../../metric/many"
+
+  vars_map = { for k, stat in local.cpu_utilization_stats : k => {
+    namespace = "AWS/EC2"
+    name      = "CPUUtilization"
+    stat      = stat
+    period    = 300
+    label     = "${stat} EC2 CPU utilization"
+  } }
+}
+
+module "widget_metric_many_module" {
+  source = "./.."
+
+  title = "metric/many module"
+  left_metrics = [
+    module.metrics_cpu_utilization.out_map.min,
+    module.metrics_cpu_utilization.out_map.average,
+    module.metrics_cpu_utilization.out_map.max,
+  ]
+  left_range = [0, 100]
+}
+
+module "expressions_cpu_utilization_rate" {
+  source = "./../../metric_expression/many"
+
+  vars_map = { for k, stat in local.cpu_utilization_stats : k => {
+    expression = "RATE(${module.metrics_cpu_utilization.out_map[k].id})"
+    label      = "${stat} EC2 CPU utilization rate"
+  } }
+}
+
+module "widget_expression_many_module" {
+  source = "./.."
+
+  title = "metric_expression/many module"
+  left_metrics = [
+    module.expressions_cpu_utilization_rate.out_map.min,
+    module.expressions_cpu_utilization_rate.out_map.average,
+    module.expressions_cpu_utilization_rate.out_map.max,
+  ]
+  hidden_metrics = [
+    module.metrics_cpu_utilization.out_map.min,
+    module.metrics_cpu_utilization.out_map.average,
+    module.metrics_cpu_utilization.out_map.max,
   ]
 }
