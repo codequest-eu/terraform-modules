@@ -26,12 +26,12 @@ locals {
     target_connection_error_percentage  = module.metrics_response_percentage.out_map.target_connection_error
 
     # ALB response times
-    target_average_response_time = module.metric_target_average_response_time
-    target_p50_response_time     = module.metric_target_p50_response_time
-    target_p90_response_time     = module.metric_target_p90_response_time
-    target_p95_response_time     = module.metric_target_p95_response_time
-    target_p99_response_time     = module.metric_target_p99_response_time
-    target_max_response_time     = module.metric_target_max_response_time
+    target_average_response_time = module.metrics_target_response_time.out_map.average
+    target_p50_response_time     = module.metrics_target_response_time.out_map.p50
+    target_p90_response_time     = module.metrics_target_response_time.out_map.p90
+    target_p95_response_time     = module.metrics_target_response_time.out_map.p95
+    target_p99_response_time     = module.metrics_target_response_time.out_map.p99
+    target_max_response_time     = module.metrics_target_response_time.out_map.max
 
     # ALB other
     consumed_lcus      = module.metric_consumed_lcus
@@ -158,72 +158,29 @@ module "metrics_response_percentage" {
   } }
 }
 
-module "metric_target_average_response_time" {
-  source = "./../../cloudwatch/metric"
-
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "Average target response time"
-  color      = local.colors.red
-  stat       = "Average"
-  period     = 60
+locals {
+  metrics_response_time_variants = {
+    average = { stat = "Average", color = local.colors.red }
+    p50     = { stat = "p50", color = local.colors.red }
+    p90     = { stat = "p90", color = local.colors.orange }
+    p95     = { stat = "p95", color = local.colors.orange }
+    p99     = { stat = "p99", color = local.colors.light_red }
+    max     = { stat = "Maximum", color = local.colors.light_orange }
+  }
 }
 
-module "metric_target_p50_response_time" {
-  source = "./../../cloudwatch/metric"
+module "metrics_target_response_time" {
+  source = "./../../cloudwatch/metric/many"
 
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "p50 target response time"
-  color      = local.colors.red
-  stat       = "p50"
-  period     = 60
-}
-
-module "metric_target_p90_response_time" {
-  source = "./../../cloudwatch/metric"
-
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "p90 target response time"
-  stat       = "p90"
-  period     = 60
-}
-
-module "metric_target_p95_response_time" {
-  source = "./../../cloudwatch/metric"
-
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "p95 target response time"
-  stat       = "p95"
-  period     = 60
-}
-
-module "metric_target_p99_response_time" {
-  source = "./../../cloudwatch/metric"
-
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "p99 target response time"
-  stat       = "p99"
-  period     = 60
-}
-
-module "metric_target_max_response_time" {
-  source = "./../../cloudwatch/metric"
-
-  namespace  = local.lb_namespace
-  dimensions = local.lb_dimensions
-  name       = "TargetResponseTime"
-  label      = "Maximum target response time"
-  stat       = "Maximum"
-  period     = 60
+  vars_map = { for k, variant in local.metrics_response_time_variants : k => {
+    namespace  = local.lb_namespace
+    dimensions = local.lb_dimensions
+    name       = "TargetResponseTime"
+    label      = "${variant.stat} target response time"
+    color      = variant.color
+    stat       = variant.stat
+    period     = 60
+  } }
 }
 
 module "metric_consumed_lcus" {

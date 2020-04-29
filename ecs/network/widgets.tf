@@ -69,10 +69,10 @@ module "widget_target_response_time" {
   title   = "ALB target response times"
   stacked = true
   left_metrics = [
-    merge(local.lb_metrics.target_p50_response_time, { color = local.colors.red }),
-    merge(local.lb_metrics.target_p95_response_time, { color = local.colors.orange }),
-    merge(local.lb_metrics.target_p99_response_time, { color = local.colors.light_red }),
-    merge(local.lb_metrics.target_max_response_time, { color = local.colors.light_orange }),
+    local.lb_metrics.target_p50_response_time,
+    local.lb_metrics.target_p95_response_time,
+    local.lb_metrics.target_p99_response_time,
+    local.lb_metrics.target_max_response_time,
   ]
   left_range = [0, null]
 }
