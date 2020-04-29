@@ -104,6 +104,9 @@ module "dashboard" {
     module.cluster.lb_widgets.responses,
     module.cluster.lb_widgets.response_percentages,
     module.cluster.lb_widgets.target_response_time,
+    module.cluster.lb_widgets.connections,
+    module.cluster.lb_widgets.lcus,
+    module.cluster.lb_widgets.traffic,
   ]
 }
 

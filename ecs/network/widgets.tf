@@ -3,6 +3,9 @@ locals {
     responses            = module.widget_responses
     response_percentages = module.widget_response_percentages
     target_response_time = module.widget_target_response_time
+    connections          = module.widget_lb_connections
+    lcus                 = module.widget_lb_lcus
+    traffic              = module.widget_lb_traffic
   }
 }
 
@@ -71,4 +74,34 @@ module "widget_target_response_time" {
     merge(local.lb_metrics.target_p99_response_time, { color = local.colors.light_red }),
     merge(local.lb_metrics.target_max_response_time, { color = local.colors.light_orange }),
   ]
+  left_range = [0, null]
+}
+
+module "widget_lb_connections" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "ALB connections"
+  stacked = true
+  left_metrics = [
+    local.lb_metrics.active_connections,
+    local.lb_metrics.new_connections,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_lb_lcus" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title        = "ALB consumed LCUs"
+  stacked      = true
+  left_metrics = [local.lb_metrics.consumed_lcus]
+}
+
+module "widget_lb_traffic" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title        = "ALB traffic"
+  stacked      = true
+  left_metrics = [local.lb_metrics.traffic]
+  left_range   = [0, null]
 }

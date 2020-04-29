@@ -29,6 +29,10 @@ locals {
     target_p95_response_time            = module.metric_target_p95_response_time
     target_p99_response_time            = module.metric_target_p99_response_time
     target_max_response_time            = module.metric_target_max_response_time
+    consumed_lcus                       = module.metric_consumed_lcus
+    active_connections                  = module.metric_lb_active_connections
+    new_connections                     = module.metric_lb_new_connections
+    traffic                             = module.metric_lb_traffic
   }
 }
 
@@ -338,5 +342,51 @@ module "metric_target_max_response_time" {
   name       = "TargetResponseTime"
   label      = "Maximum target response time"
   stat       = "Maximum"
+  period     = 60
+}
+
+module "metric_consumed_lcus" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = local.lb_namespace
+  dimensions = local.lb_dimensions
+  name       = "ConsumedLCUs"
+  label      = "Consumed LCUs"
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_lb_active_connections" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = local.lb_namespace
+  dimensions = local.lb_dimensions
+  name       = "ActiveConnectionCount"
+  label      = "Active connections"
+  color      = local.colors.blue
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_lb_new_connections" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = local.lb_namespace
+  dimensions = local.lb_dimensions
+  name       = "NewConnectionCount"
+  label      = "New connections"
+  color      = local.colors.green
+  stat       = "Sum"
+  period     = 60
+}
+
+module "metric_lb_traffic" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = local.lb_namespace
+  dimensions = local.lb_dimensions
+  name       = "ProcessedBytes"
+  label      = "Traffic"
+  stat       = "Sum"
   period     = 60
 }
