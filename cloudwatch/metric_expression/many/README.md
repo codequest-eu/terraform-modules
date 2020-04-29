@@ -12,11 +12,11 @@ Same as [cloudwatch/metric_expression](./..) but allows for creating many metric
 
 ## Inputs
 
-* `vars` (`any`, required)
+* `vars` (`any`, default: `[]`)
 
     List of [cloudwatch/metric_expression](./..) variables
 
-* `vars_map` (`any`, required)
+* `vars_map` (`any`, default: `{}`)
 
     Map of [cloudwatch/metric_expression](./..) variables
 
