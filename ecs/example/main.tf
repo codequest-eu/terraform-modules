@@ -103,7 +103,7 @@ module "dashboard" {
   widgets = [
     module.cluster.lb_widgets.responses,
     module.cluster.lb_widgets.response_percentages,
-    module.cluster.lb_widgets.response_time,
+    module.cluster.lb_widgets.target_response_time,
   ]
 }
 
