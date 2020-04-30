@@ -49,6 +49,15 @@ locals {
     cpu_credit_balance          = module.metrics_nat_instance_cpu_credit_balance.out_map.balance
     cpu_surplus_credit_balance  = module.metrics_nat_instance_cpu_credit_balance.out_map.surplus
     cpu_surplus_credits_charged = module.metrics_nat_instance_cpu_credit_balance.out_map.surplus_charged
+
+    bytes_received           = module.metrics_nat_instance_io_sum.out_map.bytes_received
+    packets_received         = module.metrics_nat_instance_io_sum.out_map.packets_received
+    bytes_sent               = module.metrics_nat_instance_io_sum.out_map.bytes_sent
+    packets_sent             = module.metrics_nat_instance_io_sum.out_map.packets_sent
+    average_bytes_received   = module.metrics_nat_instance_io_average.out_map.bytes_received
+    average_packets_received = module.metrics_nat_instance_io_average.out_map.packets_received
+    average_bytes_sent       = module.metrics_nat_instance_io_average.out_map.bytes_sent
+    average_packets_sent     = module.metrics_nat_instance_io_average.out_map.packets_sent
   }
 }
 
@@ -313,5 +322,60 @@ module "metrics_nat_instance_cpu_credit_balance" {
 
     label = variant.label
     color = variant.color
+  } }
+}
+
+locals {
+  io_colors = {
+    read  = local.colors.green
+    write = local.colors.orange
+  }
+
+  metrics_nat_instance_io = {
+    bytes_received = {
+      name  = "NetworkIn"
+      label = "Received bytes"
+      color = local.io_colors.read
+    }
+    packets_received = {
+      name  = "NetworkPacketsIn"
+      label = "Received packets"
+      color = local.io_colors.read
+    }
+    bytes_sent = {
+      name  = "NetworkOut"
+      label = "Sent bytes"
+      color = local.io_colors.write
+    }
+    packets_sent = {
+      name  = "NetworkPacketsOut"
+      label = "Sent packets"
+      color = local.io_colors.write
+    }
+  }
+}
+
+module "metrics_nat_instance_io_sum" {
+  source = "./../../cloudwatch/metric_expression/many"
+
+  vars_map = { for k, variant in local.metrics_nat_instance_io : k => {
+    expression = <<EOF
+    SUM(SEARCH('${local.search_nat_instance} MetricName="${variant.name}"', 'Sum', 300))
+    EOF
+    label      = variant.label
+    color      = variant.color
+  } }
+}
+
+module "metrics_nat_instance_io_average" {
+  source = "./../../cloudwatch/metric_expression/many"
+
+  vars_map = { for k, variant in local.metrics_nat_instance_io : k => {
+    expression = <<EOF
+    SUM(SEARCH('${local.search_nat_instance} MetricName="${variant.name}"', 'Sum', 300)) /
+    SUM(SEARCH('${local.search_nat_instance} MetricName="${variant.name}"', 'SampleCount', 300))
+    EOF
+    label      = "Average ${lower(variant.label)}"
+    color      = variant.color
   } }
 }

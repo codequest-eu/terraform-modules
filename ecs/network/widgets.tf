@@ -11,6 +11,8 @@ locals {
     cpu_utilization    = module.widget_nat_instance_cpu_utilization
     cpu_credit_balance = module.widget_nat_instance_cpu_credit_balance
     cpu_credit_usage   = module.widget_nat_instance_cpu_credit_usage
+    network_bytes      = module.widget_nat_instance_network_bytes
+    network_packets    = module.widget_nat_instance_network_packets
   }
 }
 
@@ -142,4 +144,28 @@ module "widget_nat_instance_cpu_credit_usage" {
   title        = "NAT instance CPU credit usage"
   left_metrics = [local.nat_instance_metrics.cpu_credit_usage]
   left_range   = [0, null]
+}
+
+module "widget_nat_instance_network_bytes" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "NAT instance network traffic"
+  stacked = true
+  left_metrics = [
+    local.nat_instance_metrics.average_bytes_sent,
+    local.nat_instance_metrics.average_bytes_received,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_nat_instance_network_packets" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "NAT instance network traffic"
+  stacked = true
+  left_metrics = [
+    local.nat_instance_metrics.average_packets_sent,
+    local.nat_instance_metrics.average_packets_received,
+  ]
+  left_range = [0, null]
 }
