@@ -152,8 +152,8 @@ module "widget_nat_instance_network_bytes" {
   title   = "NAT instance network traffic"
   stacked = true
   left_metrics = [
-    local.nat_instance_metrics.average_bytes_sent,
-    local.nat_instance_metrics.average_bytes_received,
+    local.nat_instance_metrics.bytes_sent,
+    local.nat_instance_metrics.bytes_received,
   ]
   left_range = [0, null]
 }
@@ -164,8 +164,8 @@ module "widget_nat_instance_network_packets" {
   title   = "NAT instance network traffic"
   stacked = true
   left_metrics = [
-    local.nat_instance_metrics.average_packets_sent,
-    local.nat_instance_metrics.average_packets_received,
+    local.nat_instance_metrics.packets_sent,
+    local.nat_instance_metrics.packets_received,
   ]
   left_range = [0, null]
 }
