@@ -178,7 +178,7 @@ module "widget_nat_instance_network_packets" {
 module "widget_nat_gateway_network_bytes" {
   source = "./../../cloudwatch/metric_widget"
 
-  title   = "NAT network traffic"
+  title   = "NAT gateway network traffic"
   stacked = true
   left_metrics = [
     local.nat_gateway_metrics.bytes_received_out,
@@ -192,7 +192,7 @@ module "widget_nat_gateway_network_bytes" {
 module "widget_nat_gateway_network_packets" {
   source = "./../../cloudwatch/metric_widget"
 
-  title   = "NAT network traffic"
+  title   = "NAT gateway network traffic"
   stacked = true
   left_metrics = [
     local.nat_gateway_metrics.packets_dropped,
