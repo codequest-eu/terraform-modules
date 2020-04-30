@@ -465,7 +465,7 @@ locals {
       color = local.colors.blue
     }
     established = {
-      name  = "ConnectionAttemptCount"
+      name  = "ConnectionEstablishedCount"
       label = "Connections established"
       color = local.colors.green
     }
