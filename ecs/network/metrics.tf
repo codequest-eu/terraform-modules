@@ -57,15 +57,16 @@ locals {
   }
 
   nat_gateway_metrics = {
-    bytes_received_in  = module.metrics_nat_gateway_io_bytes.out_map.received_in
-    bytes_received_out = module.metrics_nat_gateway_io_bytes.out_map.received_out
-    bytes_sent_in      = module.metrics_nat_gateway_io_bytes.out_map.sent_in
-    bytes_sent_out     = module.metrics_nat_gateway_io_bytes.out_map.sent_out
+    bytes_received_in  = module.metrics_nat_gateway_bytes.out_map.received_in
+    bytes_received_out = module.metrics_nat_gateway_bytes.out_map.received_out
+    bytes_sent_in      = module.metrics_nat_gateway_bytes.out_map.sent_in
+    bytes_sent_out     = module.metrics_nat_gateway_bytes.out_map.sent_out
 
-    packets_received_in  = module.metrics_nat_gateway_io_packets.out_map.received_in
-    packets_received_out = module.metrics_nat_gateway_io_packets.out_map.received_out
-    packets_sent_in      = module.metrics_nat_gateway_io_packets.out_map.sent_in
-    packets_sent_out     = module.metrics_nat_gateway_io_packets.out_map.sent_out
+    packets_dropped      = module.metrics_nat_gateway_packets_dropped
+    packets_received_in  = module.metrics_nat_gateway_packets.out_map.received_in
+    packets_received_out = module.metrics_nat_gateway_packets.out_map.received_out
+    packets_sent_in      = module.metrics_nat_gateway_packets.out_map.sent_in
+    packets_sent_out     = module.metrics_nat_gateway_packets.out_map.sent_out
   }
 }
 
@@ -406,7 +407,7 @@ locals {
   }
 }
 
-module "metrics_nat_gateway_io_bytes" {
+module "metrics_nat_gateway_bytes" {
   source = "./../../cloudwatch/metric/many"
 
   vars_map = { for k, v in local.metrics_nat_gateway_io : k => {
@@ -420,7 +421,7 @@ module "metrics_nat_gateway_io_bytes" {
   } }
 }
 
-module "metrics_nat_gateway_io_packets" {
+module "metrics_nat_gateway_packets" {
   source = "./../../cloudwatch/metric/many"
 
   vars_map = { for k, v in local.metrics_nat_gateway_io : k => {
@@ -432,4 +433,16 @@ module "metrics_nat_gateway_io_packets" {
     stat       = "Sum"
     period     = 60
   } }
+}
+
+module "metrics_nat_gateway_packets_dropped" {
+  source = "./../../cloudwatch/metric"
+
+  namespace  = "AWS/NATGateway"
+  dimensions = local.nat_gateway_dimensions
+  name       = "PacketsDropCount"
+  label      = "Packets dropped"
+  color      = local.colors.red
+  stat       = "Sum"
+  period     = 60
 }

@@ -195,6 +195,7 @@ module "widget_nat_gateway_network_packets" {
   title   = "NAT network traffic"
   stacked = true
   left_metrics = [
+    local.nat_gateway_metrics.packets_dropped,
     local.nat_gateway_metrics.packets_received_out,
     local.nat_gateway_metrics.packets_sent_in,
     local.nat_gateway_metrics.packets_received_in,
