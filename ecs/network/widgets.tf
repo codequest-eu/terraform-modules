@@ -14,6 +14,11 @@ locals {
     network_bytes      = module.widget_nat_instance_network_bytes
     network_packets    = module.widget_nat_instance_network_packets
   }
+
+  nat_gateway_widgets = {
+    network_bytes   = module.widget_nat_gateway_network_bytes
+    network_packets = module.widget_nat_gateway_network_packets
+  }
 }
 
 module "widget_responses" {
@@ -166,6 +171,34 @@ module "widget_nat_instance_network_packets" {
   left_metrics = [
     local.nat_instance_metrics.packets_sent,
     local.nat_instance_metrics.packets_received,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_nat_gateway_network_bytes" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "NAT network traffic"
+  stacked = true
+  left_metrics = [
+    local.nat_gateway_metrics.bytes_received_out,
+    local.nat_gateway_metrics.bytes_sent_in,
+    local.nat_gateway_metrics.bytes_received_in,
+    local.nat_gateway_metrics.bytes_sent_out,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_nat_gateway_network_packets" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "NAT network traffic"
+  stacked = true
+  left_metrics = [
+    local.nat_gateway_metrics.packets_received_out,
+    local.nat_gateway_metrics.packets_sent_in,
+    local.nat_gateway_metrics.packets_received_in,
+    local.nat_gateway_metrics.packets_sent_out,
   ]
   left_range = [0, null]
 }

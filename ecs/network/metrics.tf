@@ -55,6 +55,18 @@ locals {
     bytes_sent       = module.metrics_nat_instance_io.out_map.bytes_sent
     packets_sent     = module.metrics_nat_instance_io.out_map.packets_sent
   }
+
+  nat_gateway_metrics = {
+    bytes_received_in  = module.metrics_nat_gateway_io_bytes.out_map.received_in
+    bytes_received_out = module.metrics_nat_gateway_io_bytes.out_map.received_out
+    bytes_sent_in      = module.metrics_nat_gateway_io_bytes.out_map.sent_in
+    bytes_sent_out     = module.metrics_nat_gateway_io_bytes.out_map.sent_out
+
+    packets_received_in  = module.metrics_nat_gateway_io_packets.out_map.received_in
+    packets_received_out = module.metrics_nat_gateway_io_packets.out_map.received_out
+    packets_sent_in      = module.metrics_nat_gateway_io_packets.out_map.sent_in
+    packets_sent_out     = module.metrics_nat_gateway_io_packets.out_map.sent_out
+  }
 }
 
 module "cloudwatch_consts" {
@@ -325,6 +337,9 @@ locals {
   io_colors = {
     read  = local.colors.green
     write = local.colors.orange
+
+    light_read  = local.colors.light_green
+    light_write = local.colors.light_orange
   }
 
   metrics_nat_instance_io = {
@@ -360,5 +375,61 @@ module "metrics_nat_instance_io" {
     EOF
     label      = variant.label
     color      = variant.color
+  } }
+}
+
+locals {
+  nat_gateway_dimensions = {
+    NatGatewayId = var.create && ! var.nat_instance ? aws_nat_gateway.public[0].id : ""
+  }
+  metrics_nat_gateway_io = {
+    sent_in = {
+      name_suffix  = "OutToSource"
+      label_suffix = "sent to VPC"
+      color        = local.io_colors.light_read
+    }
+    sent_out = {
+      name_suffix  = "OutToDestination"
+      label_suffix = "sent to WAN"
+      color        = local.io_colors.write
+    }
+    received_in = {
+      name_suffix  = "InFromSource"
+      label_suffix = "received from VPC"
+      color        = local.io_colors.light_write
+    }
+    received_out = {
+      name_suffix  = "InFromDestination"
+      label_suffix = "received from WAN"
+      color        = local.io_colors.read
+    }
+  }
+}
+
+module "metrics_nat_gateway_io_bytes" {
+  source = "./../../cloudwatch/metric/many"
+
+  vars_map = { for k, v in local.metrics_nat_gateway_io : k => {
+    namespace  = "AWS/NATGateway"
+    dimensions = local.nat_gateway_dimensions
+    name       = "Bytes${v.name_suffix}"
+    label      = "Bytes ${v.label_suffix}"
+    color      = v.color
+    stat       = "Sum"
+    period     = 60
+  } }
+}
+
+module "metrics_nat_gateway_io_packets" {
+  source = "./../../cloudwatch/metric/many"
+
+  vars_map = { for k, v in local.metrics_nat_gateway_io : k => {
+    namespace  = "AWS/NATGateway"
+    dimensions = local.nat_gateway_dimensions
+    name       = "Packets${v.name_suffix}"
+    label      = "Packets ${v.label_suffix}"
+    color      = v.color
+    stat       = "Sum"
+    period     = 60
   } }
 }

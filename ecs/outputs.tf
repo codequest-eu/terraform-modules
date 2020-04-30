@@ -125,6 +125,16 @@ output "nat_instance_widgets" {
   description = "NAT instance related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)"
 }
 
+output "nat_gateway_metrics" {
+  value       = module.network.nat_gateway_metrics
+  description = "NAT gateway related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)"
+}
+
+output "nat_gateway_widgets" {
+  value       = module.network.nat_gateway_widgets
+  description = "NAT gateway related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)"
+}
+
 # access outputs
 
 output "host_role_name" {

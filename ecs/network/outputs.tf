@@ -112,3 +112,13 @@ output "nat_instance_widgets" {
   description = "NAT instance Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
   value       = local.nat_instance_widgets
 }
+
+output "nat_gateway_metrics" {
+  description = "NAT gateway Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.nat_gateway_metrics
+}
+
+output "nat_gateway_widgets" {
+  description = "NAT gateway Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.nat_gateway_widgets
+}

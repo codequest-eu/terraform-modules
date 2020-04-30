@@ -112,6 +112,8 @@ module "dashboard" {
     module.cluster.nat_instance_widgets.cpu_credit_usage,
     module.cluster.nat_instance_widgets.network_bytes,
     module.cluster.nat_instance_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.network_bytes,
+    module.cluster.nat_gateway_widgets.network_packets,
   ]
 }
 

@@ -165,6 +165,14 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
     Cluster name
 
+* `nat_gateway_metrics`
+
+    NAT gateway related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+
+* `nat_gateway_widgets`
+
+    NAT gateway related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+
 * `nat_instance_metrics`
 
     NAT instance related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
