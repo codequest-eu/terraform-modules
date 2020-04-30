@@ -263,8 +263,8 @@ module "metric_nat_instance_average_cpu_utilization" {
     SUM(SEARCH('${local.search_nat_instance} MetricName="CPUUtilization"', 'SampleCount', 60))
   EOF
 
-  label = "Minimum CPU utilization"
-  color = local.colors.light_orange
+  label = "Average CPU utilization"
+  color = local.colors.orange
 }
 
 module "metric_nat_instance_max_cpu_utilization" {
