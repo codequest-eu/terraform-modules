@@ -17,7 +17,7 @@ module "cluster" {
   project_index            = local.project_index
   environment              = local.environment
   availability_zones_count = 1
-  nat_instance             = true
+  nat_instance             = false
 }
 
 module "hosts" {
@@ -121,4 +121,8 @@ output "hosts_id" {
 
 output "dashboard_url" {
   value = module.dashboard.url
+}
+
+output "lb_url" {
+  value = "http://${module.cluster.load_balancer_domain}"
 }
