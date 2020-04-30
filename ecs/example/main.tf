@@ -114,6 +114,8 @@ module "dashboard" {
     module.cluster.nat_instance_widgets.network_packets,
     module.cluster.nat_gateway_widgets.network_bytes,
     module.cluster.nat_gateway_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.active_connections,
+    module.cluster.nat_gateway_widgets.connection_attempts,
   ]
 }
 

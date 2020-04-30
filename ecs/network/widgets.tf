@@ -7,6 +7,7 @@ locals {
     lcus                 = module.widget_lb_lcus
     traffic              = module.widget_lb_traffic
   }
+
   nat_instance_widgets = {
     cpu_utilization    = module.widget_nat_instance_cpu_utilization
     cpu_credit_balance = module.widget_nat_instance_cpu_credit_balance
@@ -16,8 +17,10 @@ locals {
   }
 
   nat_gateway_widgets = {
-    network_bytes   = module.widget_nat_gateway_network_bytes
-    network_packets = module.widget_nat_gateway_network_packets
+    network_bytes       = module.widget_nat_gateway_network_bytes
+    network_packets     = module.widget_nat_gateway_network_packets
+    active_connections  = module.widget_nat_gateway_active_connections
+    connection_attempts = module.widget_nat_gateway_connection_attempts
   }
 }
 
@@ -200,6 +203,27 @@ module "widget_nat_gateway_network_packets" {
     local.nat_gateway_metrics.packets_sent_in,
     local.nat_gateway_metrics.packets_received_in,
     local.nat_gateway_metrics.packets_sent_out,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_nat_gateway_active_connections" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title        = "NAT gateway active connections"
+  stacked      = true
+  left_metrics = [local.nat_gateway_metrics.active_connections]
+  left_range   = [0, null]
+}
+
+module "widget_nat_gateway_connection_attempts" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title = "NAT gateway connection attempts"
+  left_metrics = [
+    local.nat_gateway_metrics.connection_attempts,
+    local.nat_gateway_metrics.established_connections,
+    local.nat_gateway_metrics.port_allocation_errors,
   ]
   left_range = [0, null]
 }

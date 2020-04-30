@@ -67,6 +67,11 @@ locals {
     packets_received_out = module.metrics_nat_gateway_packets.out_map.received_out
     packets_sent_in      = module.metrics_nat_gateway_packets.out_map.sent_in
     packets_sent_out     = module.metrics_nat_gateway_packets.out_map.sent_out
+
+    active_connections      = module.metrics_nat_gateway_connections.out_map.active
+    connection_attempts     = module.metrics_nat_gateway_connections.out_map.attempt
+    established_connections = module.metrics_nat_gateway_connections.out_map.established
+    port_allocation_errors  = module.metrics_nat_gateway_connections.out_map.port_allocation_error
   }
 }
 
@@ -445,4 +450,43 @@ module "metrics_nat_gateway_packets_dropped" {
   color      = local.colors.red
   stat       = "Sum"
   period     = 60
+}
+
+locals {
+  metrics_nat_gateway_connections = {
+    active = {
+      name  = "ActiveConnectionCount"
+      label = "Active connections"
+      color = null
+    }
+    attempt = {
+      name  = "ConnectionAttemptCount"
+      label = "Connection attempts"
+      color = local.colors.blue
+    }
+    established = {
+      name  = "ConnectionAttemptCount"
+      label = "Connections established"
+      color = local.colors.green
+    }
+    port_allocation_error = {
+      name  = "ErrorPortAllocation"
+      label = "Port allocation errors"
+      color = local.colors.red
+    }
+  }
+}
+
+module "metrics_nat_gateway_connections" {
+  source = "./../../cloudwatch/metric/many"
+
+  vars_map = { for k, v in local.metrics_nat_gateway_connections : k => {
+    namespace  = "AWS/NATGateway"
+    dimensions = local.nat_gateway_dimensions
+    name       = v.name
+    label      = v.label
+    color      = v.color
+    stat       = "Sum"
+    period     = 60
+  } }
 }
