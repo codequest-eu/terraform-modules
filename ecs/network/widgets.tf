@@ -7,6 +7,11 @@ locals {
     lcus                 = module.widget_lb_lcus
     traffic              = module.widget_lb_traffic
   }
+  nat_instance_widgets = {
+    cpu_utilization    = module.widget_nat_instance_cpu_utilization
+    cpu_credit_balance = module.widget_nat_instance_cpu_credit_balance
+    cpu_credit_usage   = module.widget_nat_instance_cpu_credit_usage
+  }
 }
 
 module "widget_responses" {
@@ -103,5 +108,38 @@ module "widget_lb_traffic" {
   title        = "ALB traffic"
   stacked      = true
   left_metrics = [local.lb_metrics.traffic]
+  left_range   = [0, null]
+}
+
+module "widget_nat_instance_cpu_utilization" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title = "NAT instance CPU utilization"
+  left_metrics = [
+    local.nat_instance_metrics.min_cpu_utilization,
+    local.nat_instance_metrics.average_cpu_utilization,
+    local.nat_instance_metrics.max_cpu_utilization,
+  ]
+  left_range = [0, 100]
+}
+
+module "widget_nat_instance_cpu_credit_balance" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title   = "NAT instance CPU credit balance"
+  stacked = true
+  left_metrics = [
+    local.nat_instance_metrics.cpu_surplus_credits_charged,
+    local.nat_instance_metrics.cpu_surplus_credit_balance,
+    local.nat_instance_metrics.cpu_credit_balance,
+  ]
+  left_range = [0, null]
+}
+
+module "widget_nat_instance_cpu_credit_usage" {
+  source = "./../../cloudwatch/metric_widget"
+
+  title        = "NAT instance CPU credit usage"
+  left_metrics = [local.nat_instance_metrics.cpu_credit_usage]
   left_range   = [0, null]
 }

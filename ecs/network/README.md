@@ -116,6 +116,14 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     The canonical hosted zone ID of the Application Load Balancer (to be used in a Route 53 Alias record)
 
+* `nat_instance_metrics`
+
+    NAT instance Cloudwatch metrics, see [metrics.tf](./metrics.tf)
+
+* `nat_instance_widgets`
+
+    NAT instance Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)
+
 * `private_blocks`
 
     The CIDR blocks of private subnets

@@ -107,6 +107,9 @@ module "dashboard" {
     module.cluster.lb_widgets.connections,
     module.cluster.lb_widgets.lcus,
     module.cluster.lb_widgets.traffic,
+    module.cluster.nat_instance_widgets.cpu_utilization,
+    module.cluster.nat_instance_widgets.cpu_credit_balance,
+    module.cluster.nat_instance_widgets.cpu_credit_usage,
   ]
 }
 

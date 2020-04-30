@@ -39,6 +39,17 @@ locals {
     new_connections    = module.metric_lb_new_connections
     traffic            = module.metric_lb_traffic
   }
+
+  nat_instance_metrics = {
+    min_cpu_utilization     = module.metric_nat_instance_min_cpu_utilization
+    average_cpu_utilization = module.metric_nat_instance_average_cpu_utilization
+    max_cpu_utilization     = module.metric_nat_instance_max_cpu_utilization
+
+    cpu_credit_usage            = module.metric_nat_instance_cpu_credit_usage
+    cpu_credit_balance          = module.metrics_nat_instance_cpu_credit_balance.out_map.balance
+    cpu_surplus_credit_balance  = module.metrics_nat_instance_cpu_credit_balance.out_map.surplus
+    cpu_surplus_credits_charged = module.metrics_nat_instance_cpu_credit_balance.out_map.surplus_charged
+  }
 }
 
 module "cloudwatch_consts" {
@@ -227,4 +238,80 @@ module "metric_lb_traffic" {
   label      = "Traffic"
   stat       = "Sum"
   period     = 60
+}
+
+locals {
+  search_nat_instance_dimensions = join(" OR ", [
+    for id in aws_instance.nat.*.id : "InstanceId=${jsonencode(id)}"
+  ])
+  search_nat_instance = "Namespace=\"AWS/EC2\" (${local.search_nat_instance_dimensions})"
+}
+
+module "metric_nat_instance_min_cpu_utilization" {
+  source = "./../../cloudwatch/metric_expression"
+
+  expression = "MIN(SEARCH('${local.search_nat_instance} MetricName=\"CPUUtilization\"', 'Minimum', 60))"
+  label      = "Minimum CPU utilization"
+  color      = local.colors.light_orange
+}
+
+module "metric_nat_instance_average_cpu_utilization" {
+  source = "./../../cloudwatch/metric_expression"
+
+  expression = <<EOF
+    SUM(SEARCH('${local.search_nat_instance} MetricName="CPUUtilization"', 'Sum', 60)) /
+    SUM(SEARCH('${local.search_nat_instance} MetricName="CPUUtilization"', 'SampleCount', 60))
+  EOF
+
+  label = "Minimum CPU utilization"
+  color = local.colors.light_orange
+}
+
+module "metric_nat_instance_max_cpu_utilization" {
+  source = "./../../cloudwatch/metric_expression"
+
+  expression = "MAX(SEARCH('${local.search_nat_instance} MetricName=\"CPUUtilization\"', 'Maximum', 60))"
+  label      = "Maximum CPU utilization"
+  color      = local.colors.red
+}
+
+locals {
+  metrics_cpu_credit_balance = {
+    balance = {
+      name  = "CPUCreditBalance"
+      label = "CPU credit balance"
+      color = local.colors.green
+    }
+    surplus = {
+      name  = "CPUSurplusCreditBalance"
+      label = "CPU surplus credit balance"
+      color = local.colors.orange
+    }
+    surplus_charged = {
+      name  = "CPUSurplusCreditsCharged"
+      label = "CPU surplus credits charged"
+      color = local.colors.red
+    }
+  }
+}
+
+module "metric_nat_instance_cpu_credit_usage" {
+  source = "./../../cloudwatch/metric_expression"
+
+  expression = "SUM(SEARCH('${local.search_nat_instance} MetricName=\"CPUCreditUsage\"', 'Sum', 300))"
+  label      = "CPU credit usage"
+}
+
+module "metrics_nat_instance_cpu_credit_balance" {
+  source = "./../../cloudwatch/metric_expression/many"
+
+  vars_map = { for k, variant in local.metrics_cpu_credit_balance : k => {
+    expression = <<EOF
+    SUM(SEARCH('${local.search_nat_instance} MetricName="${variant.name}"', 'Sum', 300)) /
+    SUM(SEARCH('${local.search_nat_instance} MetricName="${variant.name}"', 'SampleCount', 300))
+    EOF
+
+    label = variant.label
+    color = variant.color
+  } }
 }

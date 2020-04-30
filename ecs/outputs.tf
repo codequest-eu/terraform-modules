@@ -115,6 +115,16 @@ output "lb_widgets" {
   description = "Load balancer related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)"
 }
 
+output "nat_instance_metrics" {
+  value       = module.network.nat_instance_metrics
+  description = "NAT instance related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)"
+}
+
+output "nat_instance_widgets" {
+  value       = module.network.nat_instance_widgets
+  description = "NAT instance related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)"
+}
+
 # access outputs
 
 output "host_role_name" {

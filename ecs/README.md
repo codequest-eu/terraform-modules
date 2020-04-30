@@ -165,6 +165,14 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
     Cluster name
 
+* `nat_instance_metrics`
+
+    NAT instance related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+
+* `nat_instance_widgets`
+
+    NAT instance related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+
 * `private_blocks`
 
     The CIDR blocks of private subnets

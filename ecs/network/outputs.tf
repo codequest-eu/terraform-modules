@@ -102,3 +102,13 @@ output "lb_widgets" {
   description = "Load balancer related Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
   value       = local.lb_widgets
 }
+
+output "nat_instance_metrics" {
+  description = "NAT instance Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.nat_instance_metrics
+}
+
+output "nat_instance_widgets" {
+  description = "NAT instance Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.nat_instance_widgets
+}
