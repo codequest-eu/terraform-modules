@@ -98,10 +98,24 @@ module "web" {
   healthcheck_path = "/"
 }
 
+module "dashboard" {
+  source = "./../../cloudwatch/dashboard"
+
+  name = "terraform-ecs-example"
+  widgets = [
+    module.cluster.widgets.cpu_utilization,
+    module.cluster.widgets.memory_utilization,
+  ]
+}
+
 output "hosts_id" {
   value = module.hosts.id
 }
 
 output "lb_url" {
   value = "http://${module.cluster.load_balancer_domain}"
+}
+
+output "dashboard_url" {
+  value = module.dashboard.url
 }
