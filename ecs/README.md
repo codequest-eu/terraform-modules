@@ -153,6 +153,10 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
     The canonical hosted zone ID of the Application Load Balancer (to be used in a Route 53 Alias record)
 
+* `metrics`
+
+    ECS cluster Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details
+
 * `name`
 
     Cluster name
@@ -192,3 +196,7 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 * `web_service_role_name`
 
     ECS web service task role name
+
+* `widgets`
+
+    ECS cluster Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details
