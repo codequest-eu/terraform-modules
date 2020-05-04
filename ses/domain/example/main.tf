@@ -19,6 +19,10 @@ module "domain" {
   hosted_zone_id = data.aws_route53_zone.zone.id
 }
 
+output "domain" {
+  value = "ses-domain.terraform-modules-examples.${var.zone_domain}"
+}
+
 output "sender_policy_arn" {
   value = module.domain.sender_policy_arn
 }

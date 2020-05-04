@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -e
+
+image_id=$(
+docker build -q -f - bin <<EOF
+FROM python:3.7-alpine
+
+RUN pip install boto3
+ADD ./spammer.py /opt/spammer/spammer.py
+ENTRYPOINT ["python", "/opt/spammer/spammer.py"]
+EOF
+)
+
+docker run \
+  -t \
+  --rm \
+  -e AWS_DEFAULT_REGION="eu-west-1" \
+  -e AWS_PROFILE="$AWS_PROFILE" \
+  -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+  -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+  -e SPAMMER_DEFAULT_SENDER="no-reply@$(terraform output domain)" \
+  -v "$HOME/.aws:/root/.aws:ro" \
+  "$image_id" "$@"
