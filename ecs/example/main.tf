@@ -105,6 +105,9 @@ module "dashboard" {
   widgets = [
     module.cluster.widgets.cpu_utilization,
     module.cluster.widgets.memory_utilization,
+    module.cluster.widgets.instances,
+    module.cluster.widgets.services,
+    module.cluster.widgets.tasks,
   ]
 }
 
