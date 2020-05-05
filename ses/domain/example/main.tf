@@ -23,6 +23,10 @@ output "domain" {
   value = "ses-domain.terraform-modules-examples.${var.zone_domain}"
 }
 
+output "configuration_set" {
+  value = module.domain.configuration_set
+}
+
 output "sender_policy_arn" {
   value = module.domain.sender_policy_arn
 }
