@@ -1,6 +1,7 @@
 import argparse
 import os
 import random
+import sys
 import time
 from itertools import count
 from textwrap import dedent
@@ -8,7 +9,7 @@ from email.message import EmailMessage
 
 import boto3
 
-EICAR_TEST_FILE = b"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
+EICAR_TEST_FILE = rb"X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"
 
 parser = argparse.ArgumentParser(
   description="""
@@ -46,6 +47,10 @@ parser.add_argument(
   help="Anti-virus rejection weight",
 )
 parser.add_argument(
+  "--reject-email",
+  help="Verified email address that should be the recipient of reject emails",
+)
+parser.add_argument(
   "--interval",
   type=int,
   default=5,
@@ -72,13 +77,11 @@ def build_email_message(i, args):
   email_message = EmailMessage()
   email_message["subject"] = f"{email_type} email"
   email_message["from"] = args.sender
-
-  if email_type == "reject":
-    # there's no reject@simulator.amazonses.com address
-    email_message["to"] = "success@simulator.amazonses.com"
-  else:
-    email_message["to"] = f"{email_type}@simulator.amazonses.com"
-
+  email_message["to"] = getattr(
+    args,
+    f"{email_type}_email",
+    f"{email_type}@simulator.amazonses.com",
+  )
   email_message["X-SES-CONFIGURATION-SET"] = args.configuration_set
 
   email_message.set_content(
@@ -91,7 +94,7 @@ def build_email_message(i, args):
     subtype="plain",
   )
 
-  email_message.set_content(
+  email_message.add_alternative(
     dedent(
       f"""
       <!DOCTYPE html>
@@ -109,6 +112,7 @@ def build_email_message(i, args):
   if email_type == "reject":
     email_message.add_attachment(
       EICAR_TEST_FILE,
+      filename="sample.txt",
       maintype="application",
       subtype="octet-stream",
     )
@@ -117,6 +121,11 @@ def build_email_message(i, args):
 
 def main():
   args = parser.parse_args()
+
+  if args.reject and not args.reject_email:
+    print("You have to specify --reject-email or disable reject emails with --reject 0")
+    sys.exit(1)
+
   ses = boto3.client("ses")
 
   print(f"Will start sending emails from {args.sender} every {args.interval} seconds")
