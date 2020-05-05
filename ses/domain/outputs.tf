@@ -24,3 +24,13 @@ output "email_headers" {
     "X-SES-CONFIGURATION-SET" = local.configuration_set_name
   }
 }
+
+output "metrics" {
+  value       = local.metrics
+  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details"
+}
+
+output "widgets" {
+  value       = local.widgets
+  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details"
+}
