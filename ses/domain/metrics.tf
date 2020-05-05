@@ -32,7 +32,7 @@ locals {
 
   metrics_count = {
     sent       = { name = "Send", label = "Sent", color = local.colors.grey }
-    rejections = { name = "Reject", label = "Rejections", color = local.colors.purple }
+    rejections = { name = "Reject", label = "Rejections", color = local.colors.red }
     bounces    = { name = "Bounce", label = "Bounces", color = local.colors.orange }
     spam       = { name = "Complaint", label = "Marked as spam", color = local.colors.red }
     deliveries = { name = "Delivery", label = "Deliveries", color = local.colors.green }
