@@ -30,3 +30,15 @@ output "configuration_set" {
 output "sender_policy_arn" {
   value = module.domain.sender_policy_arn
 }
+
+module "dashboard" {
+  source = "./../../../cloudwatch/dashboard"
+
+  name = "terraform-modules-ses-domain-example"
+  widgets = [
+    module.domain.widgets.delivery,
+    module.domain.widgets.delivery_percentage,
+    module.domain.widgets.spam,
+    module.domain.widgets.conversion,
+  ]
+}
