@@ -40,5 +40,7 @@ module "dashboard" {
     module.domain.widgets.delivery_percentage,
     module.domain.widgets.spam,
     module.domain.widgets.conversion,
+    module.domain.widgets.account_bounce_rate,
+    module.domain.widgets.account_spam_rate,
   ]
 }
