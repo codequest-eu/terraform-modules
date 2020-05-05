@@ -100,6 +100,14 @@ Registers a domain with AWS SES and verifies it
 
 ## Outputs
 
+* `configuration_set`
+
+    Configuration set to use to track metrics for this domain
+
+* `email_headers`
+
+    Headers that should be included in each email
+
 * `sender_policy_arn`
 
     IAM policy ARN for email senders
