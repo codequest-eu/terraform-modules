@@ -97,3 +97,11 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 * `id`
 
     Autoscaling group id
+
+* `metrics`
+
+    Cloudwatch metrics, see [metrics.tf](./metrics.tf)
+
+* `widgets`
+
+    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)

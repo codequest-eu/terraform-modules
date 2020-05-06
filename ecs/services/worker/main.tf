@@ -1,3 +1,13 @@
+locals {
+  cluster_name = var.create ? substr(data.aws_arn.cluster[0].resource, length("cluster/"), -1) : ""
+}
+
+data "aws_arn" "cluster" {
+  count = var.create ? 1 : 0
+
+  arn = var.cluster_arn
+}
+
 resource "aws_ecs_service" "service" {
   count = var.create ? 1 : 0
 

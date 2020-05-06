@@ -86,4 +86,3 @@ resource "aws_lb_listener_rule" "service" {
     values = [var.rule_path]
   }
 }
-

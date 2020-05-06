@@ -117,6 +117,10 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Service id
 
+* `metrics`
+
+    Cloudwatch metrics, see [metrics.tf](./metrics.tf)
+
 * `target_group_arn`
 
     Load balancer target group ARN
@@ -124,3 +128,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 * `target_group_name`
 
     Load balancer target group name
+
+* `widgets`
+
+    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)

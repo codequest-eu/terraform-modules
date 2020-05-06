@@ -13,3 +13,12 @@ output "target_group_arn" {
   value       = var.create ? aws_lb_target_group.service[0].arn : null
 }
 
+output "metrics" {
+  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.metrics
+}
+
+output "widgets" {
+  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.widgets
+}
