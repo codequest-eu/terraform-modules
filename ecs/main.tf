@@ -23,5 +23,10 @@ resource "aws_ecs_cluster" "cluster" {
   count = var.create ? 1 : 0
 
   name = "${var.project}-${var.environment}"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
