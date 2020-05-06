@@ -103,6 +103,22 @@ module "dashboard" {
 
   name = "terraform-ecs-example"
   widgets = [
+    module.cluster.lb_widgets.responses,
+    module.cluster.lb_widgets.response_percentages,
+    module.cluster.lb_widgets.target_response_time,
+    module.cluster.lb_widgets.connections,
+    module.cluster.lb_widgets.lcus,
+    module.cluster.lb_widgets.traffic,
+    module.cluster.nat_instance_widgets.cpu_utilization,
+    module.cluster.nat_instance_widgets.cpu_credit_balance,
+    module.cluster.nat_instance_widgets.cpu_credit_usage,
+    module.cluster.nat_instance_widgets.network_bytes,
+    module.cluster.nat_instance_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.network_bytes,
+    module.cluster.nat_gateway_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.active_connections,
+    module.cluster.nat_gateway_widgets.connection_attempts,
+
     module.hosts.widgets.instance_scaling,
     module.hosts.widgets.instance_states,
     module.hosts.widgets.memory_utilization,
