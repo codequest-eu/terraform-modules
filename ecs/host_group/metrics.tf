@@ -382,7 +382,7 @@ locals {
     }
     bytes_sent = {
       name  = "NetworkOut"
-      label = "Received bytes"
+      label = "Sent bytes"
       color = local.io_colors.write
       stat  = "Sum"
     }
@@ -394,7 +394,7 @@ locals {
     }
     packets_sent = {
       name  = "NetworkPacketsOut"
-      label = "Received packets"
+      label = "Sent packets"
       color = local.io_colors.write
       stat  = "Sum"
     }
