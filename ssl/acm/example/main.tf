@@ -2,24 +2,29 @@ provider "aws" {
   region = "eu-west-1" # Ireland
 }
 
-data "aws_route53_zone" "cq" {
-  name         = "codequest.com."
+variable "zone_domain" {
+  type        = string
+  description = "Domain of the Route53 hosted zone to add example records to"
+}
+
+data "aws_route53_zone" "zone" {
+  name         = var.zone_domain
   private_zone = false
 }
 
 module "certificate" {
   source = "./.."
 
+  hosted_zone_id = data.aws_route53_zone.zone.zone_id
   domains = [
-    "terraform-modules-ssl-demo.codequest.com",
-    "www.terraform-modules-ssl-demo.codequest.com",
+    "ssl.terraform-modules-example.${var.zone_domain}",
+    "www.ssl.terraform-modules-example.${var.zone_domain}",
   ]
 
-  hosted_zone_id = data.aws_route53_zone.cq.zone_id
-
   tags = {
-    Project = "terraform-modules"
-    Module  = "ssl"
+    Project     = "terraform-modules"
+    Environment = "example"
+    Module      = "ssl"
   }
 }
 
