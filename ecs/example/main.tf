@@ -103,6 +103,19 @@ module "dashboard" {
 
   name = "terraform-ecs-example"
   widgets = [
+    module.hosts.widgets.instance_scaling,
+    module.hosts.widgets.instance_states,
+    module.hosts.widgets.memory_utilization,
+    module.hosts.widgets.cpu_utilization,
+    module.hosts.widgets.cpu_credit_balance,
+    module.hosts.widgets.cpu_credit_usage,
+    module.hosts.widgets.root_fs_utilization,
+    module.hosts.widgets.root_fs_free,
+    module.hosts.widgets.fs_io_bytes,
+    module.hosts.widgets.fs_io_ops,
+    module.hosts.widgets.network_bytes,
+    module.hosts.widgets.network_packets,
+
     module.web.widgets.responses,
     module.web.widgets.response_percentages,
     module.web.widgets.response_time,
