@@ -89,7 +89,7 @@ module "web" {
   name                = "web"
   cluster_arn         = module.cluster.arn
   task_definition_arn = module.web_task.arn
-  desired_count       = 1
+  desired_count       = 2
 
   vpc_id           = module.cluster.vpc_id
   listener_arn     = module.cluster.http_listener_arn
@@ -108,6 +108,44 @@ module "dashboard" {
     module.cluster.widgets.instances,
     module.cluster.widgets.services,
     module.cluster.widgets.tasks,
+    module.cluster.lb_widgets.responses,
+    module.cluster.lb_widgets.response_percentages,
+    module.cluster.lb_widgets.target_response_time,
+    module.cluster.lb_widgets.connections,
+    module.cluster.lb_widgets.lcus,
+    module.cluster.lb_widgets.traffic,
+    module.cluster.nat_instance_widgets.cpu_utilization,
+    module.cluster.nat_instance_widgets.cpu_credit_balance,
+    module.cluster.nat_instance_widgets.cpu_credit_usage,
+    module.cluster.nat_instance_widgets.network_bytes,
+    module.cluster.nat_instance_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.network_bytes,
+    module.cluster.nat_gateway_widgets.network_packets,
+    module.cluster.nat_gateway_widgets.active_connections,
+    module.cluster.nat_gateway_widgets.connection_attempts,
+
+    module.hosts.widgets.instance_scaling,
+    module.hosts.widgets.instance_states,
+    module.hosts.widgets.memory_utilization,
+    module.hosts.widgets.cpu_utilization,
+    module.hosts.widgets.cpu_credit_balance,
+    module.hosts.widgets.cpu_credit_usage,
+    module.hosts.widgets.root_fs_utilization,
+    module.hosts.widgets.root_fs_free,
+    module.hosts.widgets.fs_io_bytes,
+    module.hosts.widgets.fs_io_ops,
+    module.hosts.widgets.network_bytes,
+    module.hosts.widgets.network_packets,
+
+    module.web.widgets.responses,
+    module.web.widgets.response_percentages,
+    module.web.widgets.response_time,
+    module.web.widgets.scaling,
+    module.web.widgets.cpu_utilization,
+    module.web.widgets.memory_utilization,
+    module.worker.widgets.scaling,
+    module.worker.widgets.cpu_utilization,
+    module.worker.widgets.memory_utilization,
   ]
 }
 
@@ -115,10 +153,10 @@ output "hosts_id" {
   value = module.hosts.id
 }
 
-output "lb_url" {
-  value = "http://${module.cluster.load_balancer_domain}"
-}
-
 output "dashboard_url" {
   value = module.dashboard.url
+}
+
+output "lb_url" {
+  value = "http://${module.cluster.load_balancer_domain}"
 }

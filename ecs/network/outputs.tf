@@ -92,3 +92,33 @@ output "hosts_security_group_arn" {
   value       = var.create ? aws_security_group.hosts[0].arn : null
   description = "The ARN of the Security Group which should be used by host instances"
 }
+
+output "lb_metrics" {
+  description = "Load balancer related Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.lb_metrics
+}
+
+output "lb_widgets" {
+  description = "Load balancer related Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.lb_widgets
+}
+
+output "nat_instance_metrics" {
+  description = "NAT instance Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.nat_instance_metrics
+}
+
+output "nat_instance_widgets" {
+  description = "NAT instance Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.nat_instance_widgets
+}
+
+output "nat_gateway_metrics" {
+  description = "NAT gateway Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
+  value       = local.nat_gateway_metrics
+}
+
+output "nat_gateway_widgets" {
+  description = "NAT gateway Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
+  value       = local.nat_gateway_widgets
+}
