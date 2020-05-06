@@ -52,3 +52,11 @@ Creates an ECS service for background workers
 * `id`
 
     Service id
+
+* `metrics`
+
+    Cloudwatch metrics, see [metrics.tf](./metrics.tf)
+
+* `widgets`
+
+    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)

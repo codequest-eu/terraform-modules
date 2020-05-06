@@ -48,7 +48,8 @@ module "worker_task" {
   environment       = local.environment
   task              = "worker"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 128
+  memory_soft_limit = 48
+  cpu               = 128
 
   environment_variables = {
     DEBUG            = "True"
@@ -72,7 +73,8 @@ module "web_task" {
   environment       = local.environment
   task              = "web"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 128
+  memory_soft_limit = 48
+  cpu               = 128
   ports             = [80]
 
   environment_variables = {
@@ -87,7 +89,7 @@ module "web" {
   name                = "web"
   cluster_arn         = module.cluster.arn
   task_definition_arn = module.web_task.arn
-  desired_count       = 1
+  desired_count       = 2
 
   vpc_id           = module.cluster.vpc_id
   listener_arn     = module.cluster.http_listener_arn
@@ -113,6 +115,16 @@ module "dashboard" {
     module.hosts.widgets.fs_io_ops,
     module.hosts.widgets.network_bytes,
     module.hosts.widgets.network_packets,
+
+    module.web.widgets.responses,
+    module.web.widgets.response_percentages,
+    module.web.widgets.response_time,
+    module.web.widgets.scaling,
+    module.web.widgets.cpu_utilization,
+    module.web.widgets.memory_utilization,
+    module.worker.widgets.scaling,
+    module.worker.widgets.cpu_utilization,
+    module.worker.widgets.memory_utilization,
   ]
 }
 
@@ -122,4 +134,8 @@ output "hosts_id" {
 
 output "dashboard_url" {
   value = module.dashboard.url
+}
+
+output "lb_url" {
+  value = "http://${module.cluster.load_balancer_domain}"
 }
