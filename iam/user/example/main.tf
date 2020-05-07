@@ -17,7 +17,7 @@ resource "aws_iam_policy" "list_buckets" {
 module "user" {
   source = "./.."
 
-  name = "terraform-modules-iam-user"
+  name = "terraform-modules-iam-user-example"
   policy_arns = {
     list_buckets = aws_iam_policy.list_buckets.arn
   }
