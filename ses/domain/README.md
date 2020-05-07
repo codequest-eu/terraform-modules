@@ -108,6 +108,10 @@ Registers a domain with AWS SES and verifies it
 
     IAM policy name for email senders
 
+* `smtp_host`
+
+    SMTP host to use for sending emails
+
 * `spf_record`
 
     SPF record which you should include in the domain's TXT record in case you specified `spf = false`

@@ -12,3 +12,8 @@ output "sender_policy_arn" {
   description = "IAM policy ARN for email senders"
   value       = var.create ? aws_iam_policy.sender[0].arn : null
 }
+
+output "smtp_host" {
+  description = "SMTP host to use for sending emails"
+  value       = local.ses_smtp_host
+}
