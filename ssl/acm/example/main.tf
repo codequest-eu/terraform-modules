@@ -31,3 +31,23 @@ module "certificate" {
 output "certificate_arn" {
   value = module.certificate.validated_arn
 }
+
+module "wildcard_certificate" {
+  source = "./.."
+
+  hosted_zone_id = data.aws_route53_zone.zone.zone_id
+  domains = [
+    "wildcard.ssl.terraform-modules-example.${var.zone_domain}",
+    "*.wildcard.ssl.terraform-modules-example.${var.zone_domain}",
+  ]
+
+  tags = {
+    Project     = "terraform-modules"
+    Environment = "example"
+    Module      = "ssl"
+  }
+}
+
+output "wildcard_certificate_arn" {
+  value = module.certificate.validated_arn
+}
