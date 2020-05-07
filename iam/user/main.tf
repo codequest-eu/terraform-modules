@@ -12,9 +12,8 @@ resource "aws_iam_access_key" "key" {
 }
 
 resource "aws_iam_user_policy_attachment" "policy" {
-  depends_on = [aws_iam_user.user]
-  for_each   = var.policy_arns
+  for_each = var.create ? var.policy_arns : {}
 
-  user       = var.name
+  user       = aws_iam_user.user[0].name
   policy_arn = each.value
 }
