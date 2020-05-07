@@ -33,9 +33,9 @@ If you're on 0.11.x use the [`terraform-0.11`](https://github.com/codequest-eu/t
 
   Creates an SSL certificate using AWS ACM
 
-- [`iam/user_with_policies`](./iam/user_with_policies)
+- [`iam/user`](./iam/user)
 
-  Creates an AWS IAM user with an access key and attaches policies to it
+  Creates an AWS IAM user with an access key
 
 - [`ses/domain`](./ses/domain)
 

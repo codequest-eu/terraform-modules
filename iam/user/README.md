@@ -1,4 +1,4 @@
-# iam/user_with_policies
+# iam/user
 
 Creates an IAM user along with an access key and attaches the given policies to it.
 
@@ -15,13 +15,13 @@ Creates an IAM user along with an access key and attaches the given policies to 
 
 * `create` (`bool`, default: `true`)
 
-    Should the user be created
+    Should resources be created
 
 * `name` (`string`, required)
 
     Kebab-cased user name
 
-* `policy_arns` (`map(string)`, required)
+* `policy_arns` (`map(string)`, default: `{}`)
 
     ARNs of policies that should be attached to the user
 
