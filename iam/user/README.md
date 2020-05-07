@@ -41,6 +41,10 @@ Creates an IAM user along with an access key and attaches the given policies to 
 
     User ARN
 
+* `name`
+
+    User name
+
 * `secret_access_key`
 
     User's secret access key
