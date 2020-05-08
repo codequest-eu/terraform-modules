@@ -103,6 +103,11 @@ module "dashboard" {
 
   name = "terraform-ecs-example"
   widgets = [
+    module.cluster.widgets.cpu_utilization,
+    module.cluster.widgets.memory_utilization,
+    module.cluster.widgets.instances,
+    module.cluster.widgets.services,
+    module.cluster.widgets.tasks,
     module.cluster.lb_widgets.responses,
     module.cluster.lb_widgets.response_percentages,
     module.cluster.lb_widgets.target_response_time,
