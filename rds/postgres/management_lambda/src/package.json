@@ -1,0 +1,26 @@
+{
+  "name": "environment-db-lambda",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@types/lodash": "^4.14.150",
+    "@types/pg": "^7.14.3",
+    "@types/pg-escape": "^0.2.0",
+    "lodash": "^4.17.15",
+    "pg": "^7.12.1",
+    "pg-connection-string": "^2.2.1",
+    "pg-escape": "^0.2.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-json": "^4.0.3",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@rollup/plugin-typescript": "^4.1.1",
+    "rollup": "^2.8.2",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build": "rollup --config"
+  }
+}
