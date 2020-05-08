@@ -1,11 +1,11 @@
 output "host" {
   description = "DB host"
-  value       = var.create ? aws_db_instance.db[0].address : null
+  value       = local.host
 }
 
 output "port" {
   description = "DB port"
-  value       = var.create ? aws_db_instance.db[0].port : null
+  value       = local.port
 }
 
 output "db" {
@@ -25,7 +25,7 @@ output "password" {
 
 output "url" {
   description = "DB connection url"
-  value       = var.create ? "postgres://${var.username}:${var.password}@${aws_db_instance.db[0].address}:${aws_db_instance.db[0].port}/${local.db}" : null
+  value       = local.db_url
 }
 
 output "security_group_id" {

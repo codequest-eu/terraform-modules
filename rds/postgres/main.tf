@@ -81,3 +81,16 @@ resource "aws_db_instance" "db" {
   tags = local.tags
 }
 
+locals {
+  host   = var.create ? aws_db_instance.db[0].address : ""
+  port   = var.create ? aws_db_instance.db[0].port : ""
+  db_url = var.create ? "postgres://${var.username}:${var.password}@${local.db_address}:${local.db_port}/${local.db}" : ""
+}
+
+module "management_lambda" {
+  source = "./management_lambda"
+  create = var.create && var.create_management_lambda
+
+  name   = "${local.name}-db-management"
+  db_url = local.db_url
+}
