@@ -54,7 +54,7 @@ node {
         })
       }
 
-      stage("terraform fmt") {
+      stage("terraform fmt modules") {
         runEachDir(moduleDirs, "Formatting error", { moduleDir ->
           sh "cd ${moduleDir} && terraform fmt -check -diff"
         })
@@ -105,6 +105,12 @@ node {
         runEachDir exampleDirs, "Failed to init", { exampleDir ->
           sh "cd ${exampleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
         }
+      }
+
+      stage("terraform fmt examples") {
+        runEachDir(exampleDirs, "Formatting error", { exampleDir ->
+          sh "cd ${exampleDir} && terraform fmt -check -diff"
+        })
       }
 
       stage("terraform validate examples") {
