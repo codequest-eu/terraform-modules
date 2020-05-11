@@ -17,7 +17,6 @@ module "lambda" {
   tags = var.tags
 
   files_dir          = "${path.module}/dist"
-  file_patterns      = ["index.js", "node_modules.js"]
   handler            = "index.handler"
   security_group_ids = aws_security_group.lambda.*.id
   subnet_ids         = var.subnet_ids
