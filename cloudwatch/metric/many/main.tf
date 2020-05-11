@@ -7,7 +7,7 @@ module "default" {
 
 locals {
   out = [for v in var.vars : {
-    id = "m_${v.name}_${md5(jsonencode([
+    id = "m_${replace(v.name, ".", "_")}_${md5(jsonencode([
       v.namespace,
       v.name,
       try(v.dimensions, module.default.dimensions),
@@ -27,7 +27,7 @@ locals {
   }]
 
   out_map = { for k, v in var.vars_map : k => {
-    id = "m_${v.name}_${md5(jsonencode([
+    id = "m_${replace(v.name, ".", "_")}_${md5(jsonencode([
       v.namespace,
       v.name,
       try(v.dimensions, module.default.dimensions),
