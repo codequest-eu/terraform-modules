@@ -100,6 +100,18 @@ Registers a domain with AWS SES and verifies it
 
 ## Outputs
 
+* `configuration_set`
+
+    Configuration set to use to track metrics for this domain
+
+* `email_headers`
+
+    Headers that should be included in each email
+
+* `metrics`
+
+    Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details
+
 * `sender_policy_arn`
 
     IAM policy ARN for email senders
@@ -111,3 +123,7 @@ Registers a domain with AWS SES and verifies it
 * `spf_record`
 
     SPF record which you should include in the domain's TXT record in case you specified `spf = false`
+
+* `widgets`
+
+    Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details
