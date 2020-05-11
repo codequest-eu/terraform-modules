@@ -39,7 +39,7 @@ module "db" {
   instance_type = "db.t2.micro"
   storage       = 20
   public        = true
-  username      = "admin"
+  username      = "terraform_modules"
   password      = random_string.password.result
 
   prevent_destroy = false
