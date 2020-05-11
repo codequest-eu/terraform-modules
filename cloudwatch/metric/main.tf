@@ -9,5 +9,5 @@ locals {
     var.color,
   ]))
 
-  id = "m_${var.name}_${local.vars_hash}"
+  id = "m_${replace(var.name, ".", "_")}_${local.vars_hash}"
 }
