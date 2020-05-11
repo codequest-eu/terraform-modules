@@ -99,25 +99,7 @@ node {
           },
           "modules: docs updated": {
             moduleStage("docs updated") { dir ->
-              def moduleReadme = "${dir}/README.md"
-
-              if (!fileExists(moduleReadme)) {
-                error("Missing ${moduleReadme}")
-              }
-
-              try {
-                sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-              } catch (err) {
-                error("Missing bin/docs marker in ${moduleReadme}")
-              }
-
-              try {
-                sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-              } catch (err) {
-                error("${moduleReadme} is out of date")
-              } finally {
-                sh "git checkout '${moduleReadme}'"
-              }
+              sh "\$TOOLS_BIN/check-docs '${dir}/README.md'"
             }
           },
           "examples: terraform fmt": {
