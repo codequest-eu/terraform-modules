@@ -52,7 +52,7 @@ Creates an AWS Lambda function
 
 * `runtime` (`string`, default: `"nodejs12.x"`)
 
-    Runtime
+    [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime)
 
 * `security_group_ids` (`list(string)`, default: `null`)
 
