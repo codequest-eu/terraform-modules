@@ -52,9 +52,15 @@ variable "handler" {
 }
 
 variable "timeout" {
-  description = "Timeout"
+  description = "The amount of time your Lambda Function has to run in seconds"
   type        = number
-  default     = 5
+  default     = 3
+}
+
+variable "memory_size" {
+  description = "Amount of memory in MB your Lambda Function can use at runtime"
+  type        = number
+  default     = 128
 }
 
 variable "security_group_ids" {

@@ -99,6 +99,7 @@ resource "aws_lambda_function" "lambda" {
   runtime       = var.runtime
   publish       = true
   timeout       = var.timeout
+  memory_size   = var.memory_size
   role          = aws_iam_role.lambda[0].arn
 
   vpc_config {

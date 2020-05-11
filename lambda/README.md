@@ -38,6 +38,10 @@ Creates an AWS Lambda function
 
     Path to the event handler
 
+* `memory_size` (`number`, default: `128`)
+
+    Amount of memory in MB your Lambda Function can use at runtime
+
 * `name` (`string`, required)
 
     Lambda name
@@ -62,9 +66,9 @@ Creates an AWS Lambda function
 
     Tags to set on resources that support them
 
-* `timeout` (`number`, default: `5`)
+* `timeout` (`number`, default: `3`)
 
-    Timeout
+    The amount of time your Lambda Function has to run in seconds
 
 
 
