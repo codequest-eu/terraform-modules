@@ -77,7 +77,7 @@ async function handler(event) {
             if (!command) {
                 throw new Error(`Unknown command ${path}`);
             }
-            console.log(`Running ${command}...`);
+            console.log(`Running ${path}...`);
             await command(options, { client });
         }
     }
