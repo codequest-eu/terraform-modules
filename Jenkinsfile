@@ -43,80 +43,76 @@ node {
       }
     }
 
+    def moduleStage = { name, script ->
+      stage("modules: ${name}") {
+        runEachDir(moduleDirs, "${name} failed", script)
+      }
+    }
+
+    def exampleStage = { name, script ->
+      stage("examples: ${name}") {
+        runEachDir(exampleDirs, "${name} failed", script)
+      }
+    }
+
     try {
       stage("download providers") {
         sh 'terraform init -backend=false -upgrade=true'
       }
 
-      stage("terraform init modules") {
-        runEachDir(moduleDirs, "Failed to init", { moduleDir ->
-          sh "cd ${moduleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-        })
+      moduleStage("terraform init") { dir ->
+        sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
       }
 
-      stage("terraform fmt modules") {
-        runEachDir(moduleDirs, "Formatting error", { moduleDir ->
-          sh "cd ${moduleDir} && terraform fmt -check -diff"
-        })
+      moduleStage("terraform fmt") { dir ->
+        sh "cd ${dir} && terraform fmt -check -diff"
       }
 
-      stage("terraform validate modules") {
+      moduleStage("terraform validate") { dir ->
         withEnv([
           // required to validate modules which use the aws provider
           "AWS_REGION=eu-west-1"
         ]) {
-          runEachDir(moduleDirs, "Failed to validate", { moduleDir ->
-            sh "cd ${moduleDir} && terraform validate"
-          })
+          sh "cd ${dir} && terraform validate"
         }
       }
 
-      stage("tflint modules") {
-        runEachDir(moduleDirs, "Failed to tflint", { moduleDir ->
-          sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
-        })
+      moduleStage("tflint") { dir ->
+        sh "cd ${dir} && tflint --config \$TFLINT_CONFIG"
       }
 
-      stage("check module docs") {
-        runEachDir(moduleDirs, "Outdated docs", { moduleDir ->
-          def moduleReadme = "${moduleDir}/README.md"
+      moduleStage("docs updated") { dir ->
+        def moduleReadme = "${dir}/README.md"
 
-          if (!fileExists(moduleReadme)) {
-            error("Missing ${moduleReadme}")
-          }
+        if (!fileExists(moduleReadme)) {
+          error("Missing ${moduleReadme}")
+        }
 
-          try {
-            sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-          } catch (err) {
-            error("Missing bin/docs marker in ${moduleReadme}")
-          }
+        try {
+          sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
+        } catch (err) {
+          error("Missing bin/docs marker in ${moduleReadme}")
+        }
 
-          try {
-            sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-          } catch (err) {
-            error("${moduleReadme} is out of date")
-          } finally {
-            sh "git checkout '${moduleReadme}'"
-          }
-        })
-      }
-
-      stage("terraform init examples") {
-        runEachDir exampleDirs, "Failed to init", { exampleDir ->
-          sh "cd ${exampleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+        try {
+          sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
+        } catch (err) {
+          error("${moduleReadme} is out of date")
+        } finally {
+          sh "git checkout '${moduleReadme}'"
         }
       }
 
-      stage("terraform fmt examples") {
-        runEachDir(exampleDirs, "Formatting error", { exampleDir ->
-          sh "cd ${exampleDir} && terraform fmt -check -diff"
-        })
+      exampleStage("terraform init") { dir ->
+        sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
       }
 
-      stage("terraform validate examples") {
-        runEachDir exampleDirs, "Failed to validate", { exampleDir ->
-          sh "cd ${exampleDir} && terraform validate"
-        }
+      exampleStage("terraform fmt") { dir ->
+        sh "cd ${dir} && terraform fmt -check -diff"
+      }
+
+      exampleStage("terraform validate") { dir ->
+        sh "cd ${dir} && terraform validate"
       }
     } finally {
       stage("remove providers") {
