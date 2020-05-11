@@ -13,7 +13,8 @@ resource "aws_ses_domain_identity" "domain" {
 }
 
 locals {
-  domain = var.create ? aws_ses_domain_identity.domain[0].domain : ""
+  domain        = var.create ? aws_ses_domain_identity.domain[0].domain : var.name
+  ses_smtp_host = "email-smtp.${local.region}.amazonaws.com"
 }
 
 resource "aws_route53_record" "ses_verification" {

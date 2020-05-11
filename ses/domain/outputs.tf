@@ -13,6 +13,11 @@ output "sender_policy_arn" {
   value       = var.create ? aws_iam_policy.sender[0].arn : null
 }
 
+output "smtp_host" {
+  description = "SMTP host to use for sending emails"
+  value       = local.ses_smtp_host
+}
+
 output "configuration_set" {
   description = "Configuration set to use to track metrics for this domain"
   value       = local.configuration_set_name
