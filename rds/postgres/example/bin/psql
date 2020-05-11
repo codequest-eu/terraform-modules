@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker run -it postgres:10.6-alpine psql "$(terraform output db_url)" "$@"
