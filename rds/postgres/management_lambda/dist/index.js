@@ -31,7 +31,7 @@ const grantAll = async ({ db, user }, { client }) => {
     await client.query(`GRANT ALL ON DATABASE ${escapeId(db)} to ${escapeId(user)}`);
 };
 const createExtension = async ({ db, extension }) => {
-    const dbConfig = parse(process.env.DB_URL);
+    const dbConfig = parse(process.env.DATABASE_URL);
     const dbClient = new node_modules.client({ ...dbConfig, database: db });
     await dbClient.connect();
     try {
@@ -69,7 +69,7 @@ const commands = {
 };
 async function handler(event) {
     console.log("Connecting to the database...");
-    const client = new node_modules.client({ connectionString: process.env.DB_URL });
+    const client = new node_modules.client({ connectionString: process.env.DATABASE_URL });
     await client.connect();
     try {
         for (const { path, options } of event.commands) {

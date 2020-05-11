@@ -26,7 +26,7 @@ export const createExtension: Command<{
   db: string
   extension: string
 }> = async ({ db, extension }) => {
-  const dbConfig = parse(process.env.DB_URL!) as ClientConfig
+  const dbConfig = parse(process.env.DATABASE_URL!) as ClientConfig
   const dbClient = new Client({ ...dbConfig, database: db })
   await dbClient.connect()
 

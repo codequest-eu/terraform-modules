@@ -19,7 +19,7 @@ interface Event {
 
 export async function handler(event: Event) {
   console.log("Connecting to the database...")
-  const client = new Client({ connectionString: process.env.DB_URL })
+  const client = new Client({ connectionString: process.env.DATABASE_URL })
   await client.connect()
 
   try {
