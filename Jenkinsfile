@@ -60,59 +60,77 @@ node {
         sh 'terraform init -backend=false -upgrade=true'
       }
 
-      moduleStage("terraform init") { dir ->
-        sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+      stage("terraform init") {
+        parallel([
+          "modules: terraform init": {
+            moduleStage("terraform init") { dir ->
+              sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+            }
+          },
+          "examples: terraform init": {
+            exampleStage("terraform init") { dir ->
+              sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+            }
+          }
+        ])
       }
 
-      moduleStage("terraform fmt") { dir ->
-        sh "cd ${dir} && terraform fmt -check -diff"
-      }
+      stage("checks") {
+        parallel([
+          "modules: terraform fmt": {
+            moduleStage("terraform fmt") { dir ->
+              sh "cd ${dir} && terraform fmt -check -diff"
+            }
+          },
+          "modules: terraform validate": {
+            moduleStage("terraform validate") { dir ->
+              withEnv([
+                // required to validate modules which use the aws provider
+                "AWS_REGION=eu-west-1"
+              ]) {
+                sh "cd ${dir} && terraform validate"
+              }
+            }
+          },
+          "modules: tflint": {
+            moduleStage("tflint") { dir ->
+              sh "cd ${dir} && tflint --config \$TFLINT_CONFIG"
+            }
+          },
+          "modules: docs updated": {
+            moduleStage("docs updated") { dir ->
+              def moduleReadme = "${dir}/README.md"
 
-      moduleStage("terraform validate") { dir ->
-        withEnv([
-          // required to validate modules which use the aws provider
-          "AWS_REGION=eu-west-1"
-        ]) {
-          sh "cd ${dir} && terraform validate"
-        }
-      }
+              if (!fileExists(moduleReadme)) {
+                error("Missing ${moduleReadme}")
+              }
 
-      moduleStage("tflint") { dir ->
-        sh "cd ${dir} && tflint --config \$TFLINT_CONFIG"
-      }
+              try {
+                sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
+              } catch (err) {
+                error("Missing bin/docs marker in ${moduleReadme}")
+              }
 
-      moduleStage("docs updated") { dir ->
-        def moduleReadme = "${dir}/README.md"
-
-        if (!fileExists(moduleReadme)) {
-          error("Missing ${moduleReadme}")
-        }
-
-        try {
-          sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-        } catch (err) {
-          error("Missing bin/docs marker in ${moduleReadme}")
-        }
-
-        try {
-          sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-        } catch (err) {
-          error("${moduleReadme} is out of date")
-        } finally {
-          sh "git checkout '${moduleReadme}'"
-        }
-      }
-
-      exampleStage("terraform init") { dir ->
-        sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-      }
-
-      exampleStage("terraform fmt") { dir ->
-        sh "cd ${dir} && terraform fmt -check -diff"
-      }
-
-      exampleStage("terraform validate") { dir ->
-        sh "cd ${dir} && terraform validate"
+              try {
+                sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
+              } catch (err) {
+                error("${moduleReadme} is out of date")
+              } finally {
+                sh "git checkout '${moduleReadme}'"
+              }
+            }
+          },
+          "examples: terraform fmt": {
+            exampleStage("terraform fmt") { dir ->
+              sh "cd ${dir} && terraform fmt -check -diff"
+            }
+          },
+          "examples: terraform validate": {
+            exampleStage("terraform validate") { dir ->
+              sh "cd ${dir} && terraform validate"
+            }
+          }
+        ])
       }
     } finally {
       stage("remove providers") {
