@@ -72,7 +72,7 @@ node {
       }
 
       stage("tflint modules") {
-        runEachDir(moduleDir, "Failed to tflint", { moduleDir ->
+        runEachDir(moduleDirs, "Failed to tflint", { moduleDir ->
           sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
         })
       }
