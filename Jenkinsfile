@@ -43,10 +43,6 @@ node {
       }
     }
 
-    def shEachDir = { dirs, errorMessage, scriptFactory ->
-      runEachDir dirs, errorMessage, { dir -> sh(scriptFactory(dir)) }
-    }
-
     try {
       stage("download providers") {
         sh 'terraform init -backend=false -upgrade=true'
