@@ -37,9 +37,8 @@ node {
         }
       }
 
-      def failedDirs = dirStatuses.findAll({ !it.value }).collect({ it.key })
-      if (failedDirs.size() > 0) {
-        error("${errorMessage}:\n${failedModules.join('\n')}")
+      if (dirStatuses.any({ !it.value })) {
+        error(errorMessage)
       }
     }
 
