@@ -9,6 +9,17 @@ resource "aws_security_group" "lambda" {
   })
 }
 
+resource "aws_security_group_rule" "lambda_egress_any" {
+  count = var.create ? 1 : 0
+
+  security_group_id = aws_security_group.lambda[0].id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
 module "lambda" {
   source = "./../../../lambda"
   create = var.create
