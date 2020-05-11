@@ -31,7 +31,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
     Should resources be created
 
-* `db_url` (`string`, required)
+* `database_url` (`string`, required)
 
     Database URL with master credentials
 
@@ -39,9 +39,17 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
     Lambda name
 
+* `subnet_ids` (`list(string)`, required)
+
+    Ids of subnets to place the lambda in
+
 * `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
+
+* `vpc_id` (`string`, required)
+
+    Id of the VPC to place the lambda in
 
 
 
@@ -51,6 +59,6 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
     Lambda function ARN
 
-* `name`
+* `security_group_id`
 
-    Lambda function name
+    Security group id

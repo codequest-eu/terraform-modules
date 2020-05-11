@@ -84,13 +84,27 @@ resource "aws_db_instance" "db" {
 locals {
   host   = var.create ? aws_db_instance.db[0].address : ""
   port   = var.create ? aws_db_instance.db[0].port : ""
-  db_url = var.create ? "postgres://${var.username}:${var.password}@${local.db_address}:${local.db_port}/${local.db}" : ""
+  db_url = var.create ? "postgres://${var.username}:${var.password}@${local.host}:${local.port}/${local.db}" : ""
 }
 
 module "management_lambda" {
   source = "./management_lambda"
   create = var.create && var.create_management_lambda
 
-  name   = "${local.name}-db-management"
-  db_url = local.db_url
+  name         = "${local.name}-db-management"
+  tags         = var.tags
+  database_url = local.db_url
+  vpc_id       = var.vpc_id
+  subnet_ids   = var.subnet_ids
+}
+
+resource "aws_security_group_rule" "management_lambda" {
+  count = var.create && var.create_management_lambda ? 1 : 0
+
+  security_group_id        = aws_security_group.db[0].id
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  source_security_group_id = module.management_lambda.security_group_id
 }
