@@ -97,8 +97,8 @@ node {
               sh "cd ${dir} && tflint --config \$TFLINT_CONFIG"
             }
           },
-          "modules: docs updated": {
-            moduleStage("docs updated") { dir ->
+          "modules: check-docs": {
+            moduleStage("check-docs") { dir ->
               sh "\$TOOLS_BIN/check-docs '${dir}/README.md'"
             }
           },
