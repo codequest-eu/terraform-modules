@@ -19,6 +19,28 @@ module "domain" {
   hosted_zone_id = data.aws_route53_zone.zone.id
 }
 
+output "domain" {
+  value = "ses-domain.terraform-modules-examples.${var.zone_domain}"
+}
+
+output "configuration_set" {
+  value = module.domain.configuration_set
+}
+
 output "sender_policy_arn" {
   value = module.domain.sender_policy_arn
+}
+
+module "dashboard" {
+  source = "./../../../cloudwatch/dashboard"
+
+  name = "terraform-modules-ses-domain-example"
+  widgets = [
+    module.domain.widgets.delivery,
+    module.domain.widgets.delivery_percentage,
+    module.domain.widgets.spam,
+    module.domain.widgets.conversion,
+    module.domain.widgets.account_bounce_rate,
+    module.domain.widgets.account_spam_rate,
+  ]
 }

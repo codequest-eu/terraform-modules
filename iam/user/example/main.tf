@@ -10,14 +10,14 @@ data "aws_iam_policy_document" "list_buckets" {
 }
 
 resource "aws_iam_policy" "list_buckets" {
-  name   = "terraform-modules-iam-user-with-policies-example"
+  name   = "terraform-modules-iam-user-example"
   policy = data.aws_iam_policy_document.list_buckets.json
 }
 
 module "user" {
   source = "./.."
 
-  name = "terraform-modules-iam-user-with-policies-example"
+  name = "terraform-modules-iam-user-example"
   policy_arns = {
     list_buckets = aws_iam_policy.list_buckets.arn
   }

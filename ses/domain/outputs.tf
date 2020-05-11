@@ -17,3 +17,25 @@ output "smtp_host" {
   description = "SMTP host to use for sending emails"
   value       = local.ses_smtp_host
 }
+
+output "configuration_set" {
+  description = "Configuration set to use to track metrics for this domain"
+  value       = local.configuration_set_name
+}
+
+output "email_headers" {
+  description = "Headers that should be included in each email"
+  value = {
+    "X-SES-CONFIGURATION-SET" = local.configuration_set_name
+  }
+}
+
+output "metrics" {
+  value       = local.metrics
+  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details"
+}
+
+output "widgets" {
+  value       = local.widgets
+  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details"
+}

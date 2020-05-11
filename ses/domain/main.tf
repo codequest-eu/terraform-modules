@@ -122,7 +122,7 @@ resource "aws_route53_record" "dmarc" {
   records = [join(";", [for k, v in local.dmarc_options : "${k}=${v}"])]
 }
 
-# sender policy
+# sender policy ---------------------------------------------------------------
 
 data "aws_iam_policy_document" "sender" {
   count = var.create ? 1 : 0
@@ -150,4 +150,42 @@ resource "aws_iam_policy" "sender" {
   name        = "email-sender-${local.domain}"
   description = "Allows sending emails from @${local.domain}"
   policy      = data.aws_iam_policy_document.sender[0].json
+}
+
+# configuration set for cloudwatch metrics ------------------------------------
+
+resource "aws_ses_configuration_set" "domain" {
+  count = var.create ? 1 : 0
+
+  name = replace(local.domain, ".", "-")
+}
+
+locals {
+  configuration_set_name = var.create ? aws_ses_configuration_set.domain[0].name : ""
+}
+
+resource "aws_ses_event_destination" "metrics" {
+  count = var.create ? 1 : 0
+
+  configuration_set_name = local.configuration_set_name
+  name                   = "metrics"
+  enabled                = true
+
+  # track all types
+  matching_types = [
+    "send",
+    "reject",
+    "bounce",
+    "complaint",
+    "delivery",
+    "open",
+    "click",
+    "renderingFailure"
+  ]
+
+  cloudwatch_destination {
+    value_source   = "messageTag"
+    dimension_name = "ses:from-domain"
+    default_value  = local.domain
+  }
 }
