@@ -18,6 +18,10 @@ Creates an AWS Lambda function
 
     Should resources be created
 
+* `environment_variables` (`map(string)`, default: `{}`)
+
+    Environment variables
+
 * `file_exclude_patterns` (`list(string)`, default: `[]`)
 
     Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.

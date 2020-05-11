@@ -102,6 +102,14 @@ resource "aws_lambda_function" "lambda" {
   memory_size   = var.memory_size
   role          = aws_iam_role.lambda[0].arn
 
+  dynamic "environment" {
+    for_each = toset(length(var.environment_variables) > 0 ? ["environment"] : [])
+
+    content {
+      variables = var.environment_variables
+    }
+  }
+
   vpc_config {
     subnet_ids         = coalesce(var.subnet_ids, [])
     security_group_ids = coalesce(var.security_group_ids, [])

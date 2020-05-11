@@ -80,3 +80,9 @@ variable "policy_arns" {
   type        = map(string)
   default     = {}
 }
+
+variable "environment_variables" {
+  description = "Environment variables"
+  type        = map(string)
+  default     = {}
+}
