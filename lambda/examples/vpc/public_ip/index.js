@@ -2,7 +2,7 @@ const https = require("https")
 
 async function getPublicIp() {
   return new Promise((resolve, reject) => {
-    https.get("https://api.ipify.org?format=json", res => {
+    https.get("https://checkip.amazonaws.com/", res => {
       const { statusCode, statusMessage } = res
 
       if (statusCode !== 200) {
@@ -13,13 +13,7 @@ async function getPublicIp() {
       res.setEncoding("utf8")
       let data = ""
       res.on("data", chunk => (data += chunk))
-      res.on("end", () => {
-        try {
-          resolve(JSON.parse(data).ip)
-        } catch (err) {
-          reject(err)
-        }
-      })
+      res.on("end", () => resolve(data))
     })
   })
 }
