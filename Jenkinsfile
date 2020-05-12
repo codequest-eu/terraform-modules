@@ -27,84 +27,91 @@ node {
 
     def pluginsDir = "${pwd()}/.terraform/plugins/linux_amd64"
 
+    def runEachDir = { dirs, errorMessage, script ->
+      def dirStatuses = dirs.collectEntries { dir ->
+        try {
+          script(dir)
+          return [(dir): true]
+        } catch (err) {
+          return [(dir): false]
+        }
+      }
+
+      if (dirStatuses.any({ !it.value })) {
+        error(errorMessage)
+      }
+    }
+
+    def moduleStage = { name, script ->
+      stage("modules: ${name}") {
+        runEachDir(moduleDirs, "${name} failed", script)
+      }
+    }
+
+    def exampleStage = { name, script ->
+      stage("examples: ${name}") {
+        runEachDir(exampleDirs, "${name} failed", script)
+      }
+    }
+
     try {
       stage("download providers") {
         sh 'terraform init -backend=false -upgrade=true'
       }
 
-      stage("terraform fmt") {
-        sh 'terraform fmt -check -recursive -diff'
-      }
-
-      stage("terraform init modules") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          [(moduleDir): {
-            sh "cd ${moduleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-          }]
-        }
-      }
-
-      stage("terraform validate modules") {
-        withEnv([
-          // required to validate modules which use the aws provider
-          "AWS_REGION=eu-west-1"
-        ]) {
-          parallel moduleDirs.collectEntries { moduleDir ->
-            [(moduleDir): {
-              sh "cd ${moduleDir} && terraform validate"
-            }]
+      stage("terraform init") {
+        parallel([
+          "modules: terraform init": {
+            moduleStage("terraform init") { dir ->
+              sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+            }
+          },
+          "examples: terraform init": {
+            exampleStage("terraform init") { dir ->
+              sh "cd ${dir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
+            }
           }
-        }
+        ])
       }
 
-      stage("tflint modules") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          [(moduleDir): {
-            sh "cd ${moduleDir} && tflint --config \$TFLINT_CONFIG"
-          }]
-        }
-      }
-
-      stage("check module docs") {
-        parallel moduleDirs.collectEntries { moduleDir ->
-          def moduleReadme = "${moduleDir}/README.md"
-
-          [(moduleDir): {
-            if (!fileExists(moduleReadme)) {
-              error("Missing ${moduleReadme}")
+      stage("checks") {
+        parallel([
+          "modules: terraform fmt": {
+            moduleStage("terraform fmt") { dir ->
+              sh "cd ${dir} && terraform fmt -check -diff"
             }
-
-            try {
-              sh "cat '${moduleReadme}' | grep -qF '<!-- bin/docs -->'"
-            } catch (err) {
-              error("Missing bin/docs marker in ${moduleReadme}")
+          },
+          "modules: terraform validate": {
+            moduleStage("terraform validate") { dir ->
+              withEnv([
+                // required to validate modules which use the aws provider
+                "AWS_REGION=eu-west-1"
+              ]) {
+                sh "cd ${dir} && terraform validate"
+              }
             }
-
-            try {
-              sh "\$TOOLS_BIN/update-docs '${moduleReadme}' && git diff --quiet '${moduleReadme}'"
-            } catch (err) {
-              error("${moduleReadme} is out of date")
-            } finally {
-              sh "git checkout '${moduleReadme}'"
+          },
+          "modules: tflint": {
+            moduleStage("tflint") { dir ->
+              sh "cd ${dir} && tflint --config \$TFLINT_CONFIG"
             }
-          }]
-        }
-      }
-
-      stage("terraform init examples") {
-        parallel exampleDirs.collectEntries { exampleDir ->
-          [(exampleDir): {
-            sh "cd ${exampleDir} && terraform init -backend=false -plugin-dir='${pluginsDir}'"
-          }]
-        }
-      }
-
-      stage("terraform validate examples") {
-        parallel exampleDirs.collectEntries { exampleDir ->
-          [(exampleDir): {
-            sh "cd ${exampleDir} && terraform validate"
-          }]
-        }
+          },
+          "modules: check-docs": {
+            moduleStage("check-docs") { dir ->
+              sh "\$TOOLS_BIN/check-docs '${dir}/README.md'"
+            }
+          },
+          "examples: terraform fmt": {
+            exampleStage("terraform fmt") { dir ->
+              sh "cd ${dir} && terraform fmt -check -diff"
+            }
+          },
+          "examples: terraform validate": {
+            exampleStage("terraform validate") { dir ->
+              sh "cd ${dir} && terraform validate"
+            }
+          }
+        ])
       }
     } finally {
       stage("remove providers") {
