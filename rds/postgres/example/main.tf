@@ -50,3 +50,83 @@ output "master_db_url" {
   sensitive = true
 }
 
+locals {
+  environments = toset(["development", "production"])
+}
+
+resource "random_password" "environment_password" {
+  for_each = local.environments
+
+  length  = 32
+  special = false
+}
+
+resource "null_resource" "create_environment_db" {
+  for_each = local.environments
+
+  triggers = {
+    db       = "terraform_modules_${each.key}"
+    password = random_password.environment_password[each.key].result
+  }
+
+  provisioner "local-exec" {
+    when    = create
+    command = module.db.management_lambda.invoke_script
+
+    environment = {
+      EVENT = jsonencode({
+        commands = [
+          {
+            path = "user.create"
+            options = {
+              user     = self.triggers.db
+              password = self.triggers.password
+            }
+          },
+          {
+            path = "db.create"
+            options = {
+              db = self.triggers.db
+            }
+          },
+          {
+            path = "db.grantAll"
+            options = {
+              db   = self.triggers.db
+              user = self.triggers.db
+            }
+          }
+        ]
+      })
+    }
+  }
+}
+
+resource "null_resource" "destroy_environment_db" {
+  for_each   = local.environments
+  depends_on = [null_resource.create_environment_db]
+
+  triggers = {
+    db = "terraform_modules_${each.key}"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = module.db.management_lambda.invoke_script
+
+    environment = {
+      EVENT = jsonencode({
+        commands = [
+          {
+            path    = "db.drop"
+            options = { db = self.triggers.db }
+          },
+          {
+            path    = "user.drop"
+            options = { user = self.triggers.db }
+          },
+        ]
+      })
+    }
+  }
+}
