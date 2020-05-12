@@ -102,6 +102,10 @@ Creates an RDS PostgreSQL database instance
 
     DB host
 
+* `management_lambda`
+
+    Management lambda function outputs
+
 * `password`
 
     DB master password

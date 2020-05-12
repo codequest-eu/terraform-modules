@@ -32,3 +32,8 @@ output "security_group_id" {
   description = "DB security group id"
   value       = var.create ? aws_security_group.db[0].id : null
 }
+
+output "management_lambda" {
+  description = "Management lambda function outputs"
+  value       = module.management_lambda
+}
