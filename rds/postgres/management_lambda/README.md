@@ -58,6 +58,13 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
     The ARN identifying the Lambda Function
 
+* `invoke_script`
+
+    Shell script for invoking the lambda using AWS CLI.
+    Expects the event JSON to be passed via `$EVENT` environment variable.
+    Useful for invoking the lambda during `terraform apply` using `null_resource`.
+
+
 * `name`
 
     The Lambda Function name
