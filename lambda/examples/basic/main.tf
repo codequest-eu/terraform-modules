@@ -20,6 +20,10 @@ module "lambda_inline" {
   }
 }
 
+output "lambda_inline" {
+  value = module.lambda_inline
+}
+
 # Source code in a directory --------------------------------------------------
 
 module "lambda_files_dir" {
@@ -28,6 +32,10 @@ module "lambda_files_dir" {
   name          = "terraform-modules-lambda-example-files-dir"
   files_dir     = "${path.module}/greeter"
   file_patterns = ["**/*.js"]
+}
+
+output "lambda_files_dir" {
+  value = module.lambda_files_dir
 }
 
 # Environment variables -------------------------------------------------------
@@ -50,4 +58,8 @@ module "lambda_environment" {
   environment_variables = {
     GREETING_SUBJECT = "Lambda"
   }
+}
+
+output "lambda_environment" {
+  value = module.lambda_environment
 }

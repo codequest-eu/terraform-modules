@@ -80,4 +80,20 @@ Creates an AWS Lambda function
 
 * `arn`
 
-    Lambda function ARN
+    The ARN identifying the Lambda Function
+
+* `invoke_arn`
+
+    The ARN to be used for invoking Lambda Function from API Gateway
+
+* `name`
+
+    The Lambda Function name
+
+* `qualified_arn`
+
+    The ARN identifying the Lambda Function Version
+
+* `version`
+
+    Latest published version of the Lambda Function
