@@ -23,7 +23,6 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 |-|-|
 | terraform | `>= 0.12` |
 | `aws` | `>= 2.40.0` |
-| `random` | `>= 2.1.2` |
 
 ## Inputs
 
