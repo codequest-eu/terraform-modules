@@ -1,6 +1,16 @@
+output "name" {
+  description = "The Lambda Function name"
+  value       = module.lambda.name
+}
+
 output "arn" {
-  description = "Lambda function ARN"
+  description = "The ARN identifying the Lambda Function"
   value       = module.lambda.arn
+}
+
+output "qualified_arn" {
+  description = "The ARN identifying the Lambda Function Version"
+  value       = module.lambda.qualified_arn
 }
 
 output "security_group_id" {

@@ -57,7 +57,15 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
 * `arn`
 
-    Lambda function ARN
+    The ARN identifying the Lambda Function
+
+* `name`
+
+    The Lambda Function name
+
+* `qualified_arn`
+
+    The ARN identifying the Lambda Function Version
 
 * `security_group_id`
 
