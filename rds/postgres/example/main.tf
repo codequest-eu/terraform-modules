@@ -21,7 +21,7 @@ data "aws_subnet" "b" {
   default_for_az    = true
 }
 
-resource "random_string" "password" {
+resource "random_string" "master_password" {
   length  = 32
   special = false
 }
@@ -40,7 +40,7 @@ module "db" {
   storage       = 20
   public        = true
   username      = "terraform_modules"
-  password      = random_string.password.result
+  password      = random_string.master_password.result
 
   prevent_destroy = false
 }
