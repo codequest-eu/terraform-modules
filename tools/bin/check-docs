@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Check if module documentation is up to date
+#
+# Usage:
+# tools/bin/check-docs module/README.md
+
+set -e
+
+tools=$(dirname $0)
+actual="$1"
+expected="$1.expected"
+
+rm_expected() {
+  rm -f "$expected"
+}
+trap rm_expected EXIT
+
+if [ ! -f "$1" ]; then
+  echo "Missing docs for $(dirname $actual)"
+  exit 1
+fi
+
+if ! grep -qF '<!-- bin/docs -->' <"$actual"; then
+  echo "Missing bin/docs marker in $actual"
+  exit 1
+fi
+
+# generate the expected docs
+manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
+generated_docs=$("$tools/docs" "$(dirname $1)")
+printf "%s\n%s\n" "$manual_docs" "$generated_docs" >"$expected"
+
+if diff -q "$actual" "$expected" >/dev/null; then
+  echo "$actual docs are up to date"
+  exit 0
+else
+  echo "$actual docs are outdated, diff:"
+  echo
+  diff -u "$expected" "$actual"
+  exit 1
+fi

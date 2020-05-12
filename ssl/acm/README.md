@@ -17,6 +17,17 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Should resources be created
 
+* `create_validation_records` (`bool`, default: `true`)
+
+    Whether to create DNS records for validation.
+
+    When creating certificates for the same domain in different regions,
+    ACM will request the same DNS records for validation, which will make
+    terraform try to create the same records twice and fail.
+    Use this variable to make sure only one of the modules creates
+    the validation records.
+
+
 * `domains` (`list(string)`, required)
 
     Certificate domains, have to be in one Route53 hosted zone.
@@ -28,6 +39,10 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 * `tags` (`map(string)`, default: `{}`)
 
     Tags to set on resources that support them
+
+* `validate` (`bool`, default: `true`)
+
+    Whether to wait for certificate validation
 
 
 

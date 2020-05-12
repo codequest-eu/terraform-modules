@@ -1,5 +1,5 @@
 variable "create" {
-  description = "Should the user be created"
+  description = "Should resources be created"
   type        = bool
   default     = true
 }
@@ -18,4 +18,5 @@ variable "tags" {
 variable "policy_arns" {
   description = "ARNs of policies that should be attached to the user"
   type        = map(string)
+  default     = {}
 }

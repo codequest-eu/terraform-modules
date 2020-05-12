@@ -1,3 +1,8 @@
+output "name" {
+  description = "User name"
+  value       = var.create ? aws_iam_user.user[0].name : var.name
+}
+
 output "arn" {
   description = "User ARN"
   value       = var.create ? aws_iam_user.user[0].arn : null
