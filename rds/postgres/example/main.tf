@@ -45,7 +45,7 @@ module "db" {
   prevent_destroy = false
 }
 
-output "db_url" {
+output "master_db_url" {
   value     = module.db.url
   sensitive = true
 }
