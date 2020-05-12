@@ -1,24 +1,33 @@
 output "name" {
   description = "The Lambda Function name"
-  value       = var.create ? aws_lambda_function.lambda[0].function_name : var.name
+  value       = local.name
 }
 
 output "arn" {
   description = "The ARN identifying the Lambda Function"
-  value       = var.create ? aws_lambda_function.lambda[0].arn : ""
+  value       = local.arn
 }
 
 output "qualified_arn" {
   description = "The ARN identifying the Lambda Function Version"
-  value       = var.create ? aws_lambda_function.lambda[0].qualified_arn : ""
+  value       = local.qualified_arn
 }
 
 output "invoke_arn" {
   description = "The ARN to be used for invoking Lambda Function from API Gateway"
-  value       = var.create ? aws_lambda_function.lambda[0].invoke_arn : ""
+  value       = local.invoke_arn
 }
 
 output "version" {
   description = "Latest published version of the Lambda Function"
-  value       = var.create ? aws_lambda_function.lambda[0].version : ""
+  value       = local.version
+}
+
+output "invoke_script" {
+  description = <<EOT
+Shell script for invoking the lambda using AWS CLI.
+    Expects the event JSON to be passed via `$EVENT` environment variable.
+    Useful for invoking the lambda during `terraform apply` using `null_resource`.
+  EOT
+  value       = local.invoke_script
 }
