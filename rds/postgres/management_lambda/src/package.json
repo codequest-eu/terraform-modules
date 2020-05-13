@@ -1,5 +1,5 @@
 {
-  "name": "environment-db-lambda",
+  "name": "rds-postgres-management-lambda",
   "private": true,
   "main": "index.js",
   "dependencies": {
