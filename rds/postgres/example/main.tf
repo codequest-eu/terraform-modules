@@ -50,83 +50,112 @@ output "master_db_url" {
   sensitive = true
 }
 
+# Management lambda invocation examples ---------------------------------------
+
 locals {
   environments = toset(["development", "production"])
 }
 
-resource "random_password" "environment_password" {
+resource "null_resource" "environment_db_user" {
+  for_each = local.environments
+
+  triggers = {
+    name = "terraform_modules_${each.key}"
+  }
+
+  provisioner "local-exec" {
+    when    = create
+    command = module.db.management_lambda.invoke_script
+    environment = { EVENT = jsonencode({
+      queries = [
+        "CREATE ROLE ${self.triggers.name} WITH LOGIN",
+        "GRANT ${self.triggers.name} TO ${module.db.username}",
+      ]
+    }) }
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = module.db.management_lambda.invoke_script
+    environment = { EVENT = jsonencode({
+      queries = ["DROP ROLE ${self.triggers.name}"]
+    }) }
+  }
+}
+
+resource "random_password" "environment_db_password" {
   for_each = local.environments
 
   length  = 32
   special = false
 }
 
-resource "null_resource" "create_environment_db" {
+resource "null_resource" "environment_db_password" {
   for_each = local.environments
 
   triggers = {
-    db       = "terraform_modules_${each.key}"
-    password = random_password.environment_password[each.key].result
+    name     = null_resource.environment_db_user[each.key].triggers.name
+    password = random_password.environment_db_password[each.key].result
   }
 
   provisioner "local-exec" {
     when    = create
     command = module.db.management_lambda.invoke_script
-
-    environment = {
-      EVENT = jsonencode({
-        commands = [
-          {
-            path = "user.create"
-            options = {
-              user     = self.triggers.db
-              password = self.triggers.password
-            }
-          },
-          {
-            path = "db.create"
-            options = {
-              db = self.triggers.db
-            }
-          },
-          {
-            path = "db.grantAll"
-            options = {
-              db   = self.triggers.db
-              user = self.triggers.db
-            }
-          }
-        ]
-      })
-    }
+    environment = { EVENT = jsonencode({
+      queries = [
+        "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
+      ]
+    }) }
   }
 }
 
-resource "null_resource" "destroy_environment_db" {
-  for_each   = local.environments
-  depends_on = [null_resource.create_environment_db]
+resource "null_resource" "environment_db" {
+  for_each = local.environments
 
   triggers = {
-    db = "terraform_modules_${each.key}"
+    name  = null_resource.environment_db_user[each.key].triggers.name
+    owner = null_resource.environment_db_user[each.key].triggers.name
+  }
+
+  provisioner "local-exec" {
+    when    = create
+    command = module.db.management_lambda.invoke_script
+    environment = { EVENT = jsonencode({
+      queries = [
+        "CREATE DATABASE ${self.triggers.name} OWNER ${self.triggers.owner}"
+      ]
+    }) }
   }
 
   provisioner "local-exec" {
     when    = destroy
     command = module.db.management_lambda.invoke_script
+    environment = { EVENT = jsonencode({
+      queries = ["DROP DATABASE ${self.triggers.name}"]
+    }) }
+  }
+}
 
-    environment = {
-      EVENT = jsonencode({
-        commands = [
-          {
-            path    = "db.drop"
-            options = { db = self.triggers.db }
-          },
-          {
-            path    = "user.drop"
-            options = { user = self.triggers.db }
-          },
-        ]
-      })
+locals {
+  environment_dbs = {
+    for environment in local.environments : environment => {
+      name     = null_resource.environment_db[environment].triggers.name
+      user     = null_resource.environment_db_user[environment].triggers.name
+      password = null_resource.environment_db_password[environment].triggers.password
     }
   }
+  environment_db_urls = {
+    for environment, database in local.environment_dbs : environment =>
+    "postgres://${database.user}:${database.password}@${module.db.host}:${module.db.port}/${database.name}"
+  }
+}
+
+output "development_db_url" {
+  value     = local.environment_db_urls.development
+  sensitive = true
+}
+
+output "production_db_url" {
+  value     = local.environment_db_urls.production
+  sensitive = true
 }
