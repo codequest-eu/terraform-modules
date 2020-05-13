@@ -102,6 +102,8 @@ resource "aws_lambda_function" "lambda" {
   memory_size   = var.memory_size
   role          = aws_iam_role.lambda[0].arn
 
+  # AWS provider requires at least one environment variable in the environment block,
+  # so just don't create the block at all if var.environment_variables is empty
   dynamic "environment" {
     for_each = toset(length(var.environment_variables) > 0 ? ["environment"] : [])
 
