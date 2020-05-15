@@ -23,7 +23,6 @@ variable "tags" {
 variable "domains" {
   description = "List of domains which will be redirected. If empty, will use the default cloudfront domain"
   type        = list(string)
-  default     = []
 }
 
 variable "protocol" {
@@ -45,7 +44,6 @@ variable "redirect_status_code" {
 variable "certificate_arn" {
   description = "ACM certificate ARN to use instead of the default cloudfront certificate"
   type        = string
-  default     = null
 }
 
 variable "cloudfront_price_class" {

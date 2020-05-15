@@ -18,15 +18,15 @@ resource "aws_s3_bucket" "redirect" {
 
   website {
     index_document = "index.html"
-    routing_rules  = <<EOF
-[{
-    "Redirect": {
-        "Protocol": "${var.protocol}",
-        "HostName": "${var.host}",
-        "HttpRedirectCode": "${var.redirect_status_code}"
-    }
-}]
-EOF
+    routing_rules  = <<-EOF
+      [{
+        "Redirect": {
+          "Protocol": "${var.protocol}",
+          "HostName": "${var.host}",
+          "HttpRedirectCode": "${var.redirect_status_code}"
+        }
+      }]
+    EOF
   }
 }
 

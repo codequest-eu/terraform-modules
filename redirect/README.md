@@ -25,7 +25,7 @@ Module creates:
 
     Kebab-cased bucket name override
 
-* `certificate_arn` (`string`, default: `null`)
+* `certificate_arn` (`string`, required)
 
     ACM certificate ARN to use instead of the default cloudfront certificate
 
@@ -37,7 +37,7 @@ Module creates:
 
     Should resources be created
 
-* `domains` (`list(string)`, default: `[]`)
+* `domains` (`list(string)`, required)
 
     List of domains which will be redirected. If empty, will use the default cloudfront domain
 
