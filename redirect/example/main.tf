@@ -7,7 +7,7 @@ module "redirect" {
 
   project     = "terraform-modules-redirect"
   environment = "example"
-  target      = "https://www.google.com"     
+  target      = "https://www.google.com"
 }
 
 output "redirect" {
