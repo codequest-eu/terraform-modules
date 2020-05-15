@@ -17,7 +17,16 @@ resource "aws_s3_bucket" "redirect" {
   tags   = local.tags
 
   website {
-    redirect_all_requests_to = var.target
+    index_document = "index.html"
+    routing_rules = <<EOF
+[{
+    "Redirect": {
+        "Protocol": "${var.protocol}",
+        "HostName": "${var.host}",
+        "HttpRedirectCode": "${var.redirect_status_code}"
+    }
+}]
+EOF
   }
 }
 

@@ -32,9 +32,20 @@ variable "domains" {
   default     = []
 }
 
-variable "target" {
-  description = "Target URI to which all the requests will be redirected"
+variable "protocol" {
+  description = "Target protocol to which all the requests will be redirected (http or https)"
   type        = string
+}
+
+variable "host" {
+  description = "Target host to which all the requests will be redirected (does not contain protocol)"
+  type        = string
+}
+
+variable "redirect_status_code" {
+  description = "HTTP status code returned to the client"
+  type        = number
+  default     = 302
 }
 
 variable "certificate_arn" {

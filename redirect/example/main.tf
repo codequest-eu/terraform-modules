@@ -5,9 +5,10 @@ provider "aws" {
 module "redirect" {
   source = "./.."
 
-  project     = "terraform-modules-redirect"
-  environment = "example"
-  target      = "https://www.google.com"
+  project              = "terraform-modules-redirect"
+  environment          = "example"
+  protocol             = "https"
+  host                 = "codequest.com"
 }
 
 output "redirect" {
