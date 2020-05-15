@@ -1,5 +1,5 @@
 locals {
-  name_prefix = var.name_prefix != null ? var.name_prefix : "${var.project}-${var.environment}"
+  bucket = var.bucket != null ? var.bucket : "${var.project}-${var.environment}-redirect"
 
   default_tags = {
     Project     = var.project
@@ -12,7 +12,7 @@ locals {
 resource "aws_s3_bucket" "redirect" {
   count = var.create ? 1 : 0
 
-  bucket = var.bucket != null ? var.bucket : "${local.name_prefix}-redirect"
+  bucket = local.bucket
   acl    = "public-read"
   tags   = local.tags
 
@@ -28,6 +28,15 @@ resource "aws_s3_bucket" "redirect" {
 }]
 EOF
   }
+}
+
+resource "aws_s3_bucket_object" "empty" {
+  count = var.create ? 1 : 0
+
+  bucket  = aws_s3_bucket.redirect[0].id
+  key     = "/empty.html"
+  content = ""
+  acl     = "public-read"
 }
 
 locals {
@@ -59,15 +68,20 @@ resource "aws_cloudfront_distribution" "redirect" {
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = aws_s3_bucket.redirect[0].id
     viewer_protocol_policy = "allow-all"
-    compress               = true
 
     forwarded_values {
       query_string = true
 
       cookies {
-        forward = "all"
+        forward = "none"
       }
     }
+  }
+
+  custom_error_response {
+    error_code         = 405
+    response_code      = 405
+    response_page_path = aws_s3_bucket_object.empty[0].id
   }
 
   restrictions {

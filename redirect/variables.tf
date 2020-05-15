@@ -14,12 +14,6 @@ variable "environment" {
   type        = string
 }
 
-variable "name_prefix" {
-  description = "Kebab-cased resource name prefix, defaults to project-environment"
-  type        = string
-  default     = null
-}
-
 variable "tags" {
   description = "Additional tags to add to each resource that supports them"
   type        = map(string)

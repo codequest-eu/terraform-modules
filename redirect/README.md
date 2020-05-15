@@ -49,10 +49,6 @@ Module creates:
 
     Target host to which all the requests will be redirected (does not contain protocol)
 
-* `name_prefix` (`string`, default: `null`)
-
-    Kebab-cased resource name prefix, defaults to project-environment
-
 * `project` (`string`, required)
 
     Kebab-cased name of the project. Will be included in resource names
