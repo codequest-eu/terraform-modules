@@ -41,10 +41,6 @@ Module creates:
 
     List of domains which will be redirected. If empty, will use the default cloudfront domain
 
-* `target` (`string`, required)
-
-    Target URI to which all the requests will be redirected
-
 * `environment` (`string`, required)
 
     Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names
@@ -61,33 +57,37 @@ Module creates:
 
     Additional tags to add to each resource that supports them
 
+* `target` (`string`, required)
+
+    Target URI to which all the requests will be redirected
+
 
 
 ## Outputs
 
 * `bucket_arn`
 
-    ARN of the created assets S3 bucket
+    ARN of the created redirection S3 bucket
 
 * `bucket_name`
 
-    Name of the created assets S3 bucket
+    Name of the created redirection S3 bucket
 
 * `distribution_arn`
 
-    ARN of the created assets CloudFront distribution
+    ARN of the created redirection CloudFront distribution
 
 * `distribution_domain`
 
-    Domain of the created assets CloudFront distribution, eg. d604721fxaaqy9.cloudfront.net.
+    Domain of the created redirection CloudFront distribution, eg. d604721fxaaqy9.cloudfront.net.
 
 * `distribution_id`
 
-    ID of the created assets CloudFront distribution
+    ID of the created redirection CloudFront distribution
 
 * `distribution_url`
 
-    URL of the created assets CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net.
+    URL of the created redirection CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net.
 
 * `distribution_zone_id`
 
