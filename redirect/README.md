@@ -45,21 +45,29 @@ Module creates:
 
     Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names
 
+* `host` (`string`, required)
+
+    Target host to which all the requests will be redirected (does not contain protocol)
+
 * `name_prefix` (`string`, default: `null`)
 
-    Kebab-cased resource name name prefix, defaults to project-environment
+    Kebab-cased resource name prefix, defaults to project-environment
 
 * `project` (`string`, required)
 
     Kebab-cased name of the project. Will be included in resource names
 
+* `protocol` (`string`, required)
+
+    Target protocol to which all the requests will be redirected (http or https)
+
+* `redirect_status_code` (`number`, default: `302`)
+
+    HTTP status code returned to the client
+
 * `tags` (`map(string)`, default: `{}`)
 
     Additional tags to add to each resource that supports them
-
-* `target` (`string`, required)
-
-    Target URI to which all the requests will be redirected
 
 
 

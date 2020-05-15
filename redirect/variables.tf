@@ -15,7 +15,7 @@ variable "environment" {
 }
 
 variable "name_prefix" {
-  description = "Kebab-cased resource name name prefix, defaults to project-environment"
+  description = "Kebab-cased resource name prefix, defaults to project-environment"
   type        = string
   default     = null
 }
