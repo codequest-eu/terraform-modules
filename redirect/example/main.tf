@@ -1,9 +1,4 @@
 provider "aws" {
-  region = "eu-west-1" # Ireland
-}
-
-provider "aws" {
-  alias  = "acm"
   region = "us-east-1"
 }
 
@@ -38,10 +33,6 @@ module "certificate" {
   domains        = [local.domain]
 
   tags = local.tags
-
-  providers = {
-    aws = aws.acm
-  }
 }
 
 module "redirect" {
