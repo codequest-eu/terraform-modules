@@ -53,7 +53,7 @@ Module creates:
 
 * `name_prefix` (`string`, default: `null`)
 
-    Kebab-cased resource name name prefix, defaults to project-environment
+    Kebab-cased resource name prefix, defaults to project-environment
 
 * `project` (`string`, required)
 
