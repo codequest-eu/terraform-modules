@@ -13,11 +13,11 @@ resource "aws_s3_bucket" "redirect" {
   count = var.create ? 1 : 0
 
   bucket = local.bucket
-  acl    = "public-read"
+  acl    = "private"
   tags   = local.tags
 
   website {
-    index_document = "index.html"
+    index_document = "empty.html"
     routing_rules  = <<-EOF
       [{
         "Redirect": {
@@ -27,6 +27,27 @@ resource "aws_s3_bucket" "redirect" {
         }
       }]
     EOF
+  }
+}
+
+resource "aws_s3_bucket_policy" "redirect" {
+  count = var.create ? 1 : 0
+
+  bucket = aws_s3_bucket.redirect[0].id
+  policy = data.aws_iam_policy_document.redirect[0].json
+}
+
+data "aws_iam_policy_document" "redirect" {
+  count = var.create ? 1 : 0
+
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.redirect[0].arn}/*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
 }
 
