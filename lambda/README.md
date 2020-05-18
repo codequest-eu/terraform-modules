@@ -86,6 +86,13 @@ Creates an AWS Lambda function
 
     The ARN to be used for invoking Lambda Function from API Gateway
 
+* `invoke_script`
+
+    Shell script for invoking the lambda using AWS CLI.
+    Expects the event JSON to be passed via `$EVENT` environment variable.
+    Useful for invoking the lambda during `terraform apply` using `null_resource`.
+
+
 * `name`
 
     The Lambda Function name

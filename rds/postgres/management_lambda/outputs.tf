@@ -1,26 +1,21 @@
 output "name" {
   description = "The Lambda Function name"
-  value       = local.name
+  value       = module.lambda.name
 }
 
 output "arn" {
   description = "The ARN identifying the Lambda Function"
-  value       = local.arn
+  value       = module.lambda.arn
 }
 
 output "qualified_arn" {
   description = "The ARN identifying the Lambda Function Version"
-  value       = local.qualified_arn
+  value       = module.lambda.qualified_arn
 }
 
-output "invoke_arn" {
-  description = "The ARN to be used for invoking Lambda Function from API Gateway"
-  value       = local.invoke_arn
-}
-
-output "version" {
-  description = "Latest published version of the Lambda Function"
-  value       = local.version
+output "security_group_id" {
+  description = "Security group id"
+  value       = var.create ? aws_security_group.lambda[0].id : ""
 }
 
 output "invoke_script" {
@@ -29,5 +24,5 @@ Shell script for invoking the lambda using AWS CLI.
     Expects the event JSON to be passed via `$EVENT` environment variable.
     Useful for invoking the lambda during `terraform apply` using `null_resource`.
   EOT
-  value       = local.invoke_script
+  value       = module.lambda.invoke_script
 }

@@ -4,6 +4,12 @@ variable "create" {
   type        = bool
 }
 
+variable "create_management_lambda" {
+  description = "Should the management lambda function be created"
+  type        = bool
+  default     = true
+}
+
 variable "project" {
   description = "Kebab-cased project name"
   type        = string

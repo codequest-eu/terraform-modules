@@ -22,6 +22,10 @@ Creates an RDS PostgreSQL database instance
 
     Should resources be created
 
+* `create_management_lambda` (`bool`, default: `true`)
+
+    Should the management lambda function be created
+
 * `db` (`string`, default: `null`)
 
     The name of the database to create when the DB instance is created, defaults to project name converted to snake_case
@@ -97,6 +101,10 @@ Creates an RDS PostgreSQL database instance
 * `host`
 
     DB host
+
+* `management_lambda`
+
+    Management lambda function outputs
 
 * `password`
 

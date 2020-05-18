@@ -119,3 +119,43 @@ resource "aws_lambda_function" "lambda" {
 
   tags = var.tags
 }
+
+data "aws_region" "current" {}
+
+locals {
+  region        = data.aws_region.current.name
+  name          = var.create ? aws_lambda_function.lambda[0].function_name : var.name
+  arn           = var.create ? aws_lambda_function.lambda[0].arn : ""
+  qualified_arn = var.create ? aws_lambda_function.lambda[0].qualified_arn : ""
+  invoke_arn    = var.create ? aws_lambda_function.lambda[0].invoke_arn : ""
+  version       = var.create ? aws_lambda_function.lambda[0].version : ""
+}
+
+locals {
+  invoke_script = <<-EOT
+    set -e
+
+    result=$(mktemp)
+    trap "rm -f '$result'" EXIT
+
+    echo "Invoking lambda ${local.qualified_arn}..."
+    invoke_error=$(
+      aws lambda invoke \
+      --region '${local.region}' \
+      --function-name '${local.qualified_arn}' \
+      --payload "$EVENT" \
+      --query 'FunctionError' \
+      --output text \
+      "$result"
+    )
+
+    if [ "$invoke_error" = "None" ]; then
+      echo "Success:"
+      cat "$result"
+    else
+      echo "Error:"
+      cat "$result"
+      exit 1
+    fi
+  EOT
+}
