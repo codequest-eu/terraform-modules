@@ -34,10 +34,10 @@ resource "aws_s3_bucket_policy" "redirect" {
   count = var.create ? 1 : 0
 
   bucket = aws_s3_bucket.redirect[0].id
-  policy = data.aws_iam_policy_document.redirect[0].json
+  policy = data.aws_iam_policy_document.public_get[0].json
 }
 
-data "aws_iam_policy_document" "redirect" {
+data "aws_iam_policy_document" "public_get" {
   count = var.create ? 1 : 0
 
   statement {
