@@ -13,6 +13,10 @@ Creates resources needed to use a terraform S3 backend with locking
 
 ## Inputs
 
+* `bucket_force_destroy` (`bool`, default: `false`)
+
+    Allow destroying the state bucket even if it's not empty
+
 * `bucket_name` (`string`, required)
 
     State bucket name
