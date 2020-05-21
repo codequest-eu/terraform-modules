@@ -12,6 +12,11 @@ module "example" {
     Environment = "example"
     Module      = "terraform/backend/s3"
   }
+
+  # Allow destroying the state bucket even if it's not empty,
+  # so we can easily create and destroy the example.
+  # Should not be used in actual deployments.
+  bucket_force_destroy = true
 }
 
 output "backend_config_template" {

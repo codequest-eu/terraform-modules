@@ -1,9 +1,10 @@
 resource "aws_s3_bucket" "state" {
   count = var.create ? 1 : 0
 
-  bucket = var.bucket_name
-  tags   = var.tags
-  acl    = "private"
+  bucket        = var.bucket_name
+  tags          = var.tags
+  acl           = "private"
+  force_destroy = var.bucket_force_destroy
 
   versioning {
     enabled = true

@@ -15,6 +15,12 @@ variable "bucket_name" {
   type        = string
 }
 
+variable "bucket_force_destroy" {
+  description = "Allow destroying the state bucket even if it's not empty"
+  type        = bool
+  default     = false
+}
+
 variable "lock_table_name" {
   description = "DynamoDB lock table name, defaults to `{bucket}-lock`"
   type        = string
