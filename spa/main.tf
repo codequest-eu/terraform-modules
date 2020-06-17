@@ -218,7 +218,7 @@ resource "aws_cloudfront_distribution" "assets" {
   }
 
   dynamic "custom_error_response" {
-    for_each = var.static_website || var.pull_request_router ? [] : [1]
+    for_each = var.static_website ? [] : [1]
 
     content {
       error_code            = 404
