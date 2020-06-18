@@ -29,7 +29,7 @@ module "lambda" {
 
   files_dir          = "${path.module}/dist"
   handler            = "index.handler"
-  security_group_ids = aws_security_group.lambda.*.id
+  security_group_ids = var.create ? aws_security_group.lambda.*.id : null
   subnet_ids         = var.subnet_ids
 
   environment_variables = {
