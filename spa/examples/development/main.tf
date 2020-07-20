@@ -29,6 +29,14 @@ resource "aws_s3_bucket_object" "index" {
   cache_control = "no-cache no-store"
 }
 
+resource "aws_s3_bucket_object" "well_known" {
+  bucket        = module.app.bucket_name
+  key           = ".well-known/meta.txt"
+  content       = "Some .well-known metadata"
+  content_type  = "text/plain"
+  cache_control = "no-cache no-store"
+}
+
 output "app" {
   value = module.app
 }
