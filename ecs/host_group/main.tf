@@ -133,3 +133,10 @@ resource "aws_autoscaling_group" "hosts" {
     }
   }
 }
+
+module "hosts_monitoring" {
+  source = "../../ec2/asg/monitoring"
+
+  name        = aws_autoscaling_group.hosts.name
+  widget_name = var.name
+}

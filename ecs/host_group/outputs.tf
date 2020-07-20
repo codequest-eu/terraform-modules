@@ -9,11 +9,11 @@ output "arn" {
 }
 
 output "metrics" {
-  description = "Cloudwatch metrics, see [metrics.tf](./metrics.tf)"
-  value       = local.metrics
+  description = "Cloudwatch metrics, see [ec2/asg/monitoring/metrics.tf](../../../../ec2/asg/monitoring/metrics.tf)"
+  value       = module.hosts_monitoring.metrics
 }
 
 output "widgets" {
-  description = "Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf)"
-  value       = local.widgets
+  description = "Cloudwatch dashboard widgets, see [ec2/asg/monitoring/widgets.tf](../../../../ec2/asg/monitoring/widgets.tf)"
+  value       = module.hosts_monitoring.widgets
 }
