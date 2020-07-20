@@ -89,6 +89,10 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
     Path pattern to route to the service
 
+* `rule_priority` (`number`, default: `null`)
+
+    Priority to set on the ALB rule
+
 * `slow_start` (`number`, default: `0`)
 
     The amount time to warm up before the load balancer sends the full share of requests.

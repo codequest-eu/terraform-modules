@@ -88,6 +88,12 @@ variable "rule_path" {
   default     = "/*"
 }
 
+variable "rule_priority" {
+  description = "Priority to set on the ALB rule"
+  type        = number
+  default     = null
+}
+
 variable "deregistration_delay" {
   description = "Connection draining time in seconds."
   type        = number
