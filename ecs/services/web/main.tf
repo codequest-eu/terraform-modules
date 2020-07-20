@@ -70,6 +70,7 @@ resource "aws_lb_listener_rule" "service" {
   count = var.create ? 1 : 0
 
   listener_arn = var.listener_arn
+  priority     = var.rule_priority
 
   action {
     type             = "forward"
