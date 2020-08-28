@@ -71,15 +71,12 @@ locals {
       }
 
       append_dimensions = {
-        "AutoScalingGroupName" = "$${aws:AutoScalingGroupName}"
-        "InstanceId"           = "$${aws:InstanceId}"
+        "InstanceId" = "$${aws:InstanceId}"
       }
 
       aggregation_dimensions = [
-        ["ClusterName", "ServiceName"],
-        ["ClusterName", "ServiceName", "InstanceId"],
-        ["ClusterName", "TaskDefinitionFamily"],
-        ["ClusterName", "TaskDefinitionFamily", "InstanceId"],
+        ["ServiceName"],
+        ["ServiceName", "InstanceId"],
       ]
     }
   }
