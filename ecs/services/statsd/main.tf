@@ -75,8 +75,10 @@ locals {
       }
 
       aggregation_dimensions = [
-        ["ServiceName"],
-        ["ServiceName", "InstanceId"],
+        ["Project", "Environment"],
+        ["Project", "Environment", "ServiceName"],
+        ["Project", "Environment", "InstanceId"],
+        ["Project", "Environment", "ServiceName", "InstanceId"],
       ]
     }
   }
