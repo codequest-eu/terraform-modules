@@ -78,12 +78,14 @@ resource "aws_lb_listener_rule" "service" {
   }
 
   condition {
-    field  = "host-header"
-    values = [var.rule_domain]
+    host_header {
+      values = [var.rule_domain]
+    }
   }
 
   condition {
-    field  = "path-pattern"
-    values = [var.rule_path]
+    path_pattern {
+      values = [var.rule_path]
+    }
   }
 }
