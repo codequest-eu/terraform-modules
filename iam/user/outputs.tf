@@ -22,6 +22,6 @@ output "secret_access_key" {
 
 output "ses_smtp_password" {
   description = "User's secret access key converted into an SES SMTP password"
-  value       = var.create ? aws_iam_access_key.key[0].ses_smtp_password : null
+  value       = var.create ? aws_iam_access_key.key[0].ses_smtp_password_v4 : null
   sensitive   = true
 }

@@ -41,6 +41,12 @@ module "repo" {
   image_name = "httpbin"
 }
 
+module "statsd_daemon" {
+  source = "./../services/statsd"
+
+  cluster_arn = module.cluster.arn
+}
+
 module "worker_task" {
   source = "./../task"
 
