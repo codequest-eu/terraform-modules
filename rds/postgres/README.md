@@ -50,7 +50,7 @@ Creates an RDS PostgreSQL database instance
 
     The port on which the DB accepts connections
 
-* `postgres_version` (`string`, default: `"10.6"`)
+* `postgres_version` (`string`, default: `"10.13"`)
 
     RDS Postgres engine version
 
