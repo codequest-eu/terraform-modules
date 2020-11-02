@@ -83,6 +83,10 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
     Container image version tag, if omitted will use one from the latest revision. Used only when image_name is provided.
 
+* `log_retention` (`number`, default: `7`)
+
+    Log retention in days
+
 * `memory_hard_limit` (`number`, default: `1024`)
 
     The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed.

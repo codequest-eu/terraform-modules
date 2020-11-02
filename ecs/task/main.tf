@@ -15,6 +15,8 @@ module "container_log" {
   task        = var.task
   container   = var.container
   tags        = var.tags
+
+  retention = var.log_retention
 }
 
 data "aws_ecs_container_definition" "current" {

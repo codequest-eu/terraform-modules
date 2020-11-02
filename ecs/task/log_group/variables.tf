@@ -31,3 +31,8 @@ variable "container" {
   default     = ""
 }
 
+variable "retention" {
+  description = "Log retention in days"
+  type        = number
+  default     = 7
+}

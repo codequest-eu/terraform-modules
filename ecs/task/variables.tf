@@ -39,6 +39,12 @@ variable "container" {
   default     = null
 }
 
+variable "log_retention" {
+  description = "Log retention in days"
+  type        = number
+  default     = 7
+}
+
 # container_definition
 
 variable "image" {
@@ -112,4 +118,3 @@ variable "environment_variables" {
   type        = map(string)
   default     = {}
 }
-

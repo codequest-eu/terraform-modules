@@ -29,6 +29,10 @@ Creates a CloudWatch log group for a container and outputs container logging con
 
     Kebab-cased project name
 
+* `retention` (`number`, default: `7`)
+
+    Log retention in days
+
 * `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources that support them
