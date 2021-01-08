@@ -9,7 +9,6 @@ Pull request router for AWS CloudFront. Serves the right `index.html` based on a
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

@@ -9,7 +9,6 @@ Basic authentication middleware for AWS CloudFront
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
 
 ## Inputs
 
