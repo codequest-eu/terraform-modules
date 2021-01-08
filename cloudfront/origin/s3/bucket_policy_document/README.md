@@ -6,27 +6,29 @@ S3 bucket policy to allow access from a cloudfront distribution
 
 ## Versions
 
-| Provider  | Requirements  |
-| --------- | ------------- |
-| terraform | (any version) |
-| `aws`     | (any version) |
+| Provider | Requirements |
+|-|-|
+| terraform | `>= 0.12` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 
-- `access_identity_arn` (`string`, required)
+* `access_identity_arn` (`string`, required)
 
-  ARN of a cloudfront access identity which a distribution will use to access the bucket
+    ARN of a cloudfront access identity which a distribution will use to access the bucket
 
-- `bucket_arn` (`string`, required)
+* `bucket_arn` (`string`, required)
 
-  ARN of a bucket to give cloudfront access to
+    ARN of a bucket to give cloudfront access to
 
-- `create` (`bool`, default: `true`)
+* `create` (`bool`, default: `true`)
 
-  Whether any resources should be created
+    Whether any resources should be created
+
+
 
 ## Outputs
 
-- `json`
+* `json`
 
-  Bucket policy JSON document
+    Bucket policy JSON document
