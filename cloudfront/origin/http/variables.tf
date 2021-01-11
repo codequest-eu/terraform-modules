@@ -6,7 +6,7 @@ variable "domain" {
 variable "port" {
   description = "Port on which the origin listens for HTTP/HTTPS requests"
   type        = number
-  default     = 443
+  default     = null
 }
 
 variable "path" {

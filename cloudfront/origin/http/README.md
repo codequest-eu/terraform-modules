@@ -24,7 +24,7 @@ HTTPS origin factory for the `cloudfront` module
 
     Path where the origin is hosted
 
-* `port` (`number`, default: `443`)
+* `port` (`number`, default: `null`)
 
     Port on which the origin listens for HTTP/HTTPS requests
 
