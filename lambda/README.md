@@ -93,6 +93,10 @@ Creates an AWS Lambda function
     Useful for invoking the lambda during `terraform apply` using `null_resource`.
 
 
+* `metrics`
+
+    Cloudwatch monitoring metrics
+
 * `name`
 
     The Lambda Function name
@@ -104,3 +108,7 @@ Creates an AWS Lambda function
 * `version`
 
     Latest published version of the Lambda Function
+
+* `widgets`
+
+    Cloudwatch dashboard widgets
