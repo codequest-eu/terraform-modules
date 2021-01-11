@@ -14,6 +14,10 @@ Creates an AWS Lambda function
 
 ## Inputs
 
+* `assume_role_principals` (`list(string)`, default: `[]`)
+
+    Which additional AWS services can assume the lambda role and invoke it
+
 * `create` (`bool`, default: `true`)
 
     Should resources be created
