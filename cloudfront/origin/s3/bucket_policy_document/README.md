@@ -21,10 +21,6 @@ S3 bucket policy to allow access from a cloudfront distribution
 
     ARN of a bucket to give cloudfront access to
 
-* `create` (`bool`, default: `true`)
-
-    Whether any resources should be created
-
 
 
 ## Outputs

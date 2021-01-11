@@ -1,6 +1,4 @@
 data "aws_iam_policy_document" "document" {
-  count = var.create ? 1 : 0
-
   statement {
     actions   = ["s3:ListBucket"]
     resources = [var.bucket_arn]
@@ -23,5 +21,5 @@ data "aws_iam_policy_document" "document" {
 }
 
 locals {
-  policy_json = var.create ? data.aws_iam_policy_document.document[0].json : null
+  policy_json = data.aws_iam_policy_document.document.json
 }
