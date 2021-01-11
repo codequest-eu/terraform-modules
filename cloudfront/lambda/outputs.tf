@@ -1,6 +1,6 @@
 output "arn" {
   description = "Lambda ARN"
-  value       = module.lambda.arn
+  value       = module.lambda.qualified_arn
 }
 
 output "include_body" {
