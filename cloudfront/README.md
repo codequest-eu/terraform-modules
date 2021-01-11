@@ -71,8 +71,8 @@ AWS Cloudfront distribution
     List of domains which will serve the application. If empty, will use the default cloudfront domain
 
 * `error_responses` (`map(object({
-    response_status = number
-    response_path   = string
+    response_code = number
+    response_path = string
   }))`, default: `{}`)
 
     Custom error responses

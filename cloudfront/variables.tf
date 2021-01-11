@@ -105,8 +105,8 @@ variable "behaviors_order" {
 variable "error_responses" {
   description = "Custom error responses"
   type = map(object({
-    response_status = number
-    response_path   = string
+    response_code = number
+    response_path = string
   }))
   default = {}
 }
