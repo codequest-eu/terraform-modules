@@ -1,14 +1,19 @@
 output "arn" {
   description = "Lambda ARN"
-  value       = var.create ? aws_lambda_function.middleware[0].qualified_arn : null
+  value       = module.lambda.arn
+}
+
+output "include_body" {
+  description = "Whether cloudfront should include the viewer/origin request body"
+  value       = var.include_body
 }
 
 output "metrics" {
   description = "Cloudwatch monitoring metrics"
-  value       = local.metrics
+  value       = module.lambda.metrics
 }
 
 output "widgets" {
   description = "Cloudwatch dashboard widgets"
-  value       = local.widgets
+  value       = module.lambda.widgets
 }

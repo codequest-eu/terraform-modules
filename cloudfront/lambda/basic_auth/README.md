@@ -36,6 +36,10 @@ Basic authentication middleware for AWS CloudFront
 
     Lambda ARN
 
+* `include_body`
+
+    Whether cloudfront should include the viewer/origin request body
+
 * `metrics`
 
     Cloudwatch monitoring metrics

@@ -31,3 +31,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "include_body" {
+  description = "Whether the lambda requires viewer/origin request body"
+  type        = bool
+  default     = false
+}

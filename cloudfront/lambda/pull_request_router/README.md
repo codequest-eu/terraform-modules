@@ -36,6 +36,10 @@ Pull request router for AWS CloudFront. Serves the right `index.html` based on a
 
     Lambda ARN
 
+* `include_body`
+
+    Whether cloudfront should include the viewer/origin request body
+
 * `metrics`
 
     Cloudwatch monitoring metrics

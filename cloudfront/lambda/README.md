@@ -26,6 +26,10 @@ AWS Lambda middleware for AWS CloudFront
 
     Path to the function which will handle lambda calls
 
+* `include_body` (`bool`, default: `false`)
+
+    Whether the lambda requires viewer/origin request body
+
 * `name` (`string`, required)
 
     Lambda name
@@ -45,6 +49,10 @@ AWS Lambda middleware for AWS CloudFront
 * `arn`
 
     Lambda ARN
+
+* `include_body`
+
+    Whether cloudfront should include the viewer/origin request body
 
 * `metrics`
 
