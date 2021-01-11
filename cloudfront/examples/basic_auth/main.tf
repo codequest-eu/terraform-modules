@@ -8,15 +8,18 @@ provider "aws" {
 # 1. Setup a cloudfront origin, eg. an S3 bucket with some objects
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "terraform-modules-example-cloudfront"
+  bucket = "terraform-modules-example-cloudfront-basic-auth"
 }
 
 resource "aws_s3_bucket_object" "index" {
   bucket       = aws_s3_bucket.bucket.bucket
   key          = "index.html"
-  content      = "<h1>${aws_s3_bucket.bucket.bucket}</h1>"
+  content      = <<EOF
+    <h1>index.html</h1>
+    <h2>${aws_s3_bucket.bucket.bucket}</h2>
+  EOF
   content_type = "text/html"
-  metadata     = { "cache-control" = "max-age=0, must-revalidate" }
+  metadata     = { "cache-control" = "max-age=0, no-store" }
 }
 
 resource "aws_s3_bucket_object" "assetlinks" {
@@ -24,11 +27,11 @@ resource "aws_s3_bucket_object" "assetlinks" {
   key          = ".well-known/assetlinks.json"
   content      = jsonencode([])
   content_type = "application/json"
-  metadata     = { "cache-control" = "max-age=0, must-revalidate" }
+  metadata     = { "cache-control" = "max-age=0, no-store" }
 }
 
 module "origin_bucket" {
-  source = "./../origin/s3"
+  source = "./../../origin/s3"
   bucket = aws_s3_bucket.bucket.bucket
 }
 
@@ -37,20 +40,20 @@ module "origin_bucket" {
 #    - require basic auth for all paths except `./well-known/*`
 
 module "lambda_basic_auth" {
-  source      = "./../lambda/basic_auth"
+  source      = "./../../lambda/basic_auth"
   name        = "terraform-modules-example-cloudfront-basic-auth"
   credentials = "terraform-modules:example"
 }
 
 module "behavior_default" {
-  source = "./../behavior"
+  source = "./../../behavior"
 
   origin_id             = "bucket"
   viewer_request_lambda = module.lambda_basic_auth
 }
 
 module "behavior_wellknown" {
-  source = "./../behavior"
+  source = "./../../behavior"
 
   path      = "/.well-known/*"
   origin_id = "bucket"
@@ -59,7 +62,7 @@ module "behavior_wellknown" {
 # 3. Create the cloudfront distribution using the above setup
 
 module "cloudfront" {
-  source = "./.."
+  source = "./../.."
 
   s3_origins = { bucket = module.origin_bucket }
 
@@ -70,7 +73,7 @@ module "cloudfront" {
 # 4. Give cloudfront access to the bucket
 
 module "bucket_access_document" {
-  source               = "./../origin/s3/bucket_policy_document"
+  source               = "./../../origin/s3/bucket_policy_document"
   bucket_arn           = aws_s3_bucket.bucket.arn
   access_identity_arns = [module.cloudfront.access_identity_arn]
 }
