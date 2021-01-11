@@ -1,4 +1,4 @@
-# cloudfront/middleware
+# cloudfront/lambda
 
 AWS Lambda middleware for AWS CloudFront
 

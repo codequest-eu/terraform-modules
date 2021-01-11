@@ -1,4 +1,4 @@
-# cloudfront/middleware/basic_auth
+# cloudfront/lambda/basic_auth
 
 Basic authentication middleware for AWS CloudFront
 

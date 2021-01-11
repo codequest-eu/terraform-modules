@@ -1,4 +1,4 @@
-# cloudfront/middleware/basic_auth
+# cloudfront/lambda/basic_auth
 
 Pull request router for AWS CloudFront. Serves the right `index.html` based on a path prefix, by default `/PR-#/`. Useful for SPA preview environments.
 
