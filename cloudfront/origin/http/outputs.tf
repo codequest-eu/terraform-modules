@@ -4,7 +4,7 @@ output "domain" {
 }
 
 output "port" {
-  description = "Port on which the origin listens for HTTPS requests"
+  description = "Port on which the origin listens for HTTP/HTTPS requests"
   value       = var.port
 }
 

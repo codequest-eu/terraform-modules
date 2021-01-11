@@ -1,4 +1,4 @@
-# cloudfront/origin/https
+# cloudfront/origin/http
 
 HTTPS origin factory for the `cloudfront` module
 
@@ -26,7 +26,7 @@ HTTPS origin factory for the `cloudfront` module
 
 * `port` (`number`, default: `443`)
 
-    Port on which the origin listens for HTTPS requests
+    Port on which the origin listens for HTTP/HTTPS requests
 
 
 
@@ -46,4 +46,4 @@ HTTPS origin factory for the `cloudfront` module
 
 * `port`
 
-    Port on which the origin listens for HTTPS requests
+    Port on which the origin listens for HTTP/HTTPS requests
