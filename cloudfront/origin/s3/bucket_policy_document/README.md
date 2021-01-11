@@ -13,9 +13,9 @@ S3 bucket policy to allow access from a cloudfront distribution
 
 ## Inputs
 
-* `access_identity_arn` (`string`, required)
+* `access_identity_arns` (`list(string)`, required)
 
-    ARN of a cloudfront access identity which a distribution will use to access the bucket
+    ARNs of cloudfront access identities which will be used to access the bucket
 
 * `bucket_arn` (`string`, required)
 

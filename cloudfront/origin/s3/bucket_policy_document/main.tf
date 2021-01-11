@@ -5,7 +5,7 @@ data "aws_iam_policy_document" "document" {
 
     principals {
       type        = "AWS"
-      identifiers = [var.access_identity_arn]
+      identifiers = var.access_identity_arns
     }
   }
 
@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "document" {
 
     principals {
       type        = "AWS"
-      identifiers = [var.access_identity_arn]
+      identifiers = var.access_identity_arns
     }
   }
 }

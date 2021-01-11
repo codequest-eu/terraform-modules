@@ -15,9 +15,9 @@ resource "aws_s3_bucket_object" "website" {
 }
 
 module "bucket_access_document" {
-  source              = "./../origin/s3/bucket_policy_document"
-  bucket_arn          = aws_s3_bucket.bucket.arn
-  access_identity_arn = module.example.access_identity_arn
+  source               = "./../origin/s3/bucket_policy_document"
+  bucket_arn           = aws_s3_bucket.bucket.arn
+  access_identity_arns = [module.example.access_identity_arn]
 }
 
 resource "aws_s3_bucket_policy" "bucket" {
