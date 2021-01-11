@@ -108,6 +108,10 @@ Behavior factory for the `cloudfront` module
 
     Lambda function to invoke when CloudFront receives a response from origin
 
+* `path`
+
+    Path the behavior should apply to
+
 * `viewer_request_lambda`
 
     Lambda function to invoke when CloudFront receives a request

@@ -1,3 +1,8 @@
+output "path" {
+  description = "Path the behavior should apply to"
+  value       = var.path
+}
+
 output "allowed_methods" {
   description = "HTTP methods forwarded to the origin"
   value       = var.allowed_methods
