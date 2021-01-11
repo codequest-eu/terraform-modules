@@ -171,10 +171,10 @@ resource "aws_cloudfront_distribution" "distribution" {
     for_each = var.error_responses
 
     content {
-      error_code            = ordered_cache_behavior.key
+      error_code            = custom_error_response.key
       error_caching_min_ttl = 0
-      response_code         = ordered_cache_behavior.value.response_code
-      response_page_path    = ordered_cache_behavior.value.response_path
+      response_code         = custom_error_response.value.response_code
+      response_page_path    = custom_error_response.value.response_path
     }
   }
 }
