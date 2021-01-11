@@ -9,7 +9,6 @@ S3 origin factory for the `cloudfront` module
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
 
 ## Inputs
 

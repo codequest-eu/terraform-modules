@@ -1,6 +1,6 @@
 output "domain" {
   description = "S3 bucket domain"
-  value       = local.domain
+  value       = "${var.bucket}.s3.amazonaws.com"
 }
 
 output "path" {
