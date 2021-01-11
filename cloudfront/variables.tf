@@ -31,8 +31,19 @@ variable "price_class" {
   default     = "PriceClass_100"
 }
 
-variable "https_origins" {
+variable "http_origins" {
   description = "HTTP origins proxied by this distribution"
+  type = map(object({
+    domain  = string
+    path    = string
+    headers = map(string)
+    port    = number
+  }))
+  default = {}
+}
+
+variable "https_origins" {
+  description = "HTTPS origins proxied by this distribution"
   type = map(object({
     domain  = string
     path    = string

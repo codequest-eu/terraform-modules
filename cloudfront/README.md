@@ -77,7 +77,7 @@ AWS Cloudfront distribution
 
     Custom error responses
 
-* `https_origins` (`map(object({
+* `http_origins` (`map(object({
     domain  = string
     path    = string
     headers = map(string)
@@ -85,6 +85,15 @@ AWS Cloudfront distribution
   }))`, default: `{}`)
 
     HTTP origins proxied by this distribution
+
+* `https_origins` (`map(object({
+    domain  = string
+    path    = string
+    headers = map(string)
+    port    = number
+  }))`, default: `{}`)
+
+    HTTPS origins proxied by this distribution
 
 * `price_class` (`string`, default: `"PriceClass_100"`)
 

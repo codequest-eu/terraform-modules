@@ -54,6 +54,31 @@ resource "aws_cloudfront_distribution" "distribution" {
   }
 
   dynamic "origin" {
+    for_each = var.http_origins
+
+    content {
+      origin_id   = origin.key
+      origin_path = origin.value.path
+      domain_name = origin.value.domain
+
+      dynamic "custom_header" {
+        for_each = origin.value.headers
+        content {
+          name  = custom_header.key
+          value = custom_header.value
+        }
+      }
+
+      custom_origin_config {
+        http_port              = origin.value.port
+        https_port             = 443
+        origin_protocol_policy = "http-only"
+        origin_ssl_protocols   = ["TLSv1.2"]
+      }
+    }
+  }
+
+  dynamic "origin" {
     for_each = var.https_origins
 
     content {
@@ -71,7 +96,7 @@ resource "aws_cloudfront_distribution" "distribution" {
 
       custom_origin_config {
         http_port              = 80
-        https_port             = coalesce(origin.value.port, 443)
+        https_port             = origin.value.port
         origin_protocol_policy = "https-only"
         origin_ssl_protocols   = ["TLSv1.2"]
       }
