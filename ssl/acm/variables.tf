@@ -39,3 +39,9 @@ EOF
   type        = bool
   default     = true
 }
+
+variable "validation_record_fqdns" {
+  description = "When `create_validation_records` is `false` you can pass a list of `aws_route53_record.*.fqdn` to make sure validation checks don't start before the records are created."
+  type        = list(string)
+  default     = null
+}

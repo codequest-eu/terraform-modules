@@ -44,6 +44,10 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Whether to wait for certificate validation
 
+* `validation_record_fqdns` (`list(string)`, default: `null`)
+
+    When `create_validation_records` is `false` you can pass a list of `aws_route53_record.*.fqdn` to make sure validation checks don't start before the records are created.
+
 
 
 ## Outputs
@@ -59,3 +63,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 * `validated_arn`
 
     ACM certificate ARN, once it's validated
+
+* `validation_records`
+
+    DNS validation records, in cases where you want to manually create them

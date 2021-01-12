@@ -41,7 +41,7 @@ locals {
 
   validation_fqdns = local.create_validation_records ? [
     for key, record in aws_route53_record.validation : record.fqdn
-  ] : []
+  ] : var.validation_record_fqdns
 }
 
 resource "aws_route53_record" "validation" {
