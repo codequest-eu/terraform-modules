@@ -32,7 +32,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Certificate domains, have to be in one Route53 hosted zone.
 
-* `hosted_zone_id` (`string`, required)
+* `hosted_zone_id` (`string`, default: `null`)
 
     Route53 hosted zone id for ACM domain ownership validation
 
