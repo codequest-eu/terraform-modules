@@ -20,6 +20,8 @@ resource "aws_cloudwatch_log_group" "log" {
 
   name = local.path
   tags = local.tags
+
+  retention_in_days = var.retention
 }
 
 data "aws_region" "current" {
