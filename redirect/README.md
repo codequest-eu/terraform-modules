@@ -45,7 +45,7 @@ Module creates:
 
     Target host to which all the requests will be redirected (does not contain protocol)
 
-* `protocol` (`string`, required)
+* `protocol` (`string`, default: `"https"`)
 
     Target protocol to which all the requests will be redirected (http or https)
 
