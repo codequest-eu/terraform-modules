@@ -4,20 +4,15 @@ variable "create" {
   type        = bool
 }
 
-variable "project" {
-  description = "Kebab-cased name of the project. Will be included in resource names"
-  type        = string
-}
-
-variable "environment" {
-  description = "Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names"
-  type        = string
-}
-
 variable "tags" {
-  description = "Additional tags to add to each resource that supports them"
+  description = "Tags to add to each resource that supports them"
   type        = map(string)
   default     = {}
+}
+
+variable "bucket" {
+  description = "Name for the S3 bucket which will do the redirect"
+  type        = string
 }
 
 variable "domains" {
@@ -55,8 +50,3 @@ variable "cloudfront_price_class" {
   default     = "PriceClass_100"
 }
 
-variable "bucket" {
-  description = "Kebab-cased bucket name override"
-  type        = string
-  default     = null
-}

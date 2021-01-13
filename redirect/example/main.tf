@@ -8,16 +8,13 @@ variable "zone_domain" {
 }
 
 locals {
-  project = "terraform-modules"
-  module  = "redirect"
-  name    = "${local.project}-${local.module}"
-
+  name   = "terraform-modules-redirect-example"
   domain = "${local.name}.${var.zone_domain}"
 
   tags = {
-    Project     = local.project
+    Project     = "terraform-modules"
     Environment = "example"
-    Module      = local.module
+    Module      = "redirect"
   }
 }
 
@@ -38,8 +35,7 @@ module "certificate" {
 module "redirect" {
   source = "./.."
 
-  project         = local.name
-  environment     = "example"
+  bucket          = local.name
   protocol        = "https"
   host            = "codequest.com"
   domains         = [local.domain]
