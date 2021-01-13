@@ -23,6 +23,7 @@ variable "domains" {
 variable "protocol" {
   description = "Target protocol to which all the requests will be redirected (http or https)"
   type        = string
+  default     = "https"
 }
 
 variable "host" {

@@ -36,7 +36,6 @@ module "redirect" {
   source = "./.."
 
   bucket          = local.name
-  protocol        = "https"
   host            = "codequest.com"
   domains         = [local.domain]
   certificate_arn = module.certificate.validated_arn
