@@ -23,12 +23,12 @@ locals {
   )
 
   content_paths = setsubtract(local.dir_paths, local.dir_excludes)
-  content_hash = md5(jsonencode([
-    for path in local.content_paths : try(
+  content_hash = md5(jsonencode({
+    for path in local.content_paths : path => try(
       md5(var.files[path]),
       filemd5("${var.directory}/${path}")
     )
-  ]))
+  }))
 
   output_path = try(
     replace(var.output_path, "{hash}", local.content_hash),
