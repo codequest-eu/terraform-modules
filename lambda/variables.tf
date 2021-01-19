@@ -86,3 +86,9 @@ variable "environment_variables" {
   type        = map(string)
   default     = {}
 }
+
+variable "layer_qualified_arns" {
+  description = "Lambda layers to include"
+  type        = list(string)
+  default     = []
+}

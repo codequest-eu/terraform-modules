@@ -73,6 +73,7 @@ resource "aws_lambda_function" "lambda" {
 
   function_name = var.name
   filename      = module.package.output_path
+  layers        = var.layer_qualified_arns
   handler       = var.handler
   runtime       = var.runtime
   publish       = true

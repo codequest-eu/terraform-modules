@@ -9,7 +9,6 @@ Creates an AWS Lambda function
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `archive` | `>= 1.2.2` |
 | `aws` | `>= 2.40.0` |
 
 ## Inputs
@@ -41,6 +40,10 @@ Creates an AWS Lambda function
 * `handler` (`string`, default: `"index.handler"`)
 
     Path to the event handler
+
+* `layer_qualified_arns` (`list(string)`, default: `[]`)
+
+    Lambda layers to include
 
 * `memory_size` (`number`, default: `128`)
 
