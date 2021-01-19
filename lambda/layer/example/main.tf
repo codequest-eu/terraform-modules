@@ -1,8 +1,5 @@
 provider "aws" {
   region = "eu-west-1" # Ireland
-
-  # https://github.com/hashicorp/terraform-provider-aws/issues/15952
-  version = "3.12.0"
 }
 
 module "lambda_layer" {
