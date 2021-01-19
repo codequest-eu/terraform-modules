@@ -1,34 +1,13 @@
-locals {
-  file_paths = var.create && var.files == null ? setsubtract(
-    flatten([for pattern in var.file_patterns : fileset(var.files_dir, pattern)]),
-    flatten([for pattern in var.file_exclude_patterns : fileset(var.files_dir, pattern)]),
-  ) : toset([])
+module "package" {
+  source = "./../zip"
+  create = var.create
 
-  files = var.files != null ? var.files : {
-    for path in local.file_paths : path => file("${var.files_dir}/${path}")
-  }
+  files                      = var.files
+  directory                  = var.files_dir
+  directory_include_patterns = var.file_patterns
+  directory_exclude_patterns = var.file_exclude_patterns
 
-  files_hash = md5(jsonencode({
-    for path, content in local.files : path => md5(content)
-  }))
-
-  package_path = "${path.module}/tmp/${local.files_hash}.zip"
-}
-
-data "archive_file" "package" {
-  count = var.create ? 1 : 0
-
-  type        = "zip"
-  output_path = local.package_path
-
-  dynamic "source" {
-    for_each = local.files
-
-    content {
-      filename = source.key
-      content  = source.value
-    }
-  }
+  output_path = "${path.module}/tmp/{hash}.zip"
 }
 
 data "aws_iam_policy_document" "assume_lambda" {
@@ -86,7 +65,6 @@ resource "aws_cloudwatch_log_group" "lambda" {
 resource "aws_lambda_function" "lambda" {
   count = var.create ? 1 : 0
   depends_on = [
-    data.archive_file.package,
     aws_cloudwatch_log_group.lambda,
     aws_iam_role_policy_attachment.basic,
     aws_iam_role_policy_attachment.vpc,
@@ -94,7 +72,7 @@ resource "aws_lambda_function" "lambda" {
   ]
 
   function_name = var.name
-  filename      = local.package_path
+  filename      = module.package.output_path
   handler       = var.handler
   runtime       = var.runtime
   publish       = true
