@@ -1,6 +1,14 @@
+locals {
+  package_s3_match = var.package_s3 != null ? regex(
+    "(?P<bucket>[^/]+)/(?P<key>.+)", var.package_s3
+  ) : { bucket = null, key = null }
+  package_s3_bucket = local.package_s3_match.bucket
+  package_s3_key    = local.package_s3_match.key
+}
+
 module "package" {
   source = "./../zip"
-  create = var.create
+  create = var.create && (var.files != null || var.files_dir != null)
 
   files                      = var.files
   directory                  = var.files_dir
@@ -72,14 +80,20 @@ resource "aws_lambda_function" "lambda" {
   ]
 
   function_name = var.name
-  filename      = module.package.output_path
-  layers        = var.layer_qualified_arns
-  handler       = var.handler
-  runtime       = var.runtime
-  publish       = true
-  timeout       = var.timeout
-  memory_size   = var.memory_size
-  role          = aws_iam_role.lambda[0].arn
+
+  filename          = coalesce(var.package_path, module.package.output_path)
+  s3_bucket         = local.package_s3_bucket
+  s3_key            = local.package_s3_key
+  s3_object_version = var.package_s3_version
+  image_uri         = var.image
+
+  layers      = var.layer_qualified_arns
+  handler     = var.handler
+  runtime     = var.runtime
+  publish     = true
+  timeout     = var.timeout
+  memory_size = var.memory_size
+  role        = aws_iam_role.lambda[0].arn
 
   # AWS provider requires at least one environment variable in the environment block,
   # so just don't create the block at all if var.environment_variables is empty

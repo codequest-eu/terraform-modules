@@ -9,7 +9,7 @@ Creates an AWS Lambda function
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| `aws` | `>= 3.19.0` |
 
 ## Inputs
 
@@ -27,23 +27,39 @@ Creates an AWS Lambda function
 
 * `file_exclude_patterns` (`list(string)`, default: `[]`)
 
+    **Deprecated. Use the `zip` module and `package_path` input instead.**
+
     Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.
+
 
 * `file_patterns` (`list(string)`, default: `["**"]`)
 
+    **Deprecated. Use the `zip` module and `package_path` input instead.**
+
     Source code file path patterns to narrow `files_dir` contents.
+
 
 * `files` (`map(string)`, default: `null`)
 
+    **Deprecated. Use the `zip` module and `package_path` input instead.**
+
     Source code map. Either `files` or `files_dir` has to be specified
+
 
 * `files_dir` (`string`, default: `null`)
 
+    **Deprecated. Use the `zip` module and `package_path` input instead.**
+
     Source code directory path. Either `files` or `files_dir` has to be specified
+
 
 * `handler` (`string`, default: `"index.handler"`)
 
     Path to the event handler
+
+* `image` (`string`, default: `null`)
+
+    URI of a container image with the Lambda's source. Either `package_path`, `package_s3` or `image` is required.
 
 * `layer_qualified_arns` (`list(string)`, default: `[]`)
 
@@ -56,6 +72,18 @@ Creates an AWS Lambda function
 * `name` (`string`, required)
 
     Lambda name
+
+* `package_path` (`string`, default: `null`)
+
+    Path to the zip that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required.
+
+* `package_s3` (`string`, default: `null`)
+
+    S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path`, `package_s3` or `image` is required.
+
+* `package_s3_version` (`string`, default: `null`)
+
+    Version number of the S3 object to use
 
 * `policy_arns` (`map(string)`, default: `{}`)
 
