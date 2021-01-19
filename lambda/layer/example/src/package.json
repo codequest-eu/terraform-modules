@@ -1,0 +1,9 @@
+{
+  "main": "index.js",
+  "name": "src",
+  "private": true,
+  "dependencies": {
+    "ajv": "^7.0.3",
+    "ajv-formats": "^1.5.1"
+  }
+}
