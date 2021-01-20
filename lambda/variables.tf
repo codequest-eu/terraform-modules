@@ -16,25 +16,19 @@ variable "name" {
 }
 
 variable "package_path" {
-  description = "Path to the zip that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
+  description = "Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required."
   type        = string
   default     = null
 }
 
 variable "package_s3" {
-  description = "S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path`, `package_s3` or `image` is required."
+  description = "S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path` or `package_s3` is required."
   type        = string
   default     = null
 }
 
 variable "package_s3_version" {
   description = "Version number of the S3 object to use"
-  type        = string
-  default     = null
-}
-
-variable "image" {
-  description = "URI of a container image with the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
   type        = string
   default     = null
 }

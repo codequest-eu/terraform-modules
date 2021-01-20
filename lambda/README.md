@@ -9,7 +9,7 @@ Creates an AWS Lambda function
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 3.19.0` |
+| `aws` | `>= 2.40.0` |
 
 ## Inputs
 
@@ -57,10 +57,6 @@ Creates an AWS Lambda function
 
     Path to the event handler
 
-* `image` (`string`, default: `null`)
-
-    URI of a container image with the Lambda's source. Either `package_path`, `package_s3` or `image` is required.
-
 * `layer_qualified_arns` (`list(string)`, default: `[]`)
 
     Lambda layers to include
@@ -75,11 +71,11 @@ Creates an AWS Lambda function
 
 * `package_path` (`string`, default: `null`)
 
-    Path to the zip that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required.
+    Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required.
 
 * `package_s3` (`string`, default: `null`)
 
-    S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path`, `package_s3` or `image` is required.
+    S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path` or `package_s3` is required.
 
 * `package_s3_version` (`string`, default: `null`)
 

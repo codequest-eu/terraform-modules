@@ -85,7 +85,6 @@ resource "aws_lambda_function" "lambda" {
   s3_bucket         = local.package_s3_bucket
   s3_key            = local.package_s3_key
   s3_object_version = var.package_s3_version
-  image_uri         = var.image
 
   layers      = var.layer_qualified_arns
   handler     = var.handler
