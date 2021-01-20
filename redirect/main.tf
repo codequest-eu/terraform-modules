@@ -1,20 +1,9 @@
-locals {
-  bucket = var.bucket != null ? var.bucket : "${var.project}-${var.environment}-redirect"
-
-  default_tags = {
-    Project     = var.project
-    Environment = var.environment
-  }
-
-  tags = merge(local.default_tags, var.tags)
-}
-
 resource "aws_s3_bucket" "redirect" {
   count = var.create ? 1 : 0
 
-  bucket = local.bucket
+  bucket = var.bucket
   acl    = "private"
-  tags   = local.tags
+  tags   = var.tags
 
   website {
     index_document = "empty.html"
@@ -118,5 +107,5 @@ resource "aws_cloudfront_distribution" "redirect" {
     ssl_support_method  = var.certificate_arn != null ? "sni-only" : null
   }
 
-  tags = local.tags
+  tags = var.tags
 }
