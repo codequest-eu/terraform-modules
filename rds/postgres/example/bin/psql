@@ -1,4 +1,4 @@
 #!/bin/sh
 
 environment=${1:-master}
-docker run -it postgres:10.6-alpine psql "$(terraform output ${environment}_db_url)" "$@"
+docker run -it postgres:10.13-alpine psql "$(terraform output ${environment}_db_url)" "$@"

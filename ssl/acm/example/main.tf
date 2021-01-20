@@ -49,5 +49,5 @@ module "wildcard_certificate" {
 }
 
 output "wildcard_certificate_arn" {
-  value = module.certificate.validated_arn
+  value = module.wildcard_certificate.validated_arn
 }

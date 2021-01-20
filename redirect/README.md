@@ -21,9 +21,9 @@ Module creates:
 
 ## Inputs
 
-* `bucket` (`string`, default: `null`)
+* `bucket` (`string`, required)
 
-    Kebab-cased bucket name override
+    Name for the S3 bucket which will do the redirect
 
 * `certificate_arn` (`string`, required)
 
@@ -41,19 +41,11 @@ Module creates:
 
     List of domains which will be redirected. If empty, will use the default cloudfront domain
 
-* `environment` (`string`, required)
-
-    Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names
-
 * `host` (`string`, required)
 
     Target host to which all the requests will be redirected (does not contain protocol)
 
-* `project` (`string`, required)
-
-    Kebab-cased name of the project. Will be included in resource names
-
-* `protocol` (`string`, required)
+* `protocol` (`string`, default: `"https"`)
 
     Target protocol to which all the requests will be redirected (http or https)
 
@@ -63,7 +55,7 @@ Module creates:
 
 * `tags` (`map(string)`, default: `{}`)
 
-    Additional tags to add to each resource that supports them
+    Tags to add to each resource that supports them
 
 
 

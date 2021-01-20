@@ -9,7 +9,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 | Provider | Requirements |
 |-|-|
 | terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| `aws` | `>= 3.0.0` |
 
 ## Inputs
 
@@ -32,7 +32,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 
     Certificate domains, have to be in one Route53 hosted zone.
 
-* `hosted_zone_id` (`string`, required)
+* `hosted_zone_id` (`string`, default: `null`)
 
     Route53 hosted zone id for ACM domain ownership validation
 
@@ -43,6 +43,10 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 * `validate` (`bool`, default: `true`)
 
     Whether to wait for certificate validation
+
+* `validation_record_fqdns` (`list(string)`, default: `null`)
+
+    When `create_validation_records` is `false` you can pass a list of `aws_route53_record.*.fqdn` to make sure validation checks don't start before the records are created.
 
 
 
@@ -59,3 +63,7 @@ Creates an SSL certificate using AWS ACM, verifies domain ownership using Route5
 * `validated_arn`
 
     ACM certificate ARN, once it's validated
+
+* `validation_records`
+
+    DNS validation records, in cases where you want to manually create them
