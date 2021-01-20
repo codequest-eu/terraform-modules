@@ -81,6 +81,12 @@ variable "policy_arns" {
   default     = {}
 }
 
+variable "assume_role_principals" {
+  description = "Which additional AWS services can assume the lambda role and invoke it"
+  type        = list(string)
+  default     = []
+}
+
 variable "environment_variables" {
   description = "Environment variables"
   type        = map(string)
