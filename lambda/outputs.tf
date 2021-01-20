@@ -31,3 +31,13 @@ Shell script for invoking the lambda using AWS CLI.
   EOT
   value       = local.invoke_script
 }
+
+output "metrics" {
+  description = "Cloudwatch monitoring metrics"
+  value       = {}
+}
+
+output "widgets" {
+  description = "Cloudwatch dashboard widgets"
+  value       = {}
+}

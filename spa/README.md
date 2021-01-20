@@ -1,5 +1,9 @@
 # terraform-single-page-app
 
+> **DEPRECATED**
+>
+> Use the [`cloudfront`](../cloudfront) module instead
+
 Common infrastructure for single page applications
 
 ## Overview

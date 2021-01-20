@@ -14,6 +14,10 @@ Creates an AWS Lambda function
 
 ## Inputs
 
+* `assume_role_principals` (`list(string)`, default: `[]`)
+
+    Which additional AWS services can assume the lambda role and invoke it
+
 * `create` (`bool`, default: `true`)
 
     Should resources be created
@@ -93,6 +97,10 @@ Creates an AWS Lambda function
     Useful for invoking the lambda during `terraform apply` using `null_resource`.
 
 
+* `metrics`
+
+    Cloudwatch monitoring metrics
+
 * `name`
 
     The Lambda Function name
@@ -104,3 +112,7 @@ Creates an AWS Lambda function
 * `version`
 
     Latest published version of the Lambda Function
+
+* `widgets`
+
+    Cloudwatch dashboard widgets

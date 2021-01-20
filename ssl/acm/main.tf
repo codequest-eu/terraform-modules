@@ -20,29 +20,36 @@ resource "aws_acm_certificate_validation" "cert" {
 }
 
 locals {
-  create_validation_records = var.create && var.validate && var.create_validation_records
+  create_validation_records = var.create && var.create_validation_records
+
+  validation_records_grouped = var.create ? {
+    for dvo in aws_acm_certificate.cert[0].domain_validation_options :
+    trimprefix(dvo.domain_name, "*.") => {
+      type  = dvo.resource_record_type
+      name  = dvo.resource_record_name
+      value = dvo.resource_record_value
+    }...
+  } : {}
 
   # Wildcard certificates use the same validation records as the base domain, eg.:
   # a certificate for example.com and *.example.com will require a single
   # validation record for example.com
-  validation_options_indices = {
-    for i, domain in var.domains : trimprefix(domain, "*.") => i...
+  validation_records = {
+    for domain, records in local.validation_records_grouped :
+    domain => records[0]
   }
-  validation_options = local.create_validation_records ? {
-    for domain, indices in local.validation_options_indices :
-    domain => aws_acm_certificate.cert[0].domain_validation_options[indices[0]]
-  } : {}
+
   validation_fqdns = local.create_validation_records ? [
     for key, record in aws_route53_record.validation : record.fqdn
-  ] : []
+  ] : var.validation_record_fqdns
 }
 
 resource "aws_route53_record" "validation" {
-  for_each = local.validation_options
+  for_each = local.create_validation_records ? local.validation_records : {}
 
   zone_id = var.hosted_zone_id
-  name    = each.value.resource_record_name
-  type    = each.value.resource_record_type
+  name    = each.value.name
+  type    = each.value.type
   ttl     = "60"
-  records = [each.value.resource_record_value]
+  records = [each.value.value]
 }
