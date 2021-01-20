@@ -81,6 +81,7 @@ resource "aws_lambda_function" "lambda" {
   s3_bucket         = var.package_s3 != null ? var.package_s3.bucket : null
   s3_key            = var.package_s3 != null ? var.package_s3.key : null
   s3_object_version = var.package_s3_version
+  image_uri         = var.image
 
   layers      = var.layer_qualified_arns
   handler     = var.handler
