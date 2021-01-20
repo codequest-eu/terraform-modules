@@ -67,7 +67,7 @@ variable "security_group_ids" {
 variable "postgres_version" {
   description = "RDS Postgres engine version"
   type        = string
-  default     = "10.6"
+  default     = "10.13"
 }
 
 variable "storage" {
