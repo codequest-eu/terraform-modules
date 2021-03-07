@@ -1,14 +1,10 @@
 locals {
-  package_s3_match = var.package_s3 != null ? regex(
-    "(?P<bucket>[^/]+)/(?P<key>.+)", var.package_s3
-  ) : { bucket = null, key = null }
-  package_s3_bucket = local.package_s3_match.bucket
-  package_s3_key    = local.package_s3_match.key
+  create_package = var.create && (var.files != null || var.files_dir != null)
 }
 
 module "package" {
   source = "./../../zip"
-  create = var.create && (var.files != null || var.files_dir != null)
+  create = local.create_package
 
   files                      = var.files
   directory                  = var.files_dir
@@ -24,9 +20,9 @@ resource "aws_lambda_layer_version" "layer" {
   layer_name          = var.name
   compatible_runtimes = var.runtimes
 
-  filename          = coalesce(var.package_path, module.package.output_path)
-  s3_bucket         = local.package_s3_bucket
-  s3_key            = local.package_s3_key
+  filename          = local.create_package ? module.package.output_path : var.package_path
+  s3_bucket         = var.package_s3 != null ? var.package_s3.bucket : null
+  s3_key            = var.package_s3 != null ? var.package_s3.key : null
   s3_object_version = var.package_s3_version
 }
 

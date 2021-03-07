@@ -73,9 +73,12 @@ Creates an AWS Lambda function
 
     Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required.
 
-* `package_s3` (`string`, default: `null`)
+* `package_s3` (`object({
+    bucket = string
+    key    = string
+  })`, default: `null`)
 
-    S3 object path to a zip that contains the Lambda's source in a `{bucket}/{key}` format. Either `package_path` or `package_s3` is required.
+    S3 zip object that contains the Lambda's source. Either `package_path` or `package_s3` is required.
 
 * `package_s3_version` (`string`, default: `null`)
 

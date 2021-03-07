@@ -22,9 +22,12 @@ variable "package_path" {
 }
 
 variable "package_s3" {
-  description = "S3 object path to a zip that contains the Lambda layer's source in a `{bucket}/{key}` format. Either `package_path`, `package_s3` or `image` is required."
-  type        = string
-  default     = null
+  description = "S3 zip object that contains the Lambda layer's source. Either `package_path` or `package_s3` is required."
+  type = object({
+    bucket = string
+    key    = string
+  })
+  default = null
 }
 
 variable "package_s3_version" {
