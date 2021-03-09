@@ -1,8 +1,5 @@
 provider "aws" {
   region = "eu-west-1"
-
-  # https://github.com/hashicorp/terraform-provider-aws/issues/15952
-  version = "3.12.0"
 }
 
 # Source code defined in terraform --------------------------------------------
