@@ -1,6 +1,10 @@
+locals {
+  create_package = var.create && (var.files != null || var.files_dir != null)
+}
+
 module "package" {
   source = "./../../zip"
-  create = var.create
+  create = local.create_package
 
   files                      = var.files
   directory                  = var.files_dir
@@ -14,8 +18,12 @@ resource "aws_lambda_layer_version" "layer" {
   count = var.create ? 1 : 0
 
   layer_name          = var.name
-  filename            = module.package.output_path
   compatible_runtimes = var.runtimes
+
+  filename          = local.create_package ? module.package.output_path : var.package_path
+  s3_bucket         = var.package_s3 != null ? var.package_s3.bucket : null
+  s3_key            = var.package_s3 != null ? var.package_s3.key : null
+  s3_object_version = var.package_s3_version
 }
 
 locals {
