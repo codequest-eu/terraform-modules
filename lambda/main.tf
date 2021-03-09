@@ -77,17 +77,18 @@ resource "aws_lambda_function" "lambda" {
 
   function_name = var.name
 
+  package_type = var.image != null ? "Image" : "Zip"
+  image_uri    = var.image
+
   filename          = local.create_package ? module.package.output_path : var.package_path
   s3_bucket         = var.package_s3 != null ? var.package_s3.bucket : null
   s3_key            = var.package_s3 != null ? var.package_s3.key : null
   s3_object_version = var.package_s3_version
 
-  package_type = var.image != null ? "Image" : "Zip"
-  image_uri    = var.image
+  layers  = var.image == null ? var.layer_qualified_arns : null
+  handler = var.image == null ? var.handler : null
+  runtime = var.image == null ? var.runtime : null
 
-  layers      = var.layer_qualified_arns
-  handler     = var.handler
-  runtime     = var.runtime
   publish     = true
   timeout     = var.timeout
   memory_size = var.memory_size
