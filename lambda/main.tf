@@ -104,9 +104,13 @@ resource "aws_lambda_function" "lambda" {
     }
   }
 
-  vpc_config {
-    subnet_ids         = coalesce(var.subnet_ids, [])
-    security_group_ids = coalesce(var.security_group_ids, [])
+  dynamic "vpc_config" {
+    for_each = toset(var.subnet_ids != null || var.security_group_ids != null ? ["vpc_config"] : [])
+
+    content {
+      subnet_ids         = coalesce(var.subnet_ids, [])
+      security_group_ids = coalesce(var.security_group_ids, [])
+    }
   }
 
   tags = var.tags
