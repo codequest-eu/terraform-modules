@@ -1,0 +1,50 @@
+name: "Continuous Integration"
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  ci:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # https://github.com/marketplace/actions/hashicorp-setup-terraform
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: Discover modules and their examples
+        id: discovery
+        run: |
+          echo "::set-output name=modules::$(tools/bin/find-modules | jq -Rc '[inputs]')"
+          echo "::set-output name=examples::$(tools/bin/find-examples | jq -Rc '[inputs]')"
+        outputs:
+          modules:
+            description: JSON list of module paths
+          examples:
+            description: JSON list of module example paths
+
+      - name: Setup providers cache
+        id: cache_providers
+        uses: actions/cache@v2
+        with:
+          path: ./.terraform/providers
+          key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
+          restore-keys: ${{ runner.os }}-terraform-providers
+
+      - name: Download providers
+        id: download_providers
+        if: steps.cache_providers.outputs.cache-hit != 'true'
+        run: terraform init -backend=false
+
+      - name: Debug
+        run: |
+          echo "discover.modules=${{ steps.discover.outputs.modules }}"
+          echo "discover.modules=${{ steps.discover.outputs.modules }}"
+          tree

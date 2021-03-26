@@ -1,0 +1,7 @@
+#!/bin/bash
+
+find . \
+  -name variables.tf \
+  -o -name outputs.tf \
+  -exec dirname '{}' \; \
+| sort -u
