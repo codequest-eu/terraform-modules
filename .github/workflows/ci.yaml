@@ -45,6 +45,6 @@ jobs:
 
       - name: Debug
         run: |
-          echo "discover.modules=${{ steps.discover.outputs.modules }}"
-          echo "discover.modules=${{ steps.discover.outputs.modules }}"
+          echo "discover.modules=${{ steps.discovery.outputs.modules }}"
+          echo "discover.modules=${{ steps.discovery.outputs.modules }}"
           tree
