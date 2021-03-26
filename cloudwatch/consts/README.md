@@ -3,15 +3,31 @@
 Common cloudwatch-related constants, like the color palette cloudwatch uses by default.
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
 
-| Provider  | Requirements |
-| --------- | ------------ |
-| terraform | `>= 0.12`    |
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
 
 ## Outputs
 
-- `colors`
-
-  Cloudwatch default color palette
+| Name | Description |
+|------|-------------|
+| <a name="output_colors"></a> [colors](#output\_colors) | Cloudwatch default color palette |
+<!-- END_TF_DOCS -->

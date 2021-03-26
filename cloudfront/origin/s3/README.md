@@ -3,46 +3,43 @@
 S3 origin factory for the `cloudfront` module
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
 
-| Provider  | Requirements  |
-| --------- | ------------- |
-| terraform | `>= 0.12`     |
-| `aws`     | (any version) |
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_s3_bucket.bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
 
 ## Inputs
 
-- `bucket` (`string`, default: `null`)
-
-  S3 bucket name. Either `bucket` or `bucket_regional_domain_name` is required. The bucket domain will be fetched using `data.aws_s3_bucket`.
-
-- `bucket_regional_domain_name` (`string`, default: `null`)
-
-  S3 bucket domain. Either `bucket` or `bucket_regional_domain_name` is required. Disables fetching the bucket using `data.aws_s3_bucket`.
-
-- `create` (`bool`, default: `true`)
-
-  Should resources be created
-
-- `headers` (`map(string)`, default: `{}`)
-
-  Additional headers to pass to S3
-
-- `path` (`string`, default: `""`)
-
-  Base S3 object path
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_bucket"></a> [bucket](#input\_bucket) | S3 bucket name. Either `bucket` or `bucket_regional_domain_name` is required. The bucket domain will be fetched using `data.aws_s3_bucket`. | `string` | `null` | no |
+| <a name="input_bucket_regional_domain_name"></a> [bucket\_regional\_domain\_name](#input\_bucket\_regional\_domain\_name) | S3 bucket domain. Either `bucket` or `bucket_regional_domain_name` is required. Disables fetching the bucket using `data.aws_s3_bucket`. | `string` | `null` | no |
+| <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
+| <a name="input_headers"></a> [headers](#input\_headers) | Additional headers to pass to S3 | `map(string)` | `{}` | no |
+| <a name="input_path"></a> [path](#input\_path) | Base S3 object path | `string` | `""` | no |
 
 ## Outputs
 
-- `domain`
-
-  S3 bucket domain
-
-- `headers`
-
-  Additional headers to pass to S3
-
-- `path`
-
-  Base S3 object path
+| Name | Description |
+|------|-------------|
+| <a name="output_domain"></a> [domain](#output\_domain) | S3 bucket domain |
+| <a name="output_headers"></a> [headers](#output\_headers) | Additional headers to pass to S3 |
+| <a name="output_path"></a> [path](#output\_path) | Base S3 object path |
+<!-- END_TF_DOCS -->
