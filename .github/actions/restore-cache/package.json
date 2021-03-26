@@ -5,8 +5,14 @@
   "keywords": [],
   "author": "codequest",
   "license": "MIT",
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt"
+  },
   "dependencies": {
     "@actions/cache": "^1.0.6",
     "@actions/core": "^1.2.6"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.27.0"
   }
 }

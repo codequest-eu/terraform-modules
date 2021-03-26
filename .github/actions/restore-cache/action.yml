@@ -13,4 +13,4 @@ outputs:
     description: A boolean value to indicate an exact match was found for the primary key
 runs:
   using: node12
-  main: index.js
+  main: dist/index.js
