@@ -2,16 +2,16 @@
 
 Common cloudwatch-related constants, like the color palette cloudwatch uses by default.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Outputs
 
-* `colors`
+- `colors`
 
-    Cloudwatch default color palette
+  Cloudwatch default color palette

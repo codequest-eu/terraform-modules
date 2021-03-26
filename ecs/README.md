@@ -34,193 +34,191 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
   Creates an ECS task definition
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `availability_zones_count` (`number`, default: `2`)
+- `availability_zones_count` (`number`, default: `2`)
 
-    Number of availability zones the network should span
+  Number of availability zones the network should span
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `environment` (`string`, required)
+- `environment` (`string`, required)
 
-    Kebab-cased environment name, eg. development, staging, production.
+  Kebab-cased environment name, eg. development, staging, production.
 
-* `nat_instance` (`bool`, default: `false`)
+- `nat_instance` (`bool`, default: `false`)
 
-    Use NAT instances instead of NAT gateways.
+  Use NAT instances instead of NAT gateways.
 
-* `nat_instance_type` (`string`, default: `"t3.nano"`)
+- `nat_instance_type` (`string`, default: `"t3.nano"`)
 
-    EC2 instance type to use to create a NAT instance.
+  EC2 instance type to use to create a NAT instance.
 
-* `project` (`string`, required)
+- `project` (`string`, required)
 
-    Kebab-cased project name
+  Kebab-cased project name
 
-* `project_index` (`number`, required)
+- `project_index` (`number`, required)
 
-    Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project_index}.0.0/16
+  Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project_index}.0.0/16
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Cluster ARN
+  Cluster ARN
 
-* `availability_zones`
+- `availability_zones`
 
-    The availability zones in which corresponding public and private subnets were created
+  The availability zones in which corresponding public and private subnets were created
 
-* `host_profile_arn`
+- `host_profile_arn`
 
-    ECS host instance profile ARN
+  ECS host instance profile ARN
 
-* `host_profile_id`
+- `host_profile_id`
 
-    ECS host instance profile ID
+  ECS host instance profile ID
 
-* `host_profile_name`
+- `host_profile_name`
 
-    ECS host instance profile name
+  ECS host instance profile name
 
-* `host_role_arn`
+- `host_role_arn`
 
-    ECS host role ARN
+  ECS host role ARN
 
-* `host_role_name`
+- `host_role_name`
 
-    ECS host role name
+  ECS host role name
 
-* `hosts_security_group_arn`
+- `hosts_security_group_arn`
 
-    The ARN of the Security Group which should be used by host instances
+  The ARN of the Security Group which should be used by host instances
 
-* `hosts_security_group_id`
+- `hosts_security_group_id`
 
-    The ID of the Security Group which should be used by host instances
+  The ID of the Security Group which should be used by host instances
 
-* `http_listener_arn`
+- `http_listener_arn`
 
-    The ARN of the ALB's HTTP Listener
+  The ARN of the ALB's HTTP Listener
 
-* `https_listener_arn`
+- `https_listener_arn`
 
-    The ARN of the ALB's HTTPS Listener
+  The ARN of the ALB's HTTPS Listener
 
-* `internet_gateway_id`
+- `internet_gateway_id`
 
-    The ID of the Internet Gateway
+  The ID of the Internet Gateway
 
-* `lb_metrics`
+- `lb_metrics`
 
-    Load balancer related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+  Load balancer related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
 
-* `lb_widgets`
+- `lb_widgets`
 
-    Load balancer related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+  Load balancer related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
 
-* `load_balancer_arn`
+- `load_balancer_arn`
 
-    The ARN of the Application Load Balancer
+  The ARN of the Application Load Balancer
 
-* `load_balancer_domain`
+- `load_balancer_domain`
 
-    The domain name of the Application Load Balancer
+  The domain name of the Application Load Balancer
 
-* `load_balancer_id`
+- `load_balancer_id`
 
-    The ID of the Application Load Balancer
+  The ID of the Application Load Balancer
 
-* `load_balancer_security_group_arn`
+- `load_balancer_security_group_arn`
 
-    The ARN of the Application Load Balancer's Security Group
+  The ARN of the Application Load Balancer's Security Group
 
-* `load_balancer_security_group_id`
+- `load_balancer_security_group_id`
 
-    The ID of the Application Load Balancer's Security Group
+  The ID of the Application Load Balancer's Security Group
 
-* `load_balancer_zone_id`
+- `load_balancer_zone_id`
 
-    The canonical hosted zone ID of the Application Load Balancer (to be used in a Route 53 Alias record)
+  The canonical hosted zone ID of the Application Load Balancer (to be used in a Route 53 Alias record)
 
-* `metrics`
+- `metrics`
 
-    ECS cluster Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details
+  ECS cluster Cloudwatch metrics, see [metrics.tf](./metrics.tf) for details
 
-* `name`
+- `name`
 
-    Cluster name
+  Cluster name
 
-* `nat_gateway_metrics`
+- `nat_gateway_metrics`
 
-    NAT gateway related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+  NAT gateway related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
 
-* `nat_gateway_widgets`
+- `nat_gateway_widgets`
 
-    NAT gateway related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+  NAT gateway related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
 
-* `nat_instance_metrics`
+- `nat_instance_metrics`
 
-    NAT instance related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
+  NAT instance related Cloudwatch metrics, see [network/metrics.tf](./network/metrics.tf)
 
-* `nat_instance_widgets`
+- `nat_instance_widgets`
 
-    NAT instance related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
+  NAT instance related Cloudwatch dashboard widgets, see [network/widgets.tf](./network/widgets.tf)
 
-* `private_blocks`
+- `private_blocks`
 
-    The CIDR blocks of private subnets
+  The CIDR blocks of private subnets
 
-* `private_subnet_ids`
+- `private_subnet_ids`
 
-    The IDs of private subnets
+  The IDs of private subnets
 
-* `public_blocks`
+- `public_blocks`
 
-    The CIDR blocks of public subnets
+  The CIDR blocks of public subnets
 
-* `public_gateway_ips`
+- `public_gateway_ips`
 
-    The public IP addresses of nat gateways used for outbound traffic
+  The public IP addresses of nat gateways used for outbound traffic
 
-* `public_subnet_ids`
+- `public_subnet_ids`
 
-    The IDs of public subnets
+  The IDs of public subnets
 
-* `vpc_block`
+- `vpc_block`
 
-    The CIDR block of the VPC
+  The CIDR block of the VPC
 
-* `vpc_id`
+- `vpc_id`
 
-    The ID of the VPC
+  The ID of the VPC
 
-* `web_service_role_arn`
+- `web_service_role_arn`
 
-    ECS web service task role ARN
+  ECS web service task role ARN
 
-* `web_service_role_name`
+- `web_service_role_name`
 
-    ECS web service task role name
+  ECS web service task role name
 
-* `widgets`
+- `widgets`
 
-    ECS cluster Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details
+  ECS cluster Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details

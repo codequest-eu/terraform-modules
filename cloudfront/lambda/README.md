@@ -2,62 +2,60 @@
 
 AWS Lambda middleware for AWS CloudFront
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `archive` | `>= 1.2.2` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `archive` | `>= 1.2.2`   |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `code` (`string`, required)
+- `code` (`string`, required)
 
-    Lambda code
+  Lambda code
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `handler` (`string`, default: `"index.handler"`)
+- `handler` (`string`, default: `"index.handler"`)
 
-    Path to the function which will handle lambda calls
+  Path to the function which will handle lambda calls
 
-* `include_body` (`bool`, default: `false`)
+- `include_body` (`bool`, default: `false`)
 
-    Whether the lambda requires viewer/origin request body
+  Whether the lambda requires viewer/origin request body
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Lambda name
+  Lambda name
 
-* `runtime` (`string`, default: `"nodejs12.x"`)
+- `runtime` (`string`, default: `"nodejs12.x"`)
 
-    Lambda runtime
+  Lambda runtime
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Lambda ARN
+  Lambda ARN
 
-* `include_body`
+- `include_body`
 
-    Whether cloudfront should include the viewer/origin request body
+  Whether cloudfront should include the viewer/origin request body
 
-* `metrics`
+- `metrics`
 
-    Cloudwatch monitoring metrics
+  Cloudwatch monitoring metrics
 
-* `widgets`
+- `widgets`
 
-    Cloudwatch dashboard widgets
+  Cloudwatch dashboard widgets

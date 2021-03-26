@@ -2,50 +2,48 @@
 
 `spa` internal module which creates a single Lambda@Edge function to be attached to a CloudFront distribution as middleware.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `archive` | `>= 1.2.2` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `archive` | `>= 1.2.2`   |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `code` (`string`, required)
+- `code` (`string`, required)
 
-    Lambda code
+  Lambda code
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `handler` (`string`, default: `"index.handler"`)
+- `handler` (`string`, default: `"index.handler"`)
 
-    Path to the function which will handle lambda calls
+  Path to the function which will handle lambda calls
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Lambda name
+  Lambda name
 
-* `role_arn` (`string`, required)
+- `role_arn` (`string`, required)
 
-    Role which should be assumed by the Lambda, created by middleware_common module
+  Role which should be assumed by the Lambda, created by middleware_common module
 
-* `runtime` (`string`, default: `"nodejs10.x"`)
+- `runtime` (`string`, default: `"nodejs10.x"`)
 
-    Lambda runtime
+  Lambda runtime
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Lambda ARN
+  Lambda ARN

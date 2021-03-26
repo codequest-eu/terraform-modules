@@ -2,48 +2,46 @@
 
 HTTPS origin factory for the `cloudfront` module
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `domain` (`string`, required)
+- `domain` (`string`, required)
 
-    Domain where the origin is hosted
+  Domain where the origin is hosted
 
-* `headers` (`map(string)`, default: `{}`)
+- `headers` (`map(string)`, default: `{}`)
 
-    Additional headers to pass to the origin
+  Additional headers to pass to the origin
 
-* `path` (`string`, default: `""`)
+- `path` (`string`, default: `""`)
 
-    Path where the origin is hosted
+  Path where the origin is hosted
 
-* `port` (`number`, default: `null`)
+- `port` (`number`, default: `null`)
 
-    Port on which the origin listens for HTTP/HTTPS requests
-
-
+  Port on which the origin listens for HTTP/HTTPS requests
 
 ## Outputs
 
-* `domain`
+- `domain`
 
-    Domain where the origin is hosted
+  Domain where the origin is hosted
 
-* `headers`
+- `headers`
 
-    Additional headers to pass to the origin
+  Additional headers to pass to the origin
 
-* `path`
+- `path`
 
-    Path where the origin is hosted
+  Path where the origin is hosted
 
-* `port`
+- `port`
 
-    Port on which the origin listens for HTTP/HTTPS requests
+  Port on which the origin listens for HTTP/HTTPS requests

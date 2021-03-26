@@ -1,75 +1,73 @@
 # cloudwatch/metric
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `color` (`string`, default: `null`)
+- `color` (`string`, default: `null`)
 
-    Color to use in graphs
+  Color to use in graphs
 
-* `dimensions` (`map(string)`, default: `{}`)
+- `dimensions` (`map(string)`, default: `{}`)
 
-    Additional metric filters, eg. `{ InstanceId = i-abc123 }`
+  Additional metric filters, eg. `{ InstanceId = i-abc123 }`
 
-* `label` (`string`, default: `null`)
+- `label` (`string`, default: `null`)
 
-    Human-friendly metric description
+  Human-friendly metric description
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Name of the metric, eg. `CPUUtilization`
+  Name of the metric, eg. `CPUUtilization`
 
-* `namespace` (`string`, required)
+- `namespace` (`string`, required)
 
-    Namespace of the metric, eg. `AWS/EC2`
+  Namespace of the metric, eg. `AWS/EC2`
 
-* `period` (`number`, default: `60`)
+- `period` (`number`, default: `60`)
 
-    Metric aggregation period in seconds
+  Metric aggregation period in seconds
 
-* `stat` (`string`, default: `"Average"`)
+- `stat` (`string`, default: `"Average"`)
 
-    Metric aggregation function
-
-
+  Metric aggregation function
 
 ## Outputs
 
-* `color`
+- `color`
 
-    Metric color to use in graphs
+  Metric color to use in graphs
 
-* `dimensions`
+- `dimensions`
 
-    Additional metric filters, eg. `{ InstanceId = i-abc123 }`
+  Additional metric filters, eg. `{ InstanceId = i-abc123 }`
 
-* `id`
+- `id`
 
-    Metric id to use in expressions
+  Metric id to use in expressions
 
-* `label`
+- `label`
 
-    Human-friendly metric description
+  Human-friendly metric description
 
-* `name`
+- `name`
 
-    Name of the metric, eg. `CPUUtilization`
+  Name of the metric, eg. `CPUUtilization`
 
-* `namespace`
+- `namespace`
 
-    Namespace of the metric, eg. `AWS/EC2`
+  Namespace of the metric, eg. `AWS/EC2`
 
-* `period`
+- `period`
 
-    Metric aggregation period in seconds
+  Metric aggregation period in seconds
 
-* `stat`
+- `stat`
 
-    Metric aggregation function
+  Metric aggregation function

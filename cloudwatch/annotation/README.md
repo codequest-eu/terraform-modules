@@ -2,64 +2,62 @@
 
 Prepares an annotation structure for widget modules.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
+| Provider  | Requirements  |
+| --------- | ------------- |
 | terraform | (any version) |
 
 ## Inputs
 
-* `color` (`string`, default: `null`)
+- `color` (`string`, default: `null`)
 
-    Annotation color
+  Annotation color
 
-* `fill` (`string`, default: `"none"`)
+- `fill` (`string`, default: `"none"`)
 
-    Fill mode, one of (horizontal/vertical): `above`/`after`, `below`/`before`, `none`
+  Fill mode, one of (horizontal/vertical): `above`/`after`, `below`/`before`, `none`
 
-* `label` (`string`, default: `null`)
+- `label` (`string`, default: `null`)
 
-    Annotation label
+  Annotation label
 
-* `labels` (`tuple([string, string])`, default: `null`)
+- `labels` (`tuple([string, string])`, default: `null`)
 
-    Band annotation labels for minimum/start and maximum/end lines
+  Band annotation labels for minimum/start and maximum/end lines
 
-* `time` (`string`, default: `null`)
+- `time` (`string`, default: `null`)
 
-    Vertical annotation timestamp
+  Vertical annotation timestamp
 
-* `time_range` (`tuple([string, string])`, default: `null`)
+- `time_range` (`tuple([string, string])`, default: `null`)
 
-    Vertical band annotation start and end timestamps
+  Vertical band annotation start and end timestamps
 
-* `value` (`number`, default: `null`)
+- `value` (`number`, default: `null`)
 
-    Horizontal annotation value
+  Horizontal annotation value
 
-* `value_range` (`tuple([number, number])`, default: `null`)
+- `value_range` (`tuple([number, number])`, default: `null`)
 
-    Horizontal band annotation minimum and maximum values
-
-
+  Horizontal band annotation minimum and maximum values
 
 ## Outputs
 
-* `body`
+- `body`
 
-    Annotation structure used by widget modules
+  Annotation structure used by widget modules
 
-* `is_band`
+- `is_band`
 
-    Whether this is a band annotation
+  Whether this is a band annotation
 
-* `is_horizontal`
+- `is_horizontal`
 
-    Whether this is a horizontal annotation
+  Whether this is a horizontal annotation
 
-* `is_vertical`
+- `is_vertical`
 
-    Whether this is a vertical annotation
+  Whether this is a vertical annotation

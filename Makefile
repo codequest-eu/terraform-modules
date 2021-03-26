@@ -3,18 +3,10 @@ MODULE_DOC_PATHS:=$(shell find . -name README.md -exec grep -qF '<!-- bin/docs -
 
 all : $(MODULE_PATHS) $(MODULE_DOC_PATHS)
 
-clean :
-	rm -f tools/bin/docs
-
 $(MODULE_PATHS) :
 	terraform fmt $@
 
-$(MODULE_DOC_PATHS) : tools/bin/docs tools/bin/update-docs
+$(MODULE_DOC_PATHS) :
 	tools/bin/update-docs $@
 
-tools : tools/bin/docs
-
-tools/bin/docs : tools/docs/main.go tools/docs/go.mod tools/docs/go.sum
-	cd tools/docs && go build -o ../bin/docs
-
-.PHONY : all clean tools $(MODULE_PATHS) $(MODULE_DOC_PATHS)
+.PHONY : all $(MODULE_PATHS) $(MODULE_DOC_PATHS)

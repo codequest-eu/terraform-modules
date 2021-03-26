@@ -2,37 +2,35 @@
 
 Creates a set of IAM users with access keys
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `name_prefix` (`string`, default: `""`)
+- `name_prefix` (`string`, default: `""`)
 
-    Kebab-cased prefix which will be added to all user names
+  Kebab-cased prefix which will be added to all user names
 
-* `policy_arns` (`map(map(string))`, required)
+- `policy_arns` (`map(map(string))`, required)
 
-    Map of user names to maps of policies that should be attached to them
+  Map of user names to maps of policies that should be attached to them
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `users`
+- `users`
 
-    Map of created users
+  Map of created users

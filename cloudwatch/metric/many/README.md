@@ -2,32 +2,30 @@
 
 Same as [cloudwatch/metric](./..) but allows for creating many metrics using a single module
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `vars` (`any`, default: `[]`)
+- `vars` (`any`, default: `[]`)
 
-    List of [cloudwatch/metric](./..) variables
+  List of [cloudwatch/metric](./..) variables
 
-* `vars_map` (`any`, default: `{}`)
+- `vars_map` (`any`, default: `{}`)
 
-    Map of [cloudwatch/metric](./..) variables
-
-
+  Map of [cloudwatch/metric](./..) variables
 
 ## Outputs
 
-* `out`
+- `out`
 
-    List of [cloudwatch/metric](./..) outputs
+  List of [cloudwatch/metric](./..) outputs
 
-* `out_map`
+- `out_map`
 
-    Map of [cloudwatch/metric](./..) outputs
+  Map of [cloudwatch/metric](./..) outputs

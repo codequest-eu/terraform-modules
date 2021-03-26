@@ -15,64 +15,61 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 >
 > Figure out a better way to handle this or at least add a CI step to verify `dist` is up-to-date.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `database_url` (`string`, required)
+- `database_url` (`string`, required)
 
-    Database URL with master credentials
+  Database URL with master credentials
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Lambda name
+  Lambda name
 
-* `subnet_ids` (`list(string)`, required)
+- `subnet_ids` (`list(string)`, required)
 
-    Ids of subnets to place the lambda in
+  Ids of subnets to place the lambda in
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
+  Tags to add to resources that support them
 
-* `vpc_id` (`string`, required)
+- `vpc_id` (`string`, required)
 
-    Id of the VPC to place the lambda in
-
-
+  Id of the VPC to place the lambda in
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    The ARN identifying the Lambda Function
+  The ARN identifying the Lambda Function
 
-* `invoke_script`
+- `invoke_script`
 
-    Shell script for invoking the lambda using AWS CLI.
-    Expects the event JSON to be passed via `$EVENT` environment variable.
-    Useful for invoking the lambda during `terraform apply` using `null_resource`.
+  Shell script for invoking the lambda using AWS CLI.
+  Expects the event JSON to be passed via `$EVENT` environment variable.
+  Useful for invoking the lambda during `terraform apply` using `null_resource`.
 
+- `name`
 
-* `name`
+  The Lambda Function name
 
-    The Lambda Function name
+- `qualified_arn`
 
-* `qualified_arn`
+  The ARN identifying the Lambda Function Version
 
-    The ARN identifying the Lambda Function Version
+- `security_group_id`
 
-* `security_group_id`
-
-    Security group id
+  Security group id

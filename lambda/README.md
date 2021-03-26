@@ -2,147 +2,137 @@
 
 Creates an AWS Lambda function
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `assume_role_principals` (`list(string)`, default: `[]`)
+- `assume_role_principals` (`list(string)`, default: `[]`)
 
-    Which additional AWS services can assume the lambda role and invoke it
+  Which additional AWS services can assume the lambda role and invoke it
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `environment_variables` (`map(string)`, default: `{}`)
+- `environment_variables` (`map(string)`, default: `{}`)
 
-    Environment variables
+  Environment variables
 
-* `file_exclude_patterns` (`list(string)`, default: `[]`)
+- `file_exclude_patterns` (`list(string)`, default: `[]`)
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-    Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.
+  Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.
 
+- `file_patterns` (`list(string)`, default: `["**"]`)
 
-* `file_patterns` (`list(string)`, default: `["**"]`)
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  Source code file path patterns to narrow `files_dir` contents.
 
-    Source code file path patterns to narrow `files_dir` contents.
+- `files` (`map(string)`, default: `null`)
 
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-* `files` (`map(string)`, default: `null`)
+  Source code map. Either `files` or `files_dir` has to be specified
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+- `files_dir` (`string`, default: `null`)
 
-    Source code map. Either `files` or `files_dir` has to be specified
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
+  Source code directory path. Either `files` or `files_dir` has to be specified
 
-* `files_dir` (`string`, default: `null`)
+- `handler` (`string`, default: `"index.handler"`)
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  Path to the event handler
 
-    Source code directory path. Either `files` or `files_dir` has to be specified
+- `layer_qualified_arns` (`list(string)`, default: `[]`)
 
+  Lambda layers to include
 
-* `handler` (`string`, default: `"index.handler"`)
+- `memory_size` (`number`, default: `128`)
 
-    Path to the event handler
+  Amount of memory in MB your Lambda Function can use at runtime
 
-* `layer_qualified_arns` (`list(string)`, default: `[]`)
+- `name` (`string`, required)
 
-    Lambda layers to include
+  Lambda name
 
-* `memory_size` (`number`, default: `128`)
+- `package_path` (`string`, default: `null`)
 
-    Amount of memory in MB your Lambda Function can use at runtime
+  Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required.
 
-* `name` (`string`, required)
+- `package_s3` (`object({ bucket = string key = string })`, default: `null`)
 
-    Lambda name
+  S3 zip object that contains the Lambda's source. Either `package_path` or `package_s3` is required.
 
-* `package_path` (`string`, default: `null`)
+- `package_s3_version` (`string`, default: `null`)
 
-    Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required.
+  Version number of the S3 object to use
 
-* `package_s3` (`object({
-    bucket = string
-    key    = string
-  })`, default: `null`)
+- `policy_arns` (`map(string)`, default: `{}`)
 
-    S3 zip object that contains the Lambda's source. Either `package_path` or `package_s3` is required.
+  Additional policy ARNs to attach to the Lambda role
 
-* `package_s3_version` (`string`, default: `null`)
+- `runtime` (`string`, default: `"nodejs12.x"`)
 
-    Version number of the S3 object to use
+  [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime)
 
-* `policy_arns` (`map(string)`, default: `{}`)
+- `security_group_ids` (`list(string)`, default: `null`)
 
-    Additional policy ARNs to attach to the Lambda role
+  Security groups to assign
 
-* `runtime` (`string`, default: `"nodejs12.x"`)
+- `subnet_ids` (`list(string)`, default: `null`)
 
-    [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime)
+  Subnet ids to place the lambda in
 
-* `security_group_ids` (`list(string)`, default: `null`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Security groups to assign
+  Tags to set on resources that support them
 
-* `subnet_ids` (`list(string)`, default: `null`)
+- `timeout` (`number`, default: `3`)
 
-    Subnet ids to place the lambda in
-
-* `tags` (`map(string)`, default: `{}`)
-
-    Tags to set on resources that support them
-
-* `timeout` (`number`, default: `3`)
-
-    The amount of time your Lambda Function has to run in seconds
-
-
+  The amount of time your Lambda Function has to run in seconds
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    The ARN identifying the Lambda Function
+  The ARN identifying the Lambda Function
 
-* `invoke_arn`
+- `invoke_arn`
 
-    The ARN to be used for invoking Lambda Function from API Gateway
+  The ARN to be used for invoking Lambda Function from API Gateway
 
-* `invoke_script`
+- `invoke_script`
 
-    Shell script for invoking the lambda using AWS CLI.
-    Expects the event JSON to be passed via `$EVENT` environment variable.
-    Useful for invoking the lambda during `terraform apply` using `null_resource`.
+  Shell script for invoking the lambda using AWS CLI.
+  Expects the event JSON to be passed via `$EVENT` environment variable.
+  Useful for invoking the lambda during `terraform apply` using `null_resource`.
 
+- `metrics`
 
-* `metrics`
+  Cloudwatch monitoring metrics
 
-    Cloudwatch monitoring metrics
+- `name`
 
-* `name`
+  The Lambda Function name
 
-    The Lambda Function name
+- `qualified_arn`
 
-* `qualified_arn`
+  The ARN identifying the Lambda Function Version
 
-    The ARN identifying the Lambda Function Version
+- `version`
 
-* `version`
+  Latest published version of the Lambda Function
 
-    Latest published version of the Lambda Function
+- `widgets`
 
-* `widgets`
-
-    Cloudwatch dashboard widgets
+  Cloudwatch dashboard widgets

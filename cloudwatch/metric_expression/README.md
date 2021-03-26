@@ -1,43 +1,41 @@
 # cloudwatch/metric_expression
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `color` (`string`, default: `null`)
+- `color` (`string`, default: `null`)
 
-    Color to use in graphs
+  Color to use in graphs
 
-* `expression` (`string`, required)
+- `expression` (`string`, required)
 
-    Metric expression, eg. 'm1 + m2'
+  Metric expression, eg. 'm1 + m2'
 
-* `label` (`string`, default: `null`)
+- `label` (`string`, default: `null`)
 
-    Human-friendly metric description
-
-
+  Human-friendly metric description
 
 ## Outputs
 
-* `color`
+- `color`
 
-    Metric color to use in graphs
+  Metric color to use in graphs
 
-* `expression`
+- `expression`
 
-    Metric expression, eg. 'm1 + m2'
+  Metric expression, eg. 'm1 + m2'
 
-* `id`
+- `id`
 
-    Metric id to use in expressions
+  Metric id to use in expressions
 
-* `label`
+- `label`
 
-    Human-friendly metric description
+  Human-friendly metric description

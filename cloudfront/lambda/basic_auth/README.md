@@ -2,48 +2,46 @@
 
 Basic authentication middleware for AWS CloudFront
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `credentials` (`string`, required)
+- `credentials` (`string`, required)
 
-    Basic auth credentials
+  Basic auth credentials
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Lambda name
+  Lambda name
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Lambda ARN
+  Lambda ARN
 
-* `include_body`
+- `include_body`
 
-    Whether cloudfront should include the viewer/origin request body
+  Whether cloudfront should include the viewer/origin request body
 
-* `metrics`
+- `metrics`
 
-    Cloudwatch monitoring metrics
+  Cloudwatch monitoring metrics
 
-* `widgets`
+- `widgets`
 
-    Cloudwatch dashboard widgets
+  Cloudwatch dashboard widgets

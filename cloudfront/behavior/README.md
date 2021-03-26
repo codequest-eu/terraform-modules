@@ -2,120 +2,118 @@
 
 Behavior factory for the `cloudfront` module
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `allowed_methods` (`list(string)`, default: `["GET","HEAD","OPTIONS"]`)
+- `allowed_methods` (`list(string)`, default: `["GET","HEAD","OPTIONS"]`)
 
-    HTTP methods forwarded to the origin
+  HTTP methods forwarded to the origin
 
-* `cached_cookies` (`list(string)`, default: `[]`)
+- `cached_cookies` (`list(string)`, default: `[]`)
 
-    Which cookies should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all cookies.
+  Which cookies should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all cookies.
 
-* `cached_headers` (`list(string)`, default: `[]`)
+- `cached_headers` (`list(string)`, default: `[]`)
 
-    Which headers should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all headers.
+  Which headers should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all headers.
 
-* `cached_methods` (`list(string)`, default: `["GET","HEAD","OPTIONS"]`)
+- `cached_methods` (`list(string)`, default: `["GET","HEAD","OPTIONS"]`)
 
-    HTTP methods that should be cached
+  HTTP methods that should be cached
 
-* `cached_query_keys` (`list(string)`, default: `[]`)
+- `cached_query_keys` (`list(string)`, default: `[]`)
 
-    Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys.
+  Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys.
 
-* `compress` (`bool`, default: `true`)
+- `compress` (`bool`, default: `true`)
 
-    Whether to compress origin responses using gzip.
+  Whether to compress origin responses using gzip.
 
-* `forward_query` (`bool`, default: `false`)
+- `forward_query` (`bool`, default: `false`)
 
-    Whether to forward the URL query to the origin.
+  Whether to forward the URL query to the origin.
 
-* `origin_id` (`string`, required)
+- `origin_id` (`string`, required)
 
-    Id of the origin that requests will be forwarded to.
+  Id of the origin that requests will be forwarded to.
 
-* `origin_request_lambda` (`object({ arn = string, include_body = bool })`, default: `null`)
+- `origin_request_lambda` (`object({ arn = string, include_body = bool })`, default: `null`)
 
-    Lambda function to invoke before CloudFront sends a request to the origin
+  Lambda function to invoke before CloudFront sends a request to the origin
 
-* `origin_response_lambda` (`object({ arn = string })`, default: `null`)
+- `origin_response_lambda` (`object({ arn = string })`, default: `null`)
 
-    Lambda function to invoke when CloudFront receives a response from origin
+  Lambda function to invoke when CloudFront receives a response from origin
 
-* `path` (`string`, default: `null`)
+- `path` (`string`, default: `null`)
 
-    Path the behavior should apply to
+  Path the behavior should apply to
 
-* `viewer_request_lambda` (`object({ arn = string, include_body = bool })`, default: `null`)
+- `viewer_request_lambda` (`object({ arn = string, include_body = bool })`, default: `null`)
 
-    Lambda function to invoke when CloudFront receives a request
+  Lambda function to invoke when CloudFront receives a request
 
-* `viewer_response_lambda` (`object({ arn = string })`, default: `null`)
+- `viewer_response_lambda` (`object({ arn = string })`, default: `null`)
 
-    Lambda function to invoke before CloudFront returns a response
-
-
+  Lambda function to invoke before CloudFront returns a response
 
 ## Outputs
 
-* `allowed_methods`
+- `allowed_methods`
 
-    HTTP methods forwarded to the origin
+  HTTP methods forwarded to the origin
 
-* `cached_cookies`
+- `cached_cookies`
 
-    Which cookies should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all cookies.
+  Which cookies should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all cookies.
 
-* `cached_headers`
+- `cached_headers`
 
-    Which headers should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all headers.
+  Which headers should be forwarded to the origin and included in the cache key. Pass `["*"]` to forward all headers.
 
-* `cached_methods`
+- `cached_methods`
 
-    HTTP methods that should be cached
+  HTTP methods that should be cached
 
-* `cached_query_keys`
+- `cached_query_keys`
 
-    Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys.
+  Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys.
 
-* `compress`
+- `compress`
 
-    Whether to compress origin responses using gzip.
+  Whether to compress origin responses using gzip.
 
-* `forward_query`
+- `forward_query`
 
-    Whether to forward the URL query to the origin.
+  Whether to forward the URL query to the origin.
 
-* `origin_id`
+- `origin_id`
 
-    Id of the origin that requests will be forwarded to.
+  Id of the origin that requests will be forwarded to.
 
-* `origin_request_lambda`
+- `origin_request_lambda`
 
-    Lambda function to invoke before CloudFront sends a request to the origin
+  Lambda function to invoke before CloudFront sends a request to the origin
 
-* `origin_response_lambda`
+- `origin_response_lambda`
 
-    Lambda function to invoke when CloudFront receives a response from origin
+  Lambda function to invoke when CloudFront receives a response from origin
 
-* `path`
+- `path`
 
-    Path the behavior should apply to
+  Path the behavior should apply to
 
-* `viewer_request_lambda`
+- `viewer_request_lambda`
 
-    Lambda function to invoke when CloudFront receives a request
+  Lambda function to invoke when CloudFront receives a request
 
-* `viewer_response_lambda`
+- `viewer_response_lambda`
 
-    Lambda function to invoke before CloudFront returns a response
+  Lambda function to invoke before CloudFront returns a response

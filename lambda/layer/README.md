@@ -2,88 +2,79 @@
 
 Creates an AWS Lambda Layer that can be attached to a AWS Lambda Function
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `file_exclude_patterns` (`list(string)`, default: `[]`)
+- `file_exclude_patterns` (`list(string)`, default: `[]`)
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-    Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.
+  Source code file exclusion patterns in case some unnecessary files are matched by `file_paths`.
 
+- `file_patterns` (`list(string)`, default: `["**"]`)
 
-* `file_patterns` (`list(string)`, default: `["**"]`)
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  Source code file path patterns to narrow `files_dir` contents.
 
-    Source code file path patterns to narrow `files_dir` contents.
+- `files` (`map(string)`, default: `null`)
 
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
-* `files` (`map(string)`, default: `null`)
+  Source code map. Either `files` or `files_dir` has to be specified
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+- `files_dir` (`string`, default: `null`)
 
-    Source code map. Either `files` or `files_dir` has to be specified
+  **Deprecated. Use the `zip` module and `package_path` input instead.**
 
+  Source code directory path. Either `files` or `files_dir` has to be specified
 
-* `files_dir` (`string`, default: `null`)
+- `name` (`string`, required)
 
-    **Deprecated. Use the `zip` module and `package_path` input instead.**
+  Lambda layer name
 
-    Source code directory path. Either `files` or `files_dir` has to be specified
+- `package_path` (`string`, default: `null`)
 
+  Path to the zip that contains the Lambda layer's source. Either `package_path`, `package_s3` or `image` is required.
 
-* `name` (`string`, required)
+- `package_s3` (`object({ bucket = string key = string })`, default: `null`)
 
-    Lambda layer name
+  S3 zip object that contains the Lambda layer's source. Either `package_path` or `package_s3` is required.
 
-* `package_path` (`string`, default: `null`)
+- `package_s3_version` (`string`, default: `null`)
 
-    Path to the zip that contains the Lambda layer's source. Either `package_path`, `package_s3` or `image` is required.
+  Version number of the S3 object to use
 
-* `package_s3` (`object({
-    bucket = string
-    key    = string
-  })`, default: `null`)
+- `runtimes` (`list(string)`, default: `["nodejs12.x"]`)
 
-    S3 zip object that contains the Lambda layer's source. Either `package_path` or `package_s3` is required.
-
-* `package_s3_version` (`string`, default: `null`)
-
-    Version number of the S3 object to use
-
-* `runtimes` (`list(string)`, default: `["nodejs12.x"]`)
-
-    [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) compatible with this lambda layer
-
-
+  [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) compatible with this lambda layer
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    The ARN identifying the Lambda Layer
+  The ARN identifying the Lambda Layer
 
-* `name`
+- `name`
 
-    The Lambda Layer name
+  The Lambda Layer name
 
-* `qualified_arn`
+- `qualified_arn`
 
-    The ARN identifying the Lambda Layer Version
+  The ARN identifying the Lambda Layer Version
 
-* `version`
+- `version`
 
-    Latest published version of the Lambda Layer
+  Latest published version of the Lambda Layer

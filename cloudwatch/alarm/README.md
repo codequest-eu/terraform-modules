@@ -1,88 +1,85 @@
 # cloudwatch/alarm
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
+| Provider  | Requirements  |
+| --------- | ------------- |
 | terraform | (any version) |
-| `aws` | (any version) |
+| `aws`     | (any version) |
 
 ## Inputs
 
-* `condition` (`tuple([string, string, any])`, required)
+- `condition` (`tuple([string, string, any])`, required)
 
-    Alarm trigger condition as a `[metric_id, operator, threshold]` tuple, eg. `['m1', '<', 0]`.
+  Alarm trigger condition as a `[metric_id, operator, threshold]` tuple, eg. `['m1', '<', 0]`.
 
-    Supported operators:
+  Supported operators:
 
-    |||
-    |-|-|
-    | `<` | `LessThanThreshold` or `LessThanLowerThreshold` |
-    | `<=` | `LessThanOrEqualToThreshold` |
-    | `>` | `GreaterThanThreshold` or `GreaterThanUpperThreshold` |
-    | `>=` | `GreaterThanOrEqualToThreshold` |
-    | `<>` | `LessThanLowerOrGreaterThanUpperThreshold` |
+  |      |                                                       |
+  | ---- | ----------------------------------------------------- |
+  | `<`  | `LessThanThreshold` or `LessThanLowerThreshold`       |
+  | `<=` | `LessThanOrEqualToThreshold`                          |
+  | `>`  | `GreaterThanThreshold` or `GreaterThanUpperThreshold` |
+  | `>=` | `GreaterThanOrEqualToThreshold`                       |
+  | `<>` | `LessThanLowerOrGreaterThanUpperThreshold`            |
 
-    For anomaly detection `threshold` should be the id of the `ANOMALY_DETECTION_BAND` function.
+  For anomaly detection `threshold` should be the id of the `ANOMALY_DETECTION_BAND` function.
 
+- `condition_period` (`tuple([number, number])`, default: `[1,1]`)
 
-* `condition_period` (`tuple([number, number])`, default: `[1,1]`)
+      How many (N) periods have to meet the condition within the last M periods
 
-    How many (N) periods have to meet the condition within the last M periods
-to trigger the alarm, as a `[N, M]` tuple,
-eg. `[3, 4]` will require the condition to be met at least 3 times in the last 4 periods
+  to trigger the alarm, as a `[N, M]` tuple,
+  eg. `[3, 4]` will require the condition to be met at least 3 times in the last 4 periods
 
+- `create` (`bool`, default: `true`)
 
-* `create` (`bool`, default: `true`)
+  Should resources be created
 
-    Should resources be created
+- `description` (`string`, default: `""`)
 
-* `description` (`string`, default: `""`)
+  Alarm description
 
-    Alarm description
+- `metrics` (`any`, required)
 
-* `metrics` (`any`, required)
+  Metrics used by the alarm condition
 
-    Metrics used by the alarm condition
+- `name` (`string`, required)
 
-* `name` (`string`, required)
+  Alarm name
 
-    Alarm name
+- `no_data_actions` (`list(string)`, default: `[]`)
 
-* `no_data_actions` (`list(string)`, default: `[]`)
+  ARNs of actions that should be triggered when there's missing data
 
-    ARNs of actions that should be triggered when there's missing data
+- `no_data_behavior` (`string`, default: `"missing"`)
 
-* `no_data_behavior` (`string`, default: `"missing"`)
+  What to do with missing data, one of 'missing', 'ignore', 'breaching', 'notBreaching'
 
-    What to do with missing data, one of 'missing', 'ignore', 'breaching', 'notBreaching'
+- `off_actions` (`list(string)`, default: `[]`)
 
-* `off_actions` (`list(string)`, default: `[]`)
+  ARNs of actions that should be triggered when the alarm goes off
 
-    ARNs of actions that should be triggered when the alarm goes off
+- `on_actions` (`list(string)`, default: `[]`)
 
-* `on_actions` (`list(string)`, default: `[]`)
+  ARNs of actions that should be triggered when the alarm goes on
 
-    ARNs of actions that should be triggered when the alarm goes on
+- `tags` (`map(string)`, default: `{}`)
 
-* `tags` (`map(string)`, default: `{}`)
-
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Alarm ARN
+  Alarm ARN
 
-* `id`
+- `id`
 
-    Alarm healthcheck id
+  Alarm healthcheck id
 
-* `name`
+- `name`
 
-    Alarm name
+  Alarm name

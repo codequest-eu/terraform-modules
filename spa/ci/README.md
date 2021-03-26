@@ -6,49 +6,47 @@ Creates an AWS user for CI/CD pipelines which can update the contents of the giv
 >
 > `terraform-modules/spa` now provides an IAM policy which can be used with `terraform-modules/iam/user` to create a CI user
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `bucket_arns` (`list(string)`, required)
+- `bucket_arns` (`list(string)`, required)
 
-    AWS ARNs of all project SPA assets buckets
+  AWS ARNs of all project SPA assets buckets
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `project` (`string`, required)
+- `project` (`string`, required)
 
-    Kebab-cased project name
+  Kebab-cased project name
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Additional tags to apply to resources that support them.
-
-
+  Additional tags to apply to resources that support them.
 
 ## Outputs
 
-* `ci_access_key_id`
+- `ci_access_key_id`
 
-    AWS access key for CI user
+  AWS access key for CI user
 
-* `ci_secret_access_key`
+- `ci_secret_access_key`
 
-    AWS secret key for CI user
+  AWS secret key for CI user
 
-* `ci_user_arn`
+- `ci_user_arn`
 
-    CI AWS user ARN
+  CI AWS user ARN
 
-* `ci_user_name`
+- `ci_user_name`
 
-    CI AWS user
+  CI AWS user

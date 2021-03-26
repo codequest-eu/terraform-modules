@@ -2,57 +2,55 @@
 
 Creates an ECR repository and a policy for CI which allows push/pull access.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `image_name` (`string`, required)
+- `image_name` (`string`, required)
 
-    Container image name
+  Container image name
 
-* `project` (`string`, required)
+- `project` (`string`, required)
 
-    Kebab-cased project name
+  Kebab-cased project name
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    ECR repository ARN
+  ECR repository ARN
 
-* `ci_policy_arn`
+- `ci_policy_arn`
 
-    IAM policy ARN for CI
+  IAM policy ARN for CI
 
-* `ci_policy_name`
+- `ci_policy_name`
 
-    IAM policy name for CI
+  IAM policy name for CI
 
-* `name`
+- `name`
 
-    ECR repository name
+  ECR repository name
 
-* `registry_id`
+- `registry_id`
 
-    ECR registry id where the repository was created
+  ECR registry id where the repository was created
 
-* `url`
+- `url`
 
-    ECR repository URL
+  ECR repository URL

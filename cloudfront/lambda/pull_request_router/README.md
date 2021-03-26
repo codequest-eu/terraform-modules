@@ -2,48 +2,46 @@
 
 Pull request router for AWS CloudFront. Serves the right `index.html` based on a path prefix, by default `/PR-#/`. Useful for SPA preview environments.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `name` (`string`, required)
+- `name` (`string`, required)
 
-    Lambda name
+  Lambda name
 
-* `path_re` (`string`, default: `"^/(PR-\\d+)($|/)"`)
+- `path_re` (`string`, default: `"^/(PR-\\d+)($|/)"`)
 
-    Regular expression which extracts the base directory of a PR as it's first match group
+  Regular expression which extracts the base directory of a PR as it's first match group
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to resources that support them
-
-
+  Tags to add to resources that support them
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    Lambda ARN
+  Lambda ARN
 
-* `include_body`
+- `include_body`
 
-    Whether cloudfront should include the viewer/origin request body
+  Whether cloudfront should include the viewer/origin request body
 
-* `metrics`
+- `metrics`
 
-    Cloudwatch monitoring metrics
+  Cloudwatch monitoring metrics
 
-* `widgets`
+- `widgets`
 
-    Cloudwatch dashboard widgets
+  Cloudwatch dashboard widgets

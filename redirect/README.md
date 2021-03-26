@@ -9,82 +9,80 @@ Module creates:
 - AWS S3 bucket for redirection configuration
 - AWS CloudFront distribution for SSL termination and geographical distribution
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
-| `template` | `>= 2.1.2` |
+| Provider   | Requirements |
+| ---------- | ------------ |
+| terraform  | `>= 0.12`    |
+| `aws`      | `>= 2.40.0`  |
+| `template` | `>= 2.1.2`   |
 
 ## Inputs
 
-* `bucket` (`string`, required)
+- `bucket` (`string`, required)
 
-    Name for the S3 bucket which will do the redirect
+  Name for the S3 bucket which will do the redirect
 
-* `certificate_arn` (`string`, required)
+- `certificate_arn` (`string`, required)
 
-    ACM certificate ARN to use instead of the default cloudfront certificate
+  ACM certificate ARN to use instead of the default cloudfront certificate
 
-* `cloudfront_price_class` (`string`, default: `"PriceClass_100"`)
+- `cloudfront_price_class` (`string`, default: `"PriceClass_100"`)
 
-    CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass_100, PriceClass_200, PriceClass_All
+  CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass_100, PriceClass_200, PriceClass_All
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `domains` (`list(string)`, required)
+- `domains` (`list(string)`, required)
 
-    List of domains which will be redirected. If empty, will use the default cloudfront domain
+  List of domains which will be redirected. If empty, will use the default cloudfront domain
 
-* `host` (`string`, required)
+- `host` (`string`, required)
 
-    Target host to which all the requests will be redirected (does not contain protocol)
+  Target host to which all the requests will be redirected (does not contain protocol)
 
-* `protocol` (`string`, default: `"https"`)
+- `protocol` (`string`, default: `"https"`)
 
-    Target protocol to which all the requests will be redirected (http or https)
+  Target protocol to which all the requests will be redirected (http or https)
 
-* `redirect_status_code` (`number`, default: `302`)
+- `redirect_status_code` (`number`, default: `302`)
 
-    HTTP status code returned to the client
+  HTTP status code returned to the client
 
-* `tags` (`map(string)`, default: `{}`)
+- `tags` (`map(string)`, default: `{}`)
 
-    Tags to add to each resource that supports them
-
-
+  Tags to add to each resource that supports them
 
 ## Outputs
 
-* `bucket_arn`
+- `bucket_arn`
 
-    ARN of the created redirection S3 bucket
+  ARN of the created redirection S3 bucket
 
-* `bucket_name`
+- `bucket_name`
 
-    Name of the created redirection S3 bucket
+  Name of the created redirection S3 bucket
 
-* `distribution_arn`
+- `distribution_arn`
 
-    ARN of the created redirection CloudFront distribution
+  ARN of the created redirection CloudFront distribution
 
-* `distribution_domain`
+- `distribution_domain`
 
-    Domain of the created redirection CloudFront distribution, eg. d604721fxaaqy9.cloudfront.net.
+  Domain of the created redirection CloudFront distribution, eg. d604721fxaaqy9.cloudfront.net.
 
-* `distribution_id`
+- `distribution_id`
 
-    ID of the created redirection CloudFront distribution
+  ID of the created redirection CloudFront distribution
 
-* `distribution_url`
+- `distribution_url`
 
-    URL of the created redirection CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net.
+  URL of the created redirection CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net.
 
-* `distribution_zone_id`
+- `distribution_zone_id`
 
-    The CloudFront Route 53 zone ID that can be used to route an Alias Resource Record Set to.
+  The CloudFront Route 53 zone ID that can be used to route an Alias Resource Record Set to.

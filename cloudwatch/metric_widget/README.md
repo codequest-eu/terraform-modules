@@ -4,85 +4,83 @@ Prepares a metric widget object for `cloudwatch/dashboard`
 
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html#CloudWatch-Dashboard-Properties-Widgets-Structure
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `dimensions` (`tuple([number, number])`, default: `[6,6]`)
+- `dimensions` (`tuple([number, number])`, default: `[6,6]`)
 
-    Dimensions of the widget
+  Dimensions of the widget
 
-* `hidden_metrics` (`any`, default: `[]`)
+- `hidden_metrics` (`any`, default: `[]`)
 
-    Metrics used in expressions
+  Metrics used in expressions
 
-* `left_annotations` (`any`, default: `[]`)
+- `left_annotations` (`any`, default: `[]`)
 
-    Horizontal annotations to display on the widget's left Y axis
+  Horizontal annotations to display on the widget's left Y axis
 
-* `left_metrics` (`any`, default: `[]`)
+- `left_metrics` (`any`, default: `[]`)
 
-    Metrics to display on the widget's left Y axis
+  Metrics to display on the widget's left Y axis
 
-* `left_range` (`tuple([number, number])`, default: `[null,null]`)
+- `left_range` (`tuple([number, number])`, default: `[null,null]`)
 
-    Minimum and maximum values to display on the left Y axis
+  Minimum and maximum values to display on the left Y axis
 
-* `position` (`tuple([number, number])`, default: `null`)
+- `position` (`tuple([number, number])`, default: `null`)
 
-    Position of the widget
+  Position of the widget
 
-* `right_annotations` (`any`, default: `[]`)
+- `right_annotations` (`any`, default: `[]`)
 
-    Horizontal annotations to display on the widget's right Y axis
+  Horizontal annotations to display on the widget's right Y axis
 
-* `right_metrics` (`any`, default: `[]`)
+- `right_metrics` (`any`, default: `[]`)
 
-    Metrics to display on the widget's right Y axis
+  Metrics to display on the widget's right Y axis
 
-* `right_range` (`tuple([number, number])`, default: `[null,null]`)
+- `right_range` (`tuple([number, number])`, default: `[null,null]`)
 
-    Minimum and maximum values to display on the right Y axis
+  Minimum and maximum values to display on the right Y axis
 
-* `stacked` (`bool`, default: `false`)
+- `stacked` (`bool`, default: `false`)
 
-    Enable the stacked metrics layout
+  Enable the stacked metrics layout
 
-* `title` (`string`, required)
+- `title` (`string`, required)
 
-    Widget title
+  Widget title
 
-* `vertical_annotations` (`any`, default: `[]`)
+- `vertical_annotations` (`any`, default: `[]`)
 
-    Vertical annotations to display
+  Vertical annotations to display
 
-* `view` (`string`, default: `"timeSeries"`)
+- `view` (`string`, default: `"timeSeries"`)
 
-    Widget view, either timeSeries or singleValue
-
-
+  Widget view, either timeSeries or singleValue
 
 ## Outputs
 
-* `dimensions`
+- `dimensions`
 
-    Widget dimensions
+  Widget dimensions
 
-* `position`
+- `position`
 
-    Widget position
+  Widget position
 
-* `properties`
+- `properties`
 
-    Widget properties
+  Widget properties
 
-* `type`
+- `type`
 
-    Widget type
+  Widget type

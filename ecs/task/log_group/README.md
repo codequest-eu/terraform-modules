@@ -2,65 +2,62 @@
 
 Creates a CloudWatch log group for a container and outputs container logging configuration.
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
 
 ## Versions
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+| Provider  | Requirements |
+| --------- | ------------ |
+| terraform | `>= 0.12`    |
+| `aws`     | `>= 2.40.0`  |
 
 ## Inputs
 
-* `container` (`string`, default: `""`)
+- `container` (`string`, default: `""`)
 
-    Container name within the task definition
+  Container name within the task definition
 
-* `create` (`bool`, default: `true`)
+- `create` (`bool`, default: `true`)
 
-    Should resources be created
+  Should resources be created
 
-* `environment` (`string`, required)
+- `environment` (`string`, required)
 
-    Kebab-cased environment name, eg. development, staging, production.
+  Kebab-cased environment name, eg. development, staging, production.
 
-* `project` (`string`, required)
+- `project` (`string`, required)
 
-    Kebab-cased project name
+  Kebab-cased project name
 
-* `retention` (`number`, default: `7`)
+- `retention` (`number`, default: `7`)
 
-    Log retention in days.
+  Log retention in days.
 
-    Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0.
-    If you select 0, the events in the log group are always retained and never expire.
+  Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653, and 0.
+  If you select 0, the events in the log group are always retained and never expire.
 
+- `tags` (`map(string)`, default: `{}`)
 
-* `tags` (`map(string)`, default: `{}`)
+  Tags to add to resources that support them
 
-    Tags to add to resources that support them
+- `task` (`string`, required)
 
-* `task` (`string`, required)
-
-    ECS task definition name
-
-
+  ECS task definition name
 
 ## Outputs
 
-* `arn`
+- `arn`
 
-    CloudWatch log group ARN
+  CloudWatch log group ARN
 
-* `container_config`
+- `container_config`
 
-    Container definition logging configuration
+  Container definition logging configuration
 
-* `container_config_json`
+- `container_config_json`
 
-    Container definition logging configuration JSON
+  Container definition logging configuration JSON
 
-* `name`
+- `name`
 
-    CloudWatch log group name
+  CloudWatch log group name
