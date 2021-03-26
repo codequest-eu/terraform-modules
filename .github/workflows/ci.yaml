@@ -92,3 +92,7 @@ jobs:
       - name: terraform validate
         id: terraform_validate
         run: terraform validate '${{ matrix.module }}'
+
+      - name: terraform docs
+        id: terraform_docs
+        run: tools/bin/check-docs '${{ matrix.module }}/README.md'
