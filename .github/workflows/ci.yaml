@@ -34,7 +34,7 @@ jobs:
         id: cache_providers
         uses: actions/cache@v2
         with:
-          path: ./.terraform/providers
+          path: ./.terraform/plugins
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
           restore-keys: ${{ runner.os }}-terraform-providers
 
