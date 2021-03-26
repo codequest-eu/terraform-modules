@@ -22,8 +22,13 @@ jobs:
       - name: Discover modules and their examples
         id: discovery
         run: |
-          echo "::set-output name=modules::$(tools/bin/find-modules | jq -Rc '[inputs]')"
-          echo "::set-output name=examples::$(tools/bin/find-examples | jq -Rc '[inputs]')"
+          set -e
+
+          modules="$(tools/bin/find-modules | jq -Rc '[inputs]')"
+          examples="$(tools/bin/find-examples | jq -Rc '[inputs]')"
+
+          echo "::set-output name=modules::$modules"
+          echo "::set-output name=examples::$examples"
         outputs:
           modules:
             description: JSON list of module paths
@@ -45,6 +50,7 @@ jobs:
 
       - name: Debug
         run: |
-          echo "discover.modules=${{ steps.discovery.outputs.modules }}"
-          echo "discover.modules=${{ steps.discovery.outputs.modules }}"
-          tree
+          set -e
+
+          echo 'discover.modules=${{ steps.discovery.outputs.modules }}'
+          echo 'discover.examples=${{ steps.discovery.outputs.examples }}'
