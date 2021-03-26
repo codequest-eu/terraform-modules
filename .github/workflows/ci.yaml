@@ -29,11 +29,6 @@ jobs:
 
           echo "::set-output name=modules::$modules"
           echo "::set-output name=examples::$examples"
-        outputs:
-          modules:
-            description: JSON list of module paths
-          examples:
-            description: JSON list of module example paths
 
       - name: Setup providers cache
         id: cache_providers
