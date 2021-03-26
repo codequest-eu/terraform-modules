@@ -76,11 +76,10 @@ jobs:
 
       - name: Download cached providers
         id: cache_providers
-        uses: actions/cache@v2
+        uses: ./.github/actions/restore-cache
         with:
           path: ./.terraform/plugins
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
-          restore-keys: ${{ runner.os }}-terraform-providers
 
       - name: terraform fmt
         id: terraform_fmt

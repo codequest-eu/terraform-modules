@@ -1,0 +1,16 @@
+name: Restore cache
+description: Restores files from cache, fails on cache miss
+author: codequest
+inputs:
+  path:
+    description: A list of files, directories, and wildcard patterns to cache and restore
+    required: true
+  key:
+    description: An explicit key for restoring and saving the cache
+    required: true
+outputs:
+  cache-hit:
+    description: A boolean value to indicate an exact match was found for the primary key
+runs:
+  using: node12
+  main: index.js
