@@ -95,7 +95,11 @@ jobs:
 
       - name: terraform docs
         id: terraform_docs
-        run: tools/bin/check-docs '${{ matrix.module }}/README.md'
+        uses: terraform-docs/gh-actions@v0.6.0
+        with:
+          working-dir: ${{ matrix.module }}
+          config-file: .terraform-docs.yml
+          fail-on-diff: true
 
   check-examples:
     name: Check example ${{ matrix.module }}
