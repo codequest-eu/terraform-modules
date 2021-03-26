@@ -96,3 +96,38 @@ jobs:
       - name: terraform docs
         id: terraform_docs
         run: tools/bin/check-docs '${{ matrix.module }}/README.md'
+
+  check-examples:
+    name: Check example ${{ matrix.module }}
+    needs: [discovery, providers]
+    strategy:
+      matrix:
+        module: ${{ fromJson(needs.discovery.outputs.examples) }}
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: Download cached providers
+        id: cache_providers
+        uses: ./.github/actions/restore-cache
+        with:
+          path: ./.terraform/plugins
+          key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
+
+      - name: terraform fmt
+        id: terraform_fmt
+        run: terraform fmt -check -diff '${{ matrix.module }}'
+
+      - name: terraform init
+        id: terraform_init
+        run: terraform init -backend=false -plugin-dir=.terraform/plugins/linux_amd64 '${{ matrix.module }}'
+
+      - name: terraform validate
+        id: terraform_validate
+        run: terraform validate '${{ matrix.module }}'
