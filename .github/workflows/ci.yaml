@@ -74,6 +74,22 @@ jobs:
         with:
           terraform_version: 0.12.x
 
+      - name: Setup terraform-docs
+        env:
+          VERSION: "0.12.0"
+        run: |
+          set -e
+
+          mkdir -p /tmp/terraform-docs/bin
+
+          cd /tmp/terraform-docs/bin
+          curl -sSLo terraform-docs.tar.gz https://terraform-docs.io/dl/v$VERSION/terraform-docs-v$VERSION-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          rm terraform-docs.tar.gz
+
+          echo /tmp/terraform-docs/bin >>$GITHUB_PATH
+
       - name: Download cached providers
         id: cache_providers
         uses: ./.github/actions/restore-cache
@@ -95,11 +111,7 @@ jobs:
 
       - name: terraform docs
         id: terraform_docs
-        uses: terraform-docs/gh-actions@v0.6.0
-        with:
-          working-dir: ${{ matrix.module }}
-          config-file: .terraform-docs.yml
-          fail-on-diff: true
+        run: tools/bin/check-docs '${{ matrix.module }}/README.md'
 
   check-examples:
     name: Check example ${{ matrix.module }}
