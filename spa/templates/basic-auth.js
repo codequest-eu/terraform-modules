@@ -2,7 +2,7 @@
 const authorization = "Basic ${credentials}"
 
 // List of regular expressions describing paths excluded from the basic auth
-const exclusions = "${exclusions}".split(" ").filter(function (e) {return e})
+const exclusions = ${exclusion_patterns}.map(pattern => new RegExp(pattern))
 
 exports.handler = (event, context, callback) => {
   // Get request and request headers
@@ -11,8 +11,8 @@ exports.handler = (event, context, callback) => {
 
   // Require Basic authentication unless the exclusions include the request path
   if (
-    exclusions.some(e => (new RegExp(e)).test(request.uri)) ||
-    (headers.authorization && headers.authorization[0].value !== authorization)
+    exclusions.some(re => re.test(request.uri)) ||
+    (headers.authorization && headers.authorization[0].value === authorization)
   ) {
     // Continue request processing if authentication passed
     return callback(null, request)

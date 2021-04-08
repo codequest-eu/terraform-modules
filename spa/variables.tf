@@ -74,7 +74,7 @@ variable "basic_auth_credentials" {
 variable "basic_auth_exclusions" {
   description = "List of regular expressions describing paths excluded from the basic auth"
   type        = list(string)
-  default     = null
+  default     = []
 }
 
 variable "pull_request_router" {
