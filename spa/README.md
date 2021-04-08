@@ -31,6 +31,10 @@ Module creates:
 
     Basic auth credentials in user:pass format
 
+* `basic_auth_exclusions` (`list(string)`, default: `[]`)
+
+    List of regular expressions describing paths excluded from the basic auth
+
 * `bucket` (`string`, default: `null`)
 
     Kebab-cased bucket name override
