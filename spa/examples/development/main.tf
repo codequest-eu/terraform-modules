@@ -19,6 +19,7 @@ module "app" {
   project                = "terraform-modules-spa-example"
   environment            = "development"
   basic_auth_credentials = "terraform-modules-spa:example"
+  basic_auth_exclusions  = "^/mail/.+$"
 }
 
 resource "aws_s3_bucket_object" "index" {

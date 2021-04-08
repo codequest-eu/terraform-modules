@@ -279,6 +279,7 @@ data "template_file" "basic_auth" {
 
   vars = {
     credentials = base64encode(var.basic_auth_credentials)
+    exclusions  = var.basic_auth_exclusions != null ? join(" ", var.basic_auth_exclusions) : null
   }
 }
 
