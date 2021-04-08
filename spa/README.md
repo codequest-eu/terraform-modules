@@ -31,7 +31,7 @@ Module creates:
 
     Basic auth credentials in user:pass format
 
-* `basic_auth_exclusions` (`string`, default: `null`)
+* `basic_auth_exclusions` (`string`, default: `[]`)
 
     List of regular expressions describing paths excluded from the basic auth
 
