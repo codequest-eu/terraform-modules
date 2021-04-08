@@ -278,7 +278,7 @@ data "template_file" "basic_auth" {
   template = file("${path.module}/templates/basic-auth.js")
 
   vars = {
-    credentials = base64encode(var.basic_auth_credentials)
+    credentials        = base64encode(var.basic_auth_credentials)
     exclusion_patterns = jsonencode(var.basic_auth_exclusions)
   }
 }
