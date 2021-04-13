@@ -32,6 +32,14 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     Should resources be created
 
+* `enable_dns_hostnames` (`bool`, default: `false`)
+
+    Enable/disable DNS hostnames in the VPC
+
+* `enable_dns_support` (`bool`, default: `true`)
+
+    Enable/disable DNS support in the VPC
+
 * `environment` (`string`, required)
 
     Kebab-cased environment name, eg. development, staging, production.
