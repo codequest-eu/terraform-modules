@@ -1,9 +1,11 @@
 #!/bin/sh
 
+set -e
+
 environment=${1:-development}
 
 eval "$(
-  terraform output ${environment}_db | \
+  terraform output --json ${environment}_db | \
   jq -r '@sh "
     DB_HOST=\(.host)
     DB_PORT=\(.port)

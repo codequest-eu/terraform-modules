@@ -67,10 +67,7 @@ resource "null_resource" "environment_db_user" {
     when    = create
     command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
-      queries = [
-        "CREATE USER '${self.triggers.name}'@'localhost'",
-        # "GRANT ${self.triggers.name} TO ${module.db.username}",
-      ]
+      queries = ["CREATE USER '${self.triggers.name}'@'%'"]
     }) }
   }
 
@@ -78,7 +75,7 @@ resource "null_resource" "environment_db_user" {
     when    = destroy
     command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
-      queries = ["DROP USER '${self.triggers.name}'@'localhost'"]
+      queries = ["DROP USER '${self.triggers.name}'@'%'"]
     }) }
   }
 }
@@ -103,7 +100,7 @@ resource "null_resource" "environment_db_password" {
     command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
       queries = [
-        "ALTER USER '${self.triggers.name}'@'localhost' IDENTIFIED BY '${self.triggers.password}'"
+        "ALTER USER '${self.triggers.name}'@'%' IDENTIFIED BY '${self.triggers.password}'"
       ]
     }) }
   }
@@ -123,7 +120,7 @@ resource "null_resource" "environment_db" {
     environment = { EVENT = jsonencode({
       queries = [
         "CREATE DATABASE ${self.triggers.name}",
-        "GRANT ALL ON ${self.triggers.name}.* TO '${self.triggers.owner}'@'localhost'"
+        "GRANT ALL ON ${self.triggers.name}.* TO '${self.triggers.owner}'@'%'"
       ]
     }) }
   }
@@ -142,14 +139,14 @@ locals {
     for environment in local.environments : environment => {
       host     = module.db.host
       port     = module.db.port
-      database = null_resource.environment_db[environment].triggers.name
+      name     = null_resource.environment_db[environment].triggers.name
       user     = null_resource.environment_db_user[environment].triggers.name
       password = null_resource.environment_db_password[environment].triggers.password
     }
   }
   environment_db_urls = {
     for environment, database in local.environment_dbs : environment =>
-    "mysql://${database.user}:${database.password}@${database.host}:${database.port}/${database.database}"
+    "mysql://${database.user}:${database.password}@${database.host}:${database.port}/${database.name}"
   }
 }
 
