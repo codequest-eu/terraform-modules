@@ -47,6 +47,10 @@ Module creates:
 
     CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass_100, PriceClass_200, PriceClass_All
 
+* `cloudfront_ssl_policy` (`string`, default: `"TLSv1.2_2019"`)
+
+    Cloudfront SSL policy, used only when `certificate_arn` is provided. See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html
+
 * `create` (`bool`, default: `true`)
 
     Should resources be created
