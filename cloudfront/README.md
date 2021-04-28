@@ -107,6 +107,10 @@ AWS Cloudfront distribution
 
     AWS S3 buckets proxied by this distribution
 
+* `ssl_policy` (`string`, default: `"TLSv1.2_2019"`)
+
+    Cloudfront SSL policy, used only when `certificate_arn` is provided. See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html
+
 * `tags` (`map(string)`, default: `{}`)
 
     Tags to add to resources
