@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "distribution" {
 
     acm_certificate_arn      = var.certificate_arn
     ssl_support_method       = var.certificate_arn != null ? "sni-only" : null
-    minimum_protocol_version = var.certificate_arn == null ? null : var.ssl_policy
+    minimum_protocol_version = var.certificate_arn != null ? var.ssl_policy : null
   }
 
   restrictions {
