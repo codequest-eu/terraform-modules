@@ -55,6 +55,9 @@ resource "aws_vpc" "cloud" {
 
   cidr_block = local.vpc_block
   tags       = local.tags
+
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
 }
 
 resource "aws_internet_gateway" "gateway" {

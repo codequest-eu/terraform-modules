@@ -8,6 +8,8 @@ module "network" {
   availability_zones_count = var.availability_zones_count
   nat_instance             = var.nat_instance
   nat_instance_type        = var.nat_instance_type
+  enable_dns_support       = var.enable_dns_support
+  enable_dns_hostnames     = var.enable_dns_hostnames
   tags                     = var.tags
 }
 
