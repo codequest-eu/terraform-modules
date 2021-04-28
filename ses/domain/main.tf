@@ -186,6 +186,6 @@ resource "aws_ses_event_destination" "metrics" {
   cloudwatch_destination {
     value_source   = "messageTag"
     dimension_name = "ses:from-domain"
-    default_value  = local.domain
+    default_value  = "default"
   }
 }
