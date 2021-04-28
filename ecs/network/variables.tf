@@ -43,3 +43,14 @@ variable "nat_instance_type" {
   default     = "t3.nano"
 }
 
+variable "enable_dns_support" {
+  description = "Enable/disable DNS support in the VPC"
+  type        = bool
+  default     = true
+}
+
+variable "enable_dns_hostnames" {
+  description = "Enable/disable DNS hostnames in the VPC"
+  type        = bool
+  default     = false
+}
