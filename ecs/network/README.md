@@ -44,6 +44,10 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     Kebab-cased environment name, eg. development, staging, production.
 
+* `lb_ssl_policy` (`string`, default: `"ELBSecurityPolicy-TLS-1-2-2017-01"`)
+
+    SSL policy to set on the HTTPS ALB listener, see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
+
 * `nat_instance` (`bool`, default: `false`)
 
     Use NAT instances instead of NAT gateways.
