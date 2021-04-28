@@ -54,3 +54,9 @@ variable "enable_dns_hostnames" {
   type        = bool
   default     = false
 }
+
+variable "lb_ssl_policy" {
+  description = "SSL policy to set on the HTTPS ALB listener, see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies"
+  type        = string
+  default     = "ELBSecurityPolicy-TLS-1-2-2017-01"
+}
