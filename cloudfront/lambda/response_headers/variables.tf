@@ -22,7 +22,12 @@ variable "global" {
 }
 
 variable "rules" {
-  description = "Rules for adding headers to some responses"
+  description = <<EOT
+Rules for adding headers to some responses.
+
+    Both `path` and `content_type` support glob patterns using [micromatch](https://github.com/micromatch/micromatch#matching-features).
+EOT
+
   type = list(object({
     path         = string
     content_type = string

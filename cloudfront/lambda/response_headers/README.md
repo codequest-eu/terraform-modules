@@ -38,7 +38,10 @@ Consult the [example](../../examples/response_headers) for how it could be done 
     headers      = map(string)
   }))`, default: `[]`)
 
-    Rules for adding headers to some responses
+    Rules for adding headers to some responses.
+
+    Both `path` and `content_type` support glob patterns using [micromatch](https://github.com/micromatch/micromatch#matching-features).
+
 
 * `tags` (`map(string)`, default: `{}`)
 
