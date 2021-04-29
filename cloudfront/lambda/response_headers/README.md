@@ -4,6 +4,12 @@ Cloudfront origin response lambda which adds the specified headers to cloudfront
 
 Based on https://aws.amazon.com/blogs/networking-and-content-delivery/adding-http-security-headers-using-lambdaedge-and-amazon-cloudfront/
 
+## Cloudfront invalidation
+
+If you attach this lambda to the origin response hook keep in mind that cloudfront will only send requests to the origin (and call the lambda) if it doesn't already have the resource cached. This means that you won't see changes to response headers for cached paths. You will need to manually invalidate the cloudfront cache for changes to take effect.
+
+Consult the [example](../../examples/response_headers) for how it could be done by terraform using a `null_resource` which uses AWS CLI to invalidate the cache whenever the lambda version changes.
+
 <!-- bin/docs -->
 
 ## Versions

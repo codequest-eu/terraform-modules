@@ -119,6 +119,46 @@ resource "aws_s3_bucket_policy" "bucket" {
   policy = module.bucket_access_document.json
 }
 
+# 5. (optional) Automatically invalidate cloudfront cache whenever
+#    the response headers lambda changes
+
+resource "null_resource" "invalidate_cloudfront_cache" {
+  triggers = {
+    distribution_id             = module.cloudfront.id
+    response_headers_lambda_arn = module.lambda_response_headers.arn
+  }
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      set -e
+
+      export AWS_REGION=us-east-1
+
+      invalidation_id=$(
+        aws cloudfront create-invalidation \
+          --distribution-id '${self.triggers.distribution_id}' \
+          --paths '/*' \
+          --query 'Invalidation.Id' \
+          --output text
+      )
+
+      invalidation_status=InProgress
+
+      while [ "$invalidation_status" != "Completed" ]; do
+        echo "Waiting for invalidation $invalidation_id to complete..."
+        sleep 10
+        invalidation_status=$(
+          aws cloudfront get-invalidation \
+            --distribution-id '${self.triggers.distribution_id}' \
+            --id "$invalidation_id" \
+            --query 'Invalidation.Status' \
+            --output text
+        )
+      done
+    EOT
+  }
+}
+
 output "cloudfront" {
   value = module.cloudfront
 }
