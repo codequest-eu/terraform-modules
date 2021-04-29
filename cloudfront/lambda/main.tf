@@ -9,5 +9,6 @@ module "lambda" {
   handler = var.handler
   runtime = var.runtime
 
+  timeout                = 30
   assume_role_principals = ["edgelambda.amazonaws.com"]
 }
