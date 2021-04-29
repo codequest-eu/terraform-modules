@@ -36,7 +36,7 @@ Consult the [example](../../examples/response_headers) for how it could be done 
     path         = string
     content_type = string
     headers      = map(string)
-  }))`, required)
+  }))`, default: `[]`)
 
     Rules for adding headers to some responses
 

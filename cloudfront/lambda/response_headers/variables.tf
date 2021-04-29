@@ -28,4 +28,5 @@ variable "rules" {
     content_type = string
     headers      = map(string)
   }))
+  default = []
 }
