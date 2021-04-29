@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "bucket" {
   bucket = "terraform-modules-example-cloudfront-response-headers"
 }
 
-resource "aws_s3_bucket_object" "index" {
+resource "aws_s3_bucket_object" "index_html" {
   bucket       = aws_s3_bucket.bucket.bucket
   key          = "index.html"
   content      = <<EOF
@@ -19,6 +19,22 @@ resource "aws_s3_bucket_object" "index" {
     <h2>${aws_s3_bucket.bucket.bucket}</h2>
   EOF
   content_type = "text/html"
+  metadata     = { "cache-control" = "max-age=0, no-store" }
+}
+
+resource "aws_s3_bucket_object" "static_txt" {
+  bucket       = aws_s3_bucket.bucket.bucket
+  key          = "static/some.txt"
+  content      = "Some text"
+  content_type = "text/plain"
+  metadata     = { "cache-control" = "max-age=0, no-store" }
+}
+
+resource "aws_s3_bucket_object" "static_json" {
+  bucket       = aws_s3_bucket.bucket.bucket
+  key          = "static/some.json"
+  content      = jsonencode({ some : "json" })
+  content_type = "application/json"
   metadata     = { "cache-control" = "max-age=0, no-store" }
 }
 
@@ -33,24 +49,38 @@ module "lambda_response_headers" {
   source = "./../../lambda/response_headers"
   name   = "terraform-modules-example-cloudfront-response-headers"
 
-  global = {
-    "X-Global-Header" : "Added"
-  }
+  global = { "X-Global" : "true" }
   rules = [
+    {
+      path         = "static/**",
+      content_type = "**",
+      headers      = { "X-Is-Static" : "true" }
+    },
+    {
+      path         = "**",
+      content_type = "text/**",
+      headers      = { "X-Is-Text" : "true" }
+    },
     {
       path         = "**",
       content_type = "text/html",
-      headers = {
-        "X-Html-Header" : "Added"
-      }
+      headers      = { "X-Is-Html" : "true" }
     },
     {
-      path         = "/index.html",
+      path         = "**",
+      content_type = "application/json",
+      headers      = { "X-Is-Json" : "true" }
+    },
+    {
+      path         = "**/*.html",
       content_type = "**",
-      headers = {
-        "X-Index-Header" : "Added"
-      }
-    }
+      headers      = { "X-Has-Html-Ext" : "true" }
+    },
+    {
+      path         = "**/*.json",
+      content_type = "**",
+      headers      = { "X-Has-Json-Ext" : "true" }
+    },
   ]
 }
 

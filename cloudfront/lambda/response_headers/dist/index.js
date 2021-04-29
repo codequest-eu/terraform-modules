@@ -4175,10 +4175,10 @@ __nccwpck_require__.r(__webpack_exports__);
 const rules = __nccwpck_require__(237);
 const handler = async (event) => {
     const { request, response } = event.Records[0].cf;
-    console.log({ request, response });
+    const path = request.uri;
     const contentType = getHeaderValue(response.headers, "content-type");
     rules.forEach(rule => {
-        if (micromatch__WEBPACK_IMPORTED_MODULE_0___default().isMatch(contentType, rule.contentType)) {
+        if ((0,micromatch__WEBPACK_IMPORTED_MODULE_0__.isMatch)(path, rule.path) && (0,micromatch__WEBPACK_IMPORTED_MODULE_0__.isMatch)(contentType, rule.contentType)) {
             setHeaderValues(response.headers, rule.headers);
         }
     });

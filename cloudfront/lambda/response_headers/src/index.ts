@@ -1,9 +1,5 @@
-import {
-  CloudFrontHeaders,
-  CloudFrontResponseEvent,
-  CloudFrontResponseHandler,
-} from "aws-lambda"
-import micromatch from "micromatch"
+import { CloudFrontHeaders, CloudFrontResponseHandler } from "aws-lambda"
+import { isMatch } from "micromatch"
 
 interface Rule {
   path: string
@@ -16,12 +12,11 @@ const rules = require("./rules.json") as Rule[]
 export const handler: CloudFrontResponseHandler = async event => {
   const { request, response } = event.Records[0].cf
 
-  console.log({ request, response })
-
+  const path = request.uri
   const contentType = getHeaderValue(response.headers, "content-type")
 
   rules.forEach(rule => {
-    if (micromatch.isMatch(contentType, rule.contentType)) {
+    if (isMatch(path, rule.path) && isMatch(contentType, rule.contentType)) {
       setHeaderValues(response.headers, rule.headers)
     }
   })
