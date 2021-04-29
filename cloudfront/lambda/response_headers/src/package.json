@@ -1,0 +1,21 @@
+{
+  "name": "src",
+  "private": true,
+  "main": "src/index.js",
+  "scripts": {
+    "build": "ncc build index.ts --external './rules.json' --target es2020 --out ../dist --license index.js.license"
+  },
+  "author": "code quest sp. z o.o.",
+  "license": "MIT",
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.76",
+    "@types/micromatch": "^4.0.1",
+    "@types/node": "^12.0.0",
+    "micromatch": "^4.0.4"
+  },
+  "devDependencies": {
+    "@tsconfig/node12": "^1.0.7",
+    "@vercel/ncc": "^0.28.4",
+    "typescript": "^4.2.4"
+  }
+}

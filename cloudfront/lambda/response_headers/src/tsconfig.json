@@ -1,0 +1,8 @@
+{
+  "extends": "@tsconfig/node12",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
+}
