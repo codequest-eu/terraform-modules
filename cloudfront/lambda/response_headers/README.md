@@ -8,42 +8,52 @@ Based on https://aws.amazon.com/blogs/networking-and-content-delivery/adding-htt
 
 ## Versions
 
-| Provider  | Requirements |
-| --------- | ------------ |
-| terraform | `>= 0.12`    |
+| Provider | Requirements |
+|-|-|
+| terraform | `>= 0.12` |
 
 ## Inputs
 
-- `create` (`bool`, default: `true`)
+* `create` (`bool`, default: `true`)
 
-  Should resources be created
+    Should resources be created
 
-- `name` (`string`, required)
+* `global` (`map(string)`, default: `{}`)
 
-  Lambda name
+    Headers to add to all responses
 
-- `path_re` (`string`, default: `"^/(PR-\\d+)($|/)"`)
+* `name` (`string`, required)
 
-  Regular expression which extracts the base directory of a PR as it's first match group
+    Lambda name
 
-- `tags` (`map(string)`, default: `{}`)
+* `rules` (`list(object({
+    path         = string
+    content_type = string
+    headers      = map(string)
+  }))`, required)
 
-  Tags to add to resources that support them
+    Rules for adding headers to some responses
+
+* `tags` (`map(string)`, default: `{}`)
+
+    Tags to add to resources that support them
+
+
 
 ## Outputs
 
-- `arn`
+* `arn`
 
-  Lambda ARN
+    Lambda ARN
 
-- `include_body`
+* `include_body`
 
-  Whether cloudfront should include the viewer/origin request body
+    Whether cloudfront should include the viewer/origin request body
 
-- `metrics`
+* `metrics`
 
-  Cloudwatch monitoring metrics
+    Cloudwatch monitoring metrics
 
-- `widgets`
+* `widgets`
 
-  Cloudwatch dashboard widgets
+    Cloudwatch dashboard widgets
