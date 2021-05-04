@@ -107,11 +107,11 @@ jobs:
         run: |
           plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          tools/bin/find-modules | parallel -j 8 -k bash -c "
+          tools/bin/find-modules | parallel -j 8 -k "
             set -e
 
             echo '::group::{}'
-            cd {};
+            cd {}
             terraform init -backend=false -plugin-dir='$plugins'
             terraform validate
             echo '::endgroup::'
@@ -140,11 +140,11 @@ jobs:
         run: |
           plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          tools/bin/find-examples | parallel -j 8 -k bash -c "
+          tools/bin/find-examples | parallel -j 8 -k "
             set -e
 
             echo '::group::{}'
-            cd {};
+            cd {}
             terraform init -backend=false -plugin-dir='$plugins'
             terraform validate
             echo '::endgroup::'
