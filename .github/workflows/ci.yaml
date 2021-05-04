@@ -10,28 +10,6 @@ env:
   AWS_REGION: eu-west-1
 
 jobs:
-  discovery:
-    name: Discover modules and their examples
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Discover modules and their examples
-        id: discovery
-        run: |
-          set -e
-
-          modules="$(tools/bin/find-modules | jq -Rc '[inputs]')"
-          examples="$(tools/bin/find-examples | jq -Rc '[inputs]')"
-
-          echo "::set-output name=modules::$modules"
-          echo "::set-output name=examples::$examples"
-
-    outputs:
-      modules: ${{ steps.discovery.outputs.modules }}
-      examples: ${{ steps.discovery.outputs.examples }}
-
   providers:
     name: Make sure providers are cached
     runs-on: ubuntu-20.04
@@ -75,7 +53,6 @@ jobs:
 
   terraform-docs:
     name: Check documentation
-    needs: [discovery]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -98,10 +75,8 @@ jobs:
           echo /tmp/terraform-docs/bin >>$GITHUB_PATH
 
       - name: terraform docs
-        env:
-          MODULES_JSON: ${{ needs.discovery.outputs.modules }}
         run: |
-          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -rc '.[]')
+          mapfile -t modules < <(tools/bin/find-modules)
 
           for module in "${modules[@]}"; do
             echo "::group::$module"
@@ -111,7 +86,7 @@ jobs:
 
   terraform-validate-modules:
     name: Validate modules
-    needs: [discovery, providers]
+    needs: [providers]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -129,10 +104,8 @@ jobs:
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
-        env:
-          MODULES_JSON: ${{ needs.discovery.outputs.modules }}
         run: |
-          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -rc '.[]')
+          mapfile -t modules < <(tools/bin/find-modules)
           root="$PWD"
 
           for module in "${modules[@]}"; do
@@ -146,7 +119,7 @@ jobs:
 
   terraform-validate-examples:
     name: Validate examples
-    needs: [discovery, providers]
+    needs: [providers]
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
@@ -164,10 +137,8 @@ jobs:
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
-        env:
-          EXAMPLES_JSON: ${{ needs.discovery.outputs.examples }}
         run: |
-          mapfile -t examples < <(echo -n "$EXAMPLES_JSON" | jq -rc '.[]')
+          mapfile -t examples < <(tools/bin/find-examples)
           root="$PWD"
 
           for example in "${examples[@]}"; do
