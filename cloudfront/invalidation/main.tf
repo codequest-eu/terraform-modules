@@ -22,19 +22,9 @@ resource "null_resource" "invalidate" {
           --output text
       )
 
-      invalidation_status=InProgress
-
-      while [ "$invalidation_status" != "Completed" ]; do
-        echo "Waiting for invalidation $invalidation_id to complete..."
-        sleep 10
-        invalidation_status=$(
-          aws cloudfront get-invalidation \
-            --distribution-id '${var.distribution_id}' \
-            --id "$invalidation_id" \
-            --query 'Invalidation.Status' \
-            --output text
-        )
-      done
+      aws cloudfront wait invalidation-completed \
+        --distribution-id '${var.distribution_id}' \
+        --id "$invalidation_id"
     EOT
   }
 }
