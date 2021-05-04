@@ -133,11 +133,14 @@ jobs:
           MODULES_JSON: ${{ needs.discovery.outputs.modules }}
         run: |
           mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -rc '.[]')
+          root="$PWD"
 
           for module in "${modules[@]}"; do
             echo "::group::$module"
-            terraform init -backend=false -plugin-dir=.terraform/plugins/linux_amd64 "$module"
-            terraform validate "$module"
+            cd "$module"
+            terraform init -backend=false -plugin-dir="$root/.terraform/plugins/linux_amd64"
+            terraform validate
+            cd "$root"
             echo "::endgroup::"
           done
 
@@ -165,10 +168,13 @@ jobs:
           EXAMPLES_JSON: ${{ needs.discovery.outputs.examples }}
         run: |
           mapfile -t examples < <(echo -n "$EXAMPLES_JSON" | jq -rc '.[]')
+          root="$PWD"
 
           for example in "${examples[@]}"; do
             echo "::group::$example"
-            terraform init -backend=false -plugin-dir=.terraform/plugins/linux_amd64 "$example"
-            terraform validate "$example"
+            cd "$example"
+            terraform init -backend=false -plugin-dir="$root/.terraform/plugins/linux_amd64"
+            terraform validate
+            cd "$root"
             echo "::endgroup::"
           done
