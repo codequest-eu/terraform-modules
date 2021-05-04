@@ -98,7 +98,7 @@ jobs:
           terraform_version: 0.12.x
 
       - name: Download cached providers
-        uses: ./.github/actions/restore-cache
+        uses: codequest-eu/restore-cache-action
         with:
           path: ./.terraform/plugins/linux_amd64
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
@@ -131,7 +131,7 @@ jobs:
           terraform_version: 0.12.x
 
       - name: Download cached providers
-        uses: ./.github/actions/restore-cache
+        uses: codequest-eu/restore-cache-action
         with:
           path: ./.terraform/plugins/linux_amd64
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
