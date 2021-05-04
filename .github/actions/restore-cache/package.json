@@ -9,10 +9,10 @@
     "build": "ncc build index.js --license licenses.txt"
   },
   "dependencies": {
-    "@actions/cache": "^1.0.6",
-    "@actions/core": "^1.2.6"
+    "@actions/cache": "^1.0.7",
+    "@actions/core": "^1.2.7"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.27.0"
+    "@vercel/ncc": "^0.28.5"
   }
 }
