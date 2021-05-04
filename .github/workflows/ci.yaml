@@ -105,17 +105,17 @@ jobs:
 
       - name: terraform validate
         run: |
-          mapfile -t modules < <(tools/bin/find-modules)
-          root="$PWD"
+          plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          for module in "${modules[@]}"; do
-            echo "::group::$module"
-            cd "$module"
-            terraform init -backend=false -plugin-dir="$root/.terraform/plugins/linux_amd64"
+          tools/bin/find-modules | parallel -j 8 -k bash -c "
+            set -e
+
+            echo '::group::{}'
+            cd {};
+            terraform init -backend=false -plugin-dir='$plugins'
             terraform validate
-            cd "$root"
-            echo "::endgroup::"
-          done
+            echo '::endgroup::'
+          "
 
   terraform-validate-examples:
     name: Validate examples
@@ -138,14 +138,14 @@ jobs:
 
       - name: terraform validate
         run: |
-          mapfile -t examples < <(tools/bin/find-examples)
-          root="$PWD"
+          plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          for example in "${examples[@]}"; do
-            echo "::group::$example"
-            cd "$example"
-            terraform init -backend=false -plugin-dir="$root/.terraform/plugins/linux_amd64"
+          tools/bin/find-examples | parallel -j 8 -k bash -c "
+            set -e
+
+            echo '::group::{}'
+            cd {};
+            terraform init -backend=false -plugin-dir='$plugins'
             terraform validate
-            cd "$root"
-            echo "::endgroup::"
-          done
+            echo '::endgroup::'
+          "
