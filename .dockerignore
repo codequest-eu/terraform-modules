@@ -18,9 +18,6 @@
 **/*.Dockerfile
 **/.dockerignore
 
-# Jenkins
-Jenkinsfile
-
 # Build results
 tools/bin/docs
 
@@ -30,4 +27,3 @@ tools/bin/docs
 **/*.log
 **/*.md
 **/*.editorconfig
-tools/bin/jenkins
