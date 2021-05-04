@@ -23,14 +23,13 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_s3_bucket.bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_bucket"></a> [bucket](#input\_bucket) | S3 bucket name. Either `bucket` or `bucket_regional_domain_name` is required. The bucket domain will be fetched using `data.aws_s3_bucket`. | `string` | `null` | no |
-| <a name="input_bucket_regional_domain_name"></a> [bucket\_regional\_domain\_name](#input\_bucket\_regional\_domain\_name) | S3 bucket domain. Either `bucket` or `bucket_regional_domain_name` is required. Disables fetching the bucket using `data.aws_s3_bucket`. | `string` | `null` | no |
+| <a name="input_bucket"></a> [bucket](#input\_bucket) | S3 bucket name. | `string` | n/a | yes |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_headers"></a> [headers](#input\_headers) | Additional headers to pass to S3 | `map(string)` | `{}` | no |
 | <a name="input_path"></a> [path](#input\_path) | Base S3 object path | `string` | `""` | no |

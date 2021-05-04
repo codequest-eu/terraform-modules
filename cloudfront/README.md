@@ -42,6 +42,7 @@ No modules.
 | <a name="input_https_origins"></a> [https\_origins](#input\_https\_origins) | HTTPS origins proxied by this distribution | <pre>map(object({<br>    domain  = string<br>    path    = string<br>    headers = map(string)<br>    port    = number<br>  }))</pre> | `{}` | no |
 | <a name="input_price_class"></a> [price\_class](#input\_price\_class) | CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass\_100, PriceClass\_200, PriceClass\_All | `string` | `"PriceClass_100"` | no |
 | <a name="input_s3_origins"></a> [s3\_origins](#input\_s3\_origins) | AWS S3 buckets proxied by this distribution | <pre>map(object({<br>    domain  = string<br>    path    = string<br>    headers = map(string)<br>  }))</pre> | `{}` | no |
+| <a name="input_ssl_policy"></a> [ssl\_policy](#input\_ssl\_policy) | Cloudfront SSL policy, used only when `certificate_arn` is provided. See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html | `string` | `"TLSv1.2_2019"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources | `map(string)` | `{}` | no |
 
 ## Outputs

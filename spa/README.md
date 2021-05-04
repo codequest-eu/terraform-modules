@@ -60,9 +60,11 @@ Module creates:
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_basic_auth_credentials"></a> [basic\_auth\_credentials](#input\_basic\_auth\_credentials) | Basic auth credentials in user:pass format | `string` | `null` | no |
+| <a name="input_basic_auth_exclusions"></a> [basic\_auth\_exclusions](#input\_basic\_auth\_exclusions) | List of regular expressions describing paths excluded from the basic auth | `list(string)` | `[]` | no |
 | <a name="input_bucket"></a> [bucket](#input\_bucket) | Kebab-cased bucket name override | `string` | `null` | no |
 | <a name="input_certificate_arn"></a> [certificate\_arn](#input\_certificate\_arn) | ACM certificate ARN to use instead of the default cloudfront certificate | `string` | `null` | no |
 | <a name="input_cloudfront_price_class"></a> [cloudfront\_price\_class](#input\_cloudfront\_price\_class) | CloudFront price class, which specifies where the distribution should be replicated, one of: PriceClass\_100, PriceClass\_200, PriceClass\_All | `string` | `"PriceClass_100"` | no |
+| <a name="input_cloudfront_ssl_policy"></a> [cloudfront\_ssl\_policy](#input\_cloudfront\_ssl\_policy) | Cloudfront SSL policy, used only when `certificate_arn` is provided. See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html | `string` | `"TLSv1.2_2019"` | no |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_domains"></a> [domains](#input\_domains) | List of domains which will serve the application. If empty, will use the default cloudfront domain | `list(string)` | `[]` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased name of the environment, eg. production, staging, development, preview. Will be included in resource names | `string` | n/a | yes |

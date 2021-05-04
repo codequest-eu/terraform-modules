@@ -36,6 +36,7 @@ No resources.
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
 | <a name="input_runtime"></a> [runtime](#input\_runtime) | Lambda runtime | `string` | `"nodejs12.x"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
+| <a name="input_timeout"></a> [timeout](#input\_timeout) | The amount of time your Lambda Function has to run in seconds.<br><br>    Maximum of 5 for viewer events, 30 for origin events.<br>    https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-requirements-limits.html#lambda-requirements-see-limits | `number` | `5` | no |
 
 ## Outputs
 

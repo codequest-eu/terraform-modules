@@ -1,4 +1,11 @@
-data "aws_s3_bucket" "bucket" {
-  count  = var.create && var.bucket_regional_domain_name == null ? 1 : 0
-  bucket = var.bucket
+data "aws_region" "current" {
+  count = var.create ? 1 : 0
+}
+
+locals {
+  domain = (
+    var.create ?
+    "${var.bucket}.s3.${data.aws_region.current[0].name}.amazonaws.com" :
+    ""
+  )
 }

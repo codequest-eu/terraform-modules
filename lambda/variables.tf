@@ -95,7 +95,7 @@ variable "handler" {
 variable "timeout" {
   description = "The amount of time your Lambda Function has to run in seconds"
   type        = number
-  default     = 3
+  default     = 60
 }
 
 variable "memory_size" {

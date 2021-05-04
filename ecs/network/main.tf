@@ -55,6 +55,9 @@ resource "aws_vpc" "cloud" {
 
   cidr_block = local.vpc_block
   tags       = local.tags
+
+  enable_dns_support   = var.enable_dns_support
+  enable_dns_hostnames = var.enable_dns_hostnames
 }
 
 resource "aws_internet_gateway" "gateway" {
@@ -283,7 +286,7 @@ resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.lb[0].arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = var.lb_ssl_policy
   certificate_arn   = aws_acm_certificate.lb_default[0].arn
 
   default_action {

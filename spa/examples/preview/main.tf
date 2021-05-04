@@ -19,6 +19,7 @@ module "app" {
   project                = "terraform-modules-spa-example"
   environment            = "preview"
   basic_auth_credentials = "terraform-modules-spa:example"
+  basic_auth_exclusions  = ["^/mail/.+$"]
   pull_request_router    = true
 }
 

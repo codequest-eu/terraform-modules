@@ -76,7 +76,10 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_zones_count"></a> [availability\_zones\_count](#input\_availability\_zones\_count) | Number of availability zones the network should span | `number` | `2` | no |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
+| <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable/disable DNS hostnames in the VPC | `bool` | `false` | no |
+| <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable/disable DNS support in the VPC | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production. | `string` | n/a | yes |
+| <a name="input_lb_ssl_policy"></a> [lb\_ssl\_policy](#input\_lb\_ssl\_policy) | SSL policy to set on the HTTPS ALB listener, see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies | `string` | `"ELBSecurityPolicy-TLS-1-2-2017-01"` | no |
 | <a name="input_nat_instance"></a> [nat\_instance](#input\_nat\_instance) | Use NAT instances instead of NAT gateways. | `bool` | `false` | no |
 | <a name="input_nat_instance_type"></a> [nat\_instance\_type](#input\_nat\_instance\_type) | EC2 instance type to use to create a NAT instance. | `string` | `"t3.nano"` | no |
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased project name | `string` | n/a | yes |
