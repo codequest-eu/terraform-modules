@@ -125,7 +125,7 @@ jobs:
       - name: Download cached providers
         uses: ./.github/actions/restore-cache
         with:
-          path: ./.terraform/plugins
+          path: ./.terraform/plugins/linux_amd64
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
@@ -157,7 +157,7 @@ jobs:
       - name: Download cached providers
         uses: ./.github/actions/restore-cache
         with:
-          path: ./.terraform/plugins
+          path: ./.terraform/plugins/linux_amd64
           key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
