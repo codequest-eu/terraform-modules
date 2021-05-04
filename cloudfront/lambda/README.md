@@ -42,6 +42,14 @@ AWS Lambda middleware for AWS CloudFront
 
     Tags to add to resources that support them
 
+* `timeout` (`number`, default: `5`)
+
+    The amount of time your Lambda Function has to run in seconds.
+
+    Maximum of 5 for viewer events, 30 for origin events.
+    https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-requirements-limits.html#lambda-requirements-see-limits
+
+
 
 
 ## Outputs

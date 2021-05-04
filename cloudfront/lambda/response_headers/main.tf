@@ -27,6 +27,6 @@ module "lambda" {
 
   handler                = "index.handler"
   runtime                = "nodejs12.x"
-  timeout                = 30
+  timeout                = 5
   assume_role_principals = ["edgelambda.amazonaws.com"]
 }
