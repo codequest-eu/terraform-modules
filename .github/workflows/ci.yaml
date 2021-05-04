@@ -101,7 +101,7 @@ jobs:
         env:
           MODULES_JSON: ${{ needs.discovery.outputs.modules }}
         run: |
-          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -c '.[]')
+          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -rc '.[]')
 
           for module in "${modules[@]}"; do
             echo "::group::$module"
@@ -132,7 +132,7 @@ jobs:
         env:
           MODULES_JSON: ${{ needs.discovery.outputs.modules }}
         run: |
-          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -c '.[]')
+          mapfile -t modules < <(echo -n "$MODULES_JSON" | jq -rc '.[]')
 
           for module in "${modules[@]}"; do
             echo "::group::$module"
@@ -164,7 +164,7 @@ jobs:
         env:
           EXAMPLES_JSON: ${{ needs.discovery.outputs.examples }}
         run: |
-          mapfile -t examples < <(echo -n "$EXAMPLES_JSON" | jq -c '.[]')
+          mapfile -t examples < <(echo -n "$EXAMPLES_JSON" | jq -rc '.[]')
 
           for example in "${examples[@]}"; do
             echo "::group::$example"
