@@ -107,7 +107,7 @@ jobs:
         run: |
           plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          tools/bin/find-modules | parallel -j 8 -k "
+          tools/bin/find-modules | parallel --keep-order "
             set -e
 
             echo '::group::{}'
@@ -140,7 +140,7 @@ jobs:
         run: |
           plugins="$PWD/.terraform/plugins/linux_amd64"
 
-          tools/bin/find-examples | parallel -j 8 -k "
+          tools/bin/find-examples | parallel --keep-order "
             set -e
 
             echo '::group::{}'
