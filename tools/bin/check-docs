@@ -7,9 +7,9 @@
 
 set -e
 
-tools=$(dirname $0)
-actual="$1"
-expected="$1.expected"
+module_dir=$(dirname $1)
+actual=$1
+expected=$1.expected
 
 rm_expected() {
   rm -f "$expected"
@@ -17,19 +17,15 @@ rm_expected() {
 trap rm_expected EXIT
 
 if [ ! -f "$1" ]; then
-  echo "Missing docs for $(dirname $actual)"
+  echo "Missing docs for $module_dir"
   exit 1
 fi
 
-if ! grep -qF '<!-- bin/docs -->' <"$actual"; then
-  echo "Missing bin/docs marker in $actual"
-  exit 1
-fi
-
-# generate the expected docs
-manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
-generated_docs=$("$tools/docs" "$(dirname $1)")
-printf "%s\n%s\n" "$manual_docs" "$generated_docs" >"$expected"
+cp $actual $expected
+terraform-docs \
+  --config "$(realpath --relative-to="$module_dir" .terraform-docs.yml)" \
+  --output-file "$(realpath --relative-to="$module_dir" "$expected")" \
+  "$module_dir"
 
 if diff -q "$actual" "$expected" >/dev/null; then
   echo "$actual docs are up to date"

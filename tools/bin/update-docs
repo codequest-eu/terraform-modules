@@ -5,14 +5,13 @@
 # Usage:
 # tools/bin/update-docs module/README.md
 #
-# The readme has to contain a <!-- bin/docs --> comment which signifies
-# the point where the output of bin/docs should be appended
+# The readme has to contain a <!-- BEGIN_TF_DOCS --> comments which marks
+# the point where the generated docs should be placed
 
 set -e
 
-TOOLS_BIN=$(dirname $0)
+module_dir=$(dirname $1)
 
-manual_docs=$(sed '/<!-- bin\/docs -->/q' "$1")
-generated_docs=$("$TOOLS_BIN/docs" "$(dirname $1)")
-
-printf "%s\n%s\n" "$manual_docs" "$generated_docs" >$1
+terraform-docs \
+  --config "$(realpath --relative-to="$module_dir" .terraform-docs.yml)" \
+  "$module_dir"
