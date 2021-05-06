@@ -50,7 +50,7 @@ Creates an RDS MySQL database instance
 
     Password for the master DB user
 
-* `port` (`number`, default: `5432`)
+* `port` (`number`, default: `3306`)
 
     The port on which the DB accepts connections
 

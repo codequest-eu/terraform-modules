@@ -35,7 +35,7 @@ variable "db" {
 variable "port" {
   description = "The port on which the DB accepts connections"
   type        = number
-  default     = 5432
+  default     = 3306
 }
 
 variable "username" {
