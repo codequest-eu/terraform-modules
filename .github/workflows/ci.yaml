@@ -1,0 +1,151 @@
+name: "Continuous Integration"
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  AWS_REGION: eu-west-1
+
+jobs:
+  providers:
+    name: Make sure providers are cached
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # https://github.com/marketplace/actions/hashicorp-setup-terraform
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: Setup providers cache
+        id: cache_providers
+        uses: actions/cache@v2
+        with:
+          path: ./.terraform/plugins/linux_amd64
+          key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
+          restore-keys: ${{ runner.os }}-terraform-providers
+
+      - name: Download providers
+        id: download_providers
+        if: steps.cache_providers.outputs.cache-hit != 'true'
+        run: terraform init -backend=false
+
+  terraform-fmt:
+    name: Check formatting
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: terraform fmt
+        run: terraform fmt -recursive -check -diff
+
+  terraform-docs:
+    name: Check documentation
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup terraform-docs
+        env:
+          VERSION: "0.12.0"
+        run: |
+          set -e
+
+          mkdir -p /tmp/terraform-docs/bin
+
+          cd /tmp/terraform-docs/bin
+          curl -sSLo terraform-docs.tar.gz https://terraform-docs.io/dl/v$VERSION/terraform-docs-v$VERSION-$(uname)-amd64.tar.gz
+          tar -xzf terraform-docs.tar.gz
+          chmod +x terraform-docs
+          rm terraform-docs.tar.gz
+
+          echo /tmp/terraform-docs/bin >>$GITHUB_PATH
+
+      - name: terraform docs
+        run: |
+          mapfile -t modules < <(tools/bin/find-modules)
+
+          for module in "${modules[@]}"; do
+            echo "::group::$module"
+            tools/bin/check-docs "$module/README.md"
+            echo "::endgroup::"
+          done
+
+  terraform-validate-modules:
+    name: Validate modules
+    needs: [providers]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: Download cached providers
+        uses: codequest-eu/restore-cache-action@master
+        with:
+          path: ./.terraform/plugins/linux_amd64
+          key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
+
+      - name: terraform validate
+        run: |
+          plugins="$PWD/.terraform/plugins/linux_amd64"
+
+          tools/bin/find-modules | parallel --keep-order "
+            set -e
+
+            echo '::group::{}'
+            cd {}
+            terraform init -backend=false -plugin-dir='$plugins'
+            terraform validate
+            echo '::endgroup::'
+          "
+
+  terraform-validate-examples:
+    name: Validate examples
+    needs: [providers]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 0.12.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.x
+
+      - name: Download cached providers
+        uses: codequest-eu/restore-cache-action@master
+        with:
+          path: ./.terraform/plugins/linux_amd64
+          key: ${{ runner.os }}-terraform-providers-${{ hashFiles('./versions.tf') }}
+
+      - name: terraform validate
+        run: |
+          plugins="$PWD/.terraform/plugins/linux_amd64"
+
+          tools/bin/find-examples | parallel --keep-order "
+            set -e
+
+            echo '::group::{}'
+            cd {}
+            terraform init -backend=false -plugin-dir='$plugins'
+            terraform validate
+            echo '::endgroup::'
+          "
