@@ -38,6 +38,12 @@ variable "certificate_arn" {
   default     = null
 }
 
+variable "cloudfront_ssl_policy" {
+  description = "Cloudfront SSL policy, used only when `certificate_arn` is provided. See https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html"
+  type        = string
+  default     = "TLSv1.2_2019"
+}
+
 variable "static_path" {
   description = "Base path for static assets"
   type        = string

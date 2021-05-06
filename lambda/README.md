@@ -104,7 +104,7 @@ Creates an AWS Lambda function
 
     Tags to set on resources that support them
 
-* `timeout` (`number`, default: `3`)
+* `timeout` (`number`, default: `60`)
 
     The amount of time your Lambda Function has to run in seconds
 

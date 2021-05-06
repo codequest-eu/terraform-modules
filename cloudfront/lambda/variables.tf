@@ -37,3 +37,14 @@ variable "include_body" {
   type        = bool
   default     = false
 }
+
+variable "timeout" {
+  description = <<EOT
+The amount of time your Lambda Function has to run in seconds.
+
+    Maximum of 5 for viewer events, 30 for origin events.
+    https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-requirements-limits.html#lambda-requirements-see-limits
+EOT
+  type        = number
+  default     = 5
+}

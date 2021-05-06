@@ -32,9 +32,21 @@ Creates networking resources needed for a standard ECS cluster setup:
 
     Should resources be created
 
+* `enable_dns_hostnames` (`bool`, default: `false`)
+
+    Enable/disable DNS hostnames in the VPC
+
+* `enable_dns_support` (`bool`, default: `true`)
+
+    Enable/disable DNS support in the VPC
+
 * `environment` (`string`, required)
 
     Kebab-cased environment name, eg. development, staging, production.
+
+* `lb_ssl_policy` (`string`, default: `"ELBSecurityPolicy-TLS-1-2-2017-01"`)
+
+    SSL policy to set on the HTTPS ALB listener, see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies
 
 * `nat_instance` (`bool`, default: `false`)
 
