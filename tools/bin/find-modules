@@ -1,0 +1,8 @@
+#!/bin/bash
+
+find . \
+  -name variables.tf \
+  -not -path './.*' \
+  -o -name outputs.tf \
+  -exec dirname '{}' \; \
+| sort -u
