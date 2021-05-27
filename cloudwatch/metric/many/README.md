@@ -7,7 +7,7 @@ Same as [cloudwatch/metric](./..) but allows for creating many metrics using a s
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
 
 ## Providers
 
