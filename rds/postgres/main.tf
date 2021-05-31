@@ -88,6 +88,24 @@ locals {
   db_url = var.create ? "postgres://${var.username}:${var.password}@${local.host}:${local.port}/${local.db}" : ""
 }
 
+resource "aws_ssm_parameter" "master_password" {
+  count = var.create ? 1 : 0
+
+  name  = "/${local.name}/MASTER_DB_PASSWORD"
+  tags  = local.tags
+  type  = "SecureString"
+  value = var.password
+}
+
+resource "aws_ssm_parameter" "master_url" {
+  count = var.create ? 1 : 0
+
+  name  = "/${local.name}/MASTER_DB_URL"
+  tags  = local.tags
+  type  = "SecureString"
+  value = local.db_url
+}
+
 module "management_lambda" {
   source = "./management_lambda"
   create = var.create && var.create_management_lambda
