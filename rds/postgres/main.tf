@@ -110,11 +110,11 @@ module "management_lambda" {
   source = "./management_lambda"
   create = var.create && var.create_management_lambda
 
-  name         = "${local.name}-db-management"
-  tags         = var.tags
-  database_url = local.db_url
-  vpc_id       = var.vpc_id
-  subnet_ids   = var.subnet_ids
+  name               = "${local.name}-db-management"
+  tags               = var.tags
+  database_url_param = aws_ssm_parameter.master_url[0].name
+  vpc_id             = var.vpc_id
+  subnet_ids         = var.subnet_ids
 }
 
 resource "aws_security_group_rule" "management_lambda" {
