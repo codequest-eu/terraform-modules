@@ -35,27 +35,30 @@ resource "aws_iam_role" "lambda" {
 }
 
 locals {
+  role_name = var.create ? aws_iam_role.lambda[0].name : ""
+  role_arn  = var.create ? aws_iam_role.lambda[0].arn : ""
+
   in_vpc = var.subnet_ids != null || var.security_group_ids != null
 }
 
 resource "aws_iam_role_policy_attachment" "basic" {
   count = var.create ? 1 : 0
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "vpc" {
   count = var.create && local.in_vpc ? 1 : 0
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "custom" {
   for_each = var.create ? var.policy_arns : {}
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = each.value
 }
 

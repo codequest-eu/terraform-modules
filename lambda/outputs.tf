@@ -13,6 +13,16 @@ output "qualified_arn" {
   value       = local.qualified_arn
 }
 
+output "role_name" {
+  description = "Role assumed by the Lambda function"
+  value       = local.role_name
+}
+
+output "role_arn" {
+  description = "ARN of the role assumed by the lambda function"
+  value       = local.role_arn
+}
+
 output "invoke_arn" {
   description = "The ARN to be used for invoking Lambda Function from API Gateway"
   value       = local.invoke_arn
