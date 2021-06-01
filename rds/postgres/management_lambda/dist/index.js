@@ -8327,23 +8327,35 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "handler": () => (/* binding */ handler)
-/* harmony export */ });
-/* harmony import */ var pg_lib_client__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7143);
-/* harmony import */ var pg_lib_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(pg_lib_client__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var pg_connection_string__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(8961);
-/* harmony import */ var pg_connection_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(pg_connection_string__WEBPACK_IMPORTED_MODULE_1__);
+
+// EXPORTS
+__nccwpck_require__.d(__webpack_exports__, {
+  "handler": () => (/* binding */ handler)
+});
+
+// EXTERNAL MODULE: ./node_modules/pg/lib/client.js
+var lib_client = __nccwpck_require__(7143);
+var client_default = /*#__PURE__*/__nccwpck_require__.n(lib_client);
+// EXTERNAL MODULE: ./node_modules/pg-connection-string/index.js
+var pg_connection_string = __nccwpck_require__(8961);
+var pg_connection_string_default = /*#__PURE__*/__nccwpck_require__.n(pg_connection_string);
+;// CONCATENATED MODULE: external "aws-sdk/clients/ssm"
+const ssm_namespaceObject = require("aws-sdk/clients/ssm");;
+var ssm_default = /*#__PURE__*/__nccwpck_require__.n(ssm_namespaceObject);
+;// CONCATENATED MODULE: ./index.ts
 
 
+
+const ssmClient = new (ssm_default())({});
 async function handler({ database, queries }) {
-    const clientConfig = pg_connection_string__WEBPACK_IMPORTED_MODULE_1___default().parse(process.env.DATABASE_URL);
+    const clientConfig = pg_connection_string_default().parse(await getDatabaseUrl());
     if (database) {
         clientConfig.database = database;
     }
     console.log(`Connecting to the '${clientConfig.database}' database...`);
-    const client = new (pg_lib_client__WEBPACK_IMPORTED_MODULE_0___default())(clientConfig);
+    const client = new (client_default())(clientConfig);
     await client.connect();
     try {
         for (const query of queries) {
@@ -8355,6 +8367,27 @@ async function handler({ database, queries }) {
         console.log(`Closing connection to the '${clientConfig.database}' database`);
         await client.end();
     }
+}
+async function getDatabaseUrl() {
+    var _a;
+    if (process.env.DATABASE_URL) {
+        return process.env.DATABASE_URL;
+    }
+    if (process.env.DATABASE_URL_PARAM) {
+        const paramName = process.env.DATABASE_URL_PARAM;
+        const result = await ssmClient
+            .getParameter({
+            Name: paramName,
+            WithDecryption: true,
+        })
+            .promise();
+        const paramValue = (_a = result.Parameter) === null || _a === void 0 ? void 0 : _a.Value;
+        if (!paramValue) {
+            throw new Error(`Failed to fetch ${paramName} from SSM`);
+        }
+        return paramValue;
+    }
+    throw new Error("Database credentials not provided");
 }
 
 })();

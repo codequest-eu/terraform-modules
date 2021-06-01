@@ -33,6 +33,7 @@ module "lambda" {
   subnet_ids         = var.subnet_ids
 
   environment_variables = {
-    DATABASE_URL = var.database_url
+    DATABASE_URL       = var.database_url
+    DATABASE_URL_PARAM = var.database_url_param
   }
 }

@@ -18,6 +18,13 @@ variable "name" {
 variable "database_url" {
   description = "Database URL with master credentials"
   type        = string
+  default     = null
+}
+
+variable "database_url_param" {
+  description = "AWS SSM parameter that holds database URL with master credentials"
+  type        = string
+  default     = null
 }
 
 variable "vpc_id" {

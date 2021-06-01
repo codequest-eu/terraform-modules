@@ -47,7 +47,8 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
-| <a name="input_database_url"></a> [database\_url](#input\_database\_url) | Database URL with master credentials | `string` | n/a | yes |
+| <a name="input_database_url"></a> [database\_url](#input\_database\_url) | Database URL with master credentials | `string` | `null` | no |
+| <a name="input_database_url_param"></a> [database\_url\_param](#input\_database\_url\_param) | AWS SSM parameter that holds database URL with master credentials | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Ids of subnets to place the lambda in | `list(string)` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |

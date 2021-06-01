@@ -3,9 +3,9 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
-    "@types/aws-lambda": "^8.10.76",
     "@types/node": "^12.20.13",
     "@types/pg": "^8.6.0",
+    "aws-sdk": "^2.918.0",
     "pg": "^8.6.0",
     "pg-connection-string": "^2.5.0"
   },
@@ -15,6 +15,6 @@
     "typescript": "^4.3.2"
   },
   "scripts": {
-    "build": "ncc build index.ts --target es2020 --out ../dist --license index.js.license"
+    "build": "ncc build index.ts --external 'aws-sdk/clients/ssm' --target es2020 --out ../dist --license index.js.license"
   }
 }
