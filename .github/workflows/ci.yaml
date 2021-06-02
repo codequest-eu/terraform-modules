@@ -117,27 +117,9 @@ jobs:
                  *) plugins="$PWD/.terraform/plugins" ;;
           esac
 
-          tools/bin/find-modules | parallel --keep-order "
-            validate() {
-              set -e
+          export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
 
-              cd {}
-              terraform init -backend=false -plugin-dir='$plugins'
-              terraform validate
-            }
-
-            echo '::group::{} output'
-            validate
-            validate_exit_code=$?
-            echo '::endgroup::'
-
-            if [ $validate_exit_code -eq 0 ]; then
-              echo '✅ {}'
-            else
-              echo '❌ {}'
-              exit 1
-            fi
-          "
+          tools/bin/validate-all-modules
 
   terraform-validate-examples:
     needs: [download_providers]
@@ -173,24 +155,6 @@ jobs:
                  *) plugins="$PWD/.terraform/plugins" ;;
           esac
 
-          tools/bin/find-examples | parallel --keep-order "
-            validate() {
-              set -e
+          export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
 
-              cd {}
-              terraform init -backend=false -plugin-dir='$plugins'
-              terraform validate
-            }
-
-            echo '::group::{} output'
-            validate
-            validate_exit_code=$?
-            echo '::endgroup::'
-
-            if [ $validate_exit_code -eq 0 ]; then
-              echo '✅ {}'
-            else
-              echo '❌ {}'
-              exit 1
-            fi
-          "
+          tools/bin/validate-all-examples

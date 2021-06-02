@@ -1,0 +1,24 @@
+#!/bin/bash
+
+module_dir="$1"
+
+validate() {
+  set -e
+
+  cd "$module_dir"
+  terraform init -backend=false
+  terraform validate
+}
+
+validate_out=$(validate 2>&1)
+validate_exit_code=$?
+
+if [ $validate_exit_code -eq 0 ]; then
+  echo "✅ $module_dir"
+else
+  echo "❌ $module_dir"
+  [ -n "$CI" ] && echo "::group::$module_dir output"
+  echo -n "$validate_out"
+  [ -n "$CI" ] && echo "::endgroup::"
+  exit $validate_exit_code
+fi
