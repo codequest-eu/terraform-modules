@@ -119,7 +119,10 @@ jobs:
 
       - name: terraform validate
         run: |
-          plugins="$PWD/.terraform/plugins"
+          case '${{ matrix.tf_version }}' in
+            0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
+                 *) plugins="$PWD/.terraform/plugins" ;;
+          esac
 
           tools/bin/find-modules | parallel --keep-order "
             set -e
@@ -160,7 +163,10 @@ jobs:
 
       - name: terraform validate
         run: |
-          plugins="$PWD/.terraform/plugins"
+          case '${{ matrix.tf_version }}' in
+            0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
+                 *) plugins="$PWD/.terraform/plugins" ;;
+          esac
 
           tools/bin/find-examples | parallel --keep-order "
             set -e
