@@ -82,7 +82,7 @@ jobs:
         id: cache_providers
         uses: actions/cache@v2
         with:
-          path: ./.terraform/plugins/linux_amd64
+          path: ./.terraform/plugins
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: Download providers
@@ -114,12 +114,12 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins/linux_amd64
+          path: ./.terraform/plugins
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
-          plugins="$PWD/.terraform/plugins/linux_amd64"
+          plugins="$PWD/.terraform/plugins"
 
           tools/bin/find-modules | parallel --keep-order "
             set -e
@@ -155,12 +155,12 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins/linux_amd64
+          path: ./.terraform/plugins
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
-          plugins="$PWD/.terraform/plugins/linux_amd64"
+          plugins="$PWD/.terraform/plugins"
 
           tools/bin/find-examples | parallel --keep-order "
             set -e
