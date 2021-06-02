@@ -125,13 +125,25 @@ jobs:
           esac
 
           tools/bin/find-modules | parallel --keep-order "
-            set -e
+            validate() {
+              set -e
 
-            echo '::group::{}'
-            cd {}
-            terraform init -backend=false -plugin-dir='$plugins'
-            terraform validate
+              cd {}
+              terraform init -backend=false -plugin-dir='$plugins'
+              terraform validate
+            }
+
+            echo '::group::{} output'
+            validate
+            validate_exit_code=$?
             echo '::endgroup::'
+
+            if [ $validate_exit_code -eq 0 ]; then
+              echo '✅ {}'
+            else
+              echo '❌ {}'
+              exit 1
+            fi
           "
 
   terraform-validate-examples:
@@ -169,11 +181,23 @@ jobs:
           esac
 
           tools/bin/find-examples | parallel --keep-order "
-            set -e
+            validate() {
+              set -e
 
-            echo '::group::{}'
-            cd {}
-            terraform init -backend=false -plugin-dir='$plugins'
-            terraform validate
+              cd {}
+              terraform init -backend=false -plugin-dir='$plugins'
+              terraform validate
+            }
+
+            echo '::group::{} output'
+            validate
+            validate_exit_code=$?
             echo '::endgroup::'
+
+            if [ $validate_exit_code -eq 0 ]; then
+              echo '✅ {}'
+            else
+              echo '❌ {}'
+              exit 1
+            fi
           "
