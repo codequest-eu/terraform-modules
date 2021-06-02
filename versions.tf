@@ -1,6 +1,6 @@
 # Used in CI to download plugins once
 terraform {
-  required_version = ">= 0.12, <0.13"
+  required_version = ">= 0.12, <0.14"
 
   # Make sure all providers needed by any module are listed
   required_providers {
