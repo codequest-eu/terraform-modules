@@ -49,14 +49,7 @@ jobs:
           echo /tmp/terraform-docs/bin >>$GITHUB_PATH
 
       - name: terraform docs
-        run: |
-          mapfile -t modules < <(tools/bin/find-modules)
-
-          for module in "${modules[@]}"; do
-            echo "::group::$module"
-            tools/bin/check-docs "$module/README.md"
-            echo "::endgroup::"
-          done
+        run: tools/bin/check-all-docs
 
   download_providers:
     runs-on: ubuntu-20.04
