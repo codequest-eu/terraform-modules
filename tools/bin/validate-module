@@ -18,7 +18,7 @@ if [ $validate_exit_code -eq 0 ]; then
 else
   echo "❌ $module_dir"
   [ -n "$CI" ] && echo "::group::$module_dir output"
-  echo -n "$validate_out"
+  echo "$validate_out"
   [ -n "$CI" ] && echo "::endgroup::"
   exit $validate_exit_code
 fi
