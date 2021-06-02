@@ -10,6 +10,21 @@ env:
   AWS_REGION: eu-west-1
 
 jobs:
+  terraform-fmt:
+    name: Check formatting
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 0.13.x
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.13.x
+
+      - name: terraform fmt
+        run: terraform fmt -recursive -check -diff
+
   providers:
     name: Make sure providers are cached
     runs-on: ubuntu-20.04
@@ -35,21 +50,6 @@ jobs:
         id: download_providers
         if: steps.cache_providers.outputs.cache-hit != 'true'
         run: terraform init -backend=false
-
-  terraform-fmt:
-    name: Check formatting
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Terraform 0.12.x
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.12.x
-
-      - name: terraform fmt
-        run: terraform fmt -recursive -check -diff
 
   terraform-docs:
     name: Check documentation
