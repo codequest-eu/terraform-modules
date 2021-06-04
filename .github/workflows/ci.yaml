@@ -82,12 +82,8 @@ jobs:
 
       - name: Download providers
         id: download_providers
-        # if: steps.cache_providers.outputs.cache-hit != 'true'
-        run: |
-          terraform init -backend=false
-
-          pwd
-          tree .terraform
+        if: steps.cache_providers.outputs.cache-hit != 'true'
+        run: terraform init -backend=false
 
   terraform-validate-modules:
     needs: [download_providers]
@@ -127,9 +123,7 @@ jobs:
             *) plugins="$PWD/.terraform/providers" ;;
           esac
 
-          pwd
-          tree .terraform
-
+          echo "plugins: $plugins"
           export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
 
           tools/bin/validate-all-modules
@@ -171,9 +165,6 @@ jobs:
             0.13.*) plugins="$PWD/.terraform/plugins" ;;
             *) plugins="$PWD/.terraform/providers" ;;
           esac
-
-          pwd
-          tree .terraform
 
           export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
 
