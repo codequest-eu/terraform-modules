@@ -75,7 +75,9 @@ jobs:
         id: cache_providers
         uses: actions/cache@v2
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: Download providers
@@ -112,14 +114,17 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
           case '${{ matrix.tf_version }}' in
             0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
-                 *) plugins="$PWD/.terraform/plugins" ;;
+            0.13.*) plugins="$PWD/.terraform/plugins" ;;
+            *) plugins="$PWD/.terraform/providers" ;;
           esac
 
           pwd
@@ -154,14 +159,17 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
           case '${{ matrix.tf_version }}' in
             0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
-                 *) plugins="$PWD/.terraform/plugins" ;;
+            0.13.*) plugins="$PWD/.terraform/plugins" ;;
+            *) plugins="$PWD/.terraform/providers" ;;
           esac
 
           pwd
