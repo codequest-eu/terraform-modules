@@ -102,12 +102,19 @@ resource "null_resource" "environment_db_password" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${path.module}/bin/psql_invoke"
-    environment = { EVENT = jsonencode({
-      queries = [
-        "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
-      ]
-    }) }
+    command = <<-EOT
+      ${path.module}/bin/psql_invoke 2>&1 \
+      | sed "s/$SENSITIVE_PATTERN/(sensitive)/"
+    EOT
+
+    environment = {
+      SENSITIVE_PATTERN = self.triggers.password
+      EVENT = jsonencode({
+        queries = [
+          "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
+        ]
+      })
+    }
   }
 }
 
