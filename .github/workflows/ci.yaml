@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Terraform 0.14.x
+      - name: Setup Terraform 0.15.x
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.14.x
+          terraform_version: 0.15.x
 
       - name: terraform fmt
         run: terraform fmt -recursive -check -diff
