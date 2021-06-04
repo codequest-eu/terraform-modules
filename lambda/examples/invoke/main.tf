@@ -25,6 +25,8 @@ module "lambda_invoke" {
 resource "random_pet" "subject" {}
 
 resource "null_resource" "invoke" {
+  depends_on = [module.lambda_invoke]
+
   triggers = {
     subject = random_pet.subject.id
   }

@@ -57,7 +57,8 @@ locals {
 }
 
 resource "null_resource" "environment_db_user" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name = "terraform_modules_${each.key}"
@@ -91,7 +92,8 @@ resource "random_password" "environment_db_password" {
 }
 
 resource "null_resource" "environment_db_password" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name     = null_resource.environment_db_user[each.key].triggers.name
@@ -110,7 +112,8 @@ resource "null_resource" "environment_db_password" {
 }
 
 resource "null_resource" "environment_db" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name  = null_resource.environment_db_user[each.key].triggers.name
