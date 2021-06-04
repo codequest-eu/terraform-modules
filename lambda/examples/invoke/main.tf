@@ -12,9 +12,9 @@ module "lambda_invoke" {
 
   files = {
     "index.js" = <<EOF
-      async function handler({ provisioner }) {
-        console.log("Hello " + provisioner + "!")
-        return provisioner
+      async function handler({ action, subject }) {
+        console.log(`$${action} $${subject}`)
+        return { action, subject }
       }
 
       module.exports = { handler }
@@ -22,20 +22,28 @@ module "lambda_invoke" {
   }
 }
 
+resource "random_pet" "subject" {}
+
 resource "null_resource" "invoke" {
   triggers = {
-    version = module.lambda_invoke.version
+    subject = random_pet.subject.id
   }
 
   provisioner "local-exec" {
-    when        = create
-    environment = { EVENT = jsonencode({ provisioner = "create" }) }
-    command     = module.lambda_invoke.invoke_script
+    when    = create
+    command = "${path.module}/bin/invoke"
+    environment = { EVENT = jsonencode({
+      action  = "create"
+      subject = self.triggers.subject
+    }) }
   }
 
   provisioner "local-exec" {
-    when        = destroy
-    environment = { EVENT = jsonencode({ provisioner = "destroy" }) }
-    command     = module.lambda_invoke.invoke_script
+    when    = destroy
+    command = "${path.module}/bin/invoke"
+    environment = { EVENT = jsonencode({
+      action  = "destroy"
+      subject = self.triggers.subject
+    }) }
   }
 }

@@ -65,7 +65,7 @@ resource "null_resource" "environment_db_user" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = [
         "CREATE ROLE ${self.triggers.name} WITH LOGIN",
@@ -76,7 +76,7 @@ resource "null_resource" "environment_db_user" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = ["DROP ROLE ${self.triggers.name}"]
     }) }
@@ -100,7 +100,7 @@ resource "null_resource" "environment_db_password" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = [
         "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
@@ -119,7 +119,7 @@ resource "null_resource" "environment_db" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = [
         "CREATE DATABASE ${self.triggers.name} OWNER ${self.triggers.owner}"
@@ -129,7 +129,7 @@ resource "null_resource" "environment_db" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = ["DROP DATABASE ${self.triggers.name}"]
     }) }
