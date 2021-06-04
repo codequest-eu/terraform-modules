@@ -18,7 +18,7 @@ Registers a domain with AWS SES and verifies it
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.15 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.16 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers

@@ -15,7 +15,7 @@ Consult the [example](../../examples/response_headers) for how it could be done 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.15 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.16 |
 
 ## Providers
 
