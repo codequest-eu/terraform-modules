@@ -119,6 +119,7 @@ jobs:
                  *) plugins="$PWD/.terraform/plugins" ;;
           esac
 
+          echo "plugins: $plugins"
           export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
 
           tools/bin/validate-all-modules
