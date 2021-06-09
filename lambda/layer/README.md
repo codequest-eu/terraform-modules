@@ -20,7 +20,7 @@ Creates an AWS Lambda Layer that can be attached to a AWS Lambda Function
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_package"></a> [package](#module\_package) | ./../../zip |  |
+| <a name="module_package"></a> [package](#module\_package) | ./../../zip | n/a |
 
 ## Resources
 

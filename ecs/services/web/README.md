@@ -20,25 +20,25 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../../cloudwatch/consts |  |
-| <a name="module_metric_average_cpu_reservation"></a> [metric\_average\_cpu\_reservation](#module\_metric\_average\_cpu\_reservation) | ./../../../cloudwatch/metric |  |
-| <a name="module_metric_average_memory_reservation"></a> [metric\_average\_memory\_reservation](#module\_metric\_average\_memory\_reservation) | ./../../../cloudwatch/metric |  |
-| <a name="module_metric_connection_error_percentage"></a> [metric\_connection\_error\_percentage](#module\_metric\_connection\_error\_percentage) | ./../../../cloudwatch/metric_expression |  |
-| <a name="module_metric_connection_errors"></a> [metric\_connection\_errors](#module\_metric\_connection\_errors) | ./../../../cloudwatch/metric |  |
-| <a name="module_metric_healthy_tasks"></a> [metric\_healthy\_tasks](#module\_metric\_healthy\_tasks) | ./../../../cloudwatch/metric |  |
-| <a name="module_metric_requests"></a> [metric\_requests](#module\_metric\_requests) | ./../../../cloudwatch/metric |  |
-| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_response_status_percentages"></a> [metrics\_response\_status\_percentages](#module\_metrics\_response\_status\_percentages) | ./../../../cloudwatch/metric_expression/many |  |
-| <a name="module_metrics_response_statuses"></a> [metrics\_response\_statuses](#module\_metrics\_response\_statuses) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_response_time"></a> [metrics\_response\_time](#module\_metrics\_response\_time) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_tasks"></a> [metrics\_tasks](#module\_metrics\_tasks) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_response_percentages"></a> [widget\_response\_percentages](#module\_widget\_response\_percentages) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_response_time"></a> [widget\_response\_time](#module\_widget\_response\_time) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_responses"></a> [widget\_responses](#module\_widget\_responses) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_scaling"></a> [widget\_scaling](#module\_widget\_scaling) | ./../../../cloudwatch/metric_widget |  |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../../cloudwatch/consts | n/a |
+| <a name="module_metric_average_cpu_reservation"></a> [metric\_average\_cpu\_reservation](#module\_metric\_average\_cpu\_reservation) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metric_average_memory_reservation"></a> [metric\_average\_memory\_reservation](#module\_metric\_average\_memory\_reservation) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metric_connection_error_percentage"></a> [metric\_connection\_error\_percentage](#module\_metric\_connection\_error\_percentage) | ./../../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_connection_errors"></a> [metric\_connection\_errors](#module\_metric\_connection\_errors) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metric_healthy_tasks"></a> [metric\_healthy\_tasks](#module\_metric\_healthy\_tasks) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metric_requests"></a> [metric\_requests](#module\_metric\_requests) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_response_status_percentages"></a> [metrics\_response\_status\_percentages](#module\_metrics\_response\_status\_percentages) | ./../../../cloudwatch/metric_expression/many | n/a |
+| <a name="module_metrics_response_statuses"></a> [metrics\_response\_statuses](#module\_metrics\_response\_statuses) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_response_time"></a> [metrics\_response\_time](#module\_metrics\_response\_time) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_tasks"></a> [metrics\_tasks](#module\_metrics\_tasks) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_response_percentages"></a> [widget\_response\_percentages](#module\_widget\_response\_percentages) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_response_time"></a> [widget\_response\_time](#module\_widget\_response\_time) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_responses"></a> [widget\_responses](#module\_widget\_responses) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_scaling"></a> [widget\_scaling](#module\_widget\_scaling) | ./../../../cloudwatch/metric_widget | n/a |
 
 ## Resources
 
