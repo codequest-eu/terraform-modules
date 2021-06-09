@@ -31,14 +31,8 @@ locals {
     yellow = 33
     green  = 32
   }
-}
 
-data "template_file" "user_data" {
-  count = var.create ? 1 : 0
-
-  template = file("${path.module}/templates/user_data.sh")
-
-  vars = {
+  user_data = templatefile("${path.module}/templates/user_data.sh", {
     project     = var.project
     environment = var.environment
     environment_color = (
@@ -51,7 +45,7 @@ data "template_file" "user_data" {
     detailed_monitoring = var.detailed_monitoring
     user_data           = var.user_data
     ecs_agent_config    = var.ecs_agent_config
-  }
+  })
 }
 
 # No longer used, left to make sure terraform doesn't try to destroy this
@@ -65,7 +59,7 @@ resource "aws_launch_configuration" "hosts" {
   instance_type        = var.instance_type
   security_groups      = [var.security_group_id]
   iam_instance_profile = var.instance_profile
-  user_data            = data.template_file.user_data[0].rendered
+  user_data            = local.user_data
   enable_monitoring    = var.detailed_monitoring
 
   lifecycle {
@@ -80,7 +74,7 @@ resource "aws_launch_template" "hosts" {
   image_id               = data.aws_ami.ecs_amazon_linux[0].id
   instance_type          = var.instance_type
   vpc_security_group_ids = [var.security_group_id]
-  user_data              = base64encode(data.template_file.user_data[0].rendered)
+  user_data              = base64encode(local.user_data)
 
   iam_instance_profile {
     name = var.instance_profile

@@ -9,14 +9,12 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
-| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.1.2 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
-| <a name="provider_template"></a> [template](#provider\_template) | >= 2.1.2 |
 
 ## Modules
 
@@ -55,7 +53,6 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 | [aws_launch_configuration.hosts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration) | resource |
 | [aws_launch_template.hosts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_ami.ecs_amazon_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
-| [template_file.user_data](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
