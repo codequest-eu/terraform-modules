@@ -20,7 +20,7 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_certificate"></a> [certificate](#module\_certificate) | ../../../ssl/acm |  |
+| <a name="module_certificate"></a> [certificate](#module\_certificate) | ../../../ssl/acm | n/a |
 
 ## Resources
 

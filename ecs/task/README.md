@@ -47,8 +47,8 @@ We recommend creating the task definition using `image` or `image_name` + `image
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_container"></a> [container](#module\_container) | ./container_definition |  |
-| <a name="module_container_log"></a> [container\_log](#module\_container\_log) | ./log_group |  |
+| <a name="module_container"></a> [container](#module\_container) | ./container_definition | n/a |
+| <a name="module_container_log"></a> [container\_log](#module\_container\_log) | ./log_group | n/a |
 
 ## Resources
 

@@ -19,7 +19,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_lambda"></a> [lambda](#module\_lambda) | ./../../lambda |  |
+| <a name="module_lambda"></a> [lambda](#module\_lambda) | ./../../lambda | n/a |
 
 ## Resources
 

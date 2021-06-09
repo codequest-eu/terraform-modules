@@ -20,15 +20,15 @@ Creates an ECS service for background workers
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../../cloudwatch/consts |  |
-| <a name="module_metric_average_cpu_reservation"></a> [metric\_average\_cpu\_reservation](#module\_metric\_average\_cpu\_reservation) | ./../../../cloudwatch/metric |  |
-| <a name="module_metric_average_memory_reservation"></a> [metric\_average\_memory\_reservation](#module\_metric\_average\_memory\_reservation) | ./../../../cloudwatch/metric |  |
-| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_metrics_tasks"></a> [metrics\_tasks](#module\_metrics\_tasks) | ./../../../cloudwatch/metric/many |  |
-| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../../cloudwatch/metric_widget |  |
-| <a name="module_widget_scaling"></a> [widget\_scaling](#module\_widget\_scaling) | ./../../../cloudwatch/metric_widget |  |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../../cloudwatch/consts | n/a |
+| <a name="module_metric_average_cpu_reservation"></a> [metric\_average\_cpu\_reservation](#module\_metric\_average\_cpu\_reservation) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metric_average_memory_reservation"></a> [metric\_average\_memory\_reservation](#module\_metric\_average\_memory\_reservation) | ./../../../cloudwatch/metric | n/a |
+| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_tasks"></a> [metrics\_tasks](#module\_metrics\_tasks) | ./../../../cloudwatch/metric/many | n/a |
+| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_scaling"></a> [widget\_scaling](#module\_widget\_scaling) | ./../../../cloudwatch/metric_widget | n/a |
 
 ## Resources
 
