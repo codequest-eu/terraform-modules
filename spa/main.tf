@@ -83,7 +83,7 @@ resource "aws_cloudfront_origin_access_identity" "assets" {
 }
 
 data "aws_iam_policy_document" "assets_cdn" {
-  count = var.create && !var.static_website ? 1 : 0
+  count = var.create && ! var.static_website ? 1 : 0
 
   statement {
     actions   = ["s3:ListBucket"]

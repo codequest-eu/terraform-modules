@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Terraform 0.15.x
+      - name: Setup Terraform 1.x
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.15.x
+          terraform_version: 1.x
 
       - name: terraform fmt
         run: terraform fmt -recursive -check -diff
@@ -61,6 +61,7 @@ jobs:
           - "0.13.x"
           - "0.14.x"
           - "0.15.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Download providers"
     steps:
@@ -98,6 +99,7 @@ jobs:
           - "0.13.x"
           - "0.14.x"
           - "0.15.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate modules"
     steps:
@@ -141,6 +143,7 @@ jobs:
           - "0.13.x"
           - "0.14.x"
           - "0.15.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate examples"
     steps:
