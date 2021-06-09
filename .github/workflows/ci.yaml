@@ -60,7 +60,6 @@ jobs:
           - "0.12.x"
           - "0.13.x"
           - "0.14.x"
-          - "0.15.x"
           - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Download providers"
@@ -98,7 +97,6 @@ jobs:
           - "0.12.x"
           - "0.13.x"
           - "0.14.x"
-          - "0.15.x"
           - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate modules"
@@ -142,7 +140,6 @@ jobs:
           - "0.12.x"
           - "0.13.x"
           - "0.14.x"
-          - "0.15.x"
           - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate examples"
