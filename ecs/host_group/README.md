@@ -22,30 +22,30 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts |  |
-| <a name="module_metric_cpu_credit_usage"></a> [metric\_cpu\_credit\_usage](#module\_metric\_cpu\_credit\_usage) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_memory_utilization"></a> [metric\_memory\_utilization](#module\_metric\_memory\_utilization) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_swap_utilization"></a> [metric\_swap\_utilization](#module\_metric\_swap\_utilization) | ./../../cloudwatch/metric |  |
-| <a name="module_metrics_cpu_credit_balance"></a> [metrics\_cpu\_credit\_balance](#module\_metrics\_cpu\_credit\_balance) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_instance_count"></a> [metrics\_instance\_count](#module\_metrics\_instance\_count) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_io"></a> [metrics\_io](#module\_metrics\_io) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_root_fs_free"></a> [metrics\_root\_fs\_free](#module\_metrics\_root\_fs\_free) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_root_fs_utilization"></a> [metrics\_root\_fs\_utilization](#module\_metrics\_root\_fs\_utilization) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_swap_utilization"></a> [metrics\_swap\_utilization](#module\_metrics\_swap\_utilization) | ./../../cloudwatch/metric/many |  |
-| <a name="module_widget_cpu_credit_balance"></a> [widget\_cpu\_credit\_balance](#module\_widget\_cpu\_credit\_balance) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_cpu_credit_usage"></a> [widget\_cpu\_credit\_usage](#module\_widget\_cpu\_credit\_usage) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_fs_io_bytes"></a> [widget\_fs\_io\_bytes](#module\_widget\_fs\_io\_bytes) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_fs_io_ops"></a> [widget\_fs\_io\_ops](#module\_widget\_fs\_io\_ops) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_instance_scaling"></a> [widget\_instance\_scaling](#module\_widget\_instance\_scaling) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_instance_states"></a> [widget\_instance\_states](#module\_widget\_instance\_states) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_network_bytes"></a> [widget\_network\_bytes](#module\_widget\_network\_bytes) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_network_packets"></a> [widget\_network\_packets](#module\_widget\_network\_packets) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_root_fs_free"></a> [widget\_root\_fs\_free](#module\_widget\_root\_fs\_free) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_root_fs_utilization"></a> [widget\_root\_fs\_utilization](#module\_widget\_root\_fs\_utilization) | ./../../cloudwatch/metric_widget |  |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts | n/a |
+| <a name="module_metric_cpu_credit_usage"></a> [metric\_cpu\_credit\_usage](#module\_metric\_cpu\_credit\_usage) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_memory_utilization"></a> [metric\_memory\_utilization](#module\_metric\_memory\_utilization) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_swap_utilization"></a> [metric\_swap\_utilization](#module\_metric\_swap\_utilization) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metrics_cpu_credit_balance"></a> [metrics\_cpu\_credit\_balance](#module\_metrics\_cpu\_credit\_balance) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_cpu_utilization"></a> [metrics\_cpu\_utilization](#module\_metrics\_cpu\_utilization) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_instance_count"></a> [metrics\_instance\_count](#module\_metrics\_instance\_count) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_io"></a> [metrics\_io](#module\_metrics\_io) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_memory_utilization"></a> [metrics\_memory\_utilization](#module\_metrics\_memory\_utilization) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_root_fs_free"></a> [metrics\_root\_fs\_free](#module\_metrics\_root\_fs\_free) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_root_fs_utilization"></a> [metrics\_root\_fs\_utilization](#module\_metrics\_root\_fs\_utilization) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_swap_utilization"></a> [metrics\_swap\_utilization](#module\_metrics\_swap\_utilization) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_widget_cpu_credit_balance"></a> [widget\_cpu\_credit\_balance](#module\_widget\_cpu\_credit\_balance) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_cpu_credit_usage"></a> [widget\_cpu\_credit\_usage](#module\_widget\_cpu\_credit\_usage) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_fs_io_bytes"></a> [widget\_fs\_io\_bytes](#module\_widget\_fs\_io\_bytes) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_fs_io_ops"></a> [widget\_fs\_io\_ops](#module\_widget\_fs\_io\_ops) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_instance_scaling"></a> [widget\_instance\_scaling](#module\_widget\_instance\_scaling) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_instance_states"></a> [widget\_instance\_states](#module\_widget\_instance\_states) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_network_bytes"></a> [widget\_network\_bytes](#module\_widget\_network\_bytes) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_network_packets"></a> [widget\_network\_packets](#module\_widget\_network\_packets) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_root_fs_free"></a> [widget\_root\_fs\_free](#module\_widget\_root\_fs\_free) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_root_fs_utilization"></a> [widget\_root\_fs\_utilization](#module\_widget\_root\_fs\_utilization) | ./../../cloudwatch/metric_widget | n/a |
 
 ## Resources
 

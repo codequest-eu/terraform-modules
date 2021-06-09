@@ -35,9 +35,9 @@ Module creates:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_basic_auth"></a> [basic\_auth](#module\_basic\_auth) | ./middleware |  |
-| <a name="module_middleware_common"></a> [middleware\_common](#module\_middleware\_common) | ./middleware_common |  |
-| <a name="module_pull_request_router"></a> [pull\_request\_router](#module\_pull\_request\_router) | ./middleware |  |
+| <a name="module_basic_auth"></a> [basic\_auth](#module\_basic\_auth) | ./middleware | n/a |
+| <a name="module_middleware_common"></a> [middleware\_common](#module\_middleware\_common) | ./middleware_common | n/a |
+| <a name="module_pull_request_router"></a> [pull\_request\_router](#module\_pull\_request\_router) | ./middleware | n/a |
 
 ## Resources
 

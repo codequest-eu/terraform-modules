@@ -60,7 +60,7 @@ jobs:
 
       - name: Setup terraform-docs
         env:
-          VERSION: "0.12.0"
+          VERSION: "0.14.1"
         run: |
           set -e
 

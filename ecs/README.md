@@ -52,17 +52,17 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_access"></a> [access](#module\_access) | ./access |  |
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../cloudwatch/consts |  |
-| <a name="module_metrics_count"></a> [metrics\_count](#module\_metrics\_count) | ./../cloudwatch/metric/many |  |
-| <a name="module_metrics_cpu"></a> [metrics\_cpu](#module\_metrics\_cpu) | ./../cloudwatch/metric/many |  |
-| <a name="module_metrics_memory"></a> [metrics\_memory](#module\_metrics\_memory) | ./../cloudwatch/metric/many |  |
-| <a name="module_network"></a> [network](#module\_network) | ./network |  |
-| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../cloudwatch/metric_widget |  |
-| <a name="module_widget_instances"></a> [widget\_instances](#module\_widget\_instances) | ./../cloudwatch/metric_widget |  |
-| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../cloudwatch/metric_widget |  |
-| <a name="module_widget_services"></a> [widget\_services](#module\_widget\_services) | ./../cloudwatch/metric_widget |  |
-| <a name="module_widget_tasks"></a> [widget\_tasks](#module\_widget\_tasks) | ./../cloudwatch/metric_widget |  |
+| <a name="module_access"></a> [access](#module\_access) | ./access | n/a |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../cloudwatch/consts | n/a |
+| <a name="module_metrics_count"></a> [metrics\_count](#module\_metrics\_count) | ./../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_cpu"></a> [metrics\_cpu](#module\_metrics\_cpu) | ./../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_memory"></a> [metrics\_memory](#module\_metrics\_memory) | ./../cloudwatch/metric/many | n/a |
+| <a name="module_network"></a> [network](#module\_network) | ./network | n/a |
+| <a name="module_widget_cpu_utilization"></a> [widget\_cpu\_utilization](#module\_widget\_cpu\_utilization) | ./../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_instances"></a> [widget\_instances](#module\_widget\_instances) | ./../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_memory_utilization"></a> [widget\_memory\_utilization](#module\_widget\_memory\_utilization) | ./../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_services"></a> [widget\_services](#module\_widget\_services) | ./../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_tasks"></a> [widget\_tasks](#module\_widget\_tasks) | ./../cloudwatch/metric_widget | n/a |
 
 ## Resources
 
