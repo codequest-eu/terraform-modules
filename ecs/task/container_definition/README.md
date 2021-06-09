@@ -2,76 +2,47 @@
 
 Creates a container definition that can be provided to a task definition
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
 
 ## Inputs
 
-* `command` (`list(string)`, default: `null`)
-
-    Command override.
-
-* `cpu` (`number`, default: `0`)
-
-    The number of cpu units (1/1024 vCPU) the Amazon ECS container agent will reserve for the container.
-
-* `create` (`bool`, default: `true`)
-
-    Should resources be created
-
-* `entry_point` (`list(string)`, default: `null`)
-
-    Entry point override.
-
-* `environment_variables` (`map(string)`, default: `{}`)
-
-    The environment variables to pass to a container.
-
-* `essential` (`bool`, default: `true`)
-
-    If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped.
-
-* `image` (`string`, required)
-
-    Container image
-
-* `log_config` (``, default: `null`)
-
-    jsonencodable logging configuration
-
-* `memory_hard_limit` (`number`, default: `1024`)
-
-    The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed.
-
-* `memory_soft_limit` (`number`, default: `256`)
-
-    The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when needed.
-
-* `name` (`string`, required)
-
-    Container name
-
-* `ports` (`list(number)`, default: `[]`)
-
-    List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port
-
-* `working_directory` (`string`, default: `null`)
-
-    Working directory override.
-
-
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_command"></a> [command](#input\_command) | Command override. | `list(string)` | `null` | no |
+| <a name="input_cpu"></a> [cpu](#input\_cpu) | The number of cpu units (1/1024 vCPU) the Amazon ECS container agent will reserve for the container. | `number` | `0` | no |
+| <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
+| <a name="input_entry_point"></a> [entry\_point](#input\_entry\_point) | Entry point override. | `list(string)` | `null` | no |
+| <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | The environment variables to pass to a container. | `map(string)` | `{}` | no |
+| <a name="input_essential"></a> [essential](#input\_essential) | If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. | `bool` | `true` | no |
+| <a name="input_image"></a> [image](#input\_image) | Container image | `string` | n/a | yes |
+| <a name="input_log_config"></a> [log\_config](#input\_log\_config) | jsonencodable logging configuration | `any` | `null` | no |
+| <a name="input_memory_hard_limit"></a> [memory\_hard\_limit](#input\_memory\_hard\_limit) | The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. | `number` | `1024` | no |
+| <a name="input_memory_soft_limit"></a> [memory\_soft\_limit](#input\_memory\_soft\_limit) | The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when needed. | `number` | `256` | no |
+| <a name="input_name"></a> [name](#input\_name) | Container name | `string` | n/a | yes |
+| <a name="input_ports"></a> [ports](#input\_ports) | List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port | `list(number)` | `[]` | no |
+| <a name="input_working_directory"></a> [working\_directory](#input\_working\_directory) | Working directory override. | `string` | `null` | no |
 
 ## Outputs
 
-* `definition`
-
-    container definition
-
-* `json`
-
-    container definition JSON
+| Name | Description |
+|------|-------------|
+| <a name="output_definition"></a> [definition](#output\_definition) | container definition |
+| <a name="output_json"></a> [json](#output\_json) | container definition JSON |
+<!-- END_TF_DOCS -->

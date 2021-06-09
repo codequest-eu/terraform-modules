@@ -2,48 +2,42 @@
 
 Basic authentication middleware for AWS CloudFront
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+## Providers
+
+No providers.
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_middleware"></a> [middleware](#module\_middleware) | ./.. | n/a |
+
+## Resources
+
+No resources.
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
-
-    Should resources be created
-
-* `credentials` (`string`, required)
-
-    Basic auth credentials
-
-* `name` (`string`, required)
-
-    Lambda name
-
-* `tags` (`map(string)`, default: `{}`)
-
-    Tags to add to resources that support them
-
-
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
+| <a name="input_credentials"></a> [credentials](#input\_credentials) | Basic auth credentials | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 
 ## Outputs
 
-* `arn`
-
-    Lambda ARN
-
-* `include_body`
-
-    Whether cloudfront should include the viewer/origin request body
-
-* `metrics`
-
-    Cloudwatch monitoring metrics
-
-* `widgets`
-
-    Cloudwatch dashboard widgets
+| Name | Description |
+|------|-------------|
+| <a name="output_arn"></a> [arn](#output\_arn) | Lambda ARN |
+| <a name="output_include_body"></a> [include\_body](#output\_include\_body) | Whether cloudfront should include the viewer/origin request body |
+| <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
+| <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
+<!-- END_TF_DOCS -->

@@ -2,33 +2,37 @@
 
 <!-- TODO: {{ path }} description -->
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
-| `aws` | `>= 2.40.0` |
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
 
 ## Inputs
 
-* `create` (`bool`, default: `true`)
-
-    Whether any resources should be created
-
-* `tags` (`map(string)`, default: `{}`)
-
-    Tags to add to resources
-
-
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_create"></a> [create](#input\_create) | Whether any resources should be created | `bool` | `true` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
-* `metrics`
-
-    Cloudwatch monitoring metrics
-
-* `widgets`
-
-    Cloudwatch dashboard widgets
+| Name | Description |
+|------|-------------|
+| <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
+| <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
+<!-- END_TF_DOCS -->

@@ -2,32 +2,38 @@
 
 Same as [cloudwatch/metric](./..) but allows for creating many metrics using a single module
 
-<!-- bin/docs -->
+<!-- BEGIN_TF_DOCS -->
+## Requirements
 
-## Versions
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
 
-| Provider | Requirements |
-|-|-|
-| terraform | `>= 0.12` |
+## Providers
+
+No providers.
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_default"></a> [default](#module\_default) | ./.. | n/a |
+
+## Resources
+
+No resources.
 
 ## Inputs
 
-* `vars` (`any`, default: `[]`)
-
-    List of [cloudwatch/metric](./..) variables
-
-* `vars_map` (`any`, default: `{}`)
-
-    Map of [cloudwatch/metric](./..) variables
-
-
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_vars"></a> [vars](#input\_vars) | List of [cloudwatch/metric](./..) variables | `any` | `[]` | no |
+| <a name="input_vars_map"></a> [vars\_map](#input\_vars\_map) | Map of [cloudwatch/metric](./..) variables | `any` | `{}` | no |
 
 ## Outputs
 
-* `out`
-
-    List of [cloudwatch/metric](./..) outputs
-
-* `out_map`
-
-    Map of [cloudwatch/metric](./..) outputs
+| Name | Description |
+|------|-------------|
+| <a name="output_out"></a> [out](#output\_out) | List of [cloudwatch/metric](./..) outputs |
+| <a name="output_out_map"></a> [out\_map](#output\_out\_map) | Map of [cloudwatch/metric](./..) outputs |
+<!-- END_TF_DOCS -->

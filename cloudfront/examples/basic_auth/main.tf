@@ -28,8 +28,8 @@ resource "aws_s3_bucket_object" "assetlinks" {
 }
 
 module "origin_bucket" {
-  source                      = "./../../origin/s3"
-  bucket_regional_domain_name = aws_s3_bucket.bucket.bucket_regional_domain_name
+  source = "./../../origin/s3"
+  bucket = aws_s3_bucket.bucket.bucket
 }
 
 # 2. Create cloudfront behaviors, which specify how paths are handled and cached, eg.:
