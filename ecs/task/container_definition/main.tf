@@ -1,25 +1,44 @@
 locals {
+  environment_parameters_hash = md5(jsonencode({
+    for name, parameter in var.environment_parameters :
+    name => "${parameter.arn}:${parameter.version}"
+  }))
+
   definition = {
-    name              = var.name
-    image             = var.image
+    name      = var.name
+    essential = var.essential
+
+    cpu               = var.cpu
     memory            = var.memory_hard_limit
     memoryReservation = var.memory_soft_limit
-    portMappings = [for port in sort(var.ports) : {
-      containerPort = tonumber(port)
-      hostPort      = 0
-      protocol      = "tcp"
-    }]
-    cpu              = var.cpu
-    essential        = var.essential
+
+    image            = var.image
     entryPoint       = var.entry_point
     command          = var.command
     workingDirectory = var.working_directory
-    environment = [for name in sort(keys(var.environment_variables)) : {
-      name  = name
-      value = var.environment_variables[name]
+
+    environment = concat(
+      [for name, value in var.environment_variables : {
+        name  = name
+        value = value
+      }],
+      var.enable_environment_parameters_hash ? [{
+        name  = "SSM_PARAMETERS_HASH",
+        value = local.environment_parameters_hash
+      }] : []
+    )
+    secrets = [for name, parameter in var.environment_parameters : {
+      name      = name,
+      valueFrom = parameter.arn
     }]
+    mountPoints = []
+    volumesFrom = []
+
+    portMappings = [for port in sort(var.ports) : {
+      containerPort = tonumber(port)
+      protocol      = "tcp"
+    }]
+
     logConfiguration = var.log_config
-    mountPoints      = []
-    volumesFrom      = []
   }
 }

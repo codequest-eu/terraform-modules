@@ -65,9 +65,30 @@ variable "working_directory" {
 }
 
 variable "environment_variables" {
-  description = "The environment variables to pass to a container."
+  description = "Environment variables to pass to a container."
   type        = map(string)
   default     = {}
+}
+
+variable "environment_parameters" {
+  description = <<-EOT
+    Environment variables that should be set to Systems Manager parameter values.
+    Maps environment variable names to parameters.
+  EOT
+  type = map(object({
+    arn     = string
+    version = number
+  }))
+  default = {}
+}
+
+variable "enable_environment_parameters_hash" {
+  description = <<-EOT
+    Inject an `SSM_PARAMETERS_HASH` environment variable to ensure that whenever parameter versions change the container definition will also change.
+    This makes sure that any services will be updated with new task definitions whenever a parameter is updated, so the service itself doesn't need to poll SSM.
+  EOT
+  type        = bool
+  default     = true
 }
 
 variable "log_config" {
