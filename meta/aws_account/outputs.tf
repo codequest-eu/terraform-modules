@@ -15,6 +15,6 @@ output "role_arn" {
 
 output "provider_config" {
   description = "Terraform AWS provider block"
-  value       = var.create ? data.template_file.provider_config[0].rendered : null
+  value       = local.provider_config
 }
 
