@@ -10,7 +10,7 @@ output "is_horizontal" {
 
 output "is_vertical" {
   description = "Whether this is a vertical annotation"
-  value       = ! local.is_horizontal
+  value       = !local.is_horizontal
 }
 
 output "body" {
