@@ -17,7 +17,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_middleware"></a> [middleware](#module\_middleware) | ./.. |  |
+| <a name="module_middleware"></a> [middleware](#module\_middleware) | ./.. | n/a |
 
 ## Resources
 

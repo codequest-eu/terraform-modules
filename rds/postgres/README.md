@@ -21,7 +21,7 @@ Creates an RDS PostgreSQL database instance
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_management_lambda"></a> [management\_lambda](#module\_management\_lambda) | ./management_lambda |  |
+| <a name="module_management_lambda"></a> [management\_lambda](#module\_management\_lambda) | ./management_lambda | n/a |
 
 ## Resources
 

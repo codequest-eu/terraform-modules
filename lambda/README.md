@@ -20,7 +20,7 @@ Creates an AWS Lambda function
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_package"></a> [package](#module\_package) | ./../zip |  |
+| <a name="module_package"></a> [package](#module\_package) | ./../zip | n/a |
 
 ## Resources
 

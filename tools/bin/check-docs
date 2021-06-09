@@ -23,7 +23,7 @@ fi
 
 cp $actual $expected
 terraform-docs \
-  --config "$(realpath --relative-to="$module_dir" .terraform-docs.yml)" \
+  --config .terraform-docs.yml \
   --output-file "$(realpath --relative-to="$module_dir" "$expected")" \
   "$module_dir"
 

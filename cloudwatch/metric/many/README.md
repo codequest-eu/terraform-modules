@@ -17,7 +17,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_default"></a> [default](#module\_default) | ./.. |  |
+| <a name="module_default"></a> [default](#module\_default) | ./.. | n/a |
 
 ## Resources
 
