@@ -13,5 +13,5 @@ set -e
 module_dir=$(dirname $1)
 
 terraform-docs \
-  --config "$(realpath --relative-to="$module_dir" .terraform-docs.yml)" \
+  --config .terraform-docs.yml \
   "$module_dir"
