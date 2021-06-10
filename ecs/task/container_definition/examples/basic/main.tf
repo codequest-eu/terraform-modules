@@ -56,52 +56,9 @@ resource "aws_ecs_task_definition" "httpbin" {
   execution_role_arn = module.httpbin_execution_role.arn
 }
 
-resource "aws_ecs_cluster" "cluster" {
-  name = local.name
-}
+module "test_service" {
+  source = "./../../../test_service"
 
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
-
-resource "aws_security_group" "httpbin" {
-  name   = local.name
-  vpc_id = data.aws_vpc.default.id
-}
-
-resource "aws_security_group_rule" "httpbin_in_http" {
-  security_group_id = aws_security_group.httpbin.id
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-resource "aws_security_group_rule" "httpbin_out_any" {
-  security_group_id = aws_security_group.httpbin.id
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "all"
-  cidr_blocks       = ["0.0.0.0/0"]
-}
-
-resource "aws_ecs_service" "httpbin" {
-  name = local.name
-
-  task_definition = aws_ecs_task_definition.httpbin.arn
-  cluster         = aws_ecs_cluster.cluster.arn
-  launch_type     = "FARGATE"
-  desired_count   = 1
-
-  network_configuration {
-    assign_public_ip = true
-    security_groups  = [aws_security_group.httpbin.id]
-    subnets          = data.aws_subnet_ids.default.ids
-  }
+  cluster_name        = local.name
+  task_definition_arn = aws_ecs_task_definition.httpbin.arn
 }

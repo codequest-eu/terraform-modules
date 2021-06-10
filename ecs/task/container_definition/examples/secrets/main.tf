@@ -89,34 +89,9 @@ resource "aws_ecs_task_definition" "database_client" {
   requires_compatibilities = ["FARGATE"]
 }
 
-resource "aws_ecs_cluster" "cluster" {
-  name = local.name
-}
+module "test_service" {
+  source = "./../../../test_service"
 
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_security_group" "default" {
-  vpc_id = data.aws_vpc.default.id
-  name   = "default"
-}
-
-data "aws_subnet_ids" "default" {
-  vpc_id = data.aws_vpc.default.id
-}
-
-resource "aws_ecs_service" "database_client" {
-  name = local.name
-
-  task_definition = aws_ecs_task_definition.database_client.arn
-  cluster         = aws_ecs_cluster.cluster.arn
-  launch_type     = "FARGATE"
-  desired_count   = 1
-
-  network_configuration {
-    assign_public_ip = true
-    security_groups  = [data.aws_security_group.default.id]
-    subnets          = data.aws_subnet_ids.default.ids
-  }
+  cluster_name        = local.name
+  task_definition_arn = aws_ecs_task_definition.database_client.arn
 }
