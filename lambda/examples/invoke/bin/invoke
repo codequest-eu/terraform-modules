@@ -1,0 +1,7 @@
+#!/bin/sh
+
+lambda_invoke="$(dirname "$0")/../../../bin/invoke"
+
+echo "$EVENT" | "$lambda_invoke" \
+  terraform-modules-lambda-example-invoke \
+  --region eu-west-1

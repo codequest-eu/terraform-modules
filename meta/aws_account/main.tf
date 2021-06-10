@@ -14,15 +14,10 @@ locals {
   role_arn = var.create ? "arn:aws:iam::${aws_organizations_account.project[0].id}:role/${var.role}" : null
 }
 
-data "template_file" "provider_config" {
-  count = var.create ? 1 : 0
-
-  template = file("${path.module}/templates/provider.tf")
-
-  vars = {
-    region   = data.aws_region.current[0].name
-    id       = aws_organizations_account.project[0].id
+locals {
+  provider_config = templatefile("${path.module}/templates/provider.tf", {
+    region   = var.create ? data.aws_region.current[0].name : ""
+    id       = var.create ? aws_organizations_account.project[0].id : ""
     role_arn = local.role_arn
-  }
+  })
 }
-
