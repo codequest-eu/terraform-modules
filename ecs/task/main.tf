@@ -53,8 +53,8 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn         = var.role_arn
   execution_role_arn    = var.execution_role_arn
 
-  cpu          = var.cpu
-  memory       = var.memory_hard_limit
+  cpu          = var.task_cpu
+  memory       = var.task_memory
   network_mode = var.network_mode
 }
 

@@ -32,6 +32,18 @@ variable "network_mode" {
   default     = null
 }
 
+variable "task_memory" {
+  description = "Memory reserved for the task. Required when running on Fargate."
+  type        = number
+  default     = null
+}
+
+variable "task_cpu" {
+  description = "CPU reserved for the task. Required when running on Fargate."
+  type        = number
+  default     = null
+}
+
 # log_group
 
 variable "project" {

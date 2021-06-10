@@ -42,10 +42,13 @@ module "database_client" {
   task              = "ecs-task-secrets"
   container         = "database_client"
   image             = "alpine:latest"
-  cpu               = 256
   memory_soft_limit = 128
   memory_hard_limit = 512
-  network_mode      = "awsvpc"
+
+  # required for fargate
+  task_cpu     = 256
+  task_memory  = 512
+  network_mode = "awsvpc"
 
   command = ["sh", "-c",
     <<EOT

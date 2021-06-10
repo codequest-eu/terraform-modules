@@ -21,11 +21,14 @@ module "httpbin" {
   task              = "ecs-task-basic"
   container         = "httpbin"
   image             = "kennethreitz/httpbin:latest"
-  cpu               = 256
   memory_soft_limit = 128
   memory_hard_limit = 512
   ports             = [80]
-  network_mode      = "awsvpc"
+
+  # required for fargate
+  task_cpu     = 256
+  task_memory  = 512
+  network_mode = "awsvpc"
 
   environment_variables = {
     DEBUG = "true"

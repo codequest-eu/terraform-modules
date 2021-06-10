@@ -85,6 +85,8 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_task"></a> [task](#input\_task) | ECS task definition name | `string` | n/a | yes |
+| <a name="input_task_cpu"></a> [task\_cpu](#input\_task\_cpu) | CPU reserved for the task. Required when running on Fargate. | `number` | `null` | no |
+| <a name="input_task_memory"></a> [task\_memory](#input\_task\_memory) | Memory reserved for the task. Required when running on Fargate. | `number` | `null` | no |
 | <a name="input_working_directory"></a> [working\_directory](#input\_working\_directory) | Working directory override. | `string` | `null` | no |
 
 ## Outputs
