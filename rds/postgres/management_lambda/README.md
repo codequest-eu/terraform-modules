@@ -20,7 +20,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -58,7 +58,6 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | The ARN identifying the Lambda Function |
-| <a name="output_invoke_script"></a> [invoke\_script](#output\_invoke\_script) | Shell script for invoking the lambda using AWS CLI.<br>    Expects the event JSON to be passed via `$EVENT` environment variable.<br>    Useful for invoking the lambda during `terraform apply` using `null_resource`. |
 | <a name="output_name"></a> [name](#output\_name) | The Lambda Function name |
 | <a name="output_qualified_arn"></a> [qualified\_arn](#output\_qualified\_arn) | The ARN identifying the Lambda Function Version |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | Security group id |

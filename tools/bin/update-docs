@@ -10,8 +10,9 @@
 
 set -e
 
+root_dir=$(realpath --relative-to="$PWD" "$(dirname "$0")/../..")
 module_dir=$(dirname $1)
 
 terraform-docs \
-  --config .terraform-docs.yml \
+  --config "$root_dir/.terraform-docs.yml" \
   "$module_dir"
