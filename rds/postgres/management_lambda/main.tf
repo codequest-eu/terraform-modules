@@ -27,6 +27,7 @@ module "lambda" {
   name = var.name
   tags = var.tags
 
+
   files_dir          = "${path.module}/dist"
   handler            = "index.handler"
   security_group_ids = var.create ? aws_security_group.lambda.*.id : null
@@ -35,4 +36,7 @@ module "lambda" {
   environment_variables = {
     DATABASE_URL = var.database_url
   }
+
+  # Workaround for https://github.com/hashicorp/terraform-provider-aws/issues/15952
+  publish = false
 }
