@@ -89,7 +89,7 @@ resource "aws_lambda_function" "lambda" {
   handler = var.image == null ? var.handler : null
   runtime = var.image == null ? var.runtime : null
 
-  publish     = true
+  publish     = var.publish
   timeout     = var.timeout
   memory_size = var.memory_size
   role        = aws_iam_role.lambda[0].arn

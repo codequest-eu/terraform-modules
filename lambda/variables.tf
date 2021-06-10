@@ -15,6 +15,14 @@ variable "name" {
   type        = string
 }
 
+variable "publish" {
+  description = <<-EOT
+    Whether to create lambda versions when it's created and on any code or configuration changes.
+    When disabled the only available version will be `$LATEST`.
+  EOT
+  type        = bool
+  default     = true
+}
 variable "package_path" {
   description = "Path to the zip that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
   type        = string

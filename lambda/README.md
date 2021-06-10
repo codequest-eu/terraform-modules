@@ -2,6 +2,23 @@
 
 Creates an AWS Lambda function
 
+## Perpetual `aws_lambda_function` diffs
+
+As reported in https://github.com/hashicorp/terraform-provider-aws/issues/15952, whenever you create a lambda function that both:
+
+- publishes versions on any code/configuration change by specifying `publish = true` (which is the default)
+- is placed in a VPC by providing `security_group_ids` and `subnet_ids`
+
+`terraform plan` will always report that the lambda `version` and `qualified_arn` will change, even though neither the lambda source or its configuration changed.
+
+In other words the plan will never be empty and terraform will never show "No changes. Infrastructure is up-to-date."
+
+There's no good workaround for this. You will have to either:
+
+- disable publishing versions with `publish = false` and switch to always using the latest version
+- remove the lambda function from the VPC if it's possible to refactor the code so it doesn't have to have access to private subnets
+
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -55,6 +72,7 @@ Creates an AWS Lambda function
 | <a name="input_package_s3"></a> [package\_s3](#input\_package\_s3) | S3 zip object that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required. | <pre>object({<br>    bucket = string<br>    key    = string<br>  })</pre> | `null` | no |
 | <a name="input_package_s3_version"></a> [package\_s3\_version](#input\_package\_s3\_version) | Version number of the S3 object to use | `string` | `null` | no |
 | <a name="input_policy_arns"></a> [policy\_arns](#input\_policy\_arns) | Additional policy ARNs to attach to the Lambda role | `map(string)` | `{}` | no |
+| <a name="input_publish"></a> [publish](#input\_publish) | Whether to create lambda versions when it's created and on any code or configuration changes.<br>When disabled the only available version will be `$LATEST`. | `bool` | `true` | no |
 | <a name="input_runtime"></a> [runtime](#input\_runtime) | [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) | `string` | `"nodejs12.x"` | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | Security groups to assign | `list(string)` | `null` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnet ids to place the lambda in | `list(string)` | `null` | no |
@@ -73,3 +91,4 @@ Creates an AWS Lambda function
 | <a name="output_version"></a> [version](#output\_version) | Latest published version of the Lambda Function |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
