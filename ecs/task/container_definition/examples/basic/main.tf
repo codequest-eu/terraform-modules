@@ -37,25 +37,11 @@ locals {
   name = "terraform-modules-example-ecs-task-container-basic"
 }
 
-data "aws_iam_policy_document" "assume_role_by_ecs" {
-  statement {
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
+module "httpbin_execution_role" {
+  source = "./../../../role"
 
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "httpbin_execution" {
-  name               = "${local.name}-execution"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_by_ecs.json
-}
-
-resource "aws_iam_role_policy_attachment" "httpbin_execution_base" {
-  role       = aws_iam_role.httpbin_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+  name           = "${local.name}-execution"
+  execution_role = true
 }
 
 resource "aws_ecs_task_definition" "httpbin" {
@@ -67,7 +53,7 @@ resource "aws_ecs_task_definition" "httpbin" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
 
-  execution_role_arn = aws_iam_role.httpbin_execution.arn
+  execution_role_arn = module.httpbin_execution_role.arn
 }
 
 resource "aws_ecs_cluster" "cluster" {

@@ -61,27 +61,6 @@ output "container_definition" {
 }
 
 # Prepare a task execution role that gives ECS access to SSM parameters
-data "aws_iam_policy_document" "assume_role_by_ecs" {
-  statement {
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "database_client_execution" {
-  name               = "${local.name}-execution"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_by_ecs.json
-}
-
-resource "aws_iam_role_policy_attachment" "database_client_execution_base" {
-  role       = aws_iam_role.database_client_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
 data "aws_iam_policy_document" "get_parameters" {
   statement {
     actions   = ["ssm:GetParameters"]
@@ -89,9 +68,12 @@ data "aws_iam_policy_document" "get_parameters" {
   }
 }
 
-resource "aws_iam_role_policy" "database_client_execution_get_parameters" {
-  role   = aws_iam_role.database_client_execution.name
-  policy = data.aws_iam_policy_document.get_parameters.json
+module "database_client_execution_role" {
+  source = "./../../../role"
+
+  name           = "${local.name}-execution"
+  execution_role = true
+  policies       = { get_parameters = data.aws_iam_policy_document.get_parameters.json }
 }
 
 # Test the container definition by creating a task definition and
@@ -99,7 +81,7 @@ resource "aws_iam_role_policy" "database_client_execution_get_parameters" {
 resource "aws_ecs_task_definition" "database_client" {
   family                = local.name
   container_definitions = jsonencode([module.database_client.definition])
-  execution_role_arn    = aws_iam_role.database_client_execution.arn
+  execution_role_arn    = module.database_client_execution_role.arn
 
   cpu                      = 256
   memory                   = 512
