@@ -2,6 +2,7 @@
 
 Creates a sub-account for a given project's, environment's resources.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -45,3 +46,4 @@ No modules.
 | <a name="output_provider_config"></a> [provider\_config](#output\_provider\_config) | Terraform AWS provider block |
 | <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | IAM role ARN for root account administrators to manage the member account |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
