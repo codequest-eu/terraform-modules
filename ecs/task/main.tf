@@ -29,18 +29,20 @@ module "container" {
   source = "./container_definition"
   create = var.create
 
-  name                  = local.container
-  image                 = local.image
-  memory_hard_limit     = var.memory_hard_limit
-  memory_soft_limit     = var.memory_soft_limit
-  ports                 = var.ports
-  cpu                   = var.cpu
-  essential             = var.essential
-  entry_point           = var.entry_point
-  command               = var.command
-  working_directory     = var.working_directory
-  environment_variables = var.environment_variables
-  log_config            = module.container_log.container_config
+  name                               = local.container
+  image                              = local.image
+  memory_hard_limit                  = var.memory_hard_limit
+  memory_soft_limit                  = var.memory_soft_limit
+  ports                              = var.ports
+  cpu                                = var.cpu
+  essential                          = var.essential
+  entry_point                        = var.entry_point
+  command                            = var.command
+  working_directory                  = var.working_directory
+  environment_variables              = var.environment_variables
+  environment_parameters             = var.environment_parameters
+  enable_environment_parameters_hash = var.enable_environment_parameters_hash
+  log_config                         = module.container_log.container_config
 }
 
 resource "aws_ecs_task_definition" "task" {
