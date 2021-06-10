@@ -2,6 +2,7 @@
 
 Creates a container definition that can be provided to a task definition
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -46,3 +47,4 @@ No resources.
 | <a name="output_definition"></a> [definition](#output\_definition) | container definition |
 | <a name="output_json"></a> [json](#output\_json) | container definition JSON |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

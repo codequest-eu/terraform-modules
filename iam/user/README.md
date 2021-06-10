@@ -2,6 +2,7 @@
 
 Creates an IAM user along with an access key and attaches the given policies to it.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -47,3 +48,4 @@ No modules.
 | <a name="output_secret_access_key"></a> [secret\_access\_key](#output\_secret\_access\_key) | User's secret access key |
 | <a name="output_ses_smtp_password"></a> [ses\_smtp\_password](#output\_ses\_smtp\_password) | User's secret access key converted into an SES SMTP password |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

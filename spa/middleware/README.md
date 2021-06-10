@@ -2,6 +2,7 @@
 
 `spa` internal module which creates a single Lambda@Edge function to be attached to a CloudFront distribution as middleware.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -47,3 +48,4 @@ No modules.
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | Lambda ARN |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

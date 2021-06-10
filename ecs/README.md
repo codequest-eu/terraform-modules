@@ -34,6 +34,7 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 
   Creates an ECS task definition
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -127,3 +128,4 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 | <a name="output_web_service_role_name"></a> [web\_service\_role\_name](#output\_web\_service\_role\_name) | ECS web service task role name |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | ECS cluster Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

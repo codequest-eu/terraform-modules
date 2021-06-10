@@ -2,6 +2,7 @@
 
 Creates an ECS service for background workers
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -58,3 +59,4 @@ Creates an ECS service for background workers
 | <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch metrics, see [metrics.tf](./metrics.tf) |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

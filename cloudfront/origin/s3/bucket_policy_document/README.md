@@ -2,6 +2,7 @@
 
 S3 bucket policy to allow access from a cloudfront distribution
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -39,3 +40,4 @@ No modules.
 |------|-------------|
 | <a name="output_json"></a> [json](#output\_json) | Bucket policy JSON document |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

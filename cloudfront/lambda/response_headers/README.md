@@ -10,6 +10,7 @@ If you attach this lambda to the origin response hook keep in mind that cloudfro
 
 Consult the [example](../../examples/response_headers) for how it could be done by terraform using a `null_resource` which uses AWS CLI to invalidate the cache whenever the lambda version changes.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -50,3 +51,4 @@ No resources.
 | <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

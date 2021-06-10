@@ -1,5 +1,6 @@
 # cloudwatch/metric_expression
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -36,3 +37,4 @@ No resources.
 | <a name="output_id"></a> [id](#output\_id) | Metric id to use in expressions |
 | <a name="output_label"></a> [label](#output\_label) | Human-friendly metric description |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

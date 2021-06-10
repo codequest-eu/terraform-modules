@@ -2,6 +2,7 @@
 
 Creates an Elasticache Redis cluster
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -57,3 +58,4 @@ No modules.
 | <a name="output_url"></a> [url](#output\_url) | First Redis instance connection url |
 | <a name="output_urls"></a> [urls](#output\_urls) | Redis connection urls |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

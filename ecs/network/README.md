@@ -11,6 +11,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 
 - [ ] S3 bucket for ALB Logs
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -151,3 +152,4 @@ Creates networking resources needed for a standard ECS cluster setup:
 | <a name="output_vpc_block"></a> [vpc\_block](#output\_vpc\_block) | The CIDR block of the VPC |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

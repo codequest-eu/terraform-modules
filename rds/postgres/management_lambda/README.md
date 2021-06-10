@@ -15,6 +15,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 >
 > Figure out a better way to handle this or at least add a CI step to verify `dist` is up-to-date.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -62,3 +63,4 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | <a name="output_qualified_arn"></a> [qualified\_arn](#output\_qualified\_arn) | The ARN identifying the Lambda Function Version |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | Security group id |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

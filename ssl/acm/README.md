@@ -2,6 +2,7 @@
 
 Creates an SSL certificate using AWS ACM, verifies domain ownership using Route53 and returns it's ARN, so it can be attached to AWS resources, eg. CloudFront.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -49,3 +50,4 @@ No modules.
 | <a name="output_validated_arn"></a> [validated\_arn](#output\_validated\_arn) | ACM certificate ARN, once it's validated |
 | <a name="output_validation_records"></a> [validation\_records](#output\_validation\_records) | DNS validation records, in cases where you want to manually create them |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

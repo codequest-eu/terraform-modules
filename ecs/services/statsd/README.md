@@ -2,6 +2,7 @@
 
 Adds a statsd server, using cloudwatch agent, to each ECS instance
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -59,3 +60,4 @@ No modules.
 | <a name="output_task_arn"></a> [task\_arn](#output\_task\_arn) | Task definition ARN |
 | <a name="output_task_family"></a> [task\_family](#output\_task\_family) | Task definition family |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

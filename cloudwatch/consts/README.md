@@ -2,6 +2,7 @@
 
 Common cloudwatch-related constants, like the color palette cloudwatch uses by default.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -31,3 +32,4 @@ No inputs.
 |------|-------------|
 | <a name="output_colors"></a> [colors](#output\_colors) | Cloudwatch default color palette |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

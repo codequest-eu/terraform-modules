@@ -2,6 +2,7 @@
 
 Prepares an annotation structure for widget modules.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -41,3 +42,4 @@ No resources.
 | <a name="output_is_horizontal"></a> [is\_horizontal](#output\_is\_horizontal) | Whether this is a horizontal annotation |
 | <a name="output_is_vertical"></a> [is\_vertical](#output\_is\_vertical) | Whether this is a vertical annotation |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

@@ -2,6 +2,7 @@
 
 Creates a zip archive with the specified contents.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -49,3 +50,4 @@ No modules.
 | <a name="output_output_sha"></a> [output\_sha](#output\_output\_sha) | The SHA1 checksum of output archive file. |
 | <a name="output_output_size"></a> [output\_size](#output\_output\_size) | The size of the output archive file. |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

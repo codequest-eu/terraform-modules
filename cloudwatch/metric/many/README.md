@@ -2,6 +2,7 @@
 
 Same as [cloudwatch/metric](./..) but allows for creating many metrics using a single module
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -37,3 +38,4 @@ No resources.
 | <a name="output_out"></a> [out](#output\_out) | List of [cloudwatch/metric](./..) outputs |
 | <a name="output_out_map"></a> [out\_map](#output\_out\_map) | Map of [cloudwatch/metric](./..) outputs |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
