@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+tools_bin=$(dirname "$0")
+
+"$tools_bin/find-modules" | parallel --keep-order "$tools_bin/validate-module '{}'"

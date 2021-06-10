@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Check if module documentations are up to date
+#
+# Usage:
+# tools/bin/check-all-docs
+
+set -e
+
+tools_bin=$(dirname "$0")
+
+"$tools_bin/find-modules" | parallel --keep-order "$tools_bin/check-docs '{}/README.md'"

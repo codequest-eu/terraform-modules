@@ -273,23 +273,15 @@ module "middleware_common" {
   }
 }
 
-data "template_file" "basic_auth" {
-  count = var.create && var.basic_auth_credentials != null ? 1 : 0
-
-  template = file("${path.module}/templates/basic-auth.js")
-
-  vars = {
-    credentials        = base64encode(var.basic_auth_credentials)
-    exclusion_patterns = jsonencode(var.basic_auth_exclusions)
-  }
-}
-
 module "basic_auth" {
   source = "./middleware"
   create = var.create && var.basic_auth_credentials != null
 
-  name     = "${local.name_prefix}-basic-auth"
-  code     = join("", data.template_file.basic_auth.*.rendered)
+  name = "${local.name_prefix}-basic-auth"
+  code = templatefile("${path.module}/templates/basic-auth.js", {
+    credentials        = base64encode(var.basic_auth_credentials)
+    exclusion_patterns = jsonencode(var.basic_auth_exclusions)
+  })
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 
@@ -298,22 +290,14 @@ module "basic_auth" {
   }
 }
 
-data "template_file" "pull_request_router" {
-  count = var.create && var.pull_request_router ? 1 : 0
-
-  template = file("${path.module}/templates/pull-request-router.js")
-
-  vars = {
-    path_re = var.pull_request_path_re
-  }
-}
-
 module "pull_request_router" {
   source = "./middleware"
   create = var.create && var.pull_request_router
 
-  name     = "${local.name_prefix}-pull-request-router"
-  code     = join("", data.template_file.pull_request_router.*.rendered)
+  name = "${local.name_prefix}-pull-request-router"
+  code = templatefile("${path.module}/templates/pull-request-router.js", {
+    path_re = var.pull_request_path_re
+  })
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 

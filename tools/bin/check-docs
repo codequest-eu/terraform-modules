@@ -7,6 +7,7 @@
 
 set -e
 
+root_dir=$(realpath --relative-to="$PWD" "$(dirname "$0")/../..")
 module_dir=$(dirname $1)
 actual=$1
 expected=$1.expected
@@ -23,16 +24,18 @@ fi
 
 cp $actual $expected
 terraform-docs \
-  --config .terraform-docs.yml \
+  --config "$root_dir/.terraform-docs.yml" \
   --output-file "$(realpath --relative-to="$module_dir" "$expected")" \
   "$module_dir"
 
 if diff -q "$actual" "$expected" >/dev/null; then
-  echo "$actual docs are up to date"
+  echo "✅ $actual docs are up to date"
   exit 0
 else
-  echo "$actual docs are outdated, diff:"
-  echo
-  diff -u "$expected" "$actual"
+  echo "❌ $actual docs are outdated"
+
+  [ -n "$CI" ] && echo "::group::$module_dir diff"
+  diff -u "$expected" "$actual" || true
+  [ -n "$CI" ] && echo '::endgroup::'
   exit 1
 fi

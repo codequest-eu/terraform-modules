@@ -121,32 +121,3 @@ locals {
   invoke_arn    = var.create ? aws_lambda_function.lambda[0].invoke_arn : ""
   version       = var.create ? aws_lambda_function.lambda[0].version : ""
 }
-
-locals {
-  invoke_script = <<-EOT
-    set -e
-
-    result=$(mktemp)
-    trap "rm -f '$result'" EXIT
-
-    echo "Invoking lambda ${local.qualified_arn}..."
-    invoke_error=$(
-      aws lambda invoke \
-      --region '${local.region}' \
-      --function-name '${local.qualified_arn}' \
-      --payload "$EVENT" \
-      --query 'FunctionError' \
-      --output text \
-      "$result"
-    )
-
-    if [ "$invoke_error" = "None" ]; then
-      echo "Success:"
-      cat "$result"
-    else
-      echo "Error:"
-      cat "$result"
-      exit 1
-    fi
-  EOT
-}

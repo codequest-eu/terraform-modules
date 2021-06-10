@@ -1,0 +1,7 @@
+#!/bin/sh
+
+lambda_invoke="$(dirname "$0")/../../../../lambda/bin/invoke"
+
+echo "$EVENT" | "$lambda_invoke" \
+  terraform-modules-postgres-example-db-management \
+  --region eu-west-1
