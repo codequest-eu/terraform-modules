@@ -2,6 +2,7 @@
 
 Creates IAM resources needed to run host instances and services in the ECS cluster.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -57,3 +58,4 @@ No modules.
 | <a name="output_web_service_role_arn"></a> [web\_service\_role\_arn](#output\_web\_service\_role\_arn) | ECS web service task role ARN |
 | <a name="output_web_service_role_name"></a> [web\_service\_role\_name](#output\_web\_service\_role\_name) | ECS web service task role name |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

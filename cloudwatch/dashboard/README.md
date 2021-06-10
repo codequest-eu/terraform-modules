@@ -2,6 +2,7 @@
 
 Creates a dashboard in cloudwatch with the given widgets.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -46,3 +47,4 @@ No modules.
 | <a name="output_name"></a> [name](#output\_name) | Dashboard name |
 | <a name="output_url"></a> [url](#output\_url) | Dashboard URL |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

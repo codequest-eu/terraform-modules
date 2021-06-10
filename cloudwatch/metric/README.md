@@ -1,5 +1,6 @@
 # cloudwatch/metric
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -44,3 +45,4 @@ No resources.
 | <a name="output_period"></a> [period](#output\_period) | Metric aggregation period in seconds |
 | <a name="output_stat"></a> [stat](#output\_stat) | Metric aggregation function |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
