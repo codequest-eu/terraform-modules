@@ -51,5 +51,6 @@ resource "aws_ecs_task_definition" "task" {
   family                = local.family
   container_definitions = jsonencode([module.container.definition])
   task_role_arn         = var.role_arn
+  execution_role_arn    = var.execution_role_arn
 }
 

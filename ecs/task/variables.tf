@@ -7,7 +7,20 @@ variable "create" {
 variable "role_arn" {
   description = "The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services."
   type        = string
-  default     = ""
+  default     = null
+}
+
+
+variable "execution_role_arn" {
+  description = <<-EOT
+    The ARN of IAM role that allows ECS to execute your task.
+
+    Required when:
+    - using `environment_parameters` to give ECS access to the SSM parameters
+    - using `launch_type = "FARGATE"` when running the task
+  EOT
+  type        = string
+  default     = null
 }
 
 # log_group

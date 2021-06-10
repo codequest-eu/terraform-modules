@@ -72,6 +72,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | <a name="input_environment_parameters"></a> [environment\_parameters](#input\_environment\_parameters) | Environment variables that should be set to Systems Manager parameter values.<br>Maps environment variable names to parameters. | <pre>map(object({<br>    arn     = string<br>    version = number<br>  }))</pre> | `{}` | no |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | Environment variables to pass to a container. | `map(string)` | `{}` | no |
 | <a name="input_essential"></a> [essential](#input\_essential) | If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. | `bool` | `true` | no |
+| <a name="input_execution_role_arn"></a> [execution\_role\_arn](#input\_execution\_role\_arn) | The ARN of IAM role that allows ECS to execute your task.<br><br>Required when:<br>- using `environment_parameters` to give ECS access to the SSM parameters<br>- using `launch_type = "FARGATE"` when running the task | `string` | `null` | no |
 | <a name="input_image"></a> [image](#input\_image) | Full container image name, including the version tag. Either image or image\_name has to be provided. | `string` | `null` | no |
 | <a name="input_image_name"></a> [image\_name](#input\_image\_name) | Container image name, without the version tag. Either image or image\_name has to be provided. | `string` | `null` | no |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | Container image version tag, if omitted will use one from the latest revision. Used only when image\_name is provided. | `string` | `null` | no |
@@ -80,7 +81,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | <a name="input_memory_soft_limit"></a> [memory\_soft\_limit](#input\_memory\_soft\_limit) | The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when needed. | `number` | `256` | no |
 | <a name="input_ports"></a> [ports](#input\_ports) | List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port | `list(number)` | `[]` | no |
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased project name | `string` | n/a | yes |
-| <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. | `string` | `""` | no |
+| <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_task"></a> [task](#input\_task) | ECS task definition name | `string` | n/a | yes |
 | <a name="input_working_directory"></a> [working\_directory](#input\_working\_directory) | Working directory override. | `string` | `null` | no |
