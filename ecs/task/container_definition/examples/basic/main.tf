@@ -62,3 +62,12 @@ module "test_service" {
   cluster_name        = local.name
   task_definition_arn = aws_ecs_task_definition.httpbin.arn
 }
+
+resource "aws_security_group_rule" "httpbin_in_http" {
+  security_group_id = module.test_service.security_group_id
+  type              = "ingress"
+  to_port           = 80
+  from_port         = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
