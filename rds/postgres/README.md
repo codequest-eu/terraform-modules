@@ -7,7 +7,7 @@ Creates an RDS PostgreSQL database instance
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 2.1.2 |
 
@@ -47,7 +47,7 @@ Creates an RDS PostgreSQL database instance
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | Specifies if the RDS instance is multi-AZ | `bool` | `true` | no |
 | <a name="input_password"></a> [password](#input\_password) | Password for the master DB user | `string` | n/a | yes |
 | <a name="input_port"></a> [port](#input\_port) | The port on which the DB accepts connections | `number` | `5432` | no |
-| <a name="input_postgres_version"></a> [postgres\_version](#input\_postgres\_version) | RDS Postgres engine version | `string` | `"10.13"` | no |
+| <a name="input_postgres_version"></a> [postgres\_version](#input\_postgres\_version) | RDS Postgres engine version | `string` | `"10.15"` | no |
 | <a name="input_prevent_destroy"></a> [prevent\_destroy](#input\_prevent\_destroy) | Should the DB be protected from accidental deletion | `bool` | `true` | no |
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased project name | `string` | n/a | yes |
 | <a name="input_public"></a> [public](#input\_public) | Should the DB be publicly accessible, will have no effect if placed in a private subnet | `bool` | `false` | no |

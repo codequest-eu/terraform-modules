@@ -1,0 +1,58 @@
+#!/bin/sh
+#
+# Wrapper for `aws lambda invoke` which:
+# - reads the event from standard input
+# - writes the result to standard output
+# - prints logs to standard error
+# - fails (exit 1) on error
+#
+# Requires:
+# - aws cli
+# - jq
+#
+# Usage:
+# lambda/bin/invoke FUNCTION_NAME [options...] <EVENT >RESULT
+#
+# FUNCTION_NAME can be anything 'aws lambda invoke --function-name' accepts
+# options are any additional aws lambda invoke options, eg. --region
+
+set -e
+
+log() {
+  echo >&2 "$@"
+}
+
+function="$1"
+shift 1
+event="$(cat)"
+
+# create a temporary file for the result and make sure it's deleted on exit
+result=$(mktemp)
+trap "rm -f '$result'" EXIT
+
+log "Invoking $function with:"
+echo "$event" | jq >&2
+
+invoke_response=$(
+  aws lambda invoke \
+  --function-name "$function" \
+  --payload "$event" \
+  --output json \
+  --log-type Tail \
+  "$@" \
+  "$result"
+)
+
+log
+log "Invoke response:"
+echo "$invoke_response" | jq 'del(.LogResult)' >&2
+log
+log "Function log:"
+echo "$invoke_response" | jq -r '.LogResult' | base64 -d >&2
+log
+log "Function result:"
+cat "$result" | jq
+
+if echo "$invoke_response" | jq -e 'has("FunctionError")' >/dev/null; then
+  exit 1
+fi

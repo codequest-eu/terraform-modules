@@ -57,7 +57,8 @@ locals {
 }
 
 resource "null_resource" "environment_db_user" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name = "terraform_modules_${each.key}"
@@ -65,7 +66,7 @@ resource "null_resource" "environment_db_user" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = [
         "CREATE ROLE ${self.triggers.name} WITH LOGIN",
@@ -76,7 +77,7 @@ resource "null_resource" "environment_db_user" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = ["DROP ROLE ${self.triggers.name}"]
     }) }
@@ -91,7 +92,8 @@ resource "random_password" "environment_db_password" {
 }
 
 resource "null_resource" "environment_db_password" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name     = null_resource.environment_db_user[each.key].triggers.name
@@ -100,17 +102,25 @@ resource "null_resource" "environment_db_password" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
-    environment = { EVENT = jsonencode({
-      queries = [
-        "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
-      ]
-    }) }
+    command = <<-EOT
+      ${path.module}/bin/psql_invoke 2>&1 \
+      | sed "s/$SENSITIVE_PATTERN/(sensitive)/"
+    EOT
+
+    environment = {
+      SENSITIVE_PATTERN = self.triggers.password
+      EVENT = jsonencode({
+        queries = [
+          "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
+        ]
+      })
+    }
   }
 }
 
 resource "null_resource" "environment_db" {
-  for_each = local.environments
+  depends_on = [module.db]
+  for_each   = local.environments
 
   triggers = {
     name  = null_resource.environment_db_user[each.key].triggers.name
@@ -119,7 +129,7 @@ resource "null_resource" "environment_db" {
 
   provisioner "local-exec" {
     when    = create
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = [
         "CREATE DATABASE ${self.triggers.name} OWNER ${self.triggers.owner}"
@@ -129,7 +139,7 @@ resource "null_resource" "environment_db" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = module.db.management_lambda.invoke_script
+    command = "${path.module}/bin/psql_invoke"
     environment = { EVENT = jsonencode({
       queries = ["DROP DATABASE ${self.triggers.name}"]
     }) }
