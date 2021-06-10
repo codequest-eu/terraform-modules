@@ -1,5 +1,6 @@
 # cloudwatch/alarm
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -45,3 +46,4 @@ No modules.
 | <a name="output_id"></a> [id](#output\_id) | Alarm healthcheck id |
 | <a name="output_name"></a> [name](#output\_name) | Alarm name |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
