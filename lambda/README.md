@@ -7,7 +7,7 @@ Creates an AWS Lambda function
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.13 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.19.0 |
 
 ## Providers
@@ -67,7 +67,6 @@ Creates an AWS Lambda function
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | The ARN identifying the Lambda Function |
 | <a name="output_invoke_arn"></a> [invoke\_arn](#output\_invoke\_arn) | The ARN to be used for invoking Lambda Function from API Gateway |
-| <a name="output_invoke_script"></a> [invoke\_script](#output\_invoke\_script) | Shell script for invoking the lambda using AWS CLI.<br>    Expects the event JSON to be passed via `$EVENT` environment variable.<br>    Useful for invoking the lambda during `terraform apply` using `null_resource`. |
 | <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
 | <a name="output_name"></a> [name](#output\_name) | The Lambda Function name |
 | <a name="output_qualified_arn"></a> [qualified\_arn](#output\_qualified\_arn) | The ARN identifying the Lambda Function Version |
