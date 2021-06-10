@@ -23,6 +23,15 @@ variable "execution_role_arn" {
   default     = null
 }
 
+variable "network_mode" {
+  description = <<-EOT
+    Docker networking mode to use for the containers in the task.
+    Valid values are `none`, `bridge`, `awsvpc`, and `host`.
+  EOT
+  type        = string
+  default     = null
+}
+
 # log_group
 
 variable "project" {
