@@ -1,8 +1,16 @@
 locals {
-  environment_parameters_hash = md5(jsonencode({
-    for name, parameter in var.environment_parameters :
-    name => "${parameter.arn}:${parameter.version}"
-  }))
+  inject_environment_parameters_hash = (
+    var.enable_environment_parameters_hash &&
+    length(var.environment_parameters) > 0
+  )
+  environment_parameters_hash = (
+    local.inject_environment_parameters_hash ?
+    md5(jsonencode({
+      for name, parameter in var.environment_parameters :
+      name => "${parameter.arn}:${parameter.version}"
+    })) :
+    null
+  )
 
   definition = {
     name      = var.name
@@ -22,7 +30,7 @@ locals {
         name  = name
         value = value
       }],
-      var.enable_environment_parameters_hash ? [{
+      local.inject_environment_parameters_hash ? [{
         name  = "SSM_PARAMETERS_HASH",
         value = local.environment_parameters_hash
       }] : []
