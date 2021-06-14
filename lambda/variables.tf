@@ -15,14 +15,22 @@ variable "name" {
   type        = string
 }
 
+variable "publish" {
+  description = <<-EOT
+    Whether to create lambda versions when it's created and on any code or configuration changes.
+    When disabled the only available version will be `$LATEST`.
+  EOT
+  type        = bool
+  default     = true
+}
 variable "package_path" {
-  description = "Path to the zip that contains the Lambda's source. Either `package_path` or `package_s3` is required."
+  description = "Path to the zip that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
   type        = string
   default     = null
 }
 
 variable "package_s3" {
-  description = "S3 zip object that contains the Lambda's source. Either `package_path` or `package_s3` is required."
+  description = "S3 zip object that contains the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
   type = object({
     bucket = string
     key    = string
@@ -32,6 +40,12 @@ variable "package_s3" {
 
 variable "package_s3_version" {
   description = "Version number of the S3 object to use"
+  type        = string
+  default     = null
+}
+
+variable "image" {
+  description = "URI of a container image with the Lambda's source. Either `package_path`, `package_s3` or `image` is required."
   type        = string
   default     = null
 }

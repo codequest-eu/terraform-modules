@@ -2,6 +2,7 @@
 
 Creates an AWS Lambda Layer that can be attached to a AWS Lambda Function
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -52,3 +53,4 @@ Creates an AWS Lambda Layer that can be attached to a AWS Lambda Function
 | <a name="output_qualified_arn"></a> [qualified\_arn](#output\_qualified\_arn) | The ARN identifying the Lambda Layer Version |
 | <a name="output_version"></a> [version](#output\_version) | Latest published version of the Lambda Layer |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

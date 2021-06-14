@@ -2,6 +2,7 @@
 
 Creates an RDS PostgreSQL database instance
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -75,3 +76,4 @@ Creates an RDS PostgreSQL database instance
 | <a name="output_url"></a> [url](#output\_url) | DB connection url |
 | <a name="output_username"></a> [username](#output\_username) | DB master username |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

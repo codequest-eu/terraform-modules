@@ -2,6 +2,7 @@
 
 Creates a set of IAM users with access keys
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -43,3 +44,4 @@ No modules.
 |------|-------------|
 | <a name="output_users"></a> [users](#output\_users) | Map of created users |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

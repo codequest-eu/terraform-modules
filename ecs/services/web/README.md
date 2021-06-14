@@ -2,6 +2,7 @@
 
 Creates an ECS service exposed to the internet using an Application Load Balancer.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -91,3 +92,4 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 | <a name="output_target_group_name"></a> [target\_group\_name](#output\_target\_group\_name) | Load balancer target group name |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

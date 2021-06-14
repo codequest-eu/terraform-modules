@@ -37,4 +37,7 @@ module "lambda" {
     DATABASE_URL       = var.database_url
     DATABASE_URL_PARAM = var.database_url_param
   }
+
+  # Workaround for https://github.com/hashicorp/terraform-provider-aws/issues/15952
+  publish = false
 }

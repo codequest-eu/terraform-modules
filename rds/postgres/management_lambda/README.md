@@ -15,6 +15,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 >
 > Figure out a better way to handle this or at least add a CI step to verify `dist` is up-to-date.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -66,3 +67,4 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | <a name="output_role_name"></a> [role\_name](#output\_role\_name) | Role assumed by the lambda function |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | Security group id, only available when vpc is true |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

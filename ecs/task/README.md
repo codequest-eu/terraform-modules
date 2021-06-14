@@ -29,6 +29,7 @@ There's 3 ways to specify the container image:
 
 We recommend creating the task definition using `image` or `image_name` + `image_tag` and then switching to just `image_name` to allow for external updates.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
@@ -94,3 +95,4 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | CloudWatch log group name |
 | <a name="output_revision"></a> [revision](#output\_revision) | Task definition revision |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
