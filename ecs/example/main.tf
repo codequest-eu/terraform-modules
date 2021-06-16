@@ -27,7 +27,7 @@ module "hosts" {
   environment = local.environment
   size        = 1
 
-  instance_type     = "t3.nano"
+  instance_type     = "t3.micro"
   instance_profile  = module.cluster.host_profile_name
   subnet_ids        = module.cluster.private_subnet_ids
   security_group_id = module.cluster.hosts_security_group_id
@@ -54,7 +54,8 @@ module "worker_task" {
   environment       = local.environment
   task              = "worker"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 48
+  memory_soft_limit = 32
+  memory_hard_limit = 64
   cpu               = 128
 
   environment_variables = {
@@ -79,7 +80,8 @@ module "web_task" {
   environment       = local.environment
   task              = "web"
   image             = "kennethreitz/httpbin:latest"
-  memory_soft_limit = 48
+  memory_soft_limit = 32
+  memory_hard_limit = 64
   cpu               = 128
   ports             = [80]
 
