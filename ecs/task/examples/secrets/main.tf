@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  name = "terraform-modules-example-ecs-task-task-secrets"
+  name = "terraform-modules-example-ecs-task-secrets"
 }
 
 # Generate a random password and save it as an SSM Parameter
