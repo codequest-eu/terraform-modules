@@ -3,8 +3,7 @@ name: "Continuous Integration"
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
+  pull_request: {}
 
 env:
   AWS_REGION: eu-west-1
@@ -17,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Terraform 0.13.x
+      - name: Setup Terraform 1.x
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.13.x
+          terraform_version: 1.x
 
       - name: terraform fmt
         run: terraform fmt -recursive -check -diff
@@ -60,6 +59,8 @@ jobs:
         tf_version:
           - "0.12.x"
           - "0.13.x"
+          - "0.14.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Download providers"
     steps:
@@ -75,7 +76,9 @@ jobs:
         id: cache_providers
         uses: actions/cache@v2
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: Download providers
@@ -93,6 +96,8 @@ jobs:
         tf_version:
           - "0.12.x"
           - "0.13.x"
+          - "0.14.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate modules"
     steps:
@@ -107,14 +112,17 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
           case '${{ matrix.tf_version }}' in
             0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
-                 *) plugins="$PWD/.terraform/plugins" ;;
+            0.13.*) plugins="$PWD/.terraform/plugins" ;;
+            *) plugins="$PWD/.terraform/providers" ;;
           esac
 
           export TF_CLI_ARGS_init="-plugin-dir='$plugins'"
@@ -131,6 +139,8 @@ jobs:
         tf_version:
           - "0.12.x"
           - "0.13.x"
+          - "0.14.x"
+          - "1.x"
 
     name: "[terraform ${{ matrix.tf_version }}] Validate examples"
     steps:
@@ -145,14 +155,17 @@ jobs:
       - name: Download cached providers
         uses: codequest-eu/restore-cache-action@master
         with:
-          path: ./.terraform/plugins
+          path: |
+            ./.terraform/plugins
+            ./.terraform/providers
           key: ${{ runner.os }}-terraform-${{ matrix.tf_version }}-providers-${{ hashFiles('./versions.tf') }}
 
       - name: terraform validate
         run: |
           case '${{ matrix.tf_version }}' in
             0.12.*) plugins="$PWD/.terraform/plugins/linux_amd64" ;;
-                 *) plugins="$PWD/.terraform/plugins" ;;
+            0.13.*) plugins="$PWD/.terraform/plugins" ;;
+            *) plugins="$PWD/.terraform/providers" ;;
           esac
 
           export TF_CLI_ARGS_init="-plugin-dir='$plugins'"

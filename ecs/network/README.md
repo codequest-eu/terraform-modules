@@ -17,7 +17,7 @@ Creates networking resources needed for a standard ECS cluster setup:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 2.1.2 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 2.0.1 |

@@ -105,13 +105,13 @@ module "management_lambda" {
   tags               = var.tags
   database_url_param = aws_ssm_parameter.master_url[0].name
 
-  vpc        = ! var.public
-  vpc_id     = ! var.public ? var.vpc_id : null
-  subnet_ids = ! var.public ? var.subnet_ids : null
+  vpc        = !var.public
+  vpc_id     = !var.public ? var.vpc_id : null
+  subnet_ids = !var.public ? var.subnet_ids : null
 }
 
 resource "aws_security_group_rule" "management_lambda" {
-  count = var.create && ! var.public && var.create_management_lambda ? 1 : 0
+  count = var.create && !var.public && var.create_management_lambda ? 1 : 0
 
   security_group_id        = aws_security_group.db[0].id
   type                     = "ingress"
