@@ -2,12 +2,13 @@
 
 S3 origin factory for the `cloudfront` module
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -42,3 +43,4 @@ No modules.
 | <a name="output_headers"></a> [headers](#output\_headers) | Additional headers to pass to S3 |
 | <a name="output_path"></a> [path](#output\_path) | Base S3 object path |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

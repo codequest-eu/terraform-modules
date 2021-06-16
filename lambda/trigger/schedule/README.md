@@ -2,12 +2,13 @@
 
 Sets up lambda triggering on schedule using a Cloudwatch event rule.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -47,3 +48,4 @@ No modules.
 | <a name="output_rule_arn"></a> [rule\_arn](#output\_rule\_arn) | Cloudwatch event rule ARN |
 | <a name="output_rule_name"></a> [rule\_name](#output\_rule\_name) | Cloudwatch event rule name |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

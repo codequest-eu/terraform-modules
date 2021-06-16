@@ -6,12 +6,13 @@ Creates an AWS user for CI/CD pipelines which can update the contents of the giv
 >
 > `terraform-modules/spa` now provides an IAM policy which can be used with `terraform-modules/iam/user` to create a CI user
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -51,3 +52,4 @@ No modules.
 | <a name="output_ci_user_arn"></a> [ci\_user\_arn](#output\_ci\_user\_arn) | CI AWS user ARN |
 | <a name="output_ci_user_name"></a> [ci\_user\_name](#output\_ci\_user\_name) | CI AWS user |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

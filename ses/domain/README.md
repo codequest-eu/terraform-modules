@@ -13,12 +13,13 @@ Registers a domain with AWS SES and verifies it
 >
 > Module assumes you add additional resources to setup receiving emails with SES or provide an address to some other SMTP server which handles incoming emails.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -100,3 +101,4 @@ Registers a domain with AWS SES and verifies it
 | <a name="output_spf_record"></a> [spf\_record](#output\_spf\_record) | SPF record which you should include in the domain's TXT record in case you specified `spf = false` |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

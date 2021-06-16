@@ -2,12 +2,13 @@
 
 AWS Cloudfront distribution
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -59,3 +60,4 @@ No modules.
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
 | <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | Route 53 zone ID that can be used to route an Alias Resource Record Set to. |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

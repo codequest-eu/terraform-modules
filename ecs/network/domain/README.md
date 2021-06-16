@@ -2,12 +2,13 @@
 
 Creates a Route53 record that points to the cluster load balancer. If `https_listener_arn` is provided will also attach a certificate to the https listener.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -49,3 +50,4 @@ Creates a Route53 record that points to the cluster load balancer. If `https_lis
 |------|-------------|
 | <a name="output_certificate_arn"></a> [certificate\_arn](#output\_certificate\_arn) | ACM certificate ARN that was added to the https listener |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

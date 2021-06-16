@@ -2,12 +2,13 @@
 
 Creates a dashboard in cloudwatch with the given widgets.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -46,3 +47,4 @@ No modules.
 | <a name="output_name"></a> [name](#output\_name) | Dashboard name |
 | <a name="output_url"></a> [url](#output\_url) | Dashboard URL |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

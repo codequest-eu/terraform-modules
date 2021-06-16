@@ -1,11 +1,12 @@
 # cloudwatch/metric_expression
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -36,3 +37,4 @@ No resources.
 | <a name="output_id"></a> [id](#output\_id) | Metric id to use in expressions |
 | <a name="output_label"></a> [label](#output\_label) | Human-friendly metric description |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

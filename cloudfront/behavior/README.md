@@ -2,12 +2,13 @@
 
 Behavior factory for the `cloudfront` module
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -57,3 +58,4 @@ No resources.
 | <a name="output_viewer_request_lambda"></a> [viewer\_request\_lambda](#output\_viewer\_request\_lambda) | Lambda function to invoke when CloudFront receives a request |
 | <a name="output_viewer_response_lambda"></a> [viewer\_response\_lambda](#output\_viewer\_response\_lambda) | Lambda function to invoke before CloudFront returns a response |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

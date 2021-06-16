@@ -2,12 +2,13 @@
 
 HTTPS origin factory for the `cloudfront` module
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -39,3 +40,4 @@ No resources.
 | <a name="output_path"></a> [path](#output\_path) | Path where the origin is hosted |
 | <a name="output_port"></a> [port](#output\_port) | Port on which the origin listens for HTTP/HTTPS requests |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

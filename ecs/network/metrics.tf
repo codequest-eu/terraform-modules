@@ -386,7 +386,7 @@ module "metrics_nat_instance_io" {
 
 locals {
   nat_gateway_dimensions = {
-    NatGatewayId = var.create && ! var.nat_instance ? aws_nat_gateway.public[0].id : ""
+    NatGatewayId = var.create && !var.nat_instance ? aws_nat_gateway.public[0].id : ""
   }
   metrics_nat_gateway_io = {
     sent_in = {

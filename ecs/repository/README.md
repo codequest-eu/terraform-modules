@@ -2,12 +2,13 @@
 
 Creates an ECR repository and a policy for CI which allows push/pull access.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -48,3 +49,4 @@ No modules.
 | <a name="output_registry_id"></a> [registry\_id](#output\_registry\_id) | ECR registry id where the repository was created |
 | <a name="output_url"></a> [url](#output\_url) | ECR repository URL |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

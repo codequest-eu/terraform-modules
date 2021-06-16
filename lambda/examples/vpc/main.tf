@@ -1,8 +1,5 @@
 provider "aws" {
   region = "eu-west-1"
-
-  # https://github.com/hashicorp/terraform-provider-aws/issues/15952
-  version = "3.12.0"
 }
 
 module "vpc" {
@@ -30,4 +27,11 @@ module "lambda_vpc" {
 
   security_group_ids = [data.aws_security_group.default.id]
   subnet_ids         = [module.vpc.private_subnet_ids[0]]
+
+  # Workaround for https://github.com/hashicorp/terraform-provider-aws/issues/15952
+  publish = false
+}
+
+output "lambda_vpc" {
+  value = module.lambda_vpc
 }

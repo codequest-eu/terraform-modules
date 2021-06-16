@@ -4,12 +4,13 @@ Prepares a metric widget object for `cloudwatch/dashboard`
 
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html#CloudWatch-Dashboard-Properties-Widgets-Structure
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -55,3 +56,4 @@ No modules.
 | <a name="output_properties"></a> [properties](#output\_properties) | Widget properties |
 | <a name="output_type"></a> [type](#output\_type) | Widget type |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

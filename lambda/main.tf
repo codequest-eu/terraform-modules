@@ -35,27 +35,30 @@ resource "aws_iam_role" "lambda" {
 }
 
 locals {
+  role_name = var.create ? aws_iam_role.lambda[0].name : ""
+  role_arn  = var.create ? aws_iam_role.lambda[0].arn : ""
+
   in_vpc = var.subnet_ids != null || var.security_group_ids != null
 }
 
 resource "aws_iam_role_policy_attachment" "basic" {
   count = var.create ? 1 : 0
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "vpc" {
   count = var.create && local.in_vpc ? 1 : 0
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
 }
 
 resource "aws_iam_role_policy_attachment" "custom" {
   for_each = var.create ? var.policy_arns : {}
 
-  role       = aws_iam_role.lambda[0].name
+  role       = local.role_name
   policy_arn = each.value
 }
 
@@ -77,15 +80,19 @@ resource "aws_lambda_function" "lambda" {
 
   function_name = var.name
 
+  package_type = var.image != null ? "Image" : "Zip"
+  image_uri    = var.image
+
   filename          = local.create_package ? module.package.output_path : var.package_path
   s3_bucket         = var.package_s3 != null ? var.package_s3.bucket : null
   s3_key            = var.package_s3 != null ? var.package_s3.key : null
   s3_object_version = var.package_s3_version
 
-  layers      = var.layer_qualified_arns
-  handler     = var.handler
-  runtime     = var.runtime
-  publish     = true
+  layers  = var.image == null ? var.layer_qualified_arns : null
+  handler = var.image == null ? var.handler : null
+  runtime = var.image == null ? var.runtime : null
+
+  publish     = var.publish
   timeout     = var.timeout
   memory_size = var.memory_size
   role        = aws_iam_role.lambda[0].arn
@@ -100,9 +107,13 @@ resource "aws_lambda_function" "lambda" {
     }
   }
 
-  vpc_config {
-    subnet_ids         = coalesce(var.subnet_ids, [])
-    security_group_ids = coalesce(var.security_group_ids, [])
+  dynamic "vpc_config" {
+    for_each = toset(var.subnet_ids != null || var.security_group_ids != null ? ["vpc_config"] : [])
+
+    content {
+      subnet_ids         = coalesce(var.subnet_ids, [])
+      security_group_ids = coalesce(var.security_group_ids, [])
+    }
   }
 
   tags = var.tags

@@ -2,12 +2,13 @@
 
 Basic authentication middleware for AWS CloudFront
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -41,3 +42,4 @@ No resources.
 | <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

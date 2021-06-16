@@ -28,12 +28,13 @@ Actual project infrastructure state is separate from the meta state, to configur
 terraform output -module NAME_OF_META_MODULE backend_config
 ```
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <0.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -88,3 +89,4 @@ No modules.
 | <a name="output_provider_aws_alias_config_template"></a> [provider\_aws\_alias\_config\_template](#output\_provider\_aws\_alias\_config\_template) | Terraform AWS provider block template for defining aliases, accepts alias and region variables |
 | <a name="output_provider_aws_config"></a> [provider\_aws\_config](#output\_provider\_aws\_config) | Terraform AWS provider block |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
