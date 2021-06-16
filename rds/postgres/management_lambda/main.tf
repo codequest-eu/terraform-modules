@@ -1,5 +1,5 @@
 resource "aws_security_group" "lambda" {
-  count = var.create ? 1 : 0
+  count = var.create && var.vpc ? 1 : 0
 
   name   = "${var.name}-lambda"
   vpc_id = var.vpc_id
@@ -10,7 +10,7 @@ resource "aws_security_group" "lambda" {
 }
 
 resource "aws_security_group_rule" "lambda_egress_any" {
-  count = var.create ? 1 : 0
+  count = var.create && var.vpc ? 1 : 0
 
   security_group_id = aws_security_group.lambda[0].id
   type              = "egress"
@@ -27,14 +27,15 @@ module "lambda" {
   name = var.name
   tags = var.tags
 
+  files_dir = "${path.module}/dist"
+  handler   = "index.handler"
 
-  files_dir          = "${path.module}/dist"
-  handler            = "index.handler"
-  security_group_ids = var.create ? aws_security_group.lambda.*.id : null
-  subnet_ids         = var.subnet_ids
+  security_group_ids = var.create && var.vpc ? aws_security_group.lambda.*.id : null
+  subnet_ids         = var.vpc ? var.subnet_ids : null
 
   environment_variables = {
-    DATABASE_URL = var.database_url
+    DATABASE_URL       = var.database_url
+    DATABASE_URL_PARAM = var.database_url_param
   }
 
   # Workaround for https://github.com/hashicorp/terraform-provider-aws/issues/15952

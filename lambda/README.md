@@ -88,6 +88,8 @@ There's no good workaround for this. You will have to either:
 | <a name="output_metrics"></a> [metrics](#output\_metrics) | Cloudwatch monitoring metrics |
 | <a name="output_name"></a> [name](#output\_name) | The Lambda Function name |
 | <a name="output_qualified_arn"></a> [qualified\_arn](#output\_qualified\_arn) | The ARN identifying the Lambda Function Version |
+| <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | ARN of the role assumed by the lambda function |
+| <a name="output_role_name"></a> [role\_name](#output\_role\_name) | Role assumed by the Lambda function |
 | <a name="output_version"></a> [version](#output\_version) | Latest published version of the Lambda Function |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets |
 <!-- END_TF_DOCS -->
