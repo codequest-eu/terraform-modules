@@ -2,12 +2,13 @@
 
 Creates a CloudWatch log group for a container and outputs container logging configuration.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -48,3 +49,4 @@ No modules.
 | <a name="output_container_config_json"></a> [container\_config\_json](#output\_container\_config\_json) | Container definition logging configuration JSON |
 | <a name="output_name"></a> [name](#output\_name) | CloudWatch log group name |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

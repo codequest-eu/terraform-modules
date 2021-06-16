@@ -1,6 +1,8 @@
 #!/bin/bash
 
-find . \
+root_dir=$(realpath --relative-to="$PWD" "$(dirname "$0")/../..")
+
+find "$root_dir" \
   -name variables.tf \
   -not -path './.*' \
   -o -name outputs.tf \

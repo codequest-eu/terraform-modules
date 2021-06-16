@@ -2,12 +2,13 @@
 
 Common cloudwatch-related constants, like the color palette cloudwatch uses by default.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -31,3 +32,4 @@ No inputs.
 |------|-------------|
 | <a name="output_colors"></a> [colors](#output\_colors) | Cloudwatch default color palette |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

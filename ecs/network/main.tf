@@ -112,7 +112,7 @@ resource "aws_eip" "public_nat" {
 }
 
 resource "aws_nat_gateway" "public" {
-  count = var.create && ! var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
   allocation_id = element(aws_eip.public_nat[*].id, count.index)
   subnet_id     = element(aws_subnet.public[*].id, count.index)
@@ -341,7 +341,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private_default" {
-  count = var.create && ! var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
   route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"

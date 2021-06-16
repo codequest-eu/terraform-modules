@@ -21,17 +21,17 @@ output "ci_secret_access_key" {
 
 output "provider_aws_config" {
   description = "Terraform AWS provider block"
-  value       = var.create ? data.template_file.provider_aws_config[0].rendered : null
+  value       = local.provider_aws_config
 }
 
 output "provider_aws_alias_config_template" {
   description = "Terraform AWS provider block template for defining aliases, accepts alias and region variables"
-  value       = var.create ? data.template_file.provider_aws_alias_config_template[0].rendered : null
+  value       = local.provider_aws_alias_config_template
 }
 
 output "backend_config" {
   description = "Terraform backend config block"
-  value       = var.create ? data.template_file.backend_config[0].rendered : null
+  value       = local.backend_config
 }
 
 output "backend_type" {
@@ -41,15 +41,15 @@ output "backend_type" {
 
 output "backend_config_map" {
   description = "Terraform backend config map"
-  value       = var.create ? local.backend_config : null
+  value       = local.backend_config_map
 }
 
 output "meta_backend_config" {
   description = "Terraform meta backend config block"
-  value       = var.create ? data.template_file.meta_backend_config[0].rendered : null
+  value       = local.meta_backend_config
 }
 
 output "meta_backend_config_map" {
   description = "Terraform meta backend config map"
-  value       = var.create ? local.meta_backend_config : null
+  value       = local.meta_backend_config_map
 }

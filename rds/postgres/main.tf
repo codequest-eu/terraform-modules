@@ -88,19 +88,30 @@ locals {
   db_url = var.create ? "postgres://${var.username}:${var.password}@${local.host}:${local.port}/${local.db}" : ""
 }
 
+resource "aws_ssm_parameter" "master_url" {
+  count = var.create && var.create_management_lambda ? 1 : 0
+
+  name  = "/${local.name}/MASTER_DB_URL"
+  tags  = local.tags
+  type  = "SecureString"
+  value = local.db_url
+}
+
 module "management_lambda" {
   source = "./management_lambda"
   create = var.create && var.create_management_lambda
 
-  name         = "${local.name}-db-management"
-  tags         = var.tags
-  database_url = local.db_url
-  vpc_id       = var.vpc_id
-  subnet_ids   = var.subnet_ids
+  name               = "${local.name}-db-management"
+  tags               = var.tags
+  database_url_param = aws_ssm_parameter.master_url[0].name
+
+  vpc        = !var.public
+  vpc_id     = !var.public ? var.vpc_id : null
+  subnet_ids = !var.public ? var.subnet_ids : null
 }
 
 resource "aws_security_group_rule" "management_lambda" {
-  count = var.create && var.create_management_lambda ? 1 : 0
+  count = var.create && !var.public && var.create_management_lambda ? 1 : 0
 
   security_group_id        = aws_security_group.db[0].id
   type                     = "ingress"
@@ -108,4 +119,20 @@ resource "aws_security_group_rule" "management_lambda" {
   to_port                  = 0
   protocol                 = "-1"
   source_security_group_id = module.management_lambda.security_group_id
+}
+
+data "aws_iam_policy_document" "management_lambda_master_url" {
+  count = var.create && var.create_management_lambda ? 1 : 0
+
+  statement {
+    actions   = ["ssm:GetParameter"]
+    resources = [aws_ssm_parameter.master_url[0].arn]
+  }
+}
+
+resource "aws_iam_role_policy" "management_lambda_master_url" {
+  count = var.create && var.create_management_lambda ? 1 : 0
+
+  role   = module.management_lambda.role_name
+  policy = data.aws_iam_policy_document.management_lambda_master_url[0].json
 }

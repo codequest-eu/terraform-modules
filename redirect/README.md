@@ -9,14 +9,14 @@ Module creates:
 - AWS S3 bucket for redirection configuration
 - AWS CloudFront distribution for SSL termination and geographical distribution
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
-| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.1.2 |
 
 ## Providers
 
@@ -64,3 +64,4 @@ No modules.
 | <a name="output_distribution_url"></a> [distribution\_url](#output\_distribution\_url) | URL of the created redirection CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net. |
 | <a name="output_distribution_zone_id"></a> [distribution\_zone\_id](#output\_distribution\_zone\_id) | The CloudFront Route 53 zone ID that can be used to route an Alias Resource Record Set to. |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

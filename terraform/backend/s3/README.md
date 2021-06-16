@@ -2,12 +2,13 @@
 
 Creates resources needed to use a terraform S3 backend with locking
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -51,3 +52,4 @@ No modules.
 | <a name="output_lock_table_name"></a> [lock\_table\_name](#output\_lock\_table\_name) | State lock table name |
 | <a name="output_remote_state_template"></a> [remote\_state\_template](#output\_remote\_state\_template) | terraform\_remote\_state block template |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

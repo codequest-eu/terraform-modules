@@ -11,12 +11,13 @@ Creates networking resources needed for a standard ECS cluster setup:
 
 - [ ] S3 bucket for ALB Logs
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 2.1.2 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 2.0.1 |
@@ -33,41 +34,41 @@ Creates networking resources needed for a standard ECS cluster setup:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts |  |
-| <a name="module_metric_consumed_lcus"></a> [metric\_consumed\_lcus](#module\_metric\_consumed\_lcus) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_lb_active_connections"></a> [metric\_lb\_active\_connections](#module\_metric\_lb\_active\_connections) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_lb_new_connections"></a> [metric\_lb\_new\_connections](#module\_metric\_lb\_new\_connections) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_lb_responses"></a> [metric\_lb\_responses](#module\_metric\_lb\_responses) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metric_lb_traffic"></a> [metric\_lb\_traffic](#module\_metric\_lb\_traffic) | ./../../cloudwatch/metric |  |
-| <a name="module_metric_nat_instance_average_cpu_utilization"></a> [metric\_nat\_instance\_average\_cpu\_utilization](#module\_metric\_nat\_instance\_average\_cpu\_utilization) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metric_nat_instance_cpu_credit_usage"></a> [metric\_nat\_instance\_cpu\_credit\_usage](#module\_metric\_nat\_instance\_cpu\_credit\_usage) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metric_nat_instance_max_cpu_utilization"></a> [metric\_nat\_instance\_max\_cpu\_utilization](#module\_metric\_nat\_instance\_max\_cpu\_utilization) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metric_nat_instance_min_cpu_utilization"></a> [metric\_nat\_instance\_min\_cpu\_utilization](#module\_metric\_nat\_instance\_min\_cpu\_utilization) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metric_requests"></a> [metric\_requests](#module\_metric\_requests) | ./../../cloudwatch/metric_expression |  |
-| <a name="module_metrics_nat_gateway_bytes"></a> [metrics\_nat\_gateway\_bytes](#module\_metrics\_nat\_gateway\_bytes) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_nat_gateway_connections"></a> [metrics\_nat\_gateway\_connections](#module\_metrics\_nat\_gateway\_connections) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_nat_gateway_packets"></a> [metrics\_nat\_gateway\_packets](#module\_metrics\_nat\_gateway\_packets) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_nat_gateway_packets_dropped"></a> [metrics\_nat\_gateway\_packets\_dropped](#module\_metrics\_nat\_gateway\_packets\_dropped) | ./../../cloudwatch/metric |  |
-| <a name="module_metrics_nat_instance_cpu_credit_balance"></a> [metrics\_nat\_instance\_cpu\_credit\_balance](#module\_metrics\_nat\_instance\_cpu\_credit\_balance) | ./../../cloudwatch/metric_expression/many |  |
-| <a name="module_metrics_nat_instance_io"></a> [metrics\_nat\_instance\_io](#module\_metrics\_nat\_instance\_io) | ./../../cloudwatch/metric_expression/many |  |
-| <a name="module_metrics_response_count"></a> [metrics\_response\_count](#module\_metrics\_response\_count) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_response_percentage"></a> [metrics\_response\_percentage](#module\_metrics\_response\_percentage) | ./../../cloudwatch/metric_expression/many |  |
-| <a name="module_metrics_target_response_time"></a> [metrics\_target\_response\_time](#module\_metrics\_target\_response\_time) | ./../../cloudwatch/metric/many |  |
-| <a name="module_widget_lb_connections"></a> [widget\_lb\_connections](#module\_widget\_lb\_connections) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_lb_lcus"></a> [widget\_lb\_lcus](#module\_widget\_lb\_lcus) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_lb_traffic"></a> [widget\_lb\_traffic](#module\_widget\_lb\_traffic) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_gateway_active_connections"></a> [widget\_nat\_gateway\_active\_connections](#module\_widget\_nat\_gateway\_active\_connections) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_gateway_connection_attempts"></a> [widget\_nat\_gateway\_connection\_attempts](#module\_widget\_nat\_gateway\_connection\_attempts) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_gateway_network_bytes"></a> [widget\_nat\_gateway\_network\_bytes](#module\_widget\_nat\_gateway\_network\_bytes) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_gateway_network_packets"></a> [widget\_nat\_gateway\_network\_packets](#module\_widget\_nat\_gateway\_network\_packets) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_instance_cpu_credit_balance"></a> [widget\_nat\_instance\_cpu\_credit\_balance](#module\_widget\_nat\_instance\_cpu\_credit\_balance) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_instance_cpu_credit_usage"></a> [widget\_nat\_instance\_cpu\_credit\_usage](#module\_widget\_nat\_instance\_cpu\_credit\_usage) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_instance_cpu_utilization"></a> [widget\_nat\_instance\_cpu\_utilization](#module\_widget\_nat\_instance\_cpu\_utilization) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_instance_network_bytes"></a> [widget\_nat\_instance\_network\_bytes](#module\_widget\_nat\_instance\_network\_bytes) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_nat_instance_network_packets"></a> [widget\_nat\_instance\_network\_packets](#module\_widget\_nat\_instance\_network\_packets) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_response_percentages"></a> [widget\_response\_percentages](#module\_widget\_response\_percentages) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_responses"></a> [widget\_responses](#module\_widget\_responses) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_target_response_time"></a> [widget\_target\_response\_time](#module\_widget\_target\_response\_time) | ./../../cloudwatch/metric_widget |  |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts | n/a |
+| <a name="module_metric_consumed_lcus"></a> [metric\_consumed\_lcus](#module\_metric\_consumed\_lcus) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_lb_active_connections"></a> [metric\_lb\_active\_connections](#module\_metric\_lb\_active\_connections) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_lb_new_connections"></a> [metric\_lb\_new\_connections](#module\_metric\_lb\_new\_connections) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_lb_responses"></a> [metric\_lb\_responses](#module\_metric\_lb\_responses) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_lb_traffic"></a> [metric\_lb\_traffic](#module\_metric\_lb\_traffic) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metric_nat_instance_average_cpu_utilization"></a> [metric\_nat\_instance\_average\_cpu\_utilization](#module\_metric\_nat\_instance\_average\_cpu\_utilization) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_nat_instance_cpu_credit_usage"></a> [metric\_nat\_instance\_cpu\_credit\_usage](#module\_metric\_nat\_instance\_cpu\_credit\_usage) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_nat_instance_max_cpu_utilization"></a> [metric\_nat\_instance\_max\_cpu\_utilization](#module\_metric\_nat\_instance\_max\_cpu\_utilization) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_nat_instance_min_cpu_utilization"></a> [metric\_nat\_instance\_min\_cpu\_utilization](#module\_metric\_nat\_instance\_min\_cpu\_utilization) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metric_requests"></a> [metric\_requests](#module\_metric\_requests) | ./../../cloudwatch/metric_expression | n/a |
+| <a name="module_metrics_nat_gateway_bytes"></a> [metrics\_nat\_gateway\_bytes](#module\_metrics\_nat\_gateway\_bytes) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_nat_gateway_connections"></a> [metrics\_nat\_gateway\_connections](#module\_metrics\_nat\_gateway\_connections) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_nat_gateway_packets"></a> [metrics\_nat\_gateway\_packets](#module\_metrics\_nat\_gateway\_packets) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_nat_gateway_packets_dropped"></a> [metrics\_nat\_gateway\_packets\_dropped](#module\_metrics\_nat\_gateway\_packets\_dropped) | ./../../cloudwatch/metric | n/a |
+| <a name="module_metrics_nat_instance_cpu_credit_balance"></a> [metrics\_nat\_instance\_cpu\_credit\_balance](#module\_metrics\_nat\_instance\_cpu\_credit\_balance) | ./../../cloudwatch/metric_expression/many | n/a |
+| <a name="module_metrics_nat_instance_io"></a> [metrics\_nat\_instance\_io](#module\_metrics\_nat\_instance\_io) | ./../../cloudwatch/metric_expression/many | n/a |
+| <a name="module_metrics_response_count"></a> [metrics\_response\_count](#module\_metrics\_response\_count) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_response_percentage"></a> [metrics\_response\_percentage](#module\_metrics\_response\_percentage) | ./../../cloudwatch/metric_expression/many | n/a |
+| <a name="module_metrics_target_response_time"></a> [metrics\_target\_response\_time](#module\_metrics\_target\_response\_time) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_widget_lb_connections"></a> [widget\_lb\_connections](#module\_widget\_lb\_connections) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_lb_lcus"></a> [widget\_lb\_lcus](#module\_widget\_lb\_lcus) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_lb_traffic"></a> [widget\_lb\_traffic](#module\_widget\_lb\_traffic) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_gateway_active_connections"></a> [widget\_nat\_gateway\_active\_connections](#module\_widget\_nat\_gateway\_active\_connections) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_gateway_connection_attempts"></a> [widget\_nat\_gateway\_connection\_attempts](#module\_widget\_nat\_gateway\_connection\_attempts) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_gateway_network_bytes"></a> [widget\_nat\_gateway\_network\_bytes](#module\_widget\_nat\_gateway\_network\_bytes) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_gateway_network_packets"></a> [widget\_nat\_gateway\_network\_packets](#module\_widget\_nat\_gateway\_network\_packets) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_instance_cpu_credit_balance"></a> [widget\_nat\_instance\_cpu\_credit\_balance](#module\_widget\_nat\_instance\_cpu\_credit\_balance) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_instance_cpu_credit_usage"></a> [widget\_nat\_instance\_cpu\_credit\_usage](#module\_widget\_nat\_instance\_cpu\_credit\_usage) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_instance_cpu_utilization"></a> [widget\_nat\_instance\_cpu\_utilization](#module\_widget\_nat\_instance\_cpu\_utilization) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_instance_network_bytes"></a> [widget\_nat\_instance\_network\_bytes](#module\_widget\_nat\_instance\_network\_bytes) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_nat_instance_network_packets"></a> [widget\_nat\_instance\_network\_packets](#module\_widget\_nat\_instance\_network\_packets) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_response_percentages"></a> [widget\_response\_percentages](#module\_widget\_response\_percentages) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_responses"></a> [widget\_responses](#module\_widget\_responses) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_target_response_time"></a> [widget\_target\_response\_time](#module\_widget\_target\_response\_time) | ./../../cloudwatch/metric_widget | n/a |
 
 ## Resources
 
@@ -151,3 +152,4 @@ Creates networking resources needed for a standard ECS cluster setup:
 | <a name="output_vpc_block"></a> [vpc\_block](#output\_vpc\_block) | The CIDR block of the VPC |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

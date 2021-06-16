@@ -15,29 +15,28 @@ Module creates:
 - AWS IAM role for adding middleware Lambda@Edge functions
 - Optional basic auth and pull request routing Lambdas
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
-| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.1.2 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
-| <a name="provider_template"></a> [template](#provider\_template) | >= 2.1.2 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_basic_auth"></a> [basic\_auth](#module\_basic\_auth) | ./middleware |  |
-| <a name="module_middleware_common"></a> [middleware\_common](#module\_middleware\_common) | ./middleware_common |  |
-| <a name="module_pull_request_router"></a> [pull\_request\_router](#module\_pull\_request\_router) | ./middleware |  |
+| <a name="module_basic_auth"></a> [basic\_auth](#module\_basic\_auth) | ./middleware | n/a |
+| <a name="module_middleware_common"></a> [middleware\_common](#module\_middleware\_common) | ./middleware_common | n/a |
+| <a name="module_pull_request_router"></a> [pull\_request\_router](#module\_pull\_request\_router) | ./middleware | n/a |
 
 ## Resources
 
@@ -52,8 +51,6 @@ Module creates:
 | [aws_iam_policy_document.assets_cdn_website](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ci](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
-| [template_file.basic_auth](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.pull_request_router](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
@@ -93,3 +90,4 @@ Module creates:
 | <a name="output_distribution_url"></a> [distribution\_url](#output\_distribution\_url) | URL of the created assets CloudFront distribution, eg. https://d604721fxaaqy9.cloudfront.net. |
 | <a name="output_distribution_zone_id"></a> [distribution\_zone\_id](#output\_distribution\_zone\_id) | The CloudFront Route 53 zone ID that can be used to route an Alias Resource Record Set to. |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

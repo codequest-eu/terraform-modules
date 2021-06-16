@@ -1,9 +1,9 @@
 locals {
   metric_id = var.condition[0]
 
-  is_threshold_metric = ! can(tonumber(var.condition[2]))
+  is_threshold_metric = !can(tonumber(var.condition[2]))
   threshold_metric_id = local.is_threshold_metric ? var.condition[2] : null
-  threshold           = ! local.is_threshold_metric ? var.condition[2] : null
+  threshold           = !local.is_threshold_metric ? var.condition[2] : null
 
   threshold_operators = {
     "<"  = "LessThanThreshold"

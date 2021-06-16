@@ -2,12 +2,13 @@
 
 `spa` internal module which creates common resources needed for CloudFront Lambda@Edge middleware.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -41,3 +42,4 @@ No modules.
 | <a name="output_role_arn"></a> [role\_arn](#output\_role\_arn) | ARN of the IAM role that should be assumed by middleware Lambdas |
 | <a name="output_role_name"></a> [role\_name](#output\_role\_name) | Name of the IAM role that should be assumed by middleware Lambdas |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

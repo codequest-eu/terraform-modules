@@ -13,12 +13,13 @@ Registers a domain with AWS SES and verifies it
 >
 > Module assumes you add additional resources to setup receiving emails with SES or provide an address to some other SMTP server which handles incoming emails.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
 
 ## Providers
@@ -31,20 +32,20 @@ Registers a domain with AWS SES and verifies it
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_annotation_max_bounce_rate"></a> [annotation\_max\_bounce\_rate](#module\_annotation\_max\_bounce\_rate) | ./../../cloudwatch/annotation |  |
-| <a name="module_annotation_max_spam_rate"></a> [annotation\_max\_spam\_rate](#module\_annotation\_max\_spam\_rate) | ./../../cloudwatch/annotation |  |
-| <a name="module_annotation_warning_bounce_rate"></a> [annotation\_warning\_bounce\_rate](#module\_annotation\_warning\_bounce\_rate) | ./../../cloudwatch/annotation |  |
-| <a name="module_annotation_warning_spam_rate"></a> [annotation\_warning\_spam\_rate](#module\_annotation\_warning\_spam\_rate) | ./../../cloudwatch/annotation |  |
-| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts |  |
-| <a name="module_metrics_account_reputation"></a> [metrics\_account\_reputation](#module\_metrics\_account\_reputation) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_count"></a> [metrics\_count](#module\_metrics\_count) | ./../../cloudwatch/metric/many |  |
-| <a name="module_metrics_percentage"></a> [metrics\_percentage](#module\_metrics\_percentage) | ./../../cloudwatch/metric_expression/many |  |
-| <a name="module_widget_account_bounce_rate"></a> [widget\_account\_bounce\_rate](#module\_widget\_account\_bounce\_rate) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_account_spam_rate"></a> [widget\_account\_spam\_rate](#module\_widget\_account\_spam\_rate) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_conversion"></a> [widget\_conversion](#module\_widget\_conversion) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_delivery"></a> [widget\_delivery](#module\_widget\_delivery) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_delivery_percentage"></a> [widget\_delivery\_percentage](#module\_widget\_delivery\_percentage) | ./../../cloudwatch/metric_widget |  |
-| <a name="module_widget_spam"></a> [widget\_spam](#module\_widget\_spam) | ./../../cloudwatch/metric_widget |  |
+| <a name="module_annotation_max_bounce_rate"></a> [annotation\_max\_bounce\_rate](#module\_annotation\_max\_bounce\_rate) | ./../../cloudwatch/annotation | n/a |
+| <a name="module_annotation_max_spam_rate"></a> [annotation\_max\_spam\_rate](#module\_annotation\_max\_spam\_rate) | ./../../cloudwatch/annotation | n/a |
+| <a name="module_annotation_warning_bounce_rate"></a> [annotation\_warning\_bounce\_rate](#module\_annotation\_warning\_bounce\_rate) | ./../../cloudwatch/annotation | n/a |
+| <a name="module_annotation_warning_spam_rate"></a> [annotation\_warning\_spam\_rate](#module\_annotation\_warning\_spam\_rate) | ./../../cloudwatch/annotation | n/a |
+| <a name="module_cloudwatch_consts"></a> [cloudwatch\_consts](#module\_cloudwatch\_consts) | ./../../cloudwatch/consts | n/a |
+| <a name="module_metrics_account_reputation"></a> [metrics\_account\_reputation](#module\_metrics\_account\_reputation) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_count"></a> [metrics\_count](#module\_metrics\_count) | ./../../cloudwatch/metric/many | n/a |
+| <a name="module_metrics_percentage"></a> [metrics\_percentage](#module\_metrics\_percentage) | ./../../cloudwatch/metric_expression/many | n/a |
+| <a name="module_widget_account_bounce_rate"></a> [widget\_account\_bounce\_rate](#module\_widget\_account\_bounce\_rate) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_account_spam_rate"></a> [widget\_account\_spam\_rate](#module\_widget\_account\_spam\_rate) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_conversion"></a> [widget\_conversion](#module\_widget\_conversion) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_delivery"></a> [widget\_delivery](#module\_widget\_delivery) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_delivery_percentage"></a> [widget\_delivery\_percentage](#module\_widget\_delivery\_percentage) | ./../../cloudwatch/metric_widget | n/a |
+| <a name="module_widget_spam"></a> [widget\_spam](#module\_widget\_spam) | ./../../cloudwatch/metric_widget | n/a |
 
 ## Resources
 
@@ -100,3 +101,4 @@ Registers a domain with AWS SES and verifies it
 | <a name="output_spf_record"></a> [spf\_record](#output\_spf\_record) | SPF record which you should include in the domain's TXT record in case you specified `spf = false` |
 | <a name="output_widgets"></a> [widgets](#output\_widgets) | Cloudwatch dashboard widgets, see [widgets.tf](./widgets.tf) for details |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

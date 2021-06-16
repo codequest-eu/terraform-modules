@@ -7,7 +7,41 @@ variable "create" {
 variable "role_arn" {
   description = "The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services."
   type        = string
-  default     = ""
+  default     = null
+}
+
+
+variable "execution_role_arn" {
+  description = <<-EOT
+    The ARN of IAM role that allows ECS to execute your task.
+
+    Required when:
+    - using `environment_parameters` to give ECS access to the SSM parameters
+    - using `launch_type = "FARGATE"` when running the task
+  EOT
+  type        = string
+  default     = null
+}
+
+variable "network_mode" {
+  description = <<-EOT
+    Docker networking mode to use for the containers in the task.
+    Valid values are `none`, `bridge`, `awsvpc`, and `host`.
+  EOT
+  type        = string
+  default     = null
+}
+
+variable "task_memory" {
+  description = "Memory reserved for the task. Required when running on Fargate."
+  type        = number
+  default     = null
+}
+
+variable "task_cpu" {
+  description = "CPU reserved for the task. Required when running on Fargate."
+  type        = number
+  default     = null
 }
 
 # log_group
@@ -120,7 +154,28 @@ variable "working_directory" {
 }
 
 variable "environment_variables" {
-  description = "The environment variables to pass to a container."
+  description = "Environment variables to pass to a container."
   type        = map(string)
   default     = {}
+}
+
+variable "environment_parameters" {
+  description = <<-EOT
+    Environment variables that should be set to Systems Manager parameter values.
+    Maps environment variable names to parameters.
+  EOT
+  type = map(object({
+    arn     = string
+    version = number
+  }))
+  default = {}
+}
+
+variable "enable_environment_parameters_hash" {
+  description = <<-EOT
+    Inject an `SSM_PARAMETERS_HASH` environment variable to ensure that whenever parameter versions change the container definition will also change.
+    This makes sure that any services will be updated with new task definitions whenever a parameter is updated, so the service itself doesn't need to poll SSM.
+  EOT
+  type        = bool
+  default     = true
 }

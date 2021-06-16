@@ -2,12 +2,13 @@
 
 Same as [cloudwatch/metric](./..) but allows for creating many metrics using a single module
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 
 ## Providers
 
@@ -17,7 +18,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_default"></a> [default](#module\_default) | ./.. |  |
+| <a name="module_default"></a> [default](#module\_default) | ./.. | n/a |
 
 ## Resources
 
@@ -37,3 +38,4 @@ No resources.
 | <a name="output_out"></a> [out](#output\_out) | List of [cloudwatch/metric](./..) outputs |
 | <a name="output_out_map"></a> [out\_map](#output\_out\_map) | Map of [cloudwatch/metric](./..) outputs |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->

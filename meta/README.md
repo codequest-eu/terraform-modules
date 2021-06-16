@@ -28,21 +28,20 @@ Actual project infrastructure state is separate from the meta state, to configur
 terraform output -module NAME_OF_META_MODULE backend_config
 ```
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
-| <a name="requirement_template"></a> [template](#requirement\_template) | >= 2.1.2 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
-| <a name="provider_template"></a> [template](#provider\_template) | >= 2.1.2 |
 
 ## Modules
 
@@ -61,10 +60,6 @@ No modules.
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.ci](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
-| [template_file.backend_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.meta_backend_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.provider_aws_alias_config_template](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
-| [template_file.provider_aws_config](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 
 ## Inputs
 
@@ -94,3 +89,4 @@ No modules.
 | <a name="output_provider_aws_alias_config_template"></a> [provider\_aws\_alias\_config\_template](#output\_provider\_aws\_alias\_config\_template) | Terraform AWS provider block template for defining aliases, accepts alias and region variables |
 | <a name="output_provider_aws_config"></a> [provider\_aws\_config](#output\_provider\_aws\_config) | Terraform AWS provider block |
 <!-- END_TF_DOCS -->
+<!-- prettier-ignore-end -->
