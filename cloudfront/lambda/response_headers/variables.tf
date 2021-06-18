@@ -35,3 +35,12 @@ EOT
   }))
   default = []
 }
+
+variable "package_path" {
+  description = <<-EOT
+    Path where the lambda package will be created.
+    See `zip` `output_path` input for details.
+  EOT
+  type        = string
+  default     = null
+}

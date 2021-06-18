@@ -36,6 +36,7 @@ No resources.
 | <a name="input_handler"></a> [handler](#input\_handler) | Path to the function which will handle lambda calls | `string` | `"index.handler"` | no |
 | <a name="input_include_body"></a> [include\_body](#input\_include\_body) | Whether the lambda requires viewer/origin request body | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
+| <a name="input_package_path"></a> [package\_path](#input\_package\_path) | Path where the lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
 | <a name="input_runtime"></a> [runtime](#input\_runtime) | Lambda runtime | `string` | `"nodejs12.x"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_timeout"></a> [timeout](#input\_timeout) | The amount of time your Lambda Function has to run in seconds.<br><br>    Maximum of 5 for viewer events, 30 for origin events.<br>    https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-requirements-limits.html#lambda-requirements-see-limits | `number` | `5` | no |

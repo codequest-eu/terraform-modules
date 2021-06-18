@@ -2,7 +2,8 @@ module "package" {
   source = "./../../zip"
   create = var.create
 
-  files = { "index.js" = var.code }
+  files       = { "index.js" = var.code }
+  output_path = var.package_path
 }
 
 module "lambda" {

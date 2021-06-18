@@ -21,6 +21,8 @@ module "package" {
     "index.js"   = file("${path.module}/dist/index.js")
     "rules.json" = local.rules_json,
   }
+
+  output_path = var.package_path
 }
 
 module "lambda" {

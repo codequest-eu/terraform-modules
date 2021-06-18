@@ -31,6 +31,7 @@ No resources.
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_credentials"></a> [credentials](#input\_credentials) | Basic auth credentials | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
+| <a name="input_package_path"></a> [package\_path](#input\_package\_path) | Path where the lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 
 ## Outputs
