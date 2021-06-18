@@ -9,11 +9,8 @@ locals {
   }
 }
 
-module "lambda" {
-  source = "./../../.."
-
-  name = "terraform-modules-example-lambda-trigger-schedule"
-  tags = local.tags
+module "lambda_package" {
+  source = "./../../../../zip"
 
   files = {
     "index.js" = <<EOF
@@ -24,6 +21,14 @@ module "lambda" {
     module.exports = { handler }
     EOF
   }
+}
+
+module "lambda" {
+  source = "./../../.."
+
+  name         = "terraform-modules-example-lambda-trigger-schedule"
+  tags         = local.tags
+  package_path = module.lambda_package.output_path
 }
 
 module "trigger_rate" {

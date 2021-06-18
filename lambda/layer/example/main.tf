@@ -2,10 +2,8 @@ provider "aws" {
   region = "eu-west-1" # Ireland
 }
 
-module "lambda_layer" {
-  source = "./.."
-
-  name = "terraform-modules-lambda-layer-example-layer"
+module "lambda_layer_package" {
+  source = "./../../../zip"
 
   # Remember to run
   #   npm ci --prefix ./src/nodejs
@@ -14,18 +12,29 @@ module "lambda_layer" {
   file_patterns = ["nodejs/node_modules/**"]
 }
 
+module "lambda_layer" {
+  source = "./.."
+
+  name         = "terraform-modules-lambda-layer-example-layer"
+  package_path = module.lambda_layer_package.output_path
+}
+
 output "lambda_layer" {
   value = module.lambda_layer
+}
+
+module "lambda_package" {
+  source = "./../../../zip"
+
+  files_dir     = "${path.module}/src"
+  file_patterns = ["index.js", "package.json"]
 }
 
 module "lambda" {
   source = "./../.."
 
-  name = "terraform-modules-lambda-layer-example-lambda"
-
-  files_dir     = "${path.module}/src"
-  file_patterns = ["index.js", "package.json"]
-
+  name                 = "terraform-modules-lambda-layer-example-lambda"
+  package_path         = module.lambda_package.output_path
   layer_qualified_arns = [module.lambda_layer.qualified_arn]
 }
 

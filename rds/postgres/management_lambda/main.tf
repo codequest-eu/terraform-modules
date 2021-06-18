@@ -20,6 +20,13 @@ resource "aws_security_group_rule" "lambda_egress_any" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+module "package" {
+  source = "./../../../zip"
+  create = var.create
+
+  files_dir = "${path.module}/dist"
+}
+
 module "lambda" {
   source = "./../../../lambda"
   create = var.create
@@ -27,8 +34,8 @@ module "lambda" {
   name = var.name
   tags = var.tags
 
-  files_dir = "${path.module}/dist"
-  handler   = "index.handler"
+  package_path = module.package.output_path
+  handler      = "index.handler"
 
   security_group_ids = var.create && var.vpc ? aws_security_group.lambda.*.id : null
   subnet_ids         = var.vpc ? var.subnet_ids : null
