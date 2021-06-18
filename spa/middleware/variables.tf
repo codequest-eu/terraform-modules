@@ -41,3 +41,13 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "archive_path" {
+  description = <<-EOT
+    Path where the lambda package will be created.
+    Any instances of `{hash}` will be replaced with the code hash.
+    Defaults to `{middleware module path}/tmp/{hash}.zip`.
+  EOT
+  type        = string
+  default     = null
+}

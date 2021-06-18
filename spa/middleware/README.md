@@ -34,6 +34,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_archive_path"></a> [archive\_path](#input\_archive\_path) | Path where the lambda package will be created.<br>Any instances of `{hash}` will be replaced with the code hash.<br>Defaults to `{middleware module path}/tmp/{hash}.zip`. | `string` | `null` | no |
 | <a name="input_code"></a> [code](#input\_code) | Lambda code | `string` | n/a | yes |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_handler"></a> [handler](#input\_handler) | Path to the function which will handle lambda calls | `string` | `"index.handler"` | no |

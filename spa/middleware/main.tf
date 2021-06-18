@@ -16,9 +16,9 @@ locals {
 ${var.code}
 EOF
 
-  hash         = md5(local.code)
-  archive_name = "${var.name}.${local.hash}.zip"
-  archive_path = "/tmp/${local.archive_name}"
+  hash                  = md5(local.code)
+  archive_path_template = var.archive_path != null ? var.archive_path : "${path.module}/tmp/{hash}.zip"
+  archive_path          = replace(local.archive_path_template, "{hash}", local.hash)
 }
 
 data "archive_file" "archive" {
