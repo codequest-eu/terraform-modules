@@ -8,8 +8,8 @@ module "lambda_layer_package" {
   # Remember to run
   #   npm ci --prefix ./src/nodejs
   # before applying, otherwise the layer will be empty
-  files_dir     = "${path.module}/src"
-  file_patterns = ["nodejs/node_modules/**"]
+  directory                  = "${path.module}/src"
+  directory_include_patterns = ["nodejs/node_modules/**"]
 }
 
 module "lambda_layer" {
@@ -26,8 +26,8 @@ output "lambda_layer" {
 module "lambda_package" {
   source = "./../../../zip"
 
-  files_dir     = "${path.module}/src"
-  file_patterns = ["index.js", "package.json"]
+  directory                  = "${path.module}/src"
+  directory_include_patterns = ["index.js", "package.json"]
 }
 
 module "lambda" {
