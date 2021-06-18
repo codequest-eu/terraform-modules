@@ -83,10 +83,28 @@ variable "basic_auth_exclusions" {
   default     = []
 }
 
+variable "basic_auth_archive_path" {
+  description = <<-EOT
+    Path where the basic auth lambda package will be created.
+    See `spa/middleware` `archive_path` input for details.
+  EOT
+  type        = string
+  default     = null
+}
+
 variable "pull_request_router" {
   description = "Enables routing for pull request subdirectories"
   type        = bool
   default     = false
+}
+
+variable "pull_request_router_archive_path" {
+  description = <<-EOT
+    Path where the PR router lambda package will be created.
+    See `spa/middleware` `archive_path` input for details.
+  EOT
+  type        = string
+  default     = null
 }
 
 variable "pull_request_path_re" {
