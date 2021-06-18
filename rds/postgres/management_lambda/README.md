@@ -35,6 +35,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_lambda"></a> [lambda](#module\_lambda) | ./../../../lambda | n/a |
+| <a name="module_package"></a> [package](#module\_package) | ./../../../zip | n/a |
 
 ## Resources
 
