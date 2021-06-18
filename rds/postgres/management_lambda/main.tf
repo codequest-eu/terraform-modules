@@ -24,7 +24,7 @@ module "package" {
   source = "./../../../zip"
   create = var.create
 
-  files_dir   = "${path.module}/dist"
+  directory   = "${path.module}/dist"
   output_path = var.package_path
 }
 
