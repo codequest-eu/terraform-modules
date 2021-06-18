@@ -112,6 +112,8 @@ module "management_lambda" {
   vpc        = !var.public
   vpc_id     = !var.public ? var.vpc_id : null
   subnet_ids = !var.public ? var.subnet_ids : null
+
+  package_path = var.management_lambda_package_path
 }
 
 resource "aws_security_group_rule" "management_lambda" {

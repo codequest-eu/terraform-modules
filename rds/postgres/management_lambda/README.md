@@ -52,6 +52,7 @@ Remember to always run `npm run build` before committing any changes in `src`, s
 | <a name="input_database_url"></a> [database\_url](#input\_database\_url) | Database URL with master credentials | `string` | `null` | no |
 | <a name="input_database_url_param"></a> [database\_url\_param](#input\_database\_url\_param) | AWS SSM parameter that holds database URL with master credentials | `string` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
+| <a name="input_package_path"></a> [package\_path](#input\_package\_path) | Path where the lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Ids of subnets to place the lambda in, required when vpc is true | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_vpc"></a> [vpc](#input\_vpc) | Whether the lambda should be put in a VPC, required when RDS is in a private subnet. | `bool` | `false` | no |

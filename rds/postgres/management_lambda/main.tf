@@ -24,7 +24,8 @@ module "package" {
   source = "./../../../zip"
   create = var.create
 
-  files_dir = "${path.module}/dist"
+  files_dir   = "${path.module}/dist"
+  output_path = var.package_path
 }
 
 module "lambda" {

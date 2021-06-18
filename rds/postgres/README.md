@@ -48,6 +48,7 @@ Creates an RDS PostgreSQL database instance
 | <a name="input_db"></a> [db](#input\_db) | The name of the database to create when the DB instance is created, defaults to project name converted to snake\_case | `string` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type of the RDS instance | `string` | n/a | yes |
+| <a name="input_management_lambda_package_path"></a> [management\_lambda\_package\_path](#input\_management\_lambda\_package\_path) | Path where the management lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
 | <a name="input_multi_az"></a> [multi\_az](#input\_multi\_az) | Specifies if the RDS instance is multi-AZ | `bool` | `true` | no |
 | <a name="input_password"></a> [password](#input\_password) | Password for the master DB user | `string` | n/a | yes |
 | <a name="input_port"></a> [port](#input\_port) | The port on which the DB accepts connections | `number` | `5432` | no |
