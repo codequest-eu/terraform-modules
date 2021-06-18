@@ -11,7 +11,7 @@ module "package" {
   directory_include_patterns = var.file_patterns
   directory_exclude_patterns = var.file_exclude_patterns
 
-  output_path = var.files_output_path
+  output_path = var.files_package_path
 }
 
 resource "aws_lambda_layer_version" "layer" {

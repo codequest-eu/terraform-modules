@@ -72,7 +72,7 @@ variable "files_dir" {
   default = null
 }
 
-variable "files_output_path" {
+variable "files_package_path" {
   description = <<-EOT
     **Deprecated. Use the `zip` module and `package_path` input instead.**
 
