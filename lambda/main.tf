@@ -11,7 +11,7 @@ module "package" {
   directory_include_patterns = var.file_patterns
   directory_exclude_patterns = var.file_exclude_patterns
 
-  output_path = "${path.module}/tmp/{hash}.zip"
+  output_path = var.files_output_path
 }
 
 data "aws_iam_policy_document" "assume_lambda" {
