@@ -285,6 +285,8 @@ module "basic_auth" {
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
 
+  archive_path = var.basic_auth_archive_path
+
   providers = {
     aws = aws.middleware
   }
@@ -300,6 +302,8 @@ module "pull_request_router" {
   })
   role_arn = module.middleware_common.role_arn
   tags     = local.tags
+
+  archive_path = var.pull_request_router_archive_path
 
   providers = {
     aws = aws.middleware

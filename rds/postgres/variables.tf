@@ -10,6 +10,15 @@ variable "create_management_lambda" {
   default     = true
 }
 
+variable "management_lambda_package_path" {
+  description = <<-EOT
+    Path where the management lambda package will be created.
+    See `zip` `output_path` input for details.
+  EOT
+  type        = string
+  default     = null
+}
+
 variable "project" {
   description = "Kebab-cased project name"
   type        = string

@@ -72,6 +72,17 @@ variable "files_dir" {
   default = null
 }
 
+variable "files_package_path" {
+  description = <<-EOT
+    **Deprecated. Use the `zip` module and `package_path` input instead.**
+
+    Path where the lambda package will be created when using `files` or `files_dir`.
+    See `zip` `output_path` input for details.
+  EOT
+  type        = string
+  default     = null
+}
+
 variable "file_patterns" {
   description = <<EOT
 **Deprecated. Use the `zip` module and `package_path` input instead.**

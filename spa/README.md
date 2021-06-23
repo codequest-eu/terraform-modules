@@ -56,6 +56,7 @@ Module creates:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_basic_auth_archive_path"></a> [basic\_auth\_archive\_path](#input\_basic\_auth\_archive\_path) | Path where the basic auth lambda package will be created.<br>See `spa/middleware` `archive_path` input for details. | `string` | `null` | no |
 | <a name="input_basic_auth_credentials"></a> [basic\_auth\_credentials](#input\_basic\_auth\_credentials) | Basic auth credentials in user:pass format | `string` | `null` | no |
 | <a name="input_basic_auth_exclusions"></a> [basic\_auth\_exclusions](#input\_basic\_auth\_exclusions) | List of regular expressions describing paths excluded from the basic auth | `list(string)` | `[]` | no |
 | <a name="input_bucket"></a> [bucket](#input\_bucket) | Kebab-cased bucket name override | `string` | `null` | no |
@@ -69,6 +70,7 @@ Module creates:
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased name of the project. Will be included in resource names | `string` | n/a | yes |
 | <a name="input_pull_request_path_re"></a> [pull\_request\_path\_re](#input\_pull\_request\_path\_re) | Regular expression which extracts the base directory of a PR as it's first match group | `string` | `"^/(PR-\\d+)($|/)"` | no |
 | <a name="input_pull_request_router"></a> [pull\_request\_router](#input\_pull\_request\_router) | Enables routing for pull request subdirectories | `bool` | `false` | no |
+| <a name="input_pull_request_router_archive_path"></a> [pull\_request\_router\_archive\_path](#input\_pull\_request\_router\_archive\_path) | Path where the PR router lambda package will be created.<br>See `spa/middleware` `archive_path` input for details. | `string` | `null` | no |
 | <a name="input_static_cors_max_age_seconds"></a> [static\_cors\_max\_age\_seconds](#input\_static\_cors\_max\_age\_seconds) | How long can CORS OPTIONS request responses be cached | `number` | `3600` | no |
 | <a name="input_static_path"></a> [static\_path](#input\_static\_path) | Base path for static assets | `string` | `"/static"` | no |
 | <a name="input_static_website"></a> [static\_website](#input\_static\_website) | Use S3 static website hosting | `bool` | `false` | no |

@@ -27,6 +27,7 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_lambda"></a> [lambda](#module\_lambda) | ./../../../lambda | n/a |
+| <a name="module_package"></a> [package](#module\_package) | ./../../../zip | n/a |
 
 ## Resources
 
@@ -39,6 +40,7 @@ No resources.
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_global"></a> [global](#input\_global) | Headers to add to all responses | `map(string)` | `{}` | no |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
+| <a name="input_package_path"></a> [package\_path](#input\_package\_path) | Path where the lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
 | <a name="input_rules"></a> [rules](#input\_rules) | Rules for adding headers to some responses.<br><br>    Both `path` and `content_type` support glob patterns using [micromatch](https://github.com/micromatch/micromatch#matching-features). | <pre>list(object({<br>    path         = string<br>    content_type = string<br>    headers      = map(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 

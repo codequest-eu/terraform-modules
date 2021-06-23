@@ -13,6 +13,18 @@ locals {
   }])
 }
 
+module "package" {
+  source = "./../../../zip"
+  create = var.create
+
+  files = {
+    "index.js"   = file("${path.module}/dist/index.js")
+    "rules.json" = local.rules_json,
+  }
+
+  output_path = var.package_path
+}
+
 module "lambda" {
   source = "./../../../lambda"
   create = var.create
@@ -20,10 +32,7 @@ module "lambda" {
   name = var.name
   tags = var.tags
 
-  files = {
-    "index.js"   = file("${path.module}/dist/index.js")
-    "rules.json" = local.rules_json,
-  }
+  package_path = module.package.output_path
 
   handler                = "index.handler"
   runtime                = "nodejs12.x"
