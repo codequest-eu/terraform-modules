@@ -63,7 +63,7 @@ resource "aws_db_instance" "db" {
   identifier = "${local.name}"
 
   engine                    = "postgres"
-  engine_version            = "${var.version}"
+  engine_version            = "${var.postgres_version}"
   storage_type              = "gp2"
   allocated_storage         = "${var.storage}"
   instance_class            = "${var.instance_type}"

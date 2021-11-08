@@ -56,7 +56,7 @@ variable "security_group_ids" {
   default     = []
 }
 
-variable "version" {
+variable "postgres_version" {
   description = "RDS Postgres engine version"
   default     = "10.6"
 }
