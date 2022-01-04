@@ -2,6 +2,12 @@
 
 Basic authentication function code for an AWS CloudFront Function
 
+```ts
+function requireBasicAuth(
+  event: ViewerRequestEvent
+): UnauthorizedResponse | undefined;
+```
+
 <!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
