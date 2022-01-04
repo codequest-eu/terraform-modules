@@ -144,6 +144,21 @@ resource "aws_cloudfront_distribution" "distribution" {
         include_body = try(lambda_function_association.value.include_body, false)
       }
     }
+
+    dynamic "function_association" {
+      for_each = {
+        for event_type, function_arn in {
+          "viewer-request" : var.default_behavior.viewer_request_function_arn,
+          "viewer-response" : var.default_behavior.viewer_response_function_arn,
+        } :
+        event_type => function_arn if function_arn != null
+      }
+
+      content {
+        event_type   = function_association.key
+        function_arn = function_association.value
+      }
+    }
   }
 
   dynamic "ordered_cache_behavior" {
@@ -188,6 +203,21 @@ resource "aws_cloudfront_distribution" "distribution" {
           event_type   = lambda_function_association.key
           lambda_arn   = lambda_function_association.value.arn
           include_body = try(lambda_function_association.value.include_body, false)
+        }
+      }
+
+      dynamic "function_association" {
+        for_each = {
+          for event_type, function_arn in {
+            "viewer-request" : ordered_cache_behavior.value.viewer_request_function_arn,
+            "viewer-response" : ordered_cache_behavior.value.viewer_response_function_arn,
+          } :
+          event_type => function_arn if function_arn != null
+        }
+
+        content {
+          event_type   = function_association.key
+          function_arn = function_association.value
         }
       }
     }

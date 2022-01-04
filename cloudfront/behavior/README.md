@@ -37,7 +37,9 @@ No resources.
 | <a name="input_origin_request_lambda"></a> [origin\_request\_lambda](#input\_origin\_request\_lambda) | Lambda function to invoke before CloudFront sends a request to the origin | `object({ arn = string, include_body = bool })` | `null` | no |
 | <a name="input_origin_response_lambda"></a> [origin\_response\_lambda](#input\_origin\_response\_lambda) | Lambda function to invoke when CloudFront receives a response from origin | `object({ arn = string })` | `null` | no |
 | <a name="input_path"></a> [path](#input\_path) | Path the behavior should apply to | `string` | `null` | no |
+| <a name="input_viewer_request_function_arn"></a> [viewer\_request\_function\_arn](#input\_viewer\_request\_function\_arn) | CloudFront function ARN to invoke when CloudFront receives a request | `string` | `null` | no |
 | <a name="input_viewer_request_lambda"></a> [viewer\_request\_lambda](#input\_viewer\_request\_lambda) | Lambda function to invoke when CloudFront receives a request | `object({ arn = string, include_body = bool })` | `null` | no |
+| <a name="input_viewer_response_function_arn"></a> [viewer\_response\_function\_arn](#input\_viewer\_response\_function\_arn) | CloudFront function ARN to invoke before CloudFront returns a response | `string` | `null` | no |
 | <a name="input_viewer_response_lambda"></a> [viewer\_response\_lambda](#input\_viewer\_response\_lambda) | Lambda function to invoke before CloudFront returns a response | `object({ arn = string })` | `null` | no |
 
 ## Outputs
@@ -55,7 +57,9 @@ No resources.
 | <a name="output_origin_request_lambda"></a> [origin\_request\_lambda](#output\_origin\_request\_lambda) | Lambda function to invoke before CloudFront sends a request to the origin |
 | <a name="output_origin_response_lambda"></a> [origin\_response\_lambda](#output\_origin\_response\_lambda) | Lambda function to invoke when CloudFront receives a response from origin |
 | <a name="output_path"></a> [path](#output\_path) | Path the behavior should apply to |
+| <a name="output_viewer_request_function_arn"></a> [viewer\_request\_function\_arn](#output\_viewer\_request\_function\_arn) | CloudFront function ARN to invoke when CloudFront receives a request |
 | <a name="output_viewer_request_lambda"></a> [viewer\_request\_lambda](#output\_viewer\_request\_lambda) | Lambda function to invoke when CloudFront receives a request |
+| <a name="output_viewer_response_function_arn"></a> [viewer\_response\_function\_arn](#output\_viewer\_response\_function\_arn) | CloudFront function ARN to invoke before CloudFront returns a response |
 | <a name="output_viewer_response_lambda"></a> [viewer\_response\_lambda](#output\_viewer\_response\_lambda) | Lambda function to invoke before CloudFront returns a response |
 <!-- END_TF_DOCS -->
 <!-- prettier-ignore-end -->

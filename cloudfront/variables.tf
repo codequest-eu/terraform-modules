@@ -83,10 +83,12 @@ variable "default_behavior" {
     compress      = bool
     forward_query = bool
 
-    viewer_request_lambda  = object({ arn = string, include_body = bool })
-    origin_request_lambda  = object({ arn = string, include_body = bool })
-    origin_response_lambda = object({ arn = string })
-    viewer_response_lambda = object({ arn = string })
+    viewer_request_lambda        = object({ arn = string, include_body = bool })
+    viewer_request_function_arn  = string
+    origin_request_lambda        = object({ arn = string, include_body = bool })
+    origin_response_lambda       = object({ arn = string })
+    viewer_response_lambda       = object({ arn = string })
+    viewer_response_function_arn = string
   })
 }
 
@@ -105,10 +107,12 @@ variable "behaviors" {
     compress      = bool
     forward_query = bool
 
-    viewer_request_lambda  = object({ arn = string, include_body = bool })
-    origin_request_lambda  = object({ arn = string, include_body = bool })
-    origin_response_lambda = object({ arn = string })
-    viewer_response_lambda = object({ arn = string })
+    viewer_request_lambda        = object({ arn = string, include_body = bool })
+    viewer_request_function_arn  = string
+    origin_request_lambda        = object({ arn = string, include_body = bool })
+    origin_response_lambda       = object({ arn = string })
+    viewer_response_lambda       = object({ arn = string })
+    viewer_response_function_arn = string
   }))
   default = {}
 }

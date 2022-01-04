@@ -4,7 +4,7 @@ terraform {
 
   # Make sure all providers needed by any module are listed
   required_providers {
-    aws = "3.19.0"
+    aws = "3.41.0"
 
     archive = "2.1.0"
     null    = "3.1.0"
