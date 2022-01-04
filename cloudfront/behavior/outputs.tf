@@ -48,6 +48,11 @@ output "viewer_request_lambda" {
   value       = var.viewer_request_lambda
 }
 
+output "viewer_request_function_arn" {
+  description = "CloudFront function ARN to invoke when CloudFront receives a request"
+  value       = var.viewer_request_function_arn
+}
+
 output "origin_request_lambda" {
   description = "Lambda function to invoke before CloudFront sends a request to the origin"
   value       = var.origin_request_lambda
@@ -61,4 +66,9 @@ output "origin_response_lambda" {
 output "viewer_response_lambda" {
   description = "Lambda function to invoke before CloudFront returns a response"
   value       = var.viewer_response_lambda
+}
+
+output "viewer_response_function_arn" {
+  description = "CloudFront function ARN to invoke before CloudFront returns a response"
+  value       = var.viewer_response_function_arn
 }

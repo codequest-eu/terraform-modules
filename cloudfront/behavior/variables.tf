@@ -57,6 +57,12 @@ variable "viewer_request_lambda" {
   default     = null
 }
 
+variable "viewer_request_function_arn" {
+  description = "CloudFront function ARN to invoke when CloudFront receives a request"
+  type        = string
+  default     = null
+}
+
 variable "origin_request_lambda" {
   description = "Lambda function to invoke before CloudFront sends a request to the origin"
   type        = object({ arn = string, include_body = bool })
@@ -72,5 +78,11 @@ variable "origin_response_lambda" {
 variable "viewer_response_lambda" {
   description = "Lambda function to invoke before CloudFront returns a response"
   type        = object({ arn = string })
+  default     = null
+}
+
+variable "viewer_response_function_arn" {
+  description = "CloudFront function ARN to invoke before CloudFront returns a response"
+  type        = string
   default     = null
 }
