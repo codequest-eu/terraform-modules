@@ -1,4 +1,4 @@
-# cloudfront/lambda/basic_auth
+# cloudfront/functions/basic_auth
 
 Basic authentication function code for an AWS CloudFront Function
 
