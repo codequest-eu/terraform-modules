@@ -83,6 +83,10 @@ variable "default_behavior" {
     compress      = bool
     forward_query = bool
 
+    default_ttl = number
+    min_ttl     = number
+    max_ttl     = number
+
     viewer_request_lambda        = object({ arn = string, include_body = bool })
     viewer_request_function_arn  = string
     origin_request_lambda        = object({ arn = string, include_body = bool })
@@ -106,6 +110,10 @@ variable "behaviors" {
     origin_id     = string
     compress      = bool
     forward_query = bool
+
+    default_ttl = number
+    min_ttl     = number
+    max_ttl     = number
 
     viewer_request_lambda        = object({ arn = string, include_body = bool })
     viewer_request_function_arn  = string

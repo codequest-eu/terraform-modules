@@ -32,7 +32,10 @@ No resources.
 | <a name="input_cached_methods"></a> [cached\_methods](#input\_cached\_methods) | HTTP methods that should be cached | `list(string)` | <pre>[<br>  "GET",<br>  "HEAD",<br>  "OPTIONS"<br>]</pre> | no |
 | <a name="input_cached_query_keys"></a> [cached\_query\_keys](#input\_cached\_query\_keys) | Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys. | `list(string)` | `[]` | no |
 | <a name="input_compress"></a> [compress](#input\_compress) | Whether to compress origin responses using gzip. | `bool` | `true` | no |
+| <a name="input_default_ttl"></a> [default\_ttl](#input\_default\_ttl) | Default number of seconds to cache objects for, can be overriden with the Cache-Control header | `number` | `0` | no |
 | <a name="input_forward_query"></a> [forward\_query](#input\_forward\_query) | Whether to forward the URL query to the origin. | `bool` | `false` | no |
+| <a name="input_max_ttl"></a> [max\_ttl](#input\_max\_ttl) | Maximum number of seconds to cache objects for, defaults to 1 year | `number` | `31536000` | no |
+| <a name="input_min_ttl"></a> [min\_ttl](#input\_min\_ttl) | Minimum number of seconds to cache objects for | `number` | `0` | no |
 | <a name="input_origin_id"></a> [origin\_id](#input\_origin\_id) | Id of the origin that requests will be forwarded to. | `string` | n/a | yes |
 | <a name="input_origin_request_lambda"></a> [origin\_request\_lambda](#input\_origin\_request\_lambda) | Lambda function to invoke before CloudFront sends a request to the origin | `object({ arn = string, include_body = bool })` | `null` | no |
 | <a name="input_origin_response_lambda"></a> [origin\_response\_lambda](#input\_origin\_response\_lambda) | Lambda function to invoke when CloudFront receives a response from origin | `object({ arn = string })` | `null` | no |
@@ -52,7 +55,10 @@ No resources.
 | <a name="output_cached_methods"></a> [cached\_methods](#output\_cached\_methods) | HTTP methods that should be cached |
 | <a name="output_cached_query_keys"></a> [cached\_query\_keys](#output\_cached\_query\_keys) | Which URL query keys should be included in the cache key. Requires `forward_query = true`. Specify `["*"]` to include all query keys. |
 | <a name="output_compress"></a> [compress](#output\_compress) | Whether to compress origin responses using gzip. |
+| <a name="output_default_ttl"></a> [default\_ttl](#output\_default\_ttl) | Default number of seconds to cache objects for |
 | <a name="output_forward_query"></a> [forward\_query](#output\_forward\_query) | Whether to forward the URL query to the origin. |
+| <a name="output_max_ttl"></a> [max\_ttl](#output\_max\_ttl) | Maximum number of seconds to cache objects for |
+| <a name="output_min_ttl"></a> [min\_ttl](#output\_min\_ttl) | Minimum number of seconds to cache objects for |
 | <a name="output_origin_id"></a> [origin\_id](#output\_origin\_id) | Id of the origin that requests will be forwarded to. |
 | <a name="output_origin_request_lambda"></a> [origin\_request\_lambda](#output\_origin\_request\_lambda) | Lambda function to invoke before CloudFront sends a request to the origin |
 | <a name="output_origin_response_lambda"></a> [origin\_response\_lambda](#output\_origin\_response\_lambda) | Lambda function to invoke when CloudFront receives a response from origin |

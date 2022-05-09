@@ -111,6 +111,10 @@ resource "aws_cloudfront_distribution" "distribution" {
     viewer_protocol_policy = "redirect-to-https"
     compress               = var.default_behavior.compress
 
+    default_ttl = var.default_behavior.default_ttl
+    min_ttl     = var.default_behavior.min_ttl
+    max_ttl     = var.default_behavior.max_ttl
+
     forwarded_values {
       headers = var.default_behavior.cached_headers
 
