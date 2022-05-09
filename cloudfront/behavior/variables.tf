@@ -34,6 +34,24 @@ variable "cached_query_keys" {
   default     = []
 }
 
+variable "default_ttl" {
+  description = "Default number of seconds to cache objects for, can be overriden with the Cache-Control header"
+  type        = number
+  default     = 0
+}
+
+variable "min_ttl" {
+  description = "Minimum number of seconds to cache objects for"
+  type        = number
+  default     = 0
+}
+
+variable "max_ttl" {
+  description = "Maximum number of seconds to cache objects for, defaults to 1 year"
+  type        = number
+  default     = 31536000
+}
+
 variable "origin_id" {
   description = "Id of the origin that requests will be forwarded to."
   type        = string

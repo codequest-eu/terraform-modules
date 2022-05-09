@@ -28,6 +28,21 @@ output "cached_query_keys" {
   value       = var.cached_query_keys
 }
 
+output "default_ttl" {
+  description = "Default number of seconds to cache objects for"
+  value       = var.default_ttl
+}
+
+output "min_ttl" {
+  description = "Minimum number of seconds to cache objects for"
+  value       = var.min_ttl
+}
+
+output "max_ttl" {
+  description = "Maximum number of seconds to cache objects for"
+  value       = var.max_ttl
+}
+
 output "origin_id" {
   description = "Id of the origin that requests will be forwarded to."
   value       = var.origin_id
