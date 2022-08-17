@@ -48,7 +48,7 @@ locals {
 }
 
 resource "aws_route53_record" "mx" {
-  count = var.create ? 1 : 0
+  count = var.create && var.mx ? 1 : 0
 
   zone_id = var.hosted_zone_id
   name    = "${local.domain}."

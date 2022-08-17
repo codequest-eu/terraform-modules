@@ -81,6 +81,7 @@ Registers a domain with AWS SES and verifies it
 | <a name="input_hosted_zone_id"></a> [hosted\_zone\_id](#input\_hosted\_zone\_id) | Route53 hosted zone id that the domain belongs to | `string` | n/a | yes |
 | <a name="input_incomming_region"></a> [incomming\_region](#input\_incomming\_region) | Region where SES incomming email handling is set up, defaults to the current region, which **might not support it** | `string` | `null` | no |
 | <a name="input_mail_server"></a> [mail\_server](#input\_mail\_server) | **DEPRECATED, use `mx_records = ['10 {mail_server}']` instead**.<br/>Email server ip/domain, if omitted SES will be used for incomming emails | `string` | `null` | no |
+| <a name="input_mx"></a> [mx](#input\_mx) | Whether to add a MX record | `bool` | `true` | no |
 | <a name="input_mx_records"></a> [mx\_records](#input\_mx\_records) | MX records that point to your email servers, if omitted SES will be used for incomming emails | `list(string)` | `null` | no |
 | <a name="input_name"></a> [name](#input\_name) | Domain name to register with SES | `string` | n/a | yes |
 | <a name="input_spf"></a> [spf](#input\_spf) | Whether to add a TXT record with SPF. If you need additional TXT records, create your own aws\_route53\_record and add the `spf_record` output to it | `bool` | `true` | no |
