@@ -20,6 +20,12 @@ variable "mail_server" {
   default     = null
 }
 
+variable "mx" {
+  description = "Whether to add a MX record"
+  type        = bool
+  default     = true
+}
+
 variable "mx_records" {
   description = "MX records that point to your email servers, if omitted SES will be used for incomming emails"
   type        = list(string)
