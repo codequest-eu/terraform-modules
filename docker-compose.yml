@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  shell: &shell
+    build:
+      context: .
+      args:
+        UID: 1000
+        GID: 1000
+
+    volumes:
+      # pass the repo content to the container
+      - .:/home/dev/terraform-modules:cached
+      # cache the home directory for bash history and caches
+      - dev_home:/home/dev
+      # pass the AWS credentials
+      - $HOME/.aws:/home/dev/.aws
+
+    env_file: .env
+
+volumes:
+  dev_home:
