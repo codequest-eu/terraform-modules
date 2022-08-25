@@ -132,7 +132,7 @@ data "aws_ami" "nat" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"]
+    values = [var.nat_instance_ami_name]
   }
 }
 
