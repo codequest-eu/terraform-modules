@@ -43,6 +43,12 @@ variable "nat_instance_type" {
   default     = "t3.nano"
 }
 
+variable "nat_instance_ami_name" {
+  description = "Name of the EC2 AMI used by NAT instances"
+  type        = string
+  default     = "amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"
+}
+
 variable "enable_dns_support" {
   description = "Enable/disable DNS support in the VPC"
   type        = bool
