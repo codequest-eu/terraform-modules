@@ -6,14 +6,14 @@ validate() {
   set -e
 
   cd "$module_dir"
-  terraform init -backend=false
-  terraform validate
+  terraform init -backend=false >/dev/null
+  terraform validate -json | jq -r '.diagnostics[] | "\(.severity) \(.range.filename):\(.range.start.line) \(.summary). \(.detail)"'
 }
 
 validate_out=$(validate 2>&1)
 validate_exit_code=$?
 
-if [ $validate_exit_code -eq 0 ]; then
+if [ $validate_exit_code -eq 0 ] && [ -z "$validate_out" ]; then
   echo "✅ $module_dir"
 else
   echo "❌ $module_dir"

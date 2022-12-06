@@ -258,7 +258,6 @@ resource "tls_private_key" "lb_default" {
 resource "tls_self_signed_cert" "lb_default" {
   count = var.create ? 1 : 0
 
-  key_algorithm         = "RSA"
   private_key_pem       = tls_private_key.lb_default[0].private_key_pem
   validity_period_hours = 365 * 24
 
