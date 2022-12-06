@@ -4,11 +4,11 @@ terraform {
 
   # Make sure all providers needed by any module are listed
   required_providers {
-    aws = "3.41.0"
+    aws = "4.45.0"
 
-    archive = "2.1.0"
-    null    = "3.1.0"
-    random  = "3.1.0"
-    tls     = "3.1.0"
+    archive = "2.2.0"
+    null    = "3.2.1"
+    random  = "3.4.3"
+    tls     = "4.0.4"
   }
 }
