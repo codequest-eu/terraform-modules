@@ -109,7 +109,7 @@ resource "aws_eip" "public_nat" {
 }
 
 resource "aws_nat_gateway" "public" {
-  count = var.create && ! var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
   allocation_id = element(aws_eip.public_nat[*].id, count.index)
   subnet_id     = element(aws_subnet.public[*].id, count.index)
@@ -129,7 +129,7 @@ data "aws_ami" "nat" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"]
+    values = [var.nat_instance_ami_name]
   }
 }
 
@@ -378,7 +378,7 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route" "private_default" {
-  count = var.create && ! var.nat_instance ? var.availability_zones_count : 0
+  count = var.create && !var.nat_instance ? var.availability_zones_count : 0
 
   route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"
@@ -435,7 +435,7 @@ data "aws_ami" "amazon_linux" {
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20190618-x86_64-ebs"]
+    values = [var.bastion_instance_ami_name]
   }
 }
 

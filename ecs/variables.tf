@@ -37,6 +37,12 @@ variable "bastion_ingress_cidr_blocks" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "bastion_instance_ami_name" {
+  description = "Name of the EC2 AMI used by bastion instances"
+  type        = string
+  default     = "amzn2-ami-hvm-2.0.20190618-x86_64-ebs"
+}
+
 variable "nat_instance" {
   description = "Use NAT instances instead of NAT gateways."
   type        = bool
@@ -49,3 +55,8 @@ variable "nat_instance_type" {
   default     = "t3.nano"
 }
 
+variable "nat_instance_ami_name" {
+  description = "Name of the EC2 AMI used by NAT instances"
+  type        = string
+  default     = "amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"
+}
