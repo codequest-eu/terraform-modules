@@ -10,14 +10,24 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+terraform {
+  required_providers {
+    aws = "~> 2.0"
+    tls = "~> 2.0"
+  }
+}
+
 module "cluster" {
   source = "./.."
 
-  project                  = local.project
-  project_index            = local.project_index
-  environment              = local.environment
-  availability_zones_count = 1
-  nat_instance             = true
+  project                   = local.project
+  project_index             = local.project_index
+  environment               = local.environment
+  availability_zones_count  = 1
+  nat_instance              = true
+
+  nat_instance_ami_name     = "amzn-ami-vpc-nat-2018.03.0.20221018.0-x86_64-ebs"
+  bastion_instance_ami_name = "amzn2-ami-hvm-2.0.20221103.3-x86_64-ebs"
 }
 
 module "hosts" {
@@ -33,6 +43,8 @@ module "hosts" {
   security_group_id = module.cluster.hosts_security_group_id
   cluster_name      = module.cluster.name
   bastion_key_name  = module.cluster.bastion_key_name
+
+  ami_name = "amzn2-ami-ecs-hvm-2.0.20221118-x86_64-ebs"
 }
 
 module "repo" {
