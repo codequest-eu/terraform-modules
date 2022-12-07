@@ -59,20 +59,21 @@ resource "aws_db_instance" "db" {
 
   identifier = local.name
 
-  engine                     = "postgres"
-  engine_version             = var.postgres_version
-  storage_type               = "gp2"
-  allocated_storage          = var.storage
-  instance_class             = var.instance_type
-  db_subnet_group_name       = aws_db_subnet_group.db[0].name
-  multi_az                   = var.multi_az
-  deletion_protection        = var.prevent_destroy
-  final_snapshot_identifier  = "${local.name}-final"
-  vpc_security_group_ids     = [aws_security_group.db[0].id]
-  publicly_accessible        = var.public
-  backup_retention_period    = var.backup_retention_period
-  copy_tags_to_snapshot      = true
-  auto_minor_version_upgrade = false
+  engine                              = "postgres"
+  engine_version                      = var.postgres_version
+  storage_type                        = "gp2"
+  allocated_storage                   = var.storage
+  instance_class                      = var.instance_type
+  db_subnet_group_name                = aws_db_subnet_group.db[0].name
+  multi_az                            = var.multi_az
+  deletion_protection                 = var.prevent_destroy
+  final_snapshot_identifier           = "${local.name}-final"
+  vpc_security_group_ids              = [aws_security_group.db[0].id]
+  publicly_accessible                 = var.public
+  backup_retention_period             = var.backup_retention_period
+  copy_tags_to_snapshot               = true
+  auto_minor_version_upgrade          = false
+  iam_database_authentication_enabled = true
 
   port     = var.port
   name     = local.db
