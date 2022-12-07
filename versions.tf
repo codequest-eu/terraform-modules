@@ -9,6 +9,6 @@ terraform {
     archive = "2.1.0"
     null    = "3.1.0"
     random  = "3.1.0"
-    tls     = "3.1.0"
+    tls     = "4.0.4"
   }
 }
