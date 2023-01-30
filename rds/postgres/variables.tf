@@ -113,3 +113,8 @@ variable "backup_retention_period" {
   default     = 7
 }
 
+variable "encrypt" {
+  description = "Should the storage be encrypted"
+  type        = bool
+  default     = false
+}
