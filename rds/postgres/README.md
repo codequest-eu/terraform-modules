@@ -62,6 +62,7 @@ Creates an RDS PostgreSQL database instance
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_username"></a> [username](#input\_username) | Username for the master DB user | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID in which the DB should be created | `string` | n/a | yes |
+| <a name="input_encrypt"></a> [encrypt](#input\_encrypt) | Should the storage be encrypted | `bool` | `false` | no |
 
 ## Outputs
 
