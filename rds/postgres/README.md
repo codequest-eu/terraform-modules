@@ -46,6 +46,7 @@ Creates an RDS PostgreSQL database instance
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_create_management_lambda"></a> [create\_management\_lambda](#input\_create\_management\_lambda) | Should the management lambda function be created | `bool` | `true` | no |
 | <a name="input_db"></a> [db](#input\_db) | The name of the database to create when the DB instance is created, defaults to project name converted to snake\_case | `string` | `null` | no |
+| <a name="input_encrypt"></a> [encrypt](#input\_encrypt) | Should the storage be encrypted | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The instance type of the RDS instance | `string` | n/a | yes |
 | <a name="input_management_lambda_package_path"></a> [management\_lambda\_package\_path](#input\_management\_lambda\_package\_path) | Path where the management lambda package will be created.<br>See `zip` `output_path` input for details. | `string` | `null` | no |
@@ -62,7 +63,6 @@ Creates an RDS PostgreSQL database instance
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 | <a name="input_username"></a> [username](#input\_username) | Username for the master DB user | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID in which the DB should be created | `string` | n/a | yes |
-| <a name="input_encrypt"></a> [encrypt](#input\_encrypt) | Should the storage be encrypted | `bool` | `false` | no |
 
 ## Outputs
 
