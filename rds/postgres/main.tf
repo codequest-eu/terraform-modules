@@ -62,6 +62,7 @@ resource "aws_db_instance" "db" {
   engine                     = "postgres"
   engine_version             = var.postgres_version
   storage_type               = "gp2"
+  storage_encrypted          = var.encrypt
   allocated_storage          = var.storage
   instance_class             = var.instance_type
   db_subnet_group_name       = aws_db_subnet_group.db[0].name
