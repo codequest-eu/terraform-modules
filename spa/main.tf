@@ -39,6 +39,14 @@ resource "aws_s3_bucket" "assets" {
       routing_rules  = var.static_website_routing_rules
     }
   }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 data "aws_region" "current" {

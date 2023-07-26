@@ -71,6 +71,14 @@ resource "aws_s3_bucket" "state" {
   }
 
   tags = local.tags
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_dynamodb_table" "state_lock" {
