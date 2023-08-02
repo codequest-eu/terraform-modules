@@ -25,7 +25,7 @@ export async function handler({ database, queries }: Event) {
     database: clientConfig.database ?? undefined,
     host: clientConfig.host ?? undefined,
     port: clientConfig.port ? Number(clientConfig.port) : undefined,
-    ssl: Boolean(clientConfig.ssl),
+    ssl: true,
   })
   await client.connect()
 
