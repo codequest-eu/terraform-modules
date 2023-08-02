@@ -35,7 +35,7 @@ module "lambda" {
   package_path = module.package.output_path
 
   handler                = "index.handler"
-  runtime                = "nodejs12.x"
+  runtime                = "nodejs18.x"
   timeout                = 5
   assume_role_principals = ["edgelambda.amazonaws.com"]
 }

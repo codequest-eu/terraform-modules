@@ -10,5 +10,5 @@ module "middleware" {
     credentials = base64encode(var.credentials)
   })
   handler = "index.handler"
-  runtime = "nodejs12.x"
+  runtime = "nodejs18.x"
 }
