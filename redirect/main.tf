@@ -17,10 +17,28 @@ resource "aws_s3_bucket" "redirect" {
       }]
     EOF
   }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "redirect" {
+  count = var.create ? 1 : 0
+
+  bucket = aws_s3_bucket.redirect[0].id
+
+  block_public_acls   = true
+  block_public_policy = false
 }
 
 resource "aws_s3_bucket_policy" "redirect" {
-  count = var.create ? 1 : 0
+  depends_on = [aws_s3_bucket_public_access_block.redirect]
+  count      = var.create ? 1 : 0
 
   bucket = aws_s3_bucket.redirect[0].id
   policy = data.aws_iam_policy_document.public_get[0].json
@@ -46,7 +64,6 @@ resource "aws_s3_bucket_object" "empty" {
   bucket  = aws_s3_bucket.redirect[0].id
   key     = "/empty.html"
   content = ""
-  acl     = "public-read"
 }
 
 locals {

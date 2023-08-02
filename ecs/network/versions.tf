@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     aws  = ">= 2.40.0"
-    tls  = ">= 2.0.1"
+    tls  = ">= 3.2.0"
     null = ">= 2.1.2"
   }
 }
