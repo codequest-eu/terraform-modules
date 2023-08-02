@@ -37,6 +37,7 @@ module "lambda" {
 
   package_path = module.package.output_path
   handler      = "index.handler"
+  runtime      = "nodejs18.x"
 
   security_group_ids = var.create && var.vpc ? aws_security_group.lambda.*.id : null
   subnet_ids         = var.vpc ? var.subnet_ids : null
