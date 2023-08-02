@@ -43,7 +43,7 @@ Creates an AWS Lambda Layer that can be attached to a AWS Lambda Function
 | <a name="input_package_path"></a> [package\_path](#input\_package\_path) | Path to the zip that contains the Lambda layer's source. Either `package_path`, `package_s3` or `image` is required. | `string` | `null` | no |
 | <a name="input_package_s3"></a> [package\_s3](#input\_package\_s3) | S3 zip object that contains the Lambda layer's source. Either `package_path` or `package_s3` is required. | <pre>object({<br>    bucket = string<br>    key    = string<br>  })</pre> | `null` | no |
 | <a name="input_package_s3_version"></a> [package\_s3\_version](#input\_package\_s3\_version) | Version number of the S3 object to use | `string` | `null` | no |
-| <a name="input_runtimes"></a> [runtimes](#input\_runtimes) | [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) compatible with this lambda layer | `list(string)` | <pre>[<br>  "nodejs12.x"<br>]</pre> | no |
+| <a name="input_runtimes"></a> [runtimes](#input\_runtimes) | [Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) compatible with this lambda layer | `list(string)` | <pre>[<br>  "nodejs18.x"<br>]</pre> | no |
 
 ## Outputs
 

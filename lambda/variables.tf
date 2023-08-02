@@ -108,7 +108,7 @@ variable "file_exclude_patterns" {
 variable "runtime" {
   description = "[Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime)"
   type        = string
-  default     = "nodejs12.x"
+  default     = "nodejs18.x"
 }
 
 variable "handler" {

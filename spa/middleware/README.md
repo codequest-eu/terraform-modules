@@ -40,7 +40,7 @@ No modules.
 | <a name="input_handler"></a> [handler](#input\_handler) | Path to the function which will handle lambda calls | `string` | `"index.handler"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Lambda name | `string` | n/a | yes |
 | <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | Role which should be assumed by the Lambda, created by middleware\_common module | `string` | n/a | yes |
-| <a name="input_runtime"></a> [runtime](#input\_runtime) | Lambda runtime | `string` | `"nodejs10.x"` | no |
+| <a name="input_runtime"></a> [runtime](#input\_runtime) | Lambda runtime | `string` | `"nodejs18.x"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources that support them | `map(string)` | `{}` | no |
 
 ## Outputs
