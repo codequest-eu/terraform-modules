@@ -66,3 +66,9 @@ variable "lb_ssl_policy" {
   type        = string
   default     = "ELBSecurityPolicy-TLS-1-2-2017-01"
 }
+
+variable "enable_container_insights" {
+  description = "Enable/disable container insights for the ECS cluster"
+  type        = bool
+  default     = false
+}

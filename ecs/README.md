@@ -77,6 +77,7 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 |------|-------------|------|---------|:--------:|
 | <a name="input_availability_zones_count"></a> [availability\_zones\_count](#input\_availability\_zones\_count) | Number of availability zones the network should span | `number` | `2` | no |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
+| <a name="input_enable_container_insights"></a> [enable\_container\_insights](#input\_enable\_container\_insights) | Enable/disable container insights for the ECS cluster | `bool` | `false` | no |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable/disable DNS hostnames in the VPC | `bool` | `false` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable/disable DNS support in the VPC | `bool` | `true` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production. | `string` | n/a | yes |
