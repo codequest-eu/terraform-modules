@@ -70,5 +70,5 @@ variable "lb_ssl_policy" {
 variable "enable_container_insights" {
   description = "Enable/disable container insights for the ECS cluster"
   type        = bool
-  default     = false
+  default     = true
 }
