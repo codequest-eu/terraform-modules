@@ -27,7 +27,7 @@ variable "role_arn" {
 variable "runtime" {
   description = "Lambda runtime"
   type        = string
-  default     = "nodejs10.x"
+  default     = "nodejs18.x"
 }
 
 variable "handler" {

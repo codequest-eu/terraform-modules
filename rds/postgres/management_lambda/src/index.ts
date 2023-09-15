@@ -1,8 +1,7 @@
-import { ClientConfig } from "pg"
 import Client from "pg/lib/client"
 import pgConnectionString from "pg-connection-string"
 
-import SSMClient from "aws-sdk/clients/ssm"
+import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm"
 
 interface Event {
   queries: string[]
@@ -12,16 +11,22 @@ interface Event {
 const ssmClient = new SSMClient({})
 
 export async function handler({ database, queries }: Event) {
-  const clientConfig = pgConnectionString.parse(
-    await getDatabaseUrl(),
-  ) as ClientConfig
+  const clientConfig = pgConnectionString.parse(await getDatabaseUrl())
 
   if (database) {
     clientConfig.database = database
   }
 
   console.log(`Connecting to the '${clientConfig.database}' database...`)
-  const client = new Client(clientConfig)
+  const client = new Client({
+    ...clientConfig,
+
+    // fix incompatibilities between pg and pg-connection-string
+    database: clientConfig.database ?? undefined,
+    host: clientConfig.host ?? undefined,
+    port: clientConfig.port ? Number(clientConfig.port) : undefined,
+    ssl: true,
+  })
   await client.connect()
 
   try {
@@ -43,12 +48,12 @@ async function getDatabaseUrl() {
   if (process.env.DATABASE_URL_PARAM) {
     const paramName = process.env.DATABASE_URL_PARAM
 
-    const result = await ssmClient
-      .getParameter({
+    const result = await ssmClient.send(
+      new GetParameterCommand({
         Name: paramName,
         WithDecryption: true,
       })
-      .promise()
+    )
 
     const paramValue = result.Parameter?.Value
 

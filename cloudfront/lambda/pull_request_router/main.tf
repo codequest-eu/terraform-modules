@@ -8,5 +8,5 @@ module "middleware" {
 
   code    = templatefile("${path.module}/index.js", { path_re = var.path_re })
   handler = "index.handler"
-  runtime = "nodejs12.x"
+  runtime = "nodejs18.x"
 }

@@ -5,7 +5,7 @@
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 try {
-  var util = __nccwpck_require__(1669);
+  var util = __nccwpck_require__(3837);
   /* istanbul ignore next */
   if (typeof util.inherits !== 'function') throw '';
   module.exports = util.inherits;
@@ -51,14 +51,26 @@ if (typeof Object.create === 'function') {
 
 /***/ }),
 
+/***/ 7078:
+/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
+
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+// This is an empty module that is served up when outside of a workerd environment
+// See the `exports` field in package.json
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+
 /***/ 8961:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
 
-
-var url = __nccwpck_require__(8835)
-var fs = __nccwpck_require__(5747)
 
 //Parse method copied from https://github.com/brianc/node-postgres
 //Copyright (c) 2010-2014 Brian Carlson (brian.m.carlson@gmail.com)
@@ -68,51 +80,57 @@ var fs = __nccwpck_require__(5747)
 function parse(str) {
   //unix socket
   if (str.charAt(0) === '/') {
-    var config = str.split(' ')
+    const config = str.split(' ')
     return { host: config[0], database: config[1] }
   }
 
-  // url parse expects spaces encoded as %20
-  var result = url.parse(
-    / |%[^a-f0-9]|%[a-f0-9][^a-f0-9]/i.test(str) ? encodeURI(str).replace(/\%25(\d\d)/g, '%$1') : str,
-    true
-  )
-  var config = result.query
-  for (var k in config) {
-    if (Array.isArray(config[k])) {
-      config[k] = config[k][config[k].length - 1]
-    }
+  // Check for empty host in URL
+
+  const config = {}
+  let result
+  let dummyHost = false
+  if (/ |%[^a-f0-9]|%[a-f0-9][^a-f0-9]/i.test(str)) {
+    // Ensure spaces are encoded as %20
+    str = encodeURI(str).replace(/\%25(\d\d)/g, '%$1')
   }
 
-  var auth = (result.auth || ':').split(':')
-  config.user = auth[0]
-  config.password = auth.splice(1).join(':')
+  try {
+    result = new URL(str, 'postgres://base')
+  } catch (e) {
+    // The URL is invalid so try again with a dummy host
+    result = new URL(str.replace('@/', '@___DUMMY___/'), 'postgres://base')
+    dummyHost = true
+  }
 
-  config.port = result.port
+  // We'd like to use Object.fromEntries() here but Node.js 10 does not support it
+  for (const entry of result.searchParams.entries()) {
+    config[entry[0]] = entry[1]
+  }
+
+  config.user = config.user || decodeURIComponent(result.username)
+  config.password = config.password || decodeURIComponent(result.password)
+
   if (result.protocol == 'socket:') {
     config.host = decodeURI(result.pathname)
-    config.database = result.query.db
-    config.client_encoding = result.query.encoding
+    config.database = result.searchParams.get('db')
+    config.client_encoding = result.searchParams.get('encoding')
     return config
   }
+  const hostname = dummyHost ? '' : result.hostname
   if (!config.host) {
     // Only set the host if there is no equivalent query param.
-    config.host = result.hostname
+    config.host = decodeURIComponent(hostname)
+  } else if (hostname && /^%2f/i.test(hostname)) {
+    // Only prepend the hostname to the pathname if it is not a URL encoded Unix socket host.
+    result.pathname = hostname + result.pathname
+  }
+  if (!config.port) {
+    // Only set the port if there is no equivalent query param.
+    config.port = result.port
   }
 
-  // If the host is missing it might be a URL-encoded path to a socket.
-  var pathname = result.pathname
-  if (!config.host && pathname && /^%2f/i.test(pathname)) {
-    var pathnameSplit = pathname.split('/')
-    config.host = decodeURIComponent(pathnameSplit[0])
-    pathname = pathnameSplit.splice(1).join('/')
-  }
-  // result.pathname is not always guaranteed to have a '/' prefix (e.g. relative urls)
-  // only strip the slash if it is present.
-  if (pathname && pathname.charAt(0) === '/') {
-    pathname = pathname.slice(1) || null
-  }
-  config.database = pathname && decodeURI(pathname)
+  const pathname = result.pathname.slice(1) || null
+  config.database = pathname ? decodeURI(pathname) : null
 
   if (config.ssl === 'true' || config.ssl === '1') {
     config.ssl = true
@@ -125,6 +143,9 @@ function parse(str) {
   if (config.sslcert || config.sslkey || config.sslrootcert || config.sslmode) {
     config.ssl = {}
   }
+
+  // Only try to load fs if we expect to read from the disk
+  const fs = config.sslcert || config.sslkey || config.sslrootcert ? __nccwpck_require__(7147) : null
 
   if (config.sslcert) {
     config.ssl.cert = fs.readFileSync(config.sslcert).toString()
@@ -619,7 +640,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Parser = void 0;
 const messages_1 = __nccwpck_require__(6359);
 const buffer_reader_1 = __nccwpck_require__(320);
-const assert_1 = __importDefault(__nccwpck_require__(2357));
+const assert_1 = __importDefault(__nccwpck_require__(9491));
 // every message is prefixed with a single bye
 const CODE_LENGTH = 1;
 // every message has an int32 length which includes itself but does
@@ -1762,17 +1783,16 @@ module.exports = {
 "use strict";
 
 
-var EventEmitter = __nccwpck_require__(8614).EventEmitter
-var util = __nccwpck_require__(1669)
+var EventEmitter = (__nccwpck_require__(2361).EventEmitter)
 var utils = __nccwpck_require__(6419)
-var sasl = __nccwpck_require__(9481)
-var pgPass = __nccwpck_require__(9713)
+var sasl = __nccwpck_require__(2692)
 var TypeOverrides = __nccwpck_require__(8873)
 
 var ConnectionParameters = __nccwpck_require__(9112)
 var Query = __nccwpck_require__(1283)
 var defaults = __nccwpck_require__(7886)
 var Connection = __nccwpck_require__(2848)
+const crypto = __nccwpck_require__(6947)
 
 class Client extends EventEmitter {
   constructor(config) {
@@ -1800,6 +1820,7 @@ class Client extends EventEmitter {
     this._Promise = c.Promise || global.Promise
     this._types = new TypeOverrides(c.types)
     this._ending = false
+    this._ended = false
     this._connecting = false
     this._connected = false
     this._connectionError = false
@@ -1895,6 +1916,7 @@ class Client extends EventEmitter {
 
       clearTimeout(this.connectionTimeoutHandle)
       this._errorAllQueries(error)
+      this._ended = true
 
       if (!this._ending) {
         // if the connection is ended without us calling .end()
@@ -1986,12 +2008,17 @@ class Client extends EventEmitter {
     } else if (this.password !== null) {
       cb()
     } else {
-      pgPass(this.connectionParameters, (pass) => {
-        if (undefined !== pass) {
-          this.connectionParameters.password = this.password = pass
-        }
-        cb()
-      })
+      try {
+        const pgPass = __nccwpck_require__(9713)
+        pgPass(this.connectionParameters, (pass) => {
+          if (undefined !== pass) {
+            this.connectionParameters.password = this.password = pass
+          }
+          cb()
+        })
+      } catch (e) {
+        this.emit('error', e)
+      }
     }
   }
 
@@ -2002,27 +2029,43 @@ class Client extends EventEmitter {
   }
 
   _handleAuthMD5Password(msg) {
-    this._checkPgPass(() => {
-      const hashedPassword = utils.postgresMd5PasswordHash(this.user, this.password, msg.salt)
-      this.connection.password(hashedPassword)
+    this._checkPgPass(async () => {
+      try {
+        const hashedPassword = await crypto.postgresMd5PasswordHash(this.user, this.password, msg.salt)
+        this.connection.password(hashedPassword)
+      } catch (e) {
+        this.emit('error', e)
+      }
     })
   }
 
   _handleAuthSASL(msg) {
     this._checkPgPass(() => {
-      this.saslSession = sasl.startSession(msg.mechanisms)
-      this.connection.sendSASLInitialResponseMessage(this.saslSession.mechanism, this.saslSession.response)
+      try {
+        this.saslSession = sasl.startSession(msg.mechanisms)
+        this.connection.sendSASLInitialResponseMessage(this.saslSession.mechanism, this.saslSession.response)
+      } catch (err) {
+        this.connection.emit('error', err)
+      }
     })
   }
 
-  _handleAuthSASLContinue(msg) {
-    sasl.continueSession(this.saslSession, this.password, msg.data)
-    this.connection.sendSCRAMClientFinalMessage(this.saslSession.response)
+  async _handleAuthSASLContinue(msg) {
+    try {
+      await sasl.continueSession(this.saslSession, this.password, msg.data)
+      this.connection.sendSCRAMClientFinalMessage(this.saslSession.response)
+    } catch (err) {
+      this.connection.emit('error', err)
+    }
   }
 
   _handleAuthSASLFinal(msg) {
-    sasl.finalizeSession(this.saslSession, msg.data)
-    this.saslSession = null
+    try {
+      sasl.finalizeSession(this.saslSession, msg.data)
+      this.saslSession = null
+    } catch (err) {
+      this.connection.emit('error', err)
+    }
   }
 
   _handleBackendKeyData(msg) {
@@ -2165,6 +2208,9 @@ class Client extends EventEmitter {
     if (params.statement_timeout) {
       data.statement_timeout = String(parseInt(params.statement_timeout, 10))
     }
+    if (params.lock_timeout) {
+      data.lock_timeout = String(parseInt(params.lock_timeout, 10))
+    }
     if (params.idle_in_transaction_session_timeout) {
       data.idle_in_transaction_session_timeout = String(parseInt(params.idle_in_transaction_session_timeout, 10))
     }
@@ -2202,35 +2248,15 @@ class Client extends EventEmitter {
     return this._types.getTypeParser(oid, format)
   }
 
-  // Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
+  // escapeIdentifier and escapeLiteral moved to utility functions & exported
+  // on PG
+  // re-exported here for backwards compatibility
   escapeIdentifier(str) {
-    return '"' + str.replace(/"/g, '""') + '"'
+    return utils.escapeIdentifier(str)
   }
 
-  // Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
   escapeLiteral(str) {
-    var hasBackslash = false
-    var escaped = "'"
-
-    for (var i = 0; i < str.length; i++) {
-      var c = str[i]
-      if (c === "'") {
-        escaped += c + c
-      } else if (c === '\\') {
-        escaped += c + c
-        hasBackslash = true
-      } else {
-        escaped += c
-      }
-    }
-
-    escaped += "'"
-
-    if (hasBackslash === true) {
-      escaped = ' E' + escaped
-    }
-
-    return escaped
+    return utils.escapeLiteral(str)
   }
 
   _pulseQueryQueue() {
@@ -2277,6 +2303,11 @@ class Client extends EventEmitter {
       if (!query.callback) {
         result = new this._Promise((resolve, reject) => {
           query.callback = (err, res) => (err ? reject(err) : resolve(res))
+        }).catch(err => {
+          // replace the stack trace that leads to `TCP.onStreamRead` with one that leads back to the
+          // application that created the query
+          Error.captureStackTrace(err);
+          throw err;
         })
       }
     }
@@ -2339,11 +2370,19 @@ class Client extends EventEmitter {
     return result
   }
 
+  ref() {
+    this.connection.ref()
+  }
+
+  unref() {
+    this.connection.unref()
+  }
+
   end(cb) {
     this._ending = true
 
     // if we have never connected, then end is a noop, callback immediately
-    if (!this.connection._connecting) {
+    if (!this.connection._connecting || this._ended) {
       if (cb) {
         cb()
       } else {
@@ -2383,11 +2422,11 @@ module.exports = Client
 "use strict";
 
 
-var dns = __nccwpck_require__(881)
+var dns = __nccwpck_require__(9523)
 
 var defaults = __nccwpck_require__(7886)
 
-var parse = __nccwpck_require__(8961).parse // parses a connection string
+var parse = (__nccwpck_require__(8961).parse) // parses a connection string
 
 var val = function (key, config, envVar) {
   if (envVar === undefined) {
@@ -2486,6 +2525,7 @@ class ConnectionParameters {
     this.application_name = val('application_name', config, 'PGAPPNAME')
     this.fallback_application_name = val('fallback_application_name', config, false)
     this.statement_timeout = val('statement_timeout', config, false)
+    this.lock_timeout = val('lock_timeout', config, false)
     this.idle_in_transaction_session_timeout = val('idle_in_transaction_session_timeout', config, false)
     this.query_timeout = val('query_timeout', config, false)
 
@@ -2557,10 +2597,11 @@ module.exports = ConnectionParameters
 "use strict";
 
 
-var net = __nccwpck_require__(1631)
-var EventEmitter = __nccwpck_require__(8614).EventEmitter
+var net = __nccwpck_require__(1808)
+var EventEmitter = (__nccwpck_require__(2361).EventEmitter)
 
 const { parse, serialize } = __nccwpck_require__(1113)
+const { getStream, getSecureStream } = __nccwpck_require__(3389)
 
 const flushBuffer = serialize.flush()
 const syncBuffer = serialize.sync()
@@ -2571,7 +2612,12 @@ class Connection extends EventEmitter {
   constructor(config) {
     super()
     config = config || {}
-    this.stream = config.stream || new net.Socket()
+
+    this.stream = config.stream || getStream(config.ssl)
+    if (typeof this.stream === 'function') {
+      this.stream = this.stream(config)
+    }
+
     this._keepAlive = config.keepAlive
     this._keepAliveInitialDelayMillis = config.keepAliveInitialDelayMillis
     this.lastBuffer = false
@@ -2631,7 +2677,6 @@ class Connection extends EventEmitter {
           self.stream.end()
           return self.emit('error', new Error('There was an error establishing an SSL connection'))
       }
-      var tls = __nccwpck_require__(4016)
       const options = {
         socket: self.stream,
       }
@@ -2644,11 +2689,12 @@ class Connection extends EventEmitter {
         }
       }
 
-      if (net.isIP(host) === 0) {
+      var net = __nccwpck_require__(1808)
+      if (net.isIP && net.isIP(host) === 0) {
         options.servername = host
       }
       try {
-        self.stream = tls.connect(options)
+        self.stream = getSecureStream(options)
       } catch (err) {
         return self.emit('error', err)
       }
@@ -2660,9 +2706,6 @@ class Connection extends EventEmitter {
   }
 
   attachListeners(stream) {
-    stream.on('end', () => {
-      this.emit('end')
-    })
     parse(stream, (msg) => {
       var eventName = msg.name === 'error' ? 'errorMessage' : msg.name
       if (this._emitMessage) {
@@ -2730,8 +2773,15 @@ class Connection extends EventEmitter {
 
   sync() {
     this._ending = true
-    this._send(flushBuffer)
     this._send(syncBuffer)
+  }
+
+  ref() {
+    this.stream.ref()
+  }
+
+  unref() {
+    this.stream.unref()
   }
 
   end() {
@@ -2768,6 +2818,352 @@ class Connection extends EventEmitter {
 }
 
 module.exports = Connection
+
+
+/***/ }),
+
+/***/ 2692:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+const crypto = __nccwpck_require__(6947)
+
+function startSession(mechanisms) {
+  if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
+    throw new Error('SASL: Only mechanism SCRAM-SHA-256 is currently supported')
+  }
+
+  const clientNonce = crypto.randomBytes(18).toString('base64')
+
+  return {
+    mechanism: 'SCRAM-SHA-256',
+    clientNonce,
+    response: 'n,,n=*,r=' + clientNonce,
+    message: 'SASLInitialResponse',
+  }
+}
+
+async function continueSession(session, password, serverData) {
+  if (session.message !== 'SASLInitialResponse') {
+    throw new Error('SASL: Last message was not SASLInitialResponse')
+  }
+  if (typeof password !== 'string') {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string')
+  }
+  if (password === '') {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a non-empty string')
+  }
+  if (typeof serverData !== 'string') {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: serverData must be a string')
+  }
+
+  const sv = parseServerFirstMessage(serverData)
+
+  if (!sv.nonce.startsWith(session.clientNonce)) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: server nonce does not start with client nonce')
+  } else if (sv.nonce.length === session.clientNonce.length) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: server nonce is too short')
+  }
+
+  var clientFirstMessageBare = 'n=*,r=' + session.clientNonce
+  var serverFirstMessage = 'r=' + sv.nonce + ',s=' + sv.salt + ',i=' + sv.iteration
+  var clientFinalMessageWithoutProof = 'c=biws,r=' + sv.nonce
+  var authMessage = clientFirstMessageBare + ',' + serverFirstMessage + ',' + clientFinalMessageWithoutProof
+
+  var saltBytes = Buffer.from(sv.salt, 'base64')
+  var saltedPassword = await crypto.deriveKey(password, saltBytes, sv.iteration)
+  var clientKey = await crypto.hmacSha256(saltedPassword, 'Client Key')
+  var storedKey = await crypto.sha256(clientKey)
+  var clientSignature = await crypto.hmacSha256(storedKey, authMessage)
+  var clientProof = xorBuffers(Buffer.from(clientKey), Buffer.from(clientSignature)).toString('base64')
+  var serverKey = await crypto.hmacSha256(saltedPassword, 'Server Key')
+  var serverSignatureBytes = await crypto.hmacSha256(serverKey, authMessage)
+
+  session.message = 'SASLResponse'
+  session.serverSignature = Buffer.from(serverSignatureBytes).toString('base64')
+  session.response = clientFinalMessageWithoutProof + ',p=' + clientProof
+}
+
+function finalizeSession(session, serverData) {
+  if (session.message !== 'SASLResponse') {
+    throw new Error('SASL: Last message was not SASLResponse')
+  }
+  if (typeof serverData !== 'string') {
+    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: serverData must be a string')
+  }
+
+  const { serverSignature } = parseServerFinalMessage(serverData)
+
+  if (serverSignature !== session.serverSignature) {
+    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature does not match')
+  }
+}
+
+/**
+ * printable       = %x21-2B / %x2D-7E
+ *                   ;; Printable ASCII except ",".
+ *                   ;; Note that any "printable" is also
+ *                   ;; a valid "value".
+ */
+function isPrintableChars(text) {
+  if (typeof text !== 'string') {
+    throw new TypeError('SASL: text must be a string')
+  }
+  return text
+    .split('')
+    .map((_, i) => text.charCodeAt(i))
+    .every((c) => (c >= 0x21 && c <= 0x2b) || (c >= 0x2d && c <= 0x7e))
+}
+
+/**
+ * base64-char     = ALPHA / DIGIT / "/" / "+"
+ *
+ * base64-4        = 4base64-char
+ *
+ * base64-3        = 3base64-char "="
+ *
+ * base64-2        = 2base64-char "=="
+ *
+ * base64          = *base64-4 [base64-3 / base64-2]
+ */
+function isBase64(text) {
+  return /^(?:[a-zA-Z0-9+/]{4})*(?:[a-zA-Z0-9+/]{2}==|[a-zA-Z0-9+/]{3}=)?$/.test(text)
+}
+
+function parseAttributePairs(text) {
+  if (typeof text !== 'string') {
+    throw new TypeError('SASL: attribute pairs text must be a string')
+  }
+
+  return new Map(
+    text.split(',').map((attrValue) => {
+      if (!/^.=/.test(attrValue)) {
+        throw new Error('SASL: Invalid attribute pair entry')
+      }
+      const name = attrValue[0]
+      const value = attrValue.substring(2)
+      return [name, value]
+    })
+  )
+}
+
+function parseServerFirstMessage(data) {
+  const attrPairs = parseAttributePairs(data)
+
+  const nonce = attrPairs.get('r')
+  if (!nonce) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: nonce missing')
+  } else if (!isPrintableChars(nonce)) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: nonce must only contain printable characters')
+  }
+  const salt = attrPairs.get('s')
+  if (!salt) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: salt missing')
+  } else if (!isBase64(salt)) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: salt must be base64')
+  }
+  const iterationText = attrPairs.get('i')
+  if (!iterationText) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: iteration missing')
+  } else if (!/^[1-9][0-9]*$/.test(iterationText)) {
+    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: invalid iteration count')
+  }
+  const iteration = parseInt(iterationText, 10)
+
+  return {
+    nonce,
+    salt,
+    iteration,
+  }
+}
+
+function parseServerFinalMessage(serverData) {
+  const attrPairs = parseAttributePairs(serverData)
+  const serverSignature = attrPairs.get('v')
+  if (!serverSignature) {
+    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature is missing')
+  } else if (!isBase64(serverSignature)) {
+    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature must be base64')
+  }
+  return {
+    serverSignature,
+  }
+}
+
+function xorBuffers(a, b) {
+  if (!Buffer.isBuffer(a)) {
+    throw new TypeError('first argument must be a Buffer')
+  }
+  if (!Buffer.isBuffer(b)) {
+    throw new TypeError('second argument must be a Buffer')
+  }
+  if (a.length !== b.length) {
+    throw new Error('Buffer lengths must match')
+  }
+  if (a.length === 0) {
+    throw new Error('Buffers cannot be empty')
+  }
+  return Buffer.from(a.map((_, i) => a[i] ^ b[i]))
+}
+
+module.exports = {
+  startSession,
+  continueSession,
+  finalizeSession,
+}
+
+
+/***/ }),
+
+/***/ 2272:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+// This file contains crypto utility functions for versions of Node.js < 15.0.0,
+// which does not support the WebCrypto.subtle API.
+
+const nodeCrypto = __nccwpck_require__(6113)
+
+function md5(string) {
+  return nodeCrypto.createHash('md5').update(string, 'utf-8').digest('hex')
+}
+
+// See AuthenticationMD5Password at https://www.postgresql.org/docs/current/static/protocol-flow.html
+function postgresMd5PasswordHash(user, password, salt) {
+  var inner = md5(password + user)
+  var outer = md5(Buffer.concat([Buffer.from(inner), salt]))
+  return 'md5' + outer
+}
+
+function sha256(text) {
+  return nodeCrypto.createHash('sha256').update(text).digest()
+}
+
+function hmacSha256(key, msg) {
+  return nodeCrypto.createHmac('sha256', key).update(msg).digest()
+}
+
+async function deriveKey(password, salt, iterations) {
+  return nodeCrypto.pbkdf2Sync(password, salt, iterations, 32, 'sha256')
+}
+
+module.exports = {
+  postgresMd5PasswordHash,
+  randomBytes: nodeCrypto.randomBytes,
+  deriveKey,
+  sha256,
+  hmacSha256,
+  md5,
+}
+
+
+/***/ }),
+
+/***/ 1288:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const nodeCrypto = __nccwpck_require__(6113)
+
+module.exports = {
+  postgresMd5PasswordHash,
+  randomBytes,
+  deriveKey,
+  sha256,
+  hmacSha256,
+  md5,
+}
+
+/**
+ * The Web Crypto API - grabbed from the Node.js library or the global
+ * @type Crypto
+ */
+const webCrypto = nodeCrypto.webcrypto || globalThis.crypto
+/**
+ * The SubtleCrypto API for low level crypto operations.
+ * @type SubtleCrypto
+ */
+const subtleCrypto = webCrypto.subtle
+const textEncoder = new TextEncoder()
+
+/**
+ *
+ * @param {*} length
+ * @returns
+ */
+function randomBytes(length) {
+  return webCrypto.getRandomValues(Buffer.alloc(length))
+}
+
+async function md5(string) {
+  try {
+    return nodeCrypto.createHash('md5').update(string, 'utf-8').digest('hex')
+  } catch (e) {
+    // `createHash()` failed so we are probably not in Node.js, use the WebCrypto API instead.
+    // Note that the MD5 algorithm on WebCrypto is not available in Node.js.
+    // This is why we cannot just use WebCrypto in all environments.
+    const data = typeof string === 'string' ? textEncoder.encode(string) : string
+    const hash = await subtleCrypto.digest('MD5', data)
+    return Array.from(new Uint8Array(hash))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
+  }
+}
+
+// See AuthenticationMD5Password at https://www.postgresql.org/docs/current/static/protocol-flow.html
+async function postgresMd5PasswordHash(user, password, salt) {
+  var inner = await md5(password + user)
+  var outer = await md5(Buffer.concat([Buffer.from(inner), salt]))
+  return 'md5' + outer
+}
+
+/**
+ * Create a SHA-256 digest of the given data
+ * @param {Buffer} data
+ */
+async function sha256(text) {
+  return await subtleCrypto.digest('SHA-256', text)
+}
+
+/**
+ * Sign the message with the given key
+ * @param {ArrayBuffer} keyBuffer
+ * @param {string} msg
+ */
+async function hmacSha256(keyBuffer, msg) {
+  const key = await subtleCrypto.importKey('raw', keyBuffer, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+  return await subtleCrypto.sign('HMAC', key, textEncoder.encode(msg))
+}
+
+/**
+ * Derive a key from the password and salt
+ * @param {string} password
+ * @param {Uint8Array} salt
+ * @param {number} iterations
+ */
+async function deriveKey(password, salt, iterations) {
+  const key = await subtleCrypto.importKey('raw', textEncoder.encode(password), 'PBKDF2', false, ['deriveBits'])
+  const params = { name: 'PBKDF2', hash: 'SHA-256', salt: salt, iterations: iterations }
+  return await subtleCrypto.deriveBits(params, key, 32 * 8, ['deriveBits'])
+}
+
+
+/***/ }),
+
+/***/ 6947:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const useLegacyCrypto = parseInt(process.versions && process.versions.node && process.versions.node.split('.')[0]) < 15
+if (useLegacyCrypto) {
+  // We are on an old version of Node.js that requires legacy crypto utilities.
+  module.exports = __nccwpck_require__(2272)
+} else {
+  module.exports = __nccwpck_require__(1288);
+}
 
 
 /***/ }),
@@ -2832,6 +3228,10 @@ module.exports = {
   // false=unlimited
   statement_timeout: false,
 
+  // Abort any statement that waits longer than the specified duration in milliseconds while attempting to acquire a lock.
+  // false=unlimited
+  lock_timeout: false,
+
   // Terminate any session with an open transaction that has been idle for longer than the specified duration in milliseconds
   // false=unlimited
   idle_in_transaction_session_timeout: false,
@@ -2866,7 +3266,7 @@ module.exports.__defineSetter__('parseInt8', function (val) {
 "use strict";
 
 
-const { EventEmitter } = __nccwpck_require__(8614)
+const { EventEmitter } = __nccwpck_require__(2361)
 
 const Result = __nccwpck_require__(6736)
 const utils = __nccwpck_require__(6419)
@@ -3001,7 +3401,14 @@ class Query extends EventEmitter {
       return this.handleError(this._canceledDueToError, con)
     }
     if (this.callback) {
-      this.callback(null, this._results)
+      try {
+        this.callback(null, this._results)
+      }
+      catch(err) {
+        process.nextTick(() => {
+          throw err
+        })
+      }
     }
     this.emit('end', this._results)
   }
@@ -3210,218 +3617,36 @@ module.exports = Result
 
 /***/ }),
 
-/***/ 9481:
+/***/ 3389:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
-
-const crypto = __nccwpck_require__(6417)
-
-function startSession(mechanisms) {
-  if (mechanisms.indexOf('SCRAM-SHA-256') === -1) {
-    throw new Error('SASL: Only mechanism SCRAM-SHA-256 is currently supported')
-  }
-
-  const clientNonce = crypto.randomBytes(18).toString('base64')
-
-  return {
-    mechanism: 'SCRAM-SHA-256',
-    clientNonce,
-    response: 'n,,n=*,r=' + clientNonce,
-    message: 'SASLInitialResponse',
-  }
-}
-
-function continueSession(session, password, serverData) {
-  if (session.message !== 'SASLInitialResponse') {
-    throw new Error('SASL: Last message was not SASLInitialResponse')
-  }
-  if (typeof password !== 'string') {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string')
-  }
-  if (typeof serverData !== 'string') {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: serverData must be a string')
-  }
-
-  const sv = parseServerFirstMessage(serverData)
-
-  if (!sv.nonce.startsWith(session.clientNonce)) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: server nonce does not start with client nonce')
-  } else if (sv.nonce.length === session.clientNonce.length) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: server nonce is too short')
-  }
-
-  var saltBytes = Buffer.from(sv.salt, 'base64')
-
-  var saltedPassword = Hi(password, saltBytes, sv.iteration)
-
-  var clientKey = hmacSha256(saltedPassword, 'Client Key')
-  var storedKey = sha256(clientKey)
-
-  var clientFirstMessageBare = 'n=*,r=' + session.clientNonce
-  var serverFirstMessage = 'r=' + sv.nonce + ',s=' + sv.salt + ',i=' + sv.iteration
-
-  var clientFinalMessageWithoutProof = 'c=biws,r=' + sv.nonce
-
-  var authMessage = clientFirstMessageBare + ',' + serverFirstMessage + ',' + clientFinalMessageWithoutProof
-
-  var clientSignature = hmacSha256(storedKey, authMessage)
-  var clientProofBytes = xorBuffers(clientKey, clientSignature)
-  var clientProof = clientProofBytes.toString('base64')
-
-  var serverKey = hmacSha256(saltedPassword, 'Server Key')
-  var serverSignatureBytes = hmacSha256(serverKey, authMessage)
-
-  session.message = 'SASLResponse'
-  session.serverSignature = serverSignatureBytes.toString('base64')
-  session.response = clientFinalMessageWithoutProof + ',p=' + clientProof
-}
-
-function finalizeSession(session, serverData) {
-  if (session.message !== 'SASLResponse') {
-    throw new Error('SASL: Last message was not SASLResponse')
-  }
-  if (typeof serverData !== 'string') {
-    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: serverData must be a string')
-  }
-
-  const { serverSignature } = parseServerFinalMessage(serverData)
-
-  if (serverSignature !== session.serverSignature) {
-    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature does not match')
+/**
+ * Get a socket stream compatible with the current runtime environment.
+ * @returns {Duplex}
+ */
+module.exports.getStream = function getStream(ssl) {
+  const net = __nccwpck_require__(1808)
+  if (typeof net.Socket === 'function') {
+    return new net.Socket()
+  } else {
+    const { CloudflareSocket } = __nccwpck_require__(7078)
+    return new CloudflareSocket(ssl)
   }
 }
 
 /**
- * printable       = %x21-2B / %x2D-7E
- *                   ;; Printable ASCII except ",".
- *                   ;; Note that any "printable" is also
- *                   ;; a valid "value".
+ * Get a TLS secured socket, compatible with the current environment,
+ * using the socket and other settings given in `options`.
+ * @returns {Duplex}
  */
-function isPrintableChars(text) {
-  if (typeof text !== 'string') {
-    throw new TypeError('SASL: text must be a string')
+module.exports.getSecureStream = function getSecureStream(options) {
+  var tls = __nccwpck_require__(4404)
+  if (tls.connect) {
+    return tls.connect(options)
+  } else {
+    options.socket.startTls(options)
+    return options.socket
   }
-  return text
-    .split('')
-    .map((_, i) => text.charCodeAt(i))
-    .every((c) => (c >= 0x21 && c <= 0x2b) || (c >= 0x2d && c <= 0x7e))
-}
-
-/**
- * base64-char     = ALPHA / DIGIT / "/" / "+"
- *
- * base64-4        = 4base64-char
- *
- * base64-3        = 3base64-char "="
- *
- * base64-2        = 2base64-char "=="
- *
- * base64          = *base64-4 [base64-3 / base64-2]
- */
-function isBase64(text) {
-  return /^(?:[a-zA-Z0-9+/]{4})*(?:[a-zA-Z0-9+/]{2}==|[a-zA-Z0-9+/]{3}=)?$/.test(text)
-}
-
-function parseAttributePairs(text) {
-  if (typeof text !== 'string') {
-    throw new TypeError('SASL: attribute pairs text must be a string')
-  }
-
-  return new Map(
-    text.split(',').map((attrValue) => {
-      if (!/^.=/.test(attrValue)) {
-        throw new Error('SASL: Invalid attribute pair entry')
-      }
-      const name = attrValue[0]
-      const value = attrValue.substring(2)
-      return [name, value]
-    })
-  )
-}
-
-function parseServerFirstMessage(data) {
-  const attrPairs = parseAttributePairs(data)
-
-  const nonce = attrPairs.get('r')
-  if (!nonce) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: nonce missing')
-  } else if (!isPrintableChars(nonce)) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: nonce must only contain printable characters')
-  }
-  const salt = attrPairs.get('s')
-  if (!salt) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: salt missing')
-  } else if (!isBase64(salt)) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: salt must be base64')
-  }
-  const iterationText = attrPairs.get('i')
-  if (!iterationText) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: iteration missing')
-  } else if (!/^[1-9][0-9]*$/.test(iterationText)) {
-    throw new Error('SASL: SCRAM-SERVER-FIRST-MESSAGE: invalid iteration count')
-  }
-  const iteration = parseInt(iterationText, 10)
-
-  return {
-    nonce,
-    salt,
-    iteration,
-  }
-}
-
-function parseServerFinalMessage(serverData) {
-  const attrPairs = parseAttributePairs(serverData)
-  const serverSignature = attrPairs.get('v')
-  if (!serverSignature) {
-    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature is missing')
-  } else if (!isBase64(serverSignature)) {
-    throw new Error('SASL: SCRAM-SERVER-FINAL-MESSAGE: server signature must be base64')
-  }
-  return {
-    serverSignature,
-  }
-}
-
-function xorBuffers(a, b) {
-  if (!Buffer.isBuffer(a)) {
-    throw new TypeError('first argument must be a Buffer')
-  }
-  if (!Buffer.isBuffer(b)) {
-    throw new TypeError('second argument must be a Buffer')
-  }
-  if (a.length !== b.length) {
-    throw new Error('Buffer lengths must match')
-  }
-  if (a.length === 0) {
-    throw new Error('Buffers cannot be empty')
-  }
-  return Buffer.from(a.map((_, i) => a[i] ^ b[i]))
-}
-
-function sha256(text) {
-  return crypto.createHash('sha256').update(text).digest()
-}
-
-function hmacSha256(key, msg) {
-  return crypto.createHmac('sha256', key).update(msg).digest()
-}
-
-function Hi(password, saltBytes, iterations) {
-  var ui1 = hmacSha256(password, Buffer.concat([saltBytes, Buffer.from([0, 0, 0, 1])]))
-  var ui = ui1
-  for (var i = 0; i < iterations - 1; i++) {
-    ui1 = hmacSha256(password, ui1)
-    ui = xorBuffers(ui, ui1)
-  }
-
-  return ui
-}
-
-module.exports = {
-  startSession,
-  continueSession,
-  finalizeSession,
 }
 
 
@@ -3475,8 +3700,6 @@ module.exports = TypeOverrides
 
 "use strict";
 
-
-const crypto = __nccwpck_require__(6417)
 
 const defaults = __nccwpck_require__(7886)
 
@@ -3640,15 +3863,34 @@ function normalizeQueryConfig(config, values, callback) {
   return config
 }
 
-const md5 = function (string) {
-  return crypto.createHash('md5').update(string, 'utf-8').digest('hex')
+// Ported from PostgreSQL 9.2.4 source code in src/interfaces/libpq/fe-exec.c
+const escapeIdentifier = function (str) {
+  return '"' + str.replace(/"/g, '""') + '"'
 }
 
-// See AuthenticationMD5Password at https://www.postgresql.org/docs/current/static/protocol-flow.html
-const postgresMd5PasswordHash = function (user, password, salt) {
-  var inner = md5(password + user)
-  var outer = md5(Buffer.concat([Buffer.from(inner), salt]))
-  return 'md5' + outer
+const escapeLiteral = function (str) {
+  var hasBackslash = false
+  var escaped = "'"
+
+  for (var i = 0; i < str.length; i++) {
+    var c = str[i]
+    if (c === "'") {
+      escaped += c + c
+    } else if (c === '\\') {
+      escaped += c + c
+      hasBackslash = true
+    } else {
+      escaped += c
+    }
+  }
+
+  escaped += "'"
+
+  if (hasBackslash === true) {
+    escaped = ' E' + escaped
+  }
+
+  return escaped
 }
 
 module.exports = {
@@ -3658,8 +3900,8 @@ module.exports = {
     return prepareValue(value)
   },
   normalizeQueryConfig,
-  postgresMd5PasswordHash,
-  md5,
+  escapeIdentifier,
+  escapeLiteral,
 }
 
 
@@ -3671,10 +3913,10 @@ module.exports = {
 "use strict";
 
 
-var path = __nccwpck_require__(5622)
-  , Stream = __nccwpck_require__(2413).Stream
+var path = __nccwpck_require__(1017)
+  , Stream = (__nccwpck_require__(2781).Stream)
   , split = __nccwpck_require__(5000)
-  , util = __nccwpck_require__(1669)
+  , util = __nccwpck_require__(3837)
   , defaultPort = 5432
   , isWin = (process.platform === 'win32')
   , warnStream = process.stderr
@@ -3912,8 +4154,8 @@ var isValidEntry = module.exports.isValidEntry = function(entry){
 "use strict";
 
 
-var path = __nccwpck_require__(5622)
-  , fs = __nccwpck_require__(5747)
+var path = __nccwpck_require__(1017)
+  , fs = __nccwpck_require__(7147)
   , helper = __nccwpck_require__(6926)
 ;
 
@@ -4689,7 +4931,7 @@ var Duplex;
 Readable.ReadableState = ReadableState;
 /*<replacement>*/
 
-var EE = __nccwpck_require__(8614).EventEmitter;
+var EE = (__nccwpck_require__(2361).EventEmitter);
 
 var EElistenerCount = function EElistenerCount(emitter, type) {
   return emitter.listeners(type).length;
@@ -4703,7 +4945,7 @@ var Stream = __nccwpck_require__(2387);
 /*</replacement>*/
 
 
-var Buffer = __nccwpck_require__(4293).Buffer;
+var Buffer = (__nccwpck_require__(4300).Buffer);
 
 var OurUint8Array = global.Uint8Array || function () {};
 
@@ -4717,7 +4959,7 @@ function _isUint8Array(obj) {
 /*<replacement>*/
 
 
-var debugUtil = __nccwpck_require__(1669);
+var debugUtil = __nccwpck_require__(3837);
 
 var debug;
 
@@ -4736,7 +4978,7 @@ var destroyImpl = __nccwpck_require__(7049);
 var _require = __nccwpck_require__(9948),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = __nccwpck_require__(7214)/* .codes */ .q,
+var _require$codes = (__nccwpck_require__(7214)/* .codes */ .q),
     ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
     ERR_STREAM_PUSH_AFTER_EOF = _require$codes.ERR_STREAM_PUSH_AFTER_EOF,
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
@@ -4820,7 +5062,7 @@ function ReadableState(options, stream, isDuplex) {
   this.encoding = null;
 
   if (options.encoding) {
-    if (!StringDecoder) StringDecoder = __nccwpck_require__(4841)/* .StringDecoder */ .s;
+    if (!StringDecoder) StringDecoder = (__nccwpck_require__(4841)/* .StringDecoder */ .s);
     this.decoder = new StringDecoder(options.encoding);
     this.encoding = options.encoding;
   }
@@ -4982,7 +5224,7 @@ Readable.prototype.isPaused = function () {
 
 
 Readable.prototype.setEncoding = function (enc) {
-  if (!StringDecoder) StringDecoder = __nccwpck_require__(4841)/* .StringDecoder */ .s;
+  if (!StringDecoder) StringDecoder = (__nccwpck_require__(4841)/* .StringDecoder */ .s);
   var decoder = new StringDecoder(enc);
   this._readableState.decoder = decoder; // If setEncoding(null), decoder.encoding equals utf8
 
@@ -5854,7 +6096,7 @@ function indexOf(xs, x) {
 
 module.exports = Transform;
 
-var _require$codes = __nccwpck_require__(7214)/* .codes */ .q,
+var _require$codes = (__nccwpck_require__(7214)/* .codes */ .q),
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
     ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
     ERR_TRANSFORM_ALREADY_TRANSFORMING = _require$codes.ERR_TRANSFORM_ALREADY_TRANSFORMING,
@@ -6066,7 +6308,7 @@ var Stream = __nccwpck_require__(2387);
 /*</replacement>*/
 
 
-var Buffer = __nccwpck_require__(4293).Buffer;
+var Buffer = (__nccwpck_require__(4300).Buffer);
 
 var OurUint8Array = global.Uint8Array || function () {};
 
@@ -6083,7 +6325,7 @@ var destroyImpl = __nccwpck_require__(7049);
 var _require = __nccwpck_require__(9948),
     getHighWaterMark = _require.getHighWaterMark;
 
-var _require$codes = __nccwpck_require__(7214)/* .codes */ .q,
+var _require$codes = (__nccwpck_require__(7214)/* .codes */ .q),
     ERR_INVALID_ARG_TYPE = _require$codes.ERR_INVALID_ARG_TYPE,
     ERR_METHOD_NOT_IMPLEMENTED = _require$codes.ERR_METHOD_NOT_IMPLEMENTED,
     ERR_MULTIPLE_CALLBACK = _require$codes.ERR_MULTIPLE_CALLBACK,
@@ -6929,10 +7171,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var _require = __nccwpck_require__(4293),
+var _require = __nccwpck_require__(4300),
     Buffer = _require.Buffer;
 
-var _require2 = __nccwpck_require__(1669),
+var _require2 = __nccwpck_require__(3837),
     inspect = _require2.inspect;
 
 var custom = inspect && inspect.custom || 'inspect';
@@ -7248,7 +7490,7 @@ module.exports = {
 // permission from the author, Mathias Buus (@mafintosh).
 
 
-var ERR_STREAM_PREMATURE_CLOSE = __nccwpck_require__(7214)/* .codes.ERR_STREAM_PREMATURE_CLOSE */ .q.ERR_STREAM_PREMATURE_CLOSE;
+var ERR_STREAM_PREMATURE_CLOSE = (__nccwpck_require__(7214)/* .codes.ERR_STREAM_PREMATURE_CLOSE */ .q.ERR_STREAM_PREMATURE_CLOSE);
 
 function once(callback) {
   var called = false;
@@ -7367,7 +7609,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var ERR_INVALID_ARG_TYPE = __nccwpck_require__(7214)/* .codes.ERR_INVALID_ARG_TYPE */ .q.ERR_INVALID_ARG_TYPE;
+var ERR_INVALID_ARG_TYPE = (__nccwpck_require__(7214)/* .codes.ERR_INVALID_ARG_TYPE */ .q.ERR_INVALID_ARG_TYPE);
 
 function from(Readable, iterable, opts) {
   var iterator;
@@ -7441,7 +7683,7 @@ function once(callback) {
   };
 }
 
-var _require$codes = __nccwpck_require__(7214)/* .codes */ .q,
+var _require$codes = (__nccwpck_require__(7214)/* .codes */ .q),
     ERR_MISSING_ARGS = _require$codes.ERR_MISSING_ARGS,
     ERR_STREAM_DESTROYED = _require$codes.ERR_STREAM_DESTROYED;
 
@@ -7532,7 +7774,7 @@ module.exports = pipeline;
 "use strict";
 
 
-var ERR_INVALID_OPT_VALUE = __nccwpck_require__(7214)/* .codes.ERR_INVALID_OPT_VALUE */ .q.ERR_INVALID_OPT_VALUE;
+var ERR_INVALID_OPT_VALUE = (__nccwpck_require__(7214)/* .codes.ERR_INVALID_OPT_VALUE */ .q.ERR_INVALID_OPT_VALUE);
 
 function highWaterMarkFrom(options, isDuplex, duplexKey) {
   return options.highWaterMark != null ? options.highWaterMark : isDuplex ? options[duplexKey] : null;
@@ -7563,7 +7805,7 @@ module.exports = {
 /***/ 2387:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-module.exports = __nccwpck_require__(2413);
+module.exports = __nccwpck_require__(2781);
 
 
 /***/ }),
@@ -7571,7 +7813,7 @@ module.exports = __nccwpck_require__(2413);
 /***/ 1642:
 /***/ ((module, exports, __nccwpck_require__) => {
 
-var Stream = __nccwpck_require__(2413);
+var Stream = __nccwpck_require__(2781);
 if (process.env.READABLE_STREAM === 'disable' && Stream) {
   module.exports = Stream.Readable;
   Object.assign(module.exports, Stream);
@@ -7596,7 +7838,7 @@ if (process.env.READABLE_STREAM === 'disable' && Stream) {
 
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 /* eslint-disable node/no-deprecated-api */
-var buffer = __nccwpck_require__(4293)
+var buffer = __nccwpck_require__(4300)
 var Buffer = buffer.Buffer
 
 // alternative to using Object.keys for old browsers
@@ -7686,7 +7928,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 const { Transform } = __nccwpck_require__(1642)
-const { StringDecoder } = __nccwpck_require__(4304)
+const { StringDecoder } = __nccwpck_require__(1576)
 const kLast = Symbol('last')
 const kDecoder = Symbol('decoder')
 
@@ -7832,7 +8074,7 @@ module.exports = split
 
 /*<replacement>*/
 
-var Buffer = __nccwpck_require__(1867).Buffer;
+var Buffer = (__nccwpck_require__(1867).Buffer);
 /*</replacement>*/
 
 var isEncoding = Buffer.isEncoding || function (encoding) {
@@ -8114,7 +8356,7 @@ function simpleEnd(buf) {
  * For Node.js, simply re-export the core `util.deprecate` function.
  */
 
-module.exports = __nccwpck_require__(1669).deprecate;
+module.exports = __nccwpck_require__(3837).deprecate;
 
 
 /***/ }),
@@ -8143,107 +8385,99 @@ function extend(target) {
 
 /***/ }),
 
-/***/ 2357:
+/***/ 9491:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("assert");;
+module.exports = require("assert");
 
 /***/ }),
 
-/***/ 4293:
+/***/ 4300:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("buffer");;
+module.exports = require("buffer");
 
 /***/ }),
 
-/***/ 6417:
+/***/ 6113:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("crypto");;
+module.exports = require("crypto");
 
 /***/ }),
 
-/***/ 881:
+/***/ 9523:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("dns");;
+module.exports = require("dns");
 
 /***/ }),
 
-/***/ 8614:
+/***/ 2361:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("events");;
+module.exports = require("events");
 
 /***/ }),
 
-/***/ 5747:
+/***/ 7147:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("fs");;
+module.exports = require("fs");
 
 /***/ }),
 
-/***/ 1631:
+/***/ 1808:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("net");;
+module.exports = require("net");
 
 /***/ }),
 
-/***/ 5622:
+/***/ 1017:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("path");;
+module.exports = require("path");
 
 /***/ }),
 
-/***/ 2413:
+/***/ 2781:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("stream");;
+module.exports = require("stream");
 
 /***/ }),
 
-/***/ 4304:
+/***/ 1576:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("string_decoder");;
+module.exports = require("string_decoder");
 
 /***/ }),
 
-/***/ 4016:
+/***/ 4404:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("tls");;
+module.exports = require("tls");
 
 /***/ }),
 
-/***/ 8835:
+/***/ 3837:
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("url");;
-
-/***/ }),
-
-/***/ 1669:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("util");;
+module.exports = require("util");
 
 /***/ })
 
@@ -8322,7 +8556,9 @@ module.exports = require("util");;
 /******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";/************************************************************************/
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
@@ -8341,21 +8577,27 @@ var client_default = /*#__PURE__*/__nccwpck_require__.n(lib_client);
 // EXTERNAL MODULE: ./node_modules/pg-connection-string/index.js
 var pg_connection_string = __nccwpck_require__(8961);
 var pg_connection_string_default = /*#__PURE__*/__nccwpck_require__.n(pg_connection_string);
-;// CONCATENATED MODULE: external "aws-sdk/clients/ssm"
-const ssm_namespaceObject = require("aws-sdk/clients/ssm");;
-var ssm_default = /*#__PURE__*/__nccwpck_require__.n(ssm_namespaceObject);
+;// CONCATENATED MODULE: external "@aws-sdk/client-ssm"
+const client_ssm_namespaceObject = require("@aws-sdk/client-ssm");
 ;// CONCATENATED MODULE: ./index.ts
 
 
 
-const ssmClient = new (ssm_default())({});
+const ssmClient = new client_ssm_namespaceObject.SSMClient({});
 async function handler({ database, queries }) {
     const clientConfig = pg_connection_string_default().parse(await getDatabaseUrl());
     if (database) {
         clientConfig.database = database;
     }
     console.log(`Connecting to the '${clientConfig.database}' database...`);
-    const client = new (client_default())(clientConfig);
+    const client = new (client_default())({
+        ...clientConfig,
+        // fix incompatibilities between pg and pg-connection-string
+        database: clientConfig.database ?? undefined,
+        host: clientConfig.host ?? undefined,
+        port: clientConfig.port ? Number(clientConfig.port) : undefined,
+        ssl: true,
+    });
     await client.connect();
     try {
         for (const query of queries) {
@@ -8369,19 +8611,16 @@ async function handler({ database, queries }) {
     }
 }
 async function getDatabaseUrl() {
-    var _a;
     if (process.env.DATABASE_URL) {
         return process.env.DATABASE_URL;
     }
     if (process.env.DATABASE_URL_PARAM) {
         const paramName = process.env.DATABASE_URL_PARAM;
-        const result = await ssmClient
-            .getParameter({
+        const result = await ssmClient.send(new client_ssm_namespaceObject.GetParameterCommand({
             Name: paramName,
             WithDecryption: true,
-        })
-            .promise();
-        const paramValue = (_a = result.Parameter) === null || _a === void 0 ? void 0 : _a.Value;
+        }));
+        const paramValue = result.Parameter?.Value;
         if (!paramValue) {
             throw new Error(`Failed to fetch ${paramName} from SSM`);
         }

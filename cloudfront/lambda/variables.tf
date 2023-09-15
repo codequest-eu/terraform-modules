@@ -26,7 +26,7 @@ variable "package_path" {
 variable "runtime" {
   description = "Lambda runtime"
   type        = string
-  default     = "nodejs12.x"
+  default     = "nodejs18.x"
 }
 
 variable "handler" {

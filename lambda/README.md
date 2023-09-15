@@ -74,7 +74,7 @@ There's no good workaround for this. You will have to either:
 | <a name="input_package_s3_version"></a> [package\_s3\_version](#input\_package\_s3\_version) | Version number of the S3 object to use | `string` | `null` | no |
 | <a name="input_policy_arns"></a> [policy\_arns](#input\_policy\_arns) | Additional policy ARNs to attach to the Lambda role | `map(string)` | `{}` | no |
 | <a name="input_publish"></a> [publish](#input\_publish) | Whether to create lambda versions when it's created and on any code or configuration changes.<br>When disabled the only available version will be `$LATEST`. | `bool` | `true` | no |
-| <a name="input_runtime"></a> [runtime](#input\_runtime) | [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) | `string` | `"nodejs12.x"` | no |
+| <a name="input_runtime"></a> [runtime](#input\_runtime) | [Runtime](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) | `string` | `"nodejs18.x"` | no |
 | <a name="input_security_group_ids"></a> [security\_group\_ids](#input\_security\_group\_ids) | Security groups to assign | `list(string)` | `null` | no |
 | <a name="input_subnet_ids"></a> [subnet\_ids](#input\_subnet\_ids) | Subnet ids to place the lambda in | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to set on resources that support them | `map(string)` | `{}` | no |

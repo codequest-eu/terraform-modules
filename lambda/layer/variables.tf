@@ -12,7 +12,7 @@ variable "name" {
 variable "runtimes" {
   description = "[Runtimes](https://docs.aws.amazon.com/lambda/latest/dg/API_CreateFunction.html#SSS-CreateFunction-request-Runtime) compatible with this lambda layer"
   type        = list(string)
-  default     = ["nodejs12.x"]
+  default     = ["nodejs18.x"]
 }
 
 variable "package_path" {

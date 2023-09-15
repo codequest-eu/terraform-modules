@@ -39,6 +39,7 @@ invoke_response=$(
   --payload "$event" \
   --output json \
   --log-type Tail \
+  --cli-binary-format raw-in-base64-out \
   "$@" \
   "$result"
 )
