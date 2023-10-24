@@ -48,3 +48,9 @@ variable "wait_for_steady_state" {
   type        = bool
   default     = true
 }
+
+variable "deployment_rollback" {
+  description = "Whether to roll back to the previous version when deployment fails"
+  type        = bool
+  default     = true
+}

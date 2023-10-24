@@ -22,6 +22,11 @@ resource "aws_ecs_service" "service" {
 
   wait_for_steady_state = var.wait_for_steady_state
 
+  deployment_circuit_breaker {
+    enable   = var.deployment_rollback
+    rollback = var.deployment_rollback
+  }
+
   lifecycle {
     create_before_destroy = true
   }

@@ -44,6 +44,7 @@ No modules.
 | <a name="input_collection_interval"></a> [collection\_interval](#input\_collection\_interval) | How often should the metrics be collected in seconds | `number` | `10` | no |
 | <a name="input_create"></a> [create](#input\_create) | Whether any resources should be created | `bool` | `true` | no |
 | <a name="input_debug"></a> [debug](#input\_debug) | Whether to enable cloudwatch agent debug mode | `bool` | `false` | no |
+| <a name="input_deployment_rollback"></a> [deployment\_rollback](#input\_deployment\_rollback) | Whether to roll back to the previous version when deployment fails | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the service and task definition | `string` | `"statsd"` | no |
 | <a name="input_port"></a> [port](#input\_port) | Port to listen on on each ECS instance | `number` | `8125` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources | `map(string)` | `{}` | no |

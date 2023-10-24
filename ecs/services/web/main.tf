@@ -43,6 +43,11 @@ resource "aws_ecs_service" "service" {
     container_port   = var.container_port
   }
 
+  deployment_circuit_breaker {
+    enable   = var.deployment_rollback
+    rollback = var.deployment_rollback
+  }
+
   lifecycle {
     create_before_destroy = true
   }
