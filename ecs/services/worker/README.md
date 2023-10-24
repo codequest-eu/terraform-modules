@@ -47,6 +47,7 @@ Creates an ECS service for background workers
 | <a name="input_deployment_max_percent"></a> [deployment\_max\_percent](#input\_deployment\_max\_percent) | The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Rounded down to get the maximum number of running tasks. | `number` | `200` | no |
 | <a name="input_deployment_min_percent"></a> [deployment\_min\_percent](#input\_deployment\_min\_percent) | The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment. Rounded up to get the minimum number of running tasks. | `number` | `50` | no |
 | <a name="input_deployment_rollback"></a> [deployment\_rollback](#input\_deployment\_rollback) | Whether to roll back to the previous version when deployment fails | `bool` | `true` | no |
+| <a name="input_deployment_timeout"></a> [deployment\_timeout](#input\_deployment\_timeout) | Timeout for updating the ECS service | `string` | `"10m"` | no |
 | <a name="input_desired_count"></a> [desired\_count](#input\_desired\_count) | The number of instances of the task definition to place and keep running. | `number` | `2` | no |
 | <a name="input_launch_type"></a> [launch\_type](#input\_launch\_type) | The launch type on which to run your service. Either EC2 or FARGATE. | `string` | `"EC2"` | no |
 | <a name="input_name"></a> [name](#input\_name) | ECS service name | `string` | n/a | yes |

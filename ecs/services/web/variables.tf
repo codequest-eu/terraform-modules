@@ -153,3 +153,9 @@ variable "deployment_rollback" {
   type        = bool
   default     = true
 }
+
+variable "deployment_timeout" {
+  description = "Timeout for updating the ECS service"
+  type        = string
+  default     = "10m"
+}

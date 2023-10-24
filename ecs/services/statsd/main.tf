@@ -136,6 +136,12 @@ resource "aws_ecs_service" "service" {
     enable   = var.deployment_rollback
     rollback = var.deployment_rollback
   }
+
+  timeouts {
+    create = var.deployment_timeout
+    update = var.deployment_timeout
+    delete = var.deployment_timeout
+  }
 }
 
 # outputs
