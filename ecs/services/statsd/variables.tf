@@ -44,3 +44,9 @@ variable "debug" {
   type        = bool
   default     = false
 }
+
+variable "wait_for_steady_state" {
+  description = "Wait for the service to reach a steady state"
+  type        = bool
+  default     = true
+}

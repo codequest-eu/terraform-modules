@@ -50,6 +50,7 @@ Creates an ECS service for background workers
 | <a name="input_launch_type"></a> [launch\_type](#input\_launch\_type) | The launch type on which to run your service. Either EC2 or FARGATE. | `string` | `"EC2"` | no |
 | <a name="input_name"></a> [name](#input\_name) | ECS service name | `string` | n/a | yes |
 | <a name="input_task_definition_arn"></a> [task\_definition\_arn](#input\_task\_definition\_arn) | ECS task definition ARN to run as a service | `string` | n/a | yes |
+| <a name="input_wait_for_steady_state"></a> [wait\_for\_steady\_state](#input\_wait\_for\_steady\_state) | Wait for the service to reach a steady state | `bool` | `true` | no |
 
 ## Outputs
 

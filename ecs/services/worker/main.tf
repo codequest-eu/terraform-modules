@@ -20,6 +20,8 @@ resource "aws_ecs_service" "service" {
   deployment_maximum_percent         = var.deployment_max_percent
   deployment_minimum_healthy_percent = var.deployment_min_percent
 
+  wait_for_steady_state = var.wait_for_steady_state
+
   lifecycle {
     create_before_destroy = true
   }

@@ -129,6 +129,9 @@ resource "aws_ecs_service" "service" {
   task_definition     = aws_ecs_task_definition.task[0].arn
   launch_type         = "EC2"
   scheduling_strategy = "DAEMON"
+
+  wait_for_steady_state = var.wait_for_steady_state
+
 }
 
 # outputs

@@ -47,6 +47,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Name for the service and task definition | `string` | `"statsd"` | no |
 | <a name="input_port"></a> [port](#input\_port) | Port to listen on on each ECS instance | `number` | `8125` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources | `map(string)` | `{}` | no |
+| <a name="input_wait_for_steady_state"></a> [wait\_for\_steady\_state](#input\_wait\_for\_steady\_state) | Wait for the service to reach a steady state | `bool` | `true` | no |
 
 ## Outputs
 
