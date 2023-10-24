@@ -97,3 +97,9 @@ variable "ecs_agent_config" {
   type        = string
   default     = ""
 }
+
+variable "instance_attributes" {
+  description = "ECS instance attributes to be applied to EC2 instance"
+  type        = map(string)
+  default     = {}
+}

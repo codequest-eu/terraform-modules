@@ -59,13 +59,14 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ami_name"></a> [ami\_name](#input\_ami\_name) | ECS-optimized Amazon Linux AMI name to use | `string` | `"amzn2-ami-ecs-hvm-2.0.20200319-x86_64-ebs"` | no |
+| <a name="input_ami_name"></a> [ami\_name](#input\_ami\_name) | ECS-optimized Amazon Linux AMI name to use | `string` | `"amzn2-ami-ecs-hvm-2.0.20230912-x86_64-ebs"` | no |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the ECS cluster to attach to | `string` | n/a | yes |
 | <a name="input_cpu_credits"></a> [cpu\_credits](#input\_cpu\_credits) | The credit option for CPU usage. Can be 'standard' or 'unlimited'. | `string` | `null` | no |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_detailed_monitoring"></a> [detailed\_monitoring](#input\_detailed\_monitoring) | Whether to enable detailed monitoring on EC2 instances | `bool` | `true` | no |
 | <a name="input_ecs_agent_config"></a> [ecs\_agent\_config](#input\_ecs\_agent\_config) | ECS agent configuration to append to the default one | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production. | `string` | n/a | yes |
+| <a name="input_instance_attributes"></a> [instance\_attributes](#input\_instance\_attributes) | ECS instance attributes to be applied to EC2 instance | `map(string)` | `{}` | no |
 | <a name="input_instance_profile"></a> [instance\_profile](#input\_instance\_profile) | Name of the instance profile created by the ecs/worker\_role module | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | EC2 instance type | `string` | n/a | yes |
 | <a name="input_max_size"></a> [max\_size](#input\_max\_size) | The maximum size of the auto scale group, defaults to size | `number` | `null` | no |
