@@ -102,7 +102,8 @@ resource "aws_eip" "public_nat" {
   count      = var.create ? var.availability_zones_count : 0
   depends_on = [aws_internet_gateway.gateway[0]]
 
-  vpc = true
+  domain = "vpc"
+
   tags = merge(
     local.tags,
     {
@@ -352,7 +353,7 @@ resource "aws_route" "private_default_instance" {
 
   route_table_id         = element(aws_route_table.private[*].id, count.index)
   destination_cidr_block = "0.0.0.0/0"
-  instance_id            = element(aws_instance.nat[*].id, count.index)
+  network_interface_id   = element(aws_instance.nat[*].primary_network_interface_id, count.index)
 }
 
 resource "null_resource" "ssm_restart_after_nat_change" {
