@@ -26,9 +26,9 @@ Creates networking resources needed for a standard ECS cluster setup:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.22.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.2.1 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.4 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.0.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | >= 2.1.2 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | >= 3.2.0 |
 
 ## Modules
 
