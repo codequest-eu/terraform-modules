@@ -102,8 +102,6 @@ resource "aws_eip" "public_nat" {
   count      = var.create ? var.availability_zones_count : 0
   depends_on = [aws_internet_gateway.gateway[0]]
 
-  domain = "vpc"
-
   tags = merge(
     local.tags,
     {
