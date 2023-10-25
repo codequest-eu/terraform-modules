@@ -76,7 +76,7 @@ resource "aws_db_instance" "db" {
   auto_minor_version_upgrade = false
 
   port     = var.port
-  db_name  = local.db
+  name     = local.db
   username = var.username
   password = var.password
 
