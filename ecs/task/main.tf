@@ -56,5 +56,13 @@ resource "aws_ecs_task_definition" "task" {
   cpu          = var.task_cpu
   memory       = var.task_memory
   network_mode = var.network_mode
-}
 
+  dynamic "placement_constraints" {
+    for_each = compact([var.placement_constraints_expression])
+
+    content {
+      expression = each.key
+      type       = "memberOf"
+    }
+  }
+}
