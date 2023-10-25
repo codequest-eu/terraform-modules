@@ -180,8 +180,8 @@ variable "enable_environment_parameters_hash" {
   default     = true
 }
 
-variable "placement_constraints_expression" {
-  description = "Placement constraints for the task in Cluster Query Language"
-  type        = string
-  default     = null
+variable "placement_constraint_expressions" {
+  description = "Placement constraint expressions for the task in Cluster Query Language"
+  type        = list(string)
+  default     = []
 }

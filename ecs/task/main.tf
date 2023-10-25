@@ -58,10 +58,11 @@ resource "aws_ecs_task_definition" "task" {
   network_mode = var.network_mode
 
   dynamic "placement_constraints" {
-    for_each = compact([var.placement_constraints_expression])
+    for_each = var.placement_constraint_expressions
+    iterator = expression
 
     content {
-      expression = each.key
+      expression = expression.value
       type       = "memberOf"
     }
   }
