@@ -41,13 +41,13 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
 
 ## Modules
 
@@ -83,7 +83,7 @@ Based on [AWS reference architecture](https://github.com/aws-samples/ecs-refarch
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production. | `string` | n/a | yes |
 | <a name="input_lb_ssl_policy"></a> [lb\_ssl\_policy](#input\_lb\_ssl\_policy) | SSL policy to set on the HTTPS ALB listener, see https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies | `string` | `"ELBSecurityPolicy-TLS-1-2-2017-01"` | no |
 | <a name="input_nat_instance"></a> [nat\_instance](#input\_nat\_instance) | Use NAT instances instead of NAT gateways. | `bool` | `false` | no |
-| <a name="input_nat_instance_ami_name"></a> [nat\_instance\_ami\_name](#input\_nat\_instance\_ami\_name) | Name of the EC2 AMI used by NAT instances | `string` | `"amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"` | no |
+| <a name="input_nat_instance_ami_name"></a> [nat\_instance\_ami\_name](#input\_nat\_instance\_ami\_name) | Name of the EC2 AMI used by NAT instances | `string` | `"amzn-ami-vpc-nat-2018.03.0.20230905.0-x86_64-ebs"` | no |
 | <a name="input_nat_instance_type"></a> [nat\_instance\_type](#input\_nat\_instance\_type) | EC2 instance type to use to create a NAT instance. | `string` | `"t3.nano"` | no |
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased project name | `string` | n/a | yes |
 | <a name="input_project_index"></a> [project\_index](#input\_project\_index) | Unique project number in 0-255 range which will be used to build the VPC CIDR block: 10.{project\_index}.0.0/16 | `number` | n/a | yes |

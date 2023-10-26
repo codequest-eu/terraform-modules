@@ -56,7 +56,7 @@ variable "instance_profile" {
 variable "ami_name" {
   description = "ECS-optimized Amazon Linux AMI name to use"
   type        = string
-  default     = "amzn2-ami-ecs-hvm-2.0.20200319-x86_64-ebs"
+  default     = "amzn2-ami-ecs-hvm-2.0.20230912-x86_64-ebs"
 }
 
 variable "subnet_ids" {
@@ -96,4 +96,10 @@ variable "ecs_agent_config" {
   description = "ECS agent configuration to append to the default one"
   type        = string
   default     = ""
+}
+
+variable "instance_attributes" {
+  description = "ECS instance attributes to be applied to EC2 instance"
+  type        = map(string)
+  default     = {}
 }

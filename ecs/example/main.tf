@@ -4,6 +4,8 @@ locals {
   environment   = "example"
 
   name = "${local.project}-${local.environment}"
+
+  instance_attribute_name = "${local.name}-host-group"
 }
 
 provider "aws" {
@@ -32,6 +34,8 @@ module "hosts" {
   subnet_ids        = module.cluster.private_subnet_ids
   security_group_id = module.cluster.hosts_security_group_id
   cluster_name      = module.cluster.name
+
+  instance_attributes = { (local.instance_attribute_name) = "main" }
 }
 
 module "repo" {
@@ -89,6 +93,8 @@ module "web_task" {
     DEBUG            = "True"
     HTTPBIN_TRACKING = "enabled"
   }
+
+  placement_constraint_expressions = ["attribute:${local.instance_attribute_name} == main"]
 }
 
 module "web" {

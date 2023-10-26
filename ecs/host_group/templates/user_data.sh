@@ -18,6 +18,8 @@ ECS_ENGINE_TASK_CLEANUP_WAIT_DURATION=5m
 # instance along with them
 ECS_RESERVED_MEMORY=256
 
+ECS_INSTANCE_ATTRIBUTES=${instance_attributes}
+
 ${ecs_agent_config}
 EOF
 
