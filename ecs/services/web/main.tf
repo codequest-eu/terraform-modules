@@ -35,10 +35,23 @@ resource "aws_ecs_service" "service" {
   deployment_minimum_healthy_percent = var.deployment_min_percent
   iam_role                           = var.role_arn
 
+  wait_for_steady_state = var.wait_for_steady_state
+
   load_balancer {
     target_group_arn = aws_lb_target_group.service[0].arn
     container_name   = local.container
     container_port   = var.container_port
+  }
+
+  deployment_circuit_breaker {
+    enable   = var.deployment_rollback
+    rollback = var.deployment_rollback
+  }
+
+  timeouts {
+    create = var.deployment_timeout
+    update = var.deployment_timeout
+    delete = var.deployment_timeout
   }
 
   lifecycle {
