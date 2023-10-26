@@ -2,6 +2,26 @@
 
 Adds a statsd server, using cloudwatch agent, to each ECS instance
 
+## Deployment failures
+
+To mark the ECS service update as a failure if something goes wrong the defaults are:
+
+- `wait_for_steady_state = true` to wait for the service to be deployed
+- `deployment_timeout = "10m"` wait 10 minutes, if it takes longer terraform will mark the update as a failure
+- `deployment_rollback = true` enables roll back using the [ECS deployment circuit breaker](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-circuit-breaker.html)
+
+`deployment_rollback` and `deployment_timeout` are independent of each other,
+because we have no control over ECS deployment circuit breaker thresholds.
+There's also no way at the moment to wait for deployment failure.
+
+This means that you have to make sure `deployment_timeout` is lower than
+the time it takes for ECS to mark the deployment as failed. Otherwise the
+rollback might cause the service to enter steady state, which will then
+be picked up by terraform and it will mark terraform apply as a success,
+even though the deployment failed.
+
+https://github.com/hashicorp/terraform-provider-aws/issues/20858
+
 <!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -9,13 +29,13 @@ Adds a statsd server, using cloudwatch agent, to each ECS instance
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.22.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
 
 ## Modules
 
@@ -44,9 +64,12 @@ No modules.
 | <a name="input_collection_interval"></a> [collection\_interval](#input\_collection\_interval) | How often should the metrics be collected in seconds | `number` | `10` | no |
 | <a name="input_create"></a> [create](#input\_create) | Whether any resources should be created | `bool` | `true` | no |
 | <a name="input_debug"></a> [debug](#input\_debug) | Whether to enable cloudwatch agent debug mode | `bool` | `false` | no |
+| <a name="input_deployment_rollback"></a> [deployment\_rollback](#input\_deployment\_rollback) | Whether ECS should roll back to the previous version when it detects a failure using deployment circuit breaker | `bool` | `true` | no |
+| <a name="input_deployment_timeout"></a> [deployment\_timeout](#input\_deployment\_timeout) | Timeout for updating the ECS service | `string` | `"10m"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the service and task definition | `string` | `"statsd"` | no |
 | <a name="input_port"></a> [port](#input\_port) | Port to listen on on each ECS instance | `number` | `8125` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Tags to add to resources | `map(string)` | `{}` | no |
+| <a name="input_wait_for_steady_state"></a> [wait\_for\_steady\_state](#input\_wait\_for\_steady\_state) | Wait for the service to reach a steady state | `bool` | `true` | no |
 
 ## Outputs
 

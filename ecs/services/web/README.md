@@ -2,6 +2,26 @@
 
 Creates an ECS service exposed to the internet using an Application Load Balancer.
 
+## Deployment failures
+
+To mark the ECS service update as a failure if something goes wrong the defaults are:
+
+- `wait_for_steady_state = true` to wait for the service to be deployed
+- `deployment_timeout = "10m"` wait 10 minutes, if it takes longer terraform will mark the update as a failure
+- `deployment_rollback = true` enables roll back using the [ECS deployment circuit breaker](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-circuit-breaker.html)
+
+`deployment_rollback` and `deployment_timeout` are independent of each other,
+because we have no control over ECS deployment circuit breaker thresholds.
+There's also no way at the moment to wait for deployment failure.
+
+This means that you have to make sure `deployment_timeout` is lower than
+the time it takes for ECS to mark the deployment as failed. Otherwise the
+rollback might cause the service to enter steady state, which will then
+be picked up by terraform and it will mark terraform apply as a success,
+even though the deployment failed.
+
+https://github.com/hashicorp/terraform-provider-aws/issues/20858
+
 <!-- prettier-ignore-start -->
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -9,13 +29,13 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.42.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.22.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.42.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.22.0 |
 
 ## Modules
 
@@ -62,6 +82,8 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_deployment_max_percent"></a> [deployment\_max\_percent](#input\_deployment\_max\_percent) | The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment. Rounded down to get the maximum number of running tasks. | `number` | `200` | no |
 | <a name="input_deployment_min_percent"></a> [deployment\_min\_percent](#input\_deployment\_min\_percent) | The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment. Rounded up to get the minimum number of running tasks. | `number` | `50` | no |
+| <a name="input_deployment_rollback"></a> [deployment\_rollback](#input\_deployment\_rollback) | Whether ECS should roll back to the previous version when it detects a failure using deployment circuit breaker | `bool` | `true` | no |
+| <a name="input_deployment_timeout"></a> [deployment\_timeout](#input\_deployment\_timeout) | Timeout for updating the ECS service | `string` | `"10m"` | no |
 | <a name="input_deregistration_delay"></a> [deregistration\_delay](#input\_deregistration\_delay) | Connection draining time in seconds. | `number` | `30` | no |
 | <a name="input_desired_count"></a> [desired\_count](#input\_desired\_count) | The number of instances of the task definition to place and keep running. | `number` | `2` | no |
 | <a name="input_healthcheck_interval"></a> [healthcheck\_interval](#input\_healthcheck\_interval) | How often, in seconds, healtchecks should be sent. | `number` | `5` | no |
@@ -81,6 +103,7 @@ Creates an ECS service exposed to the internet using an Application Load Balance
 | <a name="input_task_definition_arn"></a> [task\_definition\_arn](#input\_task\_definition\_arn) | ECS task definition ARN to run as a service | `string` | n/a | yes |
 | <a name="input_unhealthy_threshold"></a> [unhealthy\_threshold](#input\_unhealthy\_threshold) | The number of consecutive health check failures required before considering the target unhealthy | `number` | `2` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC id | `string` | n/a | yes |
+| <a name="input_wait_for_steady_state"></a> [wait\_for\_steady\_state](#input\_wait\_for\_steady\_state) | Wait for the service to reach a steady state | `bool` | `true` | no |
 
 ## Outputs
 

@@ -43,3 +43,20 @@ variable "deployment_max_percent" {
   default     = 200
 }
 
+variable "wait_for_steady_state" {
+  description = "Wait for the service to reach a steady state"
+  type        = bool
+  default     = true
+}
+
+variable "deployment_timeout" {
+  description = "Timeout for updating the ECS service"
+  type        = string
+  default     = "10m"
+}
+
+variable "deployment_rollback" {
+  description = "Whether ECS should roll back to the previous version when it detects a failure using deployment circuit breaker"
+  type        = bool
+  default     = true
+}

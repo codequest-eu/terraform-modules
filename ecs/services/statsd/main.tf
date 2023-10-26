@@ -129,6 +129,19 @@ resource "aws_ecs_service" "service" {
   task_definition     = aws_ecs_task_definition.task[0].arn
   launch_type         = "EC2"
   scheduling_strategy = "DAEMON"
+
+  wait_for_steady_state = var.wait_for_steady_state
+
+  deployment_circuit_breaker {
+    enable   = var.deployment_rollback
+    rollback = var.deployment_rollback
+  }
+
+  timeouts {
+    create = var.deployment_timeout
+    update = var.deployment_timeout
+    delete = var.deployment_timeout
+  }
 }
 
 # outputs
