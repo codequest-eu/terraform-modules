@@ -7,18 +7,18 @@ set -euo pipefail
 #
 # Arguments are passed through environment variables:
 #
-# AWS_REGION      - AWS region the ECS cluster is running in
-# CLUSTER         - Name/ARN of the ECS cluster to run the task in
-# TASK_DEFINITION - Name/ARN of the task definition you want to run,
-#                   has to contain exactly one container
-# TASK_OVERRIDES  - Overrides you want to apply, e.g. to set the command to run,
-#                   see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskOverride.html
+# AWS_REGION          - AWS region the ECS cluster is running in
+# CLUSTER_ARN         - ARN of the ECS cluster to run the task in
+# TASK_DEFINITION_ARN - ARN of the task definition you want to run,
+#                       has to contain exactly one container
+# TASK_OVERRIDES      - Overrides you want to apply, e.g. to set the command to run,
+#                       see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskOverride.html
 #
 # Usage:
 #
 # AWS_REGION=eu-west-1 \
-# CLUSTER=project-development \
-# TASK_DEFINITION=project-development-runner \
+# CLUSTER_ARN=arn:.../cluster \
+# TASK_DEFINITION_ARN=arn:...:task-definition/task:1 \
 # TASK_OVERRIDES='{"containerOverrides": [{"name": "node", "command": ["echo", "hello"]}]}' \
 # ./ecs/bin/run-task
 #
@@ -26,18 +26,18 @@ set -euo pipefail
 # - aws cli v2
 # - jq 1.6
 
-echo "Fetching task definition $TASK_DEFINITION"
-TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEFINITION)
+echo "Fetching task definition $TASK_DEFINITION_ARN"
+TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEFINITION_ARN)
 TASK_LOG_GROUP=$(
   echo -n "$TASK_DEFINITION" \
   | jq -r '.taskDefinition.containerDefinitions[0].logConfiguration.options["awslogs-group"]'
 )
 
-echo "Scheduling $TASK_DEFINITION task in $CLUSTER..."
+echo "Scheduling $TASK_DEFINITION_ARN task in $CLUSTER_ARN..."
 TASK=$(
   aws ecs run-task \
-    --cluster "$CLUSTER" \
-    --task-definition "$TASK_DEFINITION" \
+    --cluster "$CLUSTER_ARN" \
+    --task-definition "$TASK_DEFINITION_ARN" \
     --overrides "$TASK_OVERRIDES" \
     --output json
 )
@@ -53,13 +53,13 @@ fi
 
 echo "Scheduled task $TASK_ID"
 echo "Waiting for task to stop..."
-aws ecs wait tasks-stopped --cluster "$CLUSTER" --tasks "$TASK_ARN"
+aws ecs wait tasks-stopped --cluster "$CLUSTER_ARN" --tasks "$TASK_ARN"
 echo "Task $TASK_ID stopped"
 
 # Fetch the final state of the task and figure out if it exited normally
 TASK=$(
   aws ecs describe-tasks \
-    --cluster "$CLUSTER" \
+    --cluster "$CLUSTER_ARN" \
     --tasks "$TASK_ARN" \
     --output json
 )
