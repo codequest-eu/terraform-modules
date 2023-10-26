@@ -36,13 +36,13 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12, <2.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.40.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.40.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
 
 ## Modules
 
@@ -80,6 +80,7 @@ We recommend creating the task definition using `image` or `image_name` + `image
 | <a name="input_memory_hard_limit"></a> [memory\_hard\_limit](#input\_memory\_hard\_limit) | The amount (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. | `number` | `1024` | no |
 | <a name="input_memory_soft_limit"></a> [memory\_soft\_limit](#input\_memory\_soft\_limit) | The soft limit (in MiB) of memory to reserve for the container. When system memory is under contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when needed. | `number` | `256` | no |
 | <a name="input_network_mode"></a> [network\_mode](#input\_network\_mode) | Docker networking mode to use for the containers in the task.<br>Valid values are `none`, `bridge`, `awsvpc`, and `host`. | `string` | `null` | no |
+| <a name="input_placement_constraint_expressions"></a> [placement\_constraint\_expressions](#input\_placement\_constraint\_expressions) | Placement constraint expressions for the task in Cluster Query Language | `list(string)` | `[]` | no |
 | <a name="input_ports"></a> [ports](#input\_ports) | List of TCP ports that should be exposed on the host, a random host port will be assigned for each container port | `list(number)` | `[]` | no |
 | <a name="input_project"></a> [project](#input\_project) | Kebab-cased project name | `string` | n/a | yes |
 | <a name="input_role_arn"></a> [role\_arn](#input\_role\_arn) | The ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services. | `string` | `null` | no |

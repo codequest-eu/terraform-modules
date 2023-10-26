@@ -46,7 +46,7 @@ variable "nat_instance_type" {
 variable "nat_instance_ami_name" {
   description = "Name of the EC2 AMI used by NAT instances"
   type        = string
-  default     = "amzn-ami-vpc-nat-2018.03.0.20200318.1-x86_64-ebs"
+  default     = "amzn-ami-vpc-nat-2018.03.0.20230905.0-x86_64-ebs"
 }
 
 variable "enable_dns_support" {
