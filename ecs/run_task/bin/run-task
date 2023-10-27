@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Runs an ECS task, waits for it to finish, prints out the logs and forwards the exit code.
+# Can be used to run one-off tasks during deployment, e.g. database migrations,
+# using a null_resource.
+#
+# Arguments are passed through environment variables:
+#
+# AWS_REGION          - AWS region the ECS cluster is running in
+# CLUSTER_ARN         - ARN of the ECS cluster to run the task in
+# TASK_DEFINITION_ARN - ARN of the task definition you want to run,
+#                       has to contain exactly one container
+# TASK_OVERRIDES      - Overrides you want to apply, e.g. to set the command to run,
+#                       see https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskOverride.html
+#
+# Usage:
+#
+# AWS_REGION=eu-west-1 \
+# CLUSTER_ARN=arn:.../cluster \
+# TASK_DEFINITION_ARN=arn:...:task-definition/task:1 \
+# TASK_OVERRIDES='{"containerOverrides": [{"name": "node", "command": ["echo", "hello"]}]}' \
+# ./ecs/bin/run-task
+#
+# Requires:
+# - aws cli v2
+# - jq 1.6
+
+echo "Fetching task definition $TASK_DEFINITION_ARN"
+TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition $TASK_DEFINITION_ARN)
+TASK_LOG_GROUP=$(
+  echo -n "$TASK_DEFINITION" \
+  | jq -r '.taskDefinition.containerDefinitions[0].logConfiguration.options["awslogs-group"]'
+)
+
+echo "Scheduling $TASK_DEFINITION_ARN task in $CLUSTER_ARN..."
+TASK=$(
+  aws ecs run-task \
+    --cluster "$CLUSTER_ARN" \
+    --task-definition "$TASK_DEFINITION_ARN" \
+    --overrides "$TASK_OVERRIDES" \
+    --output json
+)
+
+TASK_ARN=$(echo -n "$TASK" | jq -r '.tasks[].taskArn')
+TASK_ID=$(echo -n "$TASK" | jq -r '.tasks[].taskArn | split("/")[-1]')
+TASK_FAILURE=$(echo -n "$TASK" | jq -r '.failures[].reason')
+
+if [ -n "$TASK_FAILURE" ]; then
+  echo "Failed to schedule task, reason: $TASK_FAILURE"
+  exit 1
+fi
+
+echo "Scheduled task $TASK_ID"
+echo "Waiting for task to stop..."
+aws ecs wait tasks-stopped --cluster "$CLUSTER_ARN" --tasks "$TASK_ARN"
+echo "Task $TASK_ID stopped"
+
+# Fetch the final state of the task and figure out if it exited normally
+TASK=$(
+  aws ecs describe-tasks \
+    --cluster "$CLUSTER_ARN" \
+    --tasks "$TASK_ARN" \
+    --output json
+)
+TASK_STOP_CODE=$(echo -n "$TASK" | jq -r '.tasks[].stopCode')
+TASK_STOP_REASON=$(echo -n "$TASK" | jq -r '.tasks[].stoppedReason')
+CONTAINER_NAME=$(echo -n "$TASK" | jq -r '.tasks[].containers[].name')
+CONTAINER_EXIT_CODE=$(echo -n "$TASK" | jq -r '.tasks[].containers[].exitCode')
+CONTAINER_STOP_REASON=$(echo -n "$TASK" | jq -r '.tasks[].containers[].reason')
+CONTAINER_LOG_STREAM="$TASK_LOG_GROUP/$CONTAINER_NAME/$TASK_ID"
+
+# If the task stopped for any other reason than the container exiting, e.g.
+# the image could not be pulled, print out the problem and exit with an error
+if [ "$TASK_STOP_CODE" != "EssentialContainerExited" ]; then
+  echo "$TASK_STOP_REASON"
+  echo "$CONTAINER_STOP_REASON"
+  exit 1
+fi
+
+echo "Task exited with code: $CONTAINER_EXIT_CODE, log:"
+
+if [ "$TASK_LOG_GROUP" != "null" ]; then
+  aws logs get-log-events \
+    --log-group-name "$TASK_LOG_GROUP" \
+    --log-stream-name "$CONTAINER_LOG_STREAM" \
+    --output json \
+  | jq -r '.events[].message'
+else
+  echo "Logging not configured"
+fi
+
+# Forward the exit code
+exit $CONTAINER_EXIT_CODE

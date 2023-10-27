@@ -112,6 +112,32 @@ module "web" {
   healthcheck_path = "/"
 }
 
+module "runner_task" {
+  source = "./../task"
+
+  project           = local.project
+  environment       = local.environment
+  task              = "runner"
+  container         = "node"
+  image             = "node:18-slim"
+  memory_soft_limit = 32
+  memory_hard_limit = 64
+  cpu               = 128
+}
+
+module "random_uuid" {
+  source = "./../run_task"
+
+  cluster_arn         = module.cluster.arn
+  task_definition_arn = module.runner_task.arn
+  task_overrides = jsonencode({
+    containerOverrides = [{
+      name    = "node",
+      command = ["node", "-e", "console.log('UUID:', require('crypto').randomUUID())"],
+    }]
+  })
+}
+
 module "dashboard" {
   source = "./../../cloudwatch/dashboard"
 
