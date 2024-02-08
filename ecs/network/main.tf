@@ -135,6 +135,15 @@ data "aws_ami" "nat" {
   }
 }
 
+locals {
+  nat_instance_user_data = [
+    for block in local.az_private_blocks :
+    templatefile("${path.module}/templates/nat_instance_user_data.sh", {
+      vpc_cidr = block
+    })
+  ]
+}
+
 resource "aws_instance" "nat" {
   count = var.create && var.nat_instance ? var.availability_zones_count : 0
 
@@ -142,12 +151,15 @@ resource "aws_instance" "nat" {
   instance_type          = var.nat_instance_type
   subnet_id              = element(aws_subnet.public[*].id, count.index)
   vpc_security_group_ids = [aws_security_group.nat[0].id]
+  user_data              = local.nat_instance_user_data[count.index]
+
   tags = merge(
     local.tags,
     {
       "Name" = "${local.name}-nat-${count.index}"
     },
   )
+
   source_dest_check = false
 
   lifecycle {
