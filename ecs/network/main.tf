@@ -136,12 +136,39 @@ data "aws_ami" "nat" {
 }
 
 locals {
-  nat_instance_user_data = [
+  cloud_config = <<-EOT
+    #cloud-config
+    cloud_final_modules:
+      - [scripts-user, always]
+    EOT
+
+  forwarding_scripts = [
     for block in local.az_private_blocks :
-    templatefile("${path.module}/templates/nat_instance_user_data.sh", {
-      vpc_cidr = block
-    })
+    <<-EOT
+      #!/bin/bash
+      /bin/echo 1 > /proc/sys/net/ipv4/ip_forward
+      /usr/sbin/iptables -t nat -A POSTROUTING -s ${block} -j MASQUERADE
+    EOT
   ]
+}
+
+data "template_cloudinit_config" "config" {
+  count = var.create && var.nat_instance ? var.availability_zones_count : 0
+
+  gzip          = true
+  base64_encode = true
+
+  part {
+    filename     = "init.cfg"
+    content_type = "text/cloud-config; charset=\"us-ascii\""
+    content      = local.cloud_config
+  }
+
+  part {
+    filename     = "script.sh"
+    content_type = "text/x-shellscript; charset=\"us-ascii\""
+    content      = local.forwarding_scripts[count.index]
+  }
 }
 
 resource "aws_instance" "nat" {
@@ -151,7 +178,7 @@ resource "aws_instance" "nat" {
   instance_type          = var.nat_instance_type
   subnet_id              = element(aws_subnet.public[*].id, count.index)
   vpc_security_group_ids = [aws_security_group.nat[0].id]
-  user_data              = local.nat_instance_user_data[count.index]
+  user_data_base64       = element(data.template_cloudinit_config.config[*].rendered, count.index)
 
   tags = merge(
     local.tags,
