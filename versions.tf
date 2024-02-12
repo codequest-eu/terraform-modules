@@ -10,5 +10,7 @@ terraform {
     null    = "3.2.1"
     random  = "3.5.1"
     tls     = "4.0.4"
+
+    cloudinit = "2.3.3"
   }
 }
