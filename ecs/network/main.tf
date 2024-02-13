@@ -178,7 +178,7 @@ resource "aws_instance" "nat" {
   instance_type          = var.nat_instance_type
   subnet_id              = element(aws_subnet.public[*].id, count.index)
   vpc_security_group_ids = [aws_security_group.nat[0].id]
-  user_data_base64       = element(data.cloudinit_config.config[*].rendered, count.index)
+  user_data_base64       = data.cloudinit_config.config[count.index].rendered
 
   tags = merge(
     local.tags,
