@@ -34,3 +34,23 @@ variable "nat_instance_type" {
   description = "EC2 instance type to use to create a NAT instance."
   default     = "t3.nano"
 }
+
+variable "nat_ami_owner" {
+  description = "The owner of Amazon Linux AMI used for NAT instances"
+  default     = "amazon"
+}
+
+variable "nat_ami_name" {
+  description = "Amazon Linux AMI name to use for NAT instances"
+  default     = "amzn-ami-vpc-nat-2018.03.0.20230807.0-x86_64-ebs"
+}
+
+variable "bastion_ami_owner" {
+  description = "The owner of Ubuntu Linux 18.04 AMI used for bastion hosts"
+  default     = "099720109477"
+}
+
+variable "bastion_ami_name" {
+  description = "Ubuntu Linux 18.04 AMI name to use for bastion hosts"
+  default     = "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20230531"
+}
