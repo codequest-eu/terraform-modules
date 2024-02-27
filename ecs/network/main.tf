@@ -89,11 +89,11 @@ resource "aws_nat_gateway" "public" {
 
 data "aws_ami" "nat" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["${var.nat_ami_owner}"]
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-2018.03.0.20190611-x86_64-ebs"]
+    values = ["${var.nat_ami_name}"]
   }
 }
 
@@ -321,11 +321,11 @@ resource "aws_route_table_association" "public" {
 
 data "aws_ami" "ubuntu_1804" {
   most_recent = true
-  owners      = ["099720109477"]
+  owners      = ["${var.bastion_ami_owner}"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190531"]
+    values = ["${var.bastion_ami_name}"]
   }
 }
 
