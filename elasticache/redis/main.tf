@@ -36,7 +36,7 @@ resource "aws_elasticache_cluster" "cache" {
   cluster_id = "${var.id != "" ? var.id : local.name}"
 
   engine               = "redis"
-  engine_version       = "${var.version}"
+  engine_version       = "${var.redis_version}"
   node_type            = "${var.instance_type}"
   num_cache_nodes      = "${var.instance_count}"
   parameter_group_name = "${var.parameter_group_name}"
