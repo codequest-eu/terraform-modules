@@ -82,4 +82,6 @@ resource "aws_db_instance" "db" {
   password = "${local.password}"
 
   tags = "${local.tags}"
+
+  ca_cert_identifier = "rds-ca-rsa2048-g1"
 }
