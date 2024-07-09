@@ -110,6 +110,10 @@ locals {
     adkim = var.dmarc_strict_dkim_alignment ? "s" : "r"
     aspf  = var.dmarc_strict_spf_alignment ? "s" : "r"
   }
+
+  # v= and p= options need to be first
+  # https://support.google.com/a/answer/10032169
+  dmarc_options_order = ["v", "p", "sp", "pct", "rua", "adkim", "aspf"]
 }
 
 resource "aws_route53_record" "dmarc" {
@@ -119,7 +123,7 @@ resource "aws_route53_record" "dmarc" {
   name    = "_dmarc.${local.domain}."
   type    = "TXT"
   ttl     = 300
-  records = [join(";", [for k, v in local.dmarc_options : "${k}=${v}"])]
+  records = [join(";", [for k in local.dmarc_options_order : "${k}=${local.dmarc_options[k]}"])]
 }
 
 # sender policy ---------------------------------------------------------------
