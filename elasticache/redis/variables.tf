@@ -54,3 +54,8 @@ variable "instance_count" {
   description = "Number of instances to create in the cluster"
   default     = 1
 }
+
+variable "apply_immediately" {
+  description = "Whether to apply changes immediately, possibly incuring downtime"
+  default     = true
+}
