@@ -43,6 +43,7 @@ resource "aws_elasticache_cluster" "cache" {
   port                 = "${var.port}"
   subnet_group_name    = "${aws_elasticache_subnet_group.cache.name}"
   security_group_ids   = ["${aws_security_group.cache.id}"]
+  apply_immediately    = "${var.apply_immediately}"
 
   tags = "${local.tags}"
 }
