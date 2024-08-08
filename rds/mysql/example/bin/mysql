@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+environment=${1:-development}
+
+eval "$(
+  terraform output --json ${environment}_db | \
+  jq -r '@sh "
+    DB_HOST=\(.host)
+    DB_PORT=\(.port)
+    DB_USER=\(.user)
+    DB_PASSWORD=\(.password)
+    DB_NAME=\(.name)
+  "'
+)"
+
+docker run -it mysql:5.7 mysql \
+  --host "$DB_HOST" \
+  --port "$DB_PORT" \
+  --user "$DB_USER" \
+  --password="$DB_PASSWORD" \
+  "$DB_NAME" "$@"
