@@ -23,6 +23,13 @@ ECS_INSTANCE_ATTRIBUTES=${instance_attributes}
 ${ecs_agent_config}
 EOF
 
+# Make sure ECS agent is restarted when docker restarts
+cat >/etc/systemd/system/ecs.service.d/override.conf <<EOF
+[Unit]
+Requires=docker.service
+EOF
+systemctl daemon-reload
+
 # Update ECS agent
 yum update -y ecs-init
 docker pull amazon/amazon-ecs-agent:latest
