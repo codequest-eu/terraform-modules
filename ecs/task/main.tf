@@ -43,6 +43,13 @@ module "container" {
   environment_parameters             = var.environment_parameters
   enable_environment_parameters_hash = var.enable_environment_parameters_hash
   log_config                         = module.container_log.container_config
+
+  healthcheck_command      = var.healthcheck_command
+  healthcheck_shell        = var.healthcheck_shell
+  healthcheck_interval     = var.healthcheck_interval
+  healthcheck_retries      = var.healthcheck_retries
+  healthcheck_start_period = var.healthcheck_start_period
+  healthcheck_timeout      = var.healthcheck_timeout
 }
 
 resource "aws_ecs_task_definition" "task" {

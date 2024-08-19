@@ -48,5 +48,14 @@ locals {
     }]
 
     logConfiguration = var.log_config
+
+    # https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html
+    healthCheck = var.healthcheck_command ? {
+      command     = [var.healthcheck_shell ? "CMD-SHELL" : "CMD", var.healthcheck_command]
+      interval    = var.healthcheck_interval
+      retries     = var.healthcheck_retries
+      timeout     = var.healthcheck_timeout
+      startPeriod = var.healthcheck_start_period
+    } : null
   }
 }
