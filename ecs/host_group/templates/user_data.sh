@@ -73,9 +73,7 @@ EOF
 
 systemctl enable yum-cron
 
-# Enable docker daemon live restore, so we can update docker without
-# restarting containers
-# https://docs.docker.com/config/containers/live-restore/
+# https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file
 cat >/etc/docker/daemon.json <<EOF
 ${jsonencode(docker_config)}
 EOF
