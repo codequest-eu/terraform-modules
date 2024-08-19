@@ -106,6 +106,6 @@ variable "instance_attributes" {
 
 variable "docker_config" {
   description = "Docker daemon config, see https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file"
-  type        = object
+  type        = map(any)
   default     = {}
 }

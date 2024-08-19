@@ -64,7 +64,7 @@ Creates an auto-scaling group of EC2 instances which will join the given ECS clu
 | <a name="input_cpu_credits"></a> [cpu\_credits](#input\_cpu\_credits) | The credit option for CPU usage. Can be 'standard' or 'unlimited'. | `string` | `null` | no |
 | <a name="input_create"></a> [create](#input\_create) | Should resources be created | `bool` | `true` | no |
 | <a name="input_detailed_monitoring"></a> [detailed\_monitoring](#input\_detailed\_monitoring) | Whether to enable detailed monitoring on EC2 instances | `bool` | `true` | no |
-| <a name="input_docker_config"></a> [docker\_config](#input\_docker\_config) | Docker daemon config, see https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file | `object` | `{}` | no |
+| <a name="input_docker_config"></a> [docker\_config](#input\_docker\_config) | Docker daemon config, see https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file | `map(any)` | `{}` | no |
 | <a name="input_ecs_agent_config"></a> [ecs\_agent\_config](#input\_ecs\_agent\_config) | ECS agent configuration to append to the default one | `string` | `""` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Kebab-cased environment name, eg. development, staging, production. | `string` | n/a | yes |
 | <a name="input_instance_attributes"></a> [instance\_attributes](#input\_instance\_attributes) | ECS instance attributes to be applied to EC2 instance | `map(string)` | `{}` | no |
