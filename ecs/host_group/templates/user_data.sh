@@ -55,7 +55,7 @@ update_cmd = security
 update_messages = yes
 download_updates = yes
 apply_updates = yes
-random_sleep = 0
+random_sleep = 60
 
 [base]
 exclude = kernel*
