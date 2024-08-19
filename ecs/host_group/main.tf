@@ -44,6 +44,7 @@ locals {
     cluster_name        = var.cluster_name
     detailed_monitoring = var.detailed_monitoring
     user_data           = var.user_data
+    docker_config       = var.docker_config
     ecs_agent_config    = var.ecs_agent_config
     instance_attributes = jsonencode(var.instance_attributes)
   })

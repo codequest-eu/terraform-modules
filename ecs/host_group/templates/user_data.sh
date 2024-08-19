@@ -77,9 +77,7 @@ systemctl enable yum-cron
 # restarting containers
 # https://docs.docker.com/config/containers/live-restore/
 cat >/etc/docker/daemon.json <<EOF
-{
-  "live-restore": true
-}
+${jsonencode(docker_config)}
 EOF
 
 # Setup memory and disk usage monitoring
