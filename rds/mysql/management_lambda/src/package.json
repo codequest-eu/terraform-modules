@@ -1,0 +1,26 @@
+{
+  "name": "rds-mysql-management-lambda",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@types/node": "^13.13.5",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.1.0",
+    "@rollup/plugin-json": "^4.0.3",
+    "@rollup/plugin-node-resolve": "^7.1.3",
+    "@rollup/plugin-typescript": "^4.1.1",
+    "@vercel/ncc": "^0.28.3",
+    "rollup": "^2.8.2",
+    "tslib": "^1.12.0",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "build:prepare": "rm -rf ../dist",
+    "prebuild": "npm run build:prepare",
+    "prestart": "npm run build:prepare",
+    "build": "ncc build index.ts --out ../dist --license index.js.licenses",
+    "start": "ncc run index.ts"
+  }
+}

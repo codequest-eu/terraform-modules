@@ -29,7 +29,7 @@ resource "random_password" "master_password" {
 module "db" {
   source = "./.."
 
-  project     = "terraform-modules-postgres"
+  project     = "terraform-modules-mysql"
   environment = "example"
 
   vpc_id     = data.aws_vpc.default.id
@@ -57,8 +57,7 @@ locals {
 }
 
 resource "null_resource" "environment_db_user" {
-  depends_on = [module.db]
-  for_each   = local.environments
+  for_each = local.environments
 
   triggers = {
     name = "terraform_modules_${each.key}"
@@ -66,20 +65,17 @@ resource "null_resource" "environment_db_user" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${path.module}/bin/psql_invoke"
+    command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
-      queries = [
-        "CREATE ROLE ${self.triggers.name} WITH LOGIN",
-        "GRANT ${self.triggers.name} TO ${module.db.username}",
-      ]
+      queries = ["CREATE USER '${self.triggers.name}'@'%'"]
     }) }
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${path.module}/bin/psql_invoke"
+    command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
-      queries = ["DROP ROLE ${self.triggers.name}"]
+      queries = ["DROP USER '${self.triggers.name}'@'%'"]
     }) }
   }
 }
@@ -92,8 +88,7 @@ resource "random_password" "environment_db_password" {
 }
 
 resource "null_resource" "environment_db_password" {
-  depends_on = [module.db]
-  for_each   = local.environments
+  for_each = local.environments
 
   triggers = {
     name     = null_resource.environment_db_user[each.key].triggers.name
@@ -102,25 +97,17 @@ resource "null_resource" "environment_db_password" {
 
   provisioner "local-exec" {
     when    = create
-    command = <<-EOT
-      ${path.module}/bin/psql_invoke 2>&1 \
-      | sed "s/$SENSITIVE_PATTERN/(sensitive)/"
-    EOT
-
-    environment = {
-      SENSITIVE_PATTERN = self.triggers.password
-      EVENT = jsonencode({
-        queries = [
-          "ALTER ROLE ${self.triggers.name} WITH PASSWORD '${self.triggers.password}'"
-        ]
-      })
-    }
+    command = module.db.management_lambda.invoke_script
+    environment = { EVENT = jsonencode({
+      queries = [
+        "ALTER USER '${self.triggers.name}'@'%' IDENTIFIED BY '${self.triggers.password}'"
+      ]
+    }) }
   }
 }
 
 resource "null_resource" "environment_db" {
-  depends_on = [module.db]
-  for_each   = local.environments
+  for_each = local.environments
 
   triggers = {
     name  = null_resource.environment_db_user[each.key].triggers.name
@@ -129,17 +116,18 @@ resource "null_resource" "environment_db" {
 
   provisioner "local-exec" {
     when    = create
-    command = "${path.module}/bin/psql_invoke"
+    command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
       queries = [
-        "CREATE DATABASE ${self.triggers.name} OWNER ${self.triggers.owner}"
+        "CREATE DATABASE ${self.triggers.name}",
+        "GRANT ALL ON ${self.triggers.name}.* TO '${self.triggers.owner}'@'%'"
       ]
     }) }
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "${path.module}/bin/psql_invoke"
+    command = module.db.management_lambda.invoke_script
     environment = { EVENT = jsonencode({
       queries = ["DROP DATABASE ${self.triggers.name}"]
     }) }
@@ -149,6 +137,8 @@ resource "null_resource" "environment_db" {
 locals {
   environment_dbs = {
     for environment in local.environments : environment => {
+      host     = module.db.host
+      port     = module.db.port
       name     = null_resource.environment_db[environment].triggers.name
       user     = null_resource.environment_db_user[environment].triggers.name
       password = null_resource.environment_db_password[environment].triggers.password
@@ -156,12 +146,22 @@ locals {
   }
   environment_db_urls = {
     for environment, database in local.environment_dbs : environment =>
-    "postgres://${database.user}:${database.password}@${module.db.host}:${module.db.port}/${database.name}"
+    "mysql://${database.user}:${database.password}@${database.host}:${database.port}/${database.name}"
   }
+}
+
+output "development_db" {
+  value     = local.environment_dbs.development
+  sensitive = true
 }
 
 output "development_db_url" {
   value     = local.environment_db_urls.development
+  sensitive = true
+}
+
+output "production_db" {
+  value     = local.environment_dbs.production
   sensitive = true
 }
 
