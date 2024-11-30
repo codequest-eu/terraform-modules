@@ -96,3 +96,38 @@ variable "log_config" {
   default     = null
 }
 
+variable "healthcheck_command" {
+  description = "Command that the container runs to determine if it is healthy"
+  type        = string
+  default     = null
+}
+
+variable "healthcheck_shell" {
+  description = "Whether the healthcheck_command should be run using a shell"
+  type        = bool
+  default     = true
+}
+
+variable "healthcheck_interval" {
+  description = "The time period in seconds between each health check execution. You may specify between 5 and 300 seconds."
+  type        = number
+  default     = 30
+}
+
+variable "healthcheck_retries" {
+  description = "The number of times to retry a failed health check before the container is considered unhealthy. You may specify between 1 and 10 retries."
+  type        = number
+  default     = 2
+}
+
+variable "healthcheck_start_period" {
+  description = "The optional grace period to provide containers time to bootstrap before failed health checks count towards the maximum number of retries. You can specify between 0 and 300 seconds."
+  type        = number
+  default     = 0
+}
+
+variable "healthcheck_timeout" {
+  description = "The time period in seconds to wait for a health check to succeed before it is considered a failure. You may specify between 2 and 60 seconds."
+  type        = number
+  default     = 5
+}

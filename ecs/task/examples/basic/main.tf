@@ -35,6 +35,8 @@ module "httpbin" {
   }
 
   execution_role_arn = module.httpbin_execution_role.arn
+
+  healthcheck_command = "python3 -c \"import http.client, sys; conn = http.client.HTTPConnection('localhost'); conn.request('GET', '/'); sys.exit(0) if conn.getresponse().status == 200 else sys.exit(1)\""
 }
 
 output "httpbin_arn" {
